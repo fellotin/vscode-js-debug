@@ -1,9 +1,6 @@
 {
-  "scripts": {
-    "startWithBrk": "node --inspect-brk=29204 logNodeOptions.js",
-    "startWithoutBrk": "node logNodeOptions.js",
-    "prepublishOnly": "TypeScriptESBuild Source/**/*.ts"
-  },
+  "version": "0.0.1",
+  "private": "false",
   "homepage": "https://github.com/CodeEditorLand/CodeEditorLand#readme",
   "bugs": {
     "url": "https://github.com/CodeEditorLand/CodeEditorLand/issues"
@@ -12,19 +9,23 @@
     "type": "git",
     "url": "git+https://github.com/CodeEditorLand/CodeEditorLand.git"
   },
-  "version": "0.0.1",
   "license": "MIT",
-  "type": "module",
-  "private": "false",
-  "publishConfig": {
-    "access": "public"
-  },
   "author": {
     "name": "Nikola Hristov",
     "email": "nikola@nikolahristov.tech",
     "url": "https://nikolahristov.tech"
   },
+  "publisher": "playform",
+  "type": "module",
+  "scripts": {
+    "prepublishOnly": "TypeScriptESBuild Source/**/*.ts",
+    "startWithBrk": "node --inspect-brk=29204 logNodeOptions.js",
+    "startWithoutBrk": "node logNodeOptions.js"
+  },
   "devDependencies": {
     "typescript-esbuild": "0.3.1"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

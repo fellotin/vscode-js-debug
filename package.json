@@ -2,12 +2,11 @@
   "name": "js-debug",
   "displayName": "JavaScript Debugger",
   "version": "0.0.1",
-  "publisher": "ms-vscode",
-  "author": {
-    "name": "Nikola Hristov",
-    "email": "nikola@nikolahristov.tech",
-    "url": "https://nikolahristov.tech"
-  },
+  "private": "false",
+  "description": "An extension for debugging Node.js programs and Chrome.",
+  "categories": [
+    "Debuggers"
+  ],
   "keywords": [
     "pwa",
     "javascript",
@@ -15,24 +14,23 @@
     "chrome",
     "debugger"
   ],
-  "description": "An extension for debugging Node.js programs and Chrome.",
-  "license": "MIT",
-  "engines": {
-    "vscode": "1.80.0",
-    "node": ">=10"
+  "homepage": "https://github.com/CodeEditorLand/CodeEditorLand#readme",
+  "bugs": {
+    "url": "https://github.com/CodeEditorLand/CodeEditorLand/issues"
   },
-  "icon": "resources/logo.png",
-  "categories": [
-    "Debuggers"
-  ],
-  "private": "false",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/CodeEditorLand/CodeEditorLand.git"
   },
-  "bugs": {
-    "url": "https://github.com/CodeEditorLand/CodeEditorLand/issues"
+  "license": "MIT",
+  "author": {
+    "name": "Nikola Hristov",
+    "email": "nikola@nikolahristov.tech",
+    "url": "https://nikolahristov.tech"
   },
+  "publisher": "playform",
+  "type": "module",
+  "main": "./src/extension.js",
   "scripts": {
     "compile": "gulp",
     "watch": "gulp watch",
@@ -156,12 +154,19 @@
     "ts-node": "10.9.1",
     "tsx": "3.14.0",
     "typescript": "5.2.2",
+    "typescript-esbuild": "0.3.1",
     "vsce": "2.7.0",
     "vscode-debugadapter-testsupport": "1.47.0",
-    "vscode-debugprotocol": "1.47.0",
-    "typescript-esbuild": "0.3.1"
+    "vscode-debugprotocol": "1.47.0"
   },
-  "main": "./src/extension.js",
+  "engines": {
+    "node": ">=10",
+    "vscode": "1.80.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "icon": "resources/logo.png",
   "enabledApiProposals": [
     "portsAttributes",
     "workspaceTrust",
@@ -169,10 +174,5 @@
   ],
   "extensionKind": [
     "workspace"
-  ],
-  "homepage": "https://github.com/CodeEditorLand/CodeEditorLand#readme",
-  "type": "module",
-  "publishConfig": {
-    "access": "public"
-  }
+  ]
 }
