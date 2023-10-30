@@ -5,4 +5,4 @@
 /**
  * URL prefix that Node 15 and onwards uses for its internals.
  */
-export const node15InternalsPrefix = 'node:';
+export const node15InternalsPrefix = "node:";
