@@ -156,7 +156,7 @@ INF
 # U+0000, U+000A, or U+000D (NUL, LF, CR).
 # The next line may appear to be blank or mojibake in some viewers.
 # The next line may be flagged for "trailing whitespace" in some viewers.
-	              ​  　
+	              ​    　
 
 # Unicode additional control characters: all of the characters with
 # general category Cf (in Unicode 8.0.0).
@@ -331,7 +331,7 @@ __ﾛ(,_,*)
 
 ‪‪test‪
 ‫test‫
-test
+ test 
 test⁠test‫
 ⁦test⁧
 
@@ -757,4 +757,4 @@ Powerلُلُصّبُلُلصّبُررً ॣ ॣh ॣ ॣ冗
 #
 # This is a four characters string which includes Persian special characters (گچپژ)
 
-گچپژ`;
+گچپژ`
