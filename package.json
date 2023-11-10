@@ -144,7 +144,7 @@
     "gulp-util": "3.0.8",
     "husky": "8.0.3",
     "jszip": "3.10.1",
-    "marked": "9.1.5",
+    "marked": "9.1.6",
     "merge2": "1.4.1",
     "minimist": "1.2.8",
     "mocha": "10.2.0",
@@ -157,7 +157,7 @@
     "sinon": "17.0.1",
     "stream-buffers": "3.0.2",
     "ts-node": "10.9.1",
-    "tsx": "4.0.0",
+    "tsx": "4.1.0",
     "typescript": "5.2.2",
     "vsce": "2.7.0"
   },
