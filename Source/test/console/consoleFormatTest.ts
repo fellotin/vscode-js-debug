@@ -2,37 +2,37 @@
  * Copyright (C) Microsoft Corporation. All rights reserved.
  *--------------------------------------------------------*/
 
-import { OutputSource } from "../../configuration";
-import { createFileTree } from "../createFileTree";
-import { testFixturesDir } from "../test";
-import { itIntegrates } from "../testIntegrationUtils";
+import { OutputSource } from '../../configuration';
+import { createFileTree } from '../createFileTree';
+import { testFixturesDir } from '../test';
+import { itIntegrates } from '../testIntegrationUtils';
 
-describe("console format", () => {
-	itIntegrates("string", async ({ r }) => {
-		const p = await r.launchAndLoad(`
+describe('console format', () => {
+  itIntegrates('string', async ({ r }) => {
+    const p = await r.launchAndLoad(`
         <script>
           var array = ["test", "test2"];array.length = 10;
           array.foo = {};
           array[4] = "test4";
         </script>`);
-		await p.logger.evaluateAndLog([
-			`console.log(array)`,
-			`console.log("hello world".repeat(10000))`,
-			`console.log("%o", array)`,
-			`console.log("%O", array)`,
-			`console.log("Test for zero \\"%f\\" in formatter", 0)`,
-			`console.log("%% self-escape1", "dummy")`,
-			`console.log("%%s self-escape2", "dummy")`,
-			`console.log("%%ss self-escape3", "dummy")`,
-			`console.log("%%s%s%%s self-escape4", "dummy")`,
-			`console.log("%%%%% self-escape5", "dummy")`,
-			`console.log("%%%s self-escape6", "dummy");`,
-		]);
-		p.assertLog();
-	});
+    await p.logger.evaluateAndLog([
+      `console.log(array)`,
+      `console.log("hello world".repeat(10000))`,
+      `console.log("%o", array)`,
+      `console.log("%O", array)`,
+      `console.log("Test for zero \\"%f\\" in formatter", 0)`,
+      `console.log("%% self-escape1", "dummy")`,
+      `console.log("%%s self-escape2", "dummy")`,
+      `console.log("%%ss self-escape3", "dummy")`,
+      `console.log("%%s%s%%s self-escape4", "dummy")`,
+      `console.log("%%%%% self-escape5", "dummy")`,
+      `console.log("%%%s self-escape6", "dummy");`,
+    ]);
+    p.assertLog();
+  });
 
-	itIntegrates("popular types", async ({ r }) => {
-		const p = await r.launchAndLoad(`
+  itIntegrates('popular types', async ({ r }) => {
+    const p = await r.launchAndLoad(`
         <p id="p"></p>
         <script>
           // Populate Globals
@@ -92,64 +92,59 @@ describe("console format", () => {
           }
           //# sourceURL=console-format
         </script>`);
-		const variables = [
-			"regex1",
-			"regex2",
-			"str",
-			"str2",
-			"error",
-			"errorWithMessage",
-			"errorWithMultilineMessage",
-			"func",
-			"multilinefunc",
-			"num",
-			"null",
-			"undefined",
-			"NaN",
-			"Number.POSITIVE_INFINITY",
-			"Number.NEGATIVE_INFINITY",
-			"{}",
-			"[function() {}]",
-			"objectWithNonEnumerables",
-			"negZero",
-			"Object.create(null)",
-			"Object",
-			"Object.prototype",
-			"new Number(42)",
-			'new String("abc")',
-			"arrayLikeFunction",
-			'new Uint16Array(["1", "2", "3"])',
-			"tinyTypedArray",
-			"smallTypedArray",
-			"bigTypedArray",
-			"throwingLengthGetter",
-			"domException()",
-			"bigArray",
-			"boxedNumberWithProps",
-			"boxedStringWithProps",
-			"false",
-			"true",
-			"new Boolean(true)",
-			"new Set([1, 2, 3, 4])",
-			"new Set([1, 2, 3, 4, 5, 6, 7, 8])",
-			'new class { toString() { return "custom to string" } }',
-			'new class { toString() { return "long custom to string".repeat(500) } }',
-			'new class { [Symbol.for("debug.description")]() { return "some custom repr" } }',
-			'new class { [Symbol.for("nodejs.util.inspect.custom")]() { return "some node repr" } }',
-		];
-		const expressions = variables.map((v) => [
-			`console.log(${v})`,
-			`console.log([${v}])`,
-		]);
-		await p.logger.evaluateAndLog(([] as string[]).concat(...expressions), {
-			depth: 0,
-		});
-		p.assertLog();
-	});
+    const variables = [
+      'regex1',
+      'regex2',
+      'str',
+      'str2',
+      'error',
+      'errorWithMessage',
+      'errorWithMultilineMessage',
+      'func',
+      'multilinefunc',
+      'num',
+      'null',
+      'undefined',
+      'NaN',
+      'Number.POSITIVE_INFINITY',
+      'Number.NEGATIVE_INFINITY',
+      '{}',
+      '[function() {}]',
+      'objectWithNonEnumerables',
+      'negZero',
+      'Object.create(null)',
+      'Object',
+      'Object.prototype',
+      'new Number(42)',
+      'new String("abc")',
+      'arrayLikeFunction',
+      'new Uint16Array(["1", "2", "3"])',
+      'tinyTypedArray',
+      'smallTypedArray',
+      'bigTypedArray',
+      'throwingLengthGetter',
+      'domException()',
+      'bigArray',
+      'boxedNumberWithProps',
+      'boxedStringWithProps',
+      'false',
+      'true',
+      'new Boolean(true)',
+      'new Set([1, 2, 3, 4])',
+      'new Set([1, 2, 3, 4, 5, 6, 7, 8])',
+      'new class { toString() { return "custom to string" } }',
+      'new class { toString() { return "long custom to string".repeat(500) } }',
+      'new class { [Symbol.for("debug.description")]() { return "some custom repr" } }',
+      'new class { [Symbol.for("nodejs.util.inspect.custom")]() { return "some node repr" } }',
+    ];
+    const expressions = variables.map(v => [`console.log(${v})`, `console.log([${v}])`]);
+    await p.logger.evaluateAndLog(([] as string[]).concat(...expressions), { depth: 0 });
+    p.assertLog();
+  });
 
-	itIntegrates("custom toString", async ({ r }) => {
-		const p = await r.launchAndLoad("blank");
-		await p.logger.evaluateAndLog(`
+  itIntegrates('custom toString', async ({ r }) => {
+    const p = await r.launchAndLoad('blank');
+    await p.logger.evaluateAndLog(`
       new class A {
         prop = new class B {
           toString() { return "hello b" }
@@ -157,12 +152,12 @@ describe("console format", () => {
         toString() { return "hello a" }
       }
     `);
-		p.assertLog();
-	});
+    p.assertLog();
+  });
 
-	itIntegrates("custom symbol", async ({ r }) => {
-		const p = await r.launchAndLoad("blank");
-		await p.logger.evaluateAndLog(`
+  itIntegrates('custom symbol', async ({ r }) => {
+    const p = await r.launchAndLoad('blank');
+    await p.logger.evaluateAndLog(`
       new class A {
         prop = new class B {
           [Symbol.for("debug.description")]() { return "hello b" }
@@ -170,11 +165,11 @@ describe("console format", () => {
         [Symbol.for("debug.description")]() { return "hello a" }
       }
     `);
-		p.assertLog();
-	});
+    p.assertLog();
+  });
 
-	itIntegrates("collections", async ({ r }) => {
-		const p = await r.launchAndLoad(`
+  itIntegrates('collections', async ({ r }) => {
+    const p = await r.launchAndLoad(`
         <div style="display:none" class="c1 c2 c3">
           <form id="f">
               <select id="sel" name="sel">
@@ -221,30 +216,25 @@ describe("console format", () => {
           });
         </script>`);
 
-		const variables = [
-			"nodelist",
-			"htmlcollection",
-			"options",
-			"all",
-			"formControls",
-			"radioNodeList",
-			"arrayX",
-			"nonArray",
-			'generateArguments(1, "2")',
-			"div.classList",
-		];
-		const expressions = variables.map((v) => [
-			`console.log(${v})`,
-			`console.log([${v}])`,
-		]);
-		await p.logger.evaluateAndLog(([] as string[]).concat(...expressions), {
-			depth: 0,
-		});
-		p.assertLog();
-	});
+    const variables = [
+      'nodelist',
+      'htmlcollection',
+      'options',
+      'all',
+      'formControls',
+      'radioNodeList',
+      'arrayX',
+      'nonArray',
+      'generateArguments(1, "2")',
+      'div.classList',
+    ];
+    const expressions = variables.map(v => [`console.log(${v})`, `console.log([${v}])`]);
+    await p.logger.evaluateAndLog(([] as string[]).concat(...expressions), { depth: 0 });
+    p.assertLog();
+  });
 
-	itIntegrates("es6", async ({ r }) => {
-		const p = await r.launchAndLoad(`
+  itIntegrates('es6', async ({ r }) => {
+    const p = await r.launchAndLoad(`
         <script>
           var p = Promise.reject(-0);
           p.catch(function() {});
@@ -295,36 +285,31 @@ describe("console format", () => {
           var generator = genFunction();
         </script>`);
 
-		const variables = [
-			"p",
-			"p2",
-			"p3",
-			"smb1",
-			"smb2",
-			"obj",
-			"map",
-			"weakMap",
-			"set",
-			"weakSet",
-			"mapMap0",
-			"mapMap",
-			"setSet0",
-			"setSet",
-			"bigmap",
-			"generator",
-		];
-		const expressions = variables.map((v) => [
-			`console.log(${v})`,
-			`console.log([${v}])`,
-		]);
-		await p.logger.evaluateAndLog(([] as string[]).concat(...expressions), {
-			depth: 0,
-		});
-		p.assertLog();
-	});
+    const variables = [
+      'p',
+      'p2',
+      'p3',
+      'smb1',
+      'smb2',
+      'obj',
+      'map',
+      'weakMap',
+      'set',
+      'weakSet',
+      'mapMap0',
+      'mapMap',
+      'setSet0',
+      'setSet',
+      'bigmap',
+      'generator',
+    ];
+    const expressions = variables.map(v => [`console.log(${v})`, `console.log([${v}])`]);
+    await p.logger.evaluateAndLog(([] as string[]).concat(...expressions), { depth: 0 });
+    p.assertLog();
+  });
 
-	itIntegrates("es6-2", async ({ r }) => {
-		const p = await r.launchAndLoad(`
+  itIntegrates('es6-2', async ({ r }) => {
+    const p = await r.launchAndLoad(`
         <script>
           var map2 = new Map();
           map2.set(41, 42);
@@ -341,28 +326,23 @@ describe("console format", () => {
           iter2.next();
         </script>`);
 
-		const variables = [
-			"map2.keys()",
-			"map2.values()",
-			"map2.entries()",
-			"set2.keys()",
-			"set2.values()",
-			"set2.entries()",
-			"iter1",
-			"iter2",
-		];
-		const expressions = variables.map((v) => [
-			`console.log(${v})`,
-			`console.log([${v}])`,
-		]);
-		await p.logger.evaluateAndLog(([] as string[]).concat(...expressions), {
-			depth: 0,
-		});
-		p.assertLog();
-	});
+    const variables = [
+      'map2.keys()',
+      'map2.values()',
+      'map2.entries()',
+      'set2.keys()',
+      'set2.values()',
+      'set2.entries()',
+      'iter1',
+      'iter2',
+    ];
+    const expressions = variables.map(v => [`console.log(${v})`, `console.log([${v}])`]);
+    await p.logger.evaluateAndLog(([] as string[]).concat(...expressions), { depth: 0 });
+    p.assertLog();
+  });
 
-	itIntegrates("array", async ({ r }) => {
-		const p = await r.launchAndLoad(`
+  itIntegrates('array', async ({ r }) => {
+    const p = await r.launchAndLoad(`
         <script>
           var a0 = [];
           var a1 = []; a1.length = 1;
@@ -387,15 +367,13 @@ describe("console format", () => {
           a10 = Object.create([1,2]);
         </script>`);
 
-		const expressions = new Array(11)
-			.fill(0)
-			.map((a, b) => `console.log(a${b})`);
-		await p.logger.evaluateAndLog(expressions, { depth: 0 });
-		p.assertLog();
-	});
+    const expressions = new Array(11).fill(0).map((a, b) => `console.log(a${b})`);
+    await p.logger.evaluateAndLog(expressions, { depth: 0 });
+    p.assertLog();
+  });
 
-	itIntegrates("class", async ({ r }) => {
-		const p = await r.launchAndLoad(`
+  itIntegrates('class', async ({ r }) => {
+    const p = await r.launchAndLoad(`
         <script>
           var a0 = [];
           var a1 = []; a1.length = 1;
@@ -420,95 +398,86 @@ describe("console format", () => {
           a10 = Object.create([1,2]);
         </script>`);
 
-		const expressions = new Array(11)
-			.fill(0)
-			.map((a, b) => `console.log(a${b})`);
-		await p.logger.evaluateAndLog(expressions, { depth: 0 });
-		p.assertLog();
-	});
+    const expressions = new Array(11).fill(0).map((a, b) => `console.log(a${b})`);
+    await p.logger.evaluateAndLog(expressions, { depth: 0 });
+    p.assertLog();
+  });
 
-	itIntegrates("groups", async ({ r }) => {
-		const p = await r.launchAndLoad("blank");
-		await p.logger.evaluateAndLog([
-			`console.log('outer')`,
-			`console.group()`,
-			`console.log('in anonymous')`,
-			`console.groupCollapsed('named')`,
-			`console.log('in named')`,
-			`console.group({ complex: true })`,
-			`console.log('in complex')`,
-			`console.groupEnd()`,
-			`console.groupEnd()`,
-			`console.log('back in anonymous')`,
-			`console.groupEnd()`,
-		]);
-		p.assertLog();
-	});
+  itIntegrates('groups', async ({ r }) => {
+    const p = await r.launchAndLoad('blank');
+    await p.logger.evaluateAndLog([
+      `console.log('outer')`,
+      `console.group()`,
+      `console.log('in anonymous')`,
+      `console.groupCollapsed('named')`,
+      `console.log('in named')`,
+      `console.group({ complex: true })`,
+      `console.log('in complex')`,
+      `console.groupEnd()`,
+      `console.groupEnd()`,
+      `console.log('back in anonymous')`,
+      `console.groupEnd()`,
+    ]);
+    p.assertLog();
+  });
 
-	itIntegrates("colors", async ({ r }) => {
-		const p = await r.launchAndLoad(`blank`);
+  itIntegrates('colors', async ({ r }) => {
+    const p = await r.launchAndLoad(`blank`);
 
-		await p.logger.evaluateAndLog(
-			[
-				`console.log('%cColors are awesome.', 'color: blue;')`,
-				`console.log('%cColors are awesome.', 'background-color: red;')`,
-				`console.log('%cColors are awesome.', 'background-color: red;', 'Do not apply to trailing params')`,
-				`console.log('%cColors %care %cawesome.', 'color: red', 'color:green', 'color:blue')`,
-				`console.log('%cBold text.', 'font-weight: bold')`,
-				`console.log('%cItalic text.', 'font-style: italic')`,
-				`console.log('%cUnderline text.', 'text-decoration: underline')`,
-			],
-			{ depth: 0 }
-		);
-		p.assertLog();
-	});
+    await p.logger.evaluateAndLog(
+      [
+        `console.log('%cColors are awesome.', 'color: blue;')`,
+        `console.log('%cColors are awesome.', 'background-color: red;')`,
+        `console.log('%cColors are awesome.', 'background-color: red;', 'Do not apply to trailing params')`,
+        `console.log('%cColors %care %cawesome.', 'color: red', 'color:green', 'color:blue')`,
+        `console.log('%cBold text.', 'font-weight: bold')`,
+        `console.log('%cItalic text.', 'font-style: italic')`,
+        `console.log('%cUnderline text.', 'text-decoration: underline')`,
+      ],
+      { depth: 0 },
+    );
+    p.assertLog();
+  });
 
-	itIntegrates("error traces in source maps", async ({ r }) => {
-		const handle = await r.launchUrlAndLoad("browserify/browserify.html");
-		await handle.logger.evaluateAndLog([
-			"try { throwError() } catch (e) { console.error(e) }",
-		]);
-		handle.assertLog();
-	});
+  itIntegrates('error traces in source maps', async ({ r }) => {
+    const handle = await r.launchUrlAndLoad('browserify/browserify.html');
+    await handle.logger.evaluateAndLog(['try { throwError() } catch (e) { console.error(e) }']);
+    handle.assertLog();
+  });
 
-	itIntegrates("adds error traces if they do not exist", async ({ r }) => {
-		const handle = await r.launchUrlAndLoad("browserify/browserify.html");
-		const output = handle.dap.once("output");
-		await handle.logger.evaluateAndLog([
-			'setTimeout(() => { throw "asdf" }, 0) ',
-		]);
-		handle.log(await output);
-		handle.assertLog();
-	});
+  itIntegrates('adds error traces if they do not exist', async ({ r }) => {
+    const handle = await r.launchUrlAndLoad('browserify/browserify.html');
+    const output = handle.dap.once('output');
+    await handle.logger.evaluateAndLog(['setTimeout(() => { throw "asdf" }, 0) ']);
+    handle.log(await output);
+    handle.assertLog();
+  });
 
-	itIntegrates("applies skipfiles to logged stacks", async ({ r }) => {
-		const handle = await r.launchAndLoad(
-			`
+  itIntegrates('applies skipfiles to logged stacks', async ({ r }) => {
+    const handle = await r.launchAndLoad(
+      `
         <script>
         function doLog() { console.log.apply(console, arguments); }
         //# sourceURL=ignore-me.js
         </script>
       `,
-			{ skipFiles: ["**/ignore-me.js"] }
-		);
+      { skipFiles: ['**/ignore-me.js'] },
+    );
 
-		const evaluation = handle.dap.evaluate({
-			expression:
-				'doLog("hello world");\n//# sourceURL=dont-ignore-me.js',
-			context: "watch",
-		});
-		const output = await handle.dap.once("output");
-		await evaluation;
-		handle.log(
-			`logged ${output.output} at ${output.source?.name}:${output.line}:${output.column}`
-		);
-		handle.assertLog();
-	});
+    const evaluation = handle.dap.evaluate({
+      expression: 'doLog("hello world");\n//# sourceURL=dont-ignore-me.js',
+      context: 'watch',
+    });
+    const output = await handle.dap.once('output');
+    await evaluation;
+    handle.log(`logged ${output.output} at ${output.source?.name}:${output.line}:${output.column}`);
+    handle.assertLog();
+  });
 
-	itIntegrates("EXT handling", async ({ r }) => {
-		createFileTree(testFixturesDir, {
-			"test.js": [
-				`
+  itIntegrates('EXT handling', async ({ r }) => {
+    createFileTree(testFixturesDir, {
+      'test.js': [
+        `
           process.stdout.write('hello');
           debugger;
           process.stdout.write('world');
@@ -519,26 +488,24 @@ describe("console format", () => {
           debugger;
           process.stdout.write('with this!\\u0003trailing');
         `,
-			],
-		});
-		const handle = await r.runScript("test.js", {
-			outputCapture: OutputSource.Stdio,
-		});
-		let todo = Promise.resolve();
-		r.rootDap().on("output", (o) => {
-			todo = todo.then(() => handle.log(JSON.stringify(o)));
-		});
+      ],
+    });
+    const handle = await r.runScript('test.js', { outputCapture: OutputSource.Stdio });
+    let todo = Promise.resolve();
+    r.rootDap().on('output', o => {
+      todo = todo.then(() => handle.log(JSON.stringify(o)));
+    });
 
-		// use debugger statements to sync chunks of output
-		handle.dap.on("stopped", (ev) => {
-			todo = todo.then(() => {
-				handle.dap.continue({ threadId: ev.threadId! });
-			});
-		});
+    // use debugger statements to sync chunks of output
+    handle.dap.on('stopped', ev => {
+      todo = todo.then(() => {
+        handle.dap.continue({ threadId: ev.threadId! });
+      });
+    });
 
-		await handle.load();
-		await r.rootDap().once("terminated");
-		await todo;
-		handle.assertLog();
-	});
+    await handle.load();
+    await r.rootDap().once('terminated');
+    await todo;
+    handle.assertLog();
+  });
 });
