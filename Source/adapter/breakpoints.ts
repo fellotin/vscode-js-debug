@@ -705,8 +705,8 @@ export class BreakpointManager {
 			params.source.sourceReference
 				? this._byRef.get(params.source.sourceReference)
 				: params.source.path
-				? this._byPath.get(params.source.path)
-				: undefined;
+				  ? this._byPath.get(params.source.path)
+				  : undefined;
 
 		const result = mergeInto(getCurrent() ?? []);
 		if (params.source.sourceReference) {

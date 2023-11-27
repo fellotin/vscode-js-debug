@@ -364,10 +364,10 @@ export class BreakpointsPredictor implements IBreakpointsPredictor {
 				typeof metadata.sourceMapUrl === "string"
 					? metadata.sourceMapUrl
 					: metadata.sourceMapUrl.hasOwnProperty(InlineSourceMapUrl)
-					? metadata.sourceMapUrl[InlineSourceMapUrl]
-					: await fs
-							.readFile(metadata.compiledPath, "utf8")
-							.then(parseSourceMappingUrl);
+					  ? metadata.sourceMapUrl[InlineSourceMapUrl]
+					  : await fs
+								.readFile(metadata.compiledPath, "utf8")
+								.then(parseSourceMappingUrl);
 
 			if (!sourceMapUrl) {
 				return [];

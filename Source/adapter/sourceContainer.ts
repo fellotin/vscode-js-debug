@@ -1030,11 +1030,11 @@ export class SourceContainer {
 				smContent !== null
 					? () => Promise.resolve(smContent)
 					: fileUrl
-					? () =>
-							this.resourceProvider
-								.fetch(fileUrl)
-								.then((r) => r.body)
-					: () => compiled.content(),
+					  ? () =>
+								this.resourceProvider
+									.fetch(fileUrl)
+									.then((r) => r.body)
+					  : () => compiled.content(),
 				// Support recursive source maps if the source includes the source content.
 				// This obviates the need for the `source-map-loader` in webpack for most cases.
 				sourceMapUrl

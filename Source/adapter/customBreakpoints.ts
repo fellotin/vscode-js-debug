@@ -112,8 +112,8 @@ export function customBreakpoints(): Map<string, ICustomBreakpoint> {
 			target === undefined
 				? "*"
 				: typeof target === "string"
-				? [target]
-				: target;
+				  ? [target]
+				  : target;
 		return {
 			id: "listener:" + eventName,
 			title: title || eventName,

@@ -175,8 +175,8 @@ const SourceData: FunctionComponent<{
 			{source.compiledSourceRefToUrl
 				? "✅ From sourcemap, assumed correct"
 				: source.actualAbsolutePath
-				? "✅ Verified on disk"
-				: "❌ Disk verification failed (does not exist or different content)"}
+				  ? "✅ Verified on disk"
+				  : "❌ Disk verification failed (does not exist or different content)"}
 		</dd>
 		<dt>sourcemap children:</dt>
 		<dd>

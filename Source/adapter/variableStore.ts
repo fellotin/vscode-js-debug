@@ -1486,16 +1486,16 @@ export class VariableStore {
 			args.length === 1 && outputType === "table"
 				? ctx.createVariable(OutputTableVariable, { name: "" }, args[0])
 				: args.length === 1 &&
-				  objectPreview.previewAsObject(args[0]) &&
-				  !stackTrace
-				? ctx.createVariableByType({ name: "" }, args[0])
-				: ctx.createVariable(
-						OutputVariable,
-						{ name: "" },
-						text,
-						args,
-						stackTrace
-				  );
+				    objectPreview.previewAsObject(args[0]) &&
+				    !stackTrace
+				  ? ctx.createVariableByType({ name: "" }, args[0])
+				  : ctx.createVariable(
+							OutputVariable,
+							{ name: "" },
+							text,
+							args,
+							stackTrace
+				    );
 		const container = new OutputVariableContainer(output);
 		this.vars.add(container);
 

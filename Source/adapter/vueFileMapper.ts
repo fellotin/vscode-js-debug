@@ -108,7 +108,7 @@ export class VueFileMapper implements IVueFileMapper {
 		return vueSourceUrlRe.test(sourceUrl)
 			? VueHandling.Lookup
 			: vueGeneratedRe.test(sourceUrl)
-			? VueHandling.Omit
-			: VueHandling.Unhandled;
+			  ? VueHandling.Omit
+			  : VueHandling.Unhandled;
 	}
 }
