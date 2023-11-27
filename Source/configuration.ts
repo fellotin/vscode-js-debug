@@ -826,14 +826,14 @@ export type ResolvedConfiguration<T> =
 	T extends ResolvingNodeAttachConfiguration
 		? INodeAttachConfiguration
 		: T extends ResolvingExtensionHostConfiguration
-		? IExtensionHostLaunchConfiguration
-		: T extends ResolvingNodeLaunchConfiguration
-		? INodeLaunchConfiguration
-		: T extends ResolvingChromeConfiguration
-		? AnyChromeConfiguration
-		: T extends ResolvingTerminalConfiguration
-		? ITerminalLaunchConfiguration
-		: never;
+		  ? IExtensionHostLaunchConfiguration
+		  : T extends ResolvingNodeLaunchConfiguration
+		    ? INodeLaunchConfiguration
+		    : T extends ResolvingChromeConfiguration
+		      ? AnyChromeConfiguration
+		      : T extends ResolvingTerminalConfiguration
+		        ? ITerminalLaunchConfiguration
+		        : never;
 
 export const baseDefaults: IBaseConfiguration = {
 	type: "",
