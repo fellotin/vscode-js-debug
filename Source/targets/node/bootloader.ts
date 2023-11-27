@@ -97,8 +97,8 @@ function inspectOrQueue(env: IBootloaderInfo, ownId: string): boolean {
 	const mode = !isPipeAvailable(env.inspectorIpc)
 		? Mode.Inactive
 		: env.deferredMode
-		? Mode.Deferred
-		: Mode.Immediate;
+		  ? Mode.Deferred
+		  : Mode.Immediate;
 
 	bootloaderLogger.info(LogTag.Runtime, "Set debug mode", { mode });
 	if (mode === Mode.Inactive) {

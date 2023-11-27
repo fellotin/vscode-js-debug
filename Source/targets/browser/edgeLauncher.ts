@@ -169,9 +169,8 @@ export class EdgeLauncher extends BrowserLauncher<IEdgeLaunchConfiguration> {
 		// See the WebView2 documentation for more details.
 		params.env = params.env || {};
 		params.env["WEBVIEW2_USER_DATA_FOLDER"] = params.userDataDir.toString();
-		params.env[
-			"WEBVIEW2_ADDITIONAL_BROWSER_ARGUMENTS"
-		] = `--remote-debugging-port=${params.port}`;
+		params.env["WEBVIEW2_ADDITIONAL_BROWSER_ARGUMENTS"] =
+			`--remote-debugging-port=${params.port}`;
 		params.env["WEBVIEW2_WAIT_FOR_SCRIPT_DEBUGGER"] = "true";
 		params.env["WEBVIEW2_PIPE_FOR_SCRIPT_DEBUGGER"] = pipeName;
 

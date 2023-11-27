@@ -39,8 +39,8 @@ export const testVueMapper: IVueFileMapper = {
 		url.includes("lookup.vue")
 			? VueHandling.Lookup
 			: url.includes("omit.vue")
-			? VueHandling.Omit
-			: VueHandling.Unhandled,
+			  ? VueHandling.Omit
+			  : VueHandling.Unhandled,
 };
 
 describe("BrowserPathResolver", () => {
