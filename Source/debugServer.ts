@@ -26,6 +26,7 @@ class Configurator {
 		ids: number[];
 	}[];
 	private _customBreakpoints: string[] = [];
+	private _xhrBreakpoints: string[] = [];
 	private lastBreakpointId = 0;
 
 	constructor(dap: Dap.Api) {
@@ -53,6 +54,7 @@ class Configurator {
 
 		dap.on("setCustomBreakpoints", async (params) => {
 			this._customBreakpoints = params.ids;
+			this._xhrBreakpoints = params.xhr;
 			return {};
 		});
 
@@ -77,7 +79,8 @@ class Configurator {
 		for (const { params, ids } of this._setBreakpointsParams)
 			await adapter.breakpointManager.setBreakpoints(params, ids);
 		await adapter.setCustomBreakpoints({
-			ids: Array.from(this._customBreakpoints),
+			xhr: this._xhrBreakpoints,
+			ids: this._customBreakpoints,
 		});
 		await adapter.configurationDone();
 	}
