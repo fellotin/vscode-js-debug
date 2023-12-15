@@ -2,10 +2,10 @@
  * Copyright (C) Microsoft Corporation. All rights reserved.
  *--------------------------------------------------------*/
 
-import { BreakpointManager } from '../breakpoints';
-import { UserDefinedBreakpoint } from './userDefinedBreakpoint';
-import { HitCondition } from './conditions/hitCount';
-import Dap from '../../dap/api';
+import { BreakpointManager } from "../breakpoints";
+import { UserDefinedBreakpoint } from "./userDefinedBreakpoint";
+import { HitCondition } from "./conditions/hitCount";
+import Dap from "../../dap/api";
 
 /**
  * A breakpoint that's never resolved or hit. This is used to place an invalid
@@ -18,19 +18,19 @@ import Dap from '../../dap/api';
  * casing.
  */
 export class NeverResolvedBreakpoint extends UserDefinedBreakpoint {
-  constructor(
-    manager: BreakpointManager,
-    dapId: number,
-    source: Dap.Source,
-    dapParams: Dap.SourceBreakpoint,
-  ) {
-    super(manager, dapId, source, dapParams, new HitCondition(() => false));
-  }
+	constructor(
+		manager: BreakpointManager,
+		dapId: number,
+		source: Dap.Source,
+		dapParams: Dap.SourceBreakpoint,
+	) {
+		super(manager, dapId, source, dapParams, new HitCondition(() => false));
+	}
 
-  /**
-   * @override
-   */
-  protected getResolvedUiLocation() {
-    return undefined;
-  }
+	/**
+	 * @override
+	 */
+	protected getResolvedUiLocation() {
+		return undefined;
+	}
 }
