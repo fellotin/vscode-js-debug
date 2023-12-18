@@ -12,7 +12,7 @@ export const checkIsDebugMode = (env: IBootloaderInfo) => {
 	if (!env || !env.inspectorIpc) {
 		bootloaderLogger.info(
 			LogTag.RuntimeLaunch,
-			"Disabling due to lack of IPC server",
+			"Disabling due to lack of IPC server"
 		);
 		return false;
 	}
@@ -25,7 +25,7 @@ export const checkLeaseFile = (env: IBootloaderInfo) => {
 	if (leaseFile && !LeaseFile.isValid(leaseFile)) {
 		bootloaderLogger.info(
 			LogTag.RuntimeLaunch,
-			"Disabling due to invalid lease file",
+			"Disabling due to invalid lease file"
 		);
 		return false;
 	}
@@ -38,7 +38,7 @@ export const checkNotElectron = () => {
 	if (typeof window !== "undefined") {
 		bootloaderLogger.info(
 			LogTag.RuntimeLaunch,
-			"Disabling in Electron (window is set)",
+			"Disabling in Electron (window is set)"
 		);
 		return false;
 	}
@@ -57,7 +57,7 @@ export const checkProcessFilter = (env: IBootloaderInfo) => {
 	let waitForDebugger: boolean;
 	try {
 		waitForDebugger = new RegExp(env.waitForDebugger || "").test(
-			scriptName,
+			scriptName
 		);
 	} catch (e) {
 		waitForDebugger = true;
@@ -70,7 +70,7 @@ export const checkProcessFilter = (env: IBootloaderInfo) => {
 			{
 				pattern: env.waitForDebugger,
 				scriptName,
-			},
+			}
 		);
 	}
 
@@ -124,5 +124,5 @@ const allChecks = [
  * Checks that we're able to debug this process.
  */
 export const checkAll = (
-	env: IBootloaderInfo | undefined,
+	env: IBootloaderInfo | undefined
 ): env is IBootloaderInfo => !!env && !allChecks.some((fn) => !fn(env));

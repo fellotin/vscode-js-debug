@@ -22,7 +22,10 @@ export class JsDebugPortAttributesProvider
 	/** Index counter for the next cached resolution index in the list */
 	private cachedResolutionIndex = 0;
 
-	constructor(@inject(IPortLeaseTracker) private readonly leaseTracker: IPortLeaseTracker) {}
+	constructor(
+		@inject(IPortLeaseTracker)
+		private readonly leaseTracker: IPortLeaseTracker
+	) {}
 
 	/**
 	 * @inheritdoc
@@ -37,8 +40,8 @@ export class JsDebugPortAttributesProvider
 							DefaultJsDebugPorts.Max,
 						],
 					},
-					this,
-				),
+					this
+				)
 			);
 		}
 	}
@@ -49,7 +52,10 @@ export class JsDebugPortAttributesProvider
 	public async providePortAttributes({
 		port,
 		pid,
-	}: { port: number; pid?: number }) {
+	}: {
+		port: number;
+		pid?: number;
+	}) {
 		if (pid && this.cachedResolutions.includes(`${port}:${pid}`)) {
 			return { port, autoForwardAction: PortAutoForwardAction.Ignore };
 		}

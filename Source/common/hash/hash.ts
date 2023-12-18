@@ -60,7 +60,7 @@ export type HashResponse<T extends HashRequest> = T extends {
  * @see https://nodejs.org/api/modules.html#modules_the_module_wrapper
  */
 const nodePrefix = Buffer.from(
-	"(function (exports, require, module, __filename, __dirname) { ",
+	"(function (exports, require, module, __filename, __dirname) { "
 );
 const nodeSuffix = Buffer.from("\n});");
 
@@ -72,10 +72,10 @@ const nodeSuffix = Buffer.from("\n});");
  */
 const electronPrefix = Buffer.from(
 	"(function (exports, require, module, __filename, __dirname, process, global, Buffer) { " +
-		"return function (exports, require, module, __filename, __dirname) { ",
+		"return function (exports, require, module, __filename, __dirname) { "
 );
 const electronSuffix = Buffer.from(
-	"\n}.call(this, exports, require, module, __filename, __dirname); });",
+	"\n}.call(this, exports, require, module, __filename, __dirname); });"
 );
 
 /**
@@ -128,7 +128,7 @@ const toBuffer = (input: string | Buffer) =>
 	input instanceof Buffer ? input : Buffer.from(input, "utf-8");
 
 async function handle(
-	message: HashRequest,
+	message: HashRequest
 ): Promise<HashResponse<HashRequest>> {
 	switch (message.type) {
 		case MessageType.HashFile:
@@ -158,7 +158,7 @@ async function handle(
 					matches: verifyBytes(
 						data,
 						message.expected,
-						message.checkNode,
+						message.checkNode
 					),
 				};
 			} catch (e) {
@@ -171,7 +171,7 @@ async function handle(
 					matches: verifyBytes(
 						toBuffer(message.data),
 						message.expected,
-						message.checkNode,
+						message.checkNode
 					),
 				};
 			} catch (e) {

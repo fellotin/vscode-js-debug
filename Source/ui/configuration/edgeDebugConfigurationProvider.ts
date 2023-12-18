@@ -31,7 +31,7 @@ export class EdgeDebugConfigurationResolver
 	 */
 	protected async resolveDebugConfigurationAsync(
 		folder: vscode.WorkspaceFolder | undefined,
-		config: ResolvingEdgeConfiguration,
+		config: ResolvingEdgeConfiguration
 	): Promise<AnyEdgeConfiguration | undefined> {
 		if (!config.name && !config.type && !config.request) {
 			const fromContext =

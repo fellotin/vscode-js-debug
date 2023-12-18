@@ -51,7 +51,7 @@ interface ILaunchOptions {
 export interface ILaunchResult {
 	canReconnect: boolean;
 	createConnection(
-		cancellationToken: CancellationToken,
+		cancellationToken: CancellationToken
 	): Promise<CdpConnection>;
 	process: IBrowserProcess;
 }
@@ -63,7 +63,7 @@ export async function launch(
 	telemetryReporter: ITelemetryReporter,
 	clientCapabilities: IDapInitializeParamsWithExtensions,
 	cancellationToken: CancellationToken,
-	options: ILaunchOptions | undefined = {},
+	options: ILaunchOptions | undefined = {}
 ): Promise<ILaunchResult> {
 	const {
 		onStderr = noop,
@@ -112,13 +112,13 @@ export async function launch(
 			dap,
 			executablePath,
 			browserArguments.toArray(),
-			cancellationToken,
+			cancellationToken
 		);
 		browserProcess = new NonTrackedBrowserProcess(logger);
 	} else {
 		logger.info(
 			LogTag.RuntimeLaunch,
-			`Launching Chrome from ${executablePath}`,
+			`Launching Chrome from ${executablePath}`
 		);
 
 		const cp = childProcess.spawn(
@@ -129,7 +129,7 @@ export async function launch(
 				env: env.defined(),
 				cwd: (await canAccess(fsPromises, cwd)) ? cwd : process.cwd(),
 				stdio,
-			},
+			}
 		) as childProcess.ChildProcessWithoutNullStreams;
 
 		// If the PID is undefined, the launch failed; expect to see an error be
@@ -139,8 +139,8 @@ export async function launch(
 				delay(1000).then(
 					() =>
 						new Error(
-							"Unable to launch the executable (undefined pid)",
-						),
+							"Unable to launch the executable (undefined pid)"
+						)
 				),
 				new Promise((r) => cp.once("error", r)),
 			]);
@@ -175,8 +175,8 @@ export async function launch(
 					listener = browserProcess.onExit((code) => {
 						reject(
 							new ProtocolError(
-								browserProcessExitedBeforePort(code),
-							),
+								browserProcessExitedBeforePort(code)
+							)
 						);
 					});
 				}),
@@ -194,7 +194,7 @@ export async function launch(
 						inspectUri: inspectUri || undefined,
 						url: url || undefined,
 					},
-					cancellationToken,
+					cancellationToken
 				);
 
 				return new CdpConnection(transport, logger, telemetryReporter);
@@ -211,14 +211,14 @@ export function defaultArgs(
 	options: Pick<
 		ILaunchOptions,
 		"userDataDir" | "ignoreDefaultArgs" | "hasUserNavigation"
-	> = {},
+	> = {}
 ): BrowserArgs {
 	const { userDataDir = null, ignoreDefaultArgs = false } = options;
 	let browserArguments =
 		ignoreDefaultArgs === true ? new BrowserArgs() : BrowserArgs.default;
 	if (ignoreDefaultArgs instanceof Array) {
 		browserArguments = browserArguments.filter(
-			(key) => !ignoreDefaultArgs.includes(key),
+			(key) => !ignoreDefaultArgs.includes(key)
 		);
 	}
 
@@ -249,46 +249,46 @@ export async function attach(
 	options: IAttachOptions,
 	cancellationToken: CancellationToken,
 	logger: ILogger,
-	telemetryReporter: ITelemetryReporter,
+	telemetryReporter: ITelemetryReporter
 ): Promise<CdpConnection> {
 	const { browserWSEndpoint, browserURL } = options;
 
 	if (browserWSEndpoint) {
 		const connectionTransport = await WebSocketTransport.create(
 			browserWSEndpoint,
-			cancellationToken,
+			cancellationToken
 		);
 		return new CdpConnection(
 			connectionTransport,
 			logger,
-			telemetryReporter,
+			telemetryReporter
 		);
 	} else if (browserURL) {
 		const connectionURL = await retryGetBrowserEndpoint(
 			browserURL,
 			cancellationToken,
-			logger,
+			logger
 		);
 
 		const inspectWs = options.inspectUri
 			? constructInspectorWSUri(
 					options.inspectUri,
 					options.pageURL,
-					connectionURL,
-			  )
+					connectionURL
+				)
 			: connectionURL;
 
 		const connectionTransport = await WebSocketTransport.create(
 			inspectWs,
-			cancellationToken,
+			cancellationToken
 		);
 		return new CdpConnection(
 			connectionTransport,
 			logger,
-			telemetryReporter,
+			telemetryReporter
 		);
 	}
 	throw new Error(
-		"Either browserURL or browserWSEndpoint needs to be specified",
+		"Either browserURL or browserWSEndpoint needs to be specified"
 	);
 }

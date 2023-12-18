@@ -100,7 +100,7 @@ export abstract class BreakpointSearch {
 	) {}
 
 	public abstract getMetadataForPaths(
-		sourcePaths: readonly string[],
+		sourcePaths: readonly string[]
 	): Promise<(Set<DiscoveredMetadata> | undefined)[]>;
 
 	protected async createMapping(
@@ -109,7 +109,7 @@ export abstract class BreakpointSearch {
 				{ discovered: DiscoveredMetadata[]; compiledPath: string },
 				void
 			>
-		>,
+		>
 	): Promise<MetadataMap> {
 		if (this.outFiles.empty) {
 			return new Map();
@@ -132,7 +132,7 @@ export abstract class BreakpointSearch {
 							? await this.sourcePathResolver.urlToAbsolutePath({
 									url,
 									map,
-							  })
+								})
 							: urlUtils.fileUrlToAbsolutePath(url);
 
 						if (!resolvedPath) {
@@ -142,12 +142,12 @@ export abstract class BreakpointSearch {
 						discovered.push({
 							...metadata,
 							sourceMapUrl: urlUtils.isDataUri(
-								metadata.sourceMapUrl,
+								metadata.sourceMapUrl
 							)
 								? {
 										[InlineSourceMapUrl]:
 											metadata.sourceMapUrl,
-								  }
+									}
 								: metadata.sourceMapUrl,
 							resolvedPath,
 							sourceUrl: url,
@@ -157,20 +157,20 @@ export abstract class BreakpointSearch {
 					return {
 						discovered,
 						compiledPath: fixDriveLetterAndSlashes(
-							metadata.compiledPath,
+							metadata.compiledPath
 						),
 					};
 				},
 				onProcessedMap: ({ discovered }) => {
 					for (const discovery of discovered) {
 						let set = sourcePathToCompiled.get(
-							discovery.resolvedPath,
+							discovery.resolvedPath
 						);
 						if (!set) {
 							set = new Set();
 							sourcePathToCompiled.set(
 								discovery.resolvedPath,
-								set,
+								set
 							);
 						}
 
@@ -189,15 +189,15 @@ export abstract class BreakpointSearch {
 						this.logger.warn(
 							LogTag.RuntimeException,
 							"Error saving sourcemap cache",
-							{ error: e },
-						),
+							{ error: e }
+						)
 					);
 			}
 		} catch (error) {
 			this.logger.warn(
 				LogTag.RuntimeException,
 				"Error reading sourcemaps from disk",
-				{ error },
+				{ error }
 			);
 		}
 
@@ -225,7 +225,7 @@ export class GlobalBreakpointSearch extends BreakpointSearch {
 		return logPerf(
 			this.logger,
 			`BreakpointsPredictor.createInitialMapping`,
-			() => this.createMapping(),
+			() => this.createMapping()
 		);
 	}
 }
@@ -245,14 +245,14 @@ export class TargetedBreakpointSearch extends BreakpointSearch {
 	 */
 	public override async getMetadataForPaths(sourcePaths: readonly string[]) {
 		const existing = sourcePaths.map((sp) =>
-			this.sourcePathToCompiled.get(sp),
+			this.sourcePathToCompiled.get(sp)
 		);
 		const toFind = sourcePaths.map((_, i) => i).filter((i) => !existing[i]);
 
 		// if some paths have not been found yet, do one operation to find all of them
 		if (toFind.length) {
 			const spSet = new Set(
-				toFind.map((i) => fixDriveLetterAndSlashes(sourcePaths[i])),
+				toFind.map((i) => fixDriveLetterAndSlashes(sourcePaths[i]))
 			);
 			const entry = this.createMapping({
 				filter: (_, meta) =>
@@ -270,7 +270,7 @@ export class TargetedBreakpointSearch extends BreakpointSearch {
 				// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 				const map: MetadataMap = await entry!;
 				return map.get(sourcePaths[i]);
-			}),
+			})
 		);
 
 		return r;
@@ -293,7 +293,7 @@ export interface IBreakpointsPredictor {
 	 * Gets prediction data for the given source file path, if it exists.
 	 */
 	getPredictionForSource(
-		sourceFile: string,
+		sourceFile: string
 	): Promise<ReadonlySet<DiscoveredMetadata> | undefined>;
 
 	/**
@@ -306,7 +306,7 @@ export interface IBreakpointsPredictor {
 	 * Returns predicted breakpoint locations for the provided source.
 	 */
 	predictedResolvedLocations(
-		location: IWorkspaceLocation,
+		location: IWorkspaceLocation
 	): IWorkspaceLocation[];
 }
 
@@ -342,7 +342,7 @@ export class BreakpointsPredictor implements IBreakpointsPredictor {
 	 * are predicted.
 	 */
 	public async predictBreakpoints(
-		params: Dap.SetBreakpointsParams,
+		params: Dap.SetBreakpointsParams
 	): Promise<void> {
 		if (!params.source.path || !params.breakpoints?.length) {
 			return;
@@ -358,14 +358,14 @@ export class BreakpointsPredictor implements IBreakpointsPredictor {
 		const addSourceMapLocations = async (
 			line: number,
 			col: number,
-			metadata: DiscoveredMetadata,
+			metadata: DiscoveredMetadata
 		): Promise<IWorkspaceLocation[]> => {
 			const sourceMapUrl =
 				typeof metadata.sourceMapUrl === "string"
 					? metadata.sourceMapUrl
 					: metadata.sourceMapUrl.hasOwnProperty(InlineSourceMapUrl)
-					  ? metadata.sourceMapUrl[InlineSourceMapUrl]
-					  : await fs
+						? metadata.sourceMapUrl[InlineSourceMapUrl]
+						: await fs
 								.readFile(metadata.compiledPath, "utf8")
 								.then(parseSourceMappingUrl);
 
@@ -386,9 +386,9 @@ export class BreakpointsPredictor implements IBreakpointsPredictor {
 							lineNumber: line,
 							columnNumber: col || 1,
 						},
-						map,
+						map
 					),
-				() => null,
+				() => null
 			);
 
 			if (!entry || entry.line === null) {
@@ -402,8 +402,8 @@ export class BreakpointsPredictor implements IBreakpointsPredictor {
 				const n = await Promise.all(
 					// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 					[...nested].map((n) =>
-						addSourceMapLocations(entry.line!, entry.column!, n),
-					),
+						addSourceMapLocations(entry.line!, entry.column!, n)
+					)
 				);
 				return n.flat();
 			}
@@ -431,8 +431,8 @@ export class BreakpointsPredictor implements IBreakpointsPredictor {
 					...(await addSourceMapLocations(
 						b.line,
 						b.column || 0,
-						metadata,
-					)),
+						metadata
+					))
 				);
 			}
 		}
@@ -454,7 +454,7 @@ export class BreakpointsPredictor implements IBreakpointsPredictor {
 				{
 					longPredictionWarning,
 					patterns: [...this.outFiles.explode()].join(", "),
-				},
+				}
 			);
 		}, longPredictionWarning);
 
@@ -469,7 +469,7 @@ export class BreakpointsPredictor implements IBreakpointsPredictor {
 	 * Returns predicted breakpoint locations for the provided source.
 	 */
 	public predictedResolvedLocations(
-		location: IWorkspaceLocation,
+		location: IWorkspaceLocation
 	): IWorkspaceLocation[] {
 		const key = `${location.absolutePath}:${location.lineNumber}:${
 			location.columnNumber || 1

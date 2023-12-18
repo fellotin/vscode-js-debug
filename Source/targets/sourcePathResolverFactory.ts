@@ -48,7 +48,7 @@ export class NodeOnlyPathResolverFactory implements ISourcePathResolverFactory {
 					? this.linkedBp
 					: undefined,
 				NodeSourcePathResolver.getOptions(c),
-				logger,
+				logger
 			);
 		}
 
@@ -80,7 +80,7 @@ export class SourcePathResolverFactory implements ISourcePathResolverFactory {
 					? this.linkedBp
 					: undefined,
 				NodeSourcePathResolver.getOptions(c),
-				logger,
+				logger
 			);
 		} else {
 			const isBlazor = !!c.inspectUri;
@@ -100,7 +100,7 @@ export class SourcePathResolverFactory implements ISourcePathResolverFactory {
 					clientID: this.initializeParams.clientID,
 					remoteFilePrefix: c.__remoteFilePrefix,
 				},
-				logger,
+				logger
 			);
 		}
 	}

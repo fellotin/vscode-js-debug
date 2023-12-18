@@ -40,11 +40,11 @@ export class ServerSessionManager<T extends IDebugSessionLike> {
 	constructor(
 		globalContainer: Container,
 		sessionLauncher: ISessionLauncher<T>,
-		private readonly host = "127.0.0.1",
+		private readonly host = "127.0.0.1"
 	) {
 		this.sessionManager = new SessionManager(
 			globalContainer,
-			sessionLauncher,
+			sessionLauncher
 		);
 		this.portLeaseTracker = globalContainer.get(IPortLeaseTracker);
 		this.disposables.push(this.sessionManager);
@@ -73,16 +73,16 @@ export class ServerSessionManager<T extends IDebugSessionLike> {
 	 */
 	public createRootDebugServer(
 		debugSession: T,
-		debugServerPort?: number,
+		debugServerPort?: number
 	): Promise<IDebugServerCreateResult> {
 		return this.innerCreateServer(
 			debugSession,
 			(transport) =>
 				this.sessionManager.createNewRootSession(
 					debugSession,
-					transport,
+					transport
 				),
-			debugServerPort,
+			debugServerPort
 		);
 	}
 
@@ -95,12 +95,12 @@ export class ServerSessionManager<T extends IDebugSessionLike> {
 	public createRootDebugSessionFromStreams(
 		debugSession: T,
 		inputStream: Readable,
-		outputStream: Writable,
+		outputStream: Writable
 	): Session<T> {
 		const transport = new StreamDapTransport(inputStream, outputStream);
 		return this.sessionManager.createNewRootSession(
 			debugSession,
-			transport,
+			transport
 		);
 	}
 
@@ -111,7 +111,7 @@ export class ServerSessionManager<T extends IDebugSessionLike> {
 	 */
 	public createChildDebugServer(
 		debugSession: T,
-		debugServerPort?: number,
+		debugServerPort?: number
 	): Promise<IDebugServerCreateResult> {
 		return this.innerCreateServer(
 			debugSession,
@@ -120,16 +120,16 @@ export class ServerSessionManager<T extends IDebugSessionLike> {
 					debugSession,
 					(debugSession.configuration as IPseudoAttachConfiguration)
 						.__pendingTargetId,
-					transport,
+					transport
 				),
-			debugServerPort,
+			debugServerPort
 		);
 	}
 
 	private async innerCreateServer(
 		debugSession: T,
 		sessionCreationFunc: (transport: IDapTransport) => Session<T>,
-		port?: number,
+		port?: number
 	): Promise<IDebugServerCreateResult> {
 		const deferredConnection: IDeferred<DapConnection> = getDeferred();
 		const onSocket = (socket: net.Socket) => {
@@ -146,16 +146,16 @@ export class ServerSessionManager<T extends IDebugSessionLike> {
 							.createServer(onSocket)
 							.on("error", reject)
 							.on("close", () =>
-								fs.unlink(pipe).catch(() => undefined),
+								fs.unlink(pipe).catch(() => undefined)
 							)
 							.listen(pipe, () => resolve(s));
-				  })
+					})
 				: await acquireTrackedServer(
 						this.portLeaseTracker,
 						onSocket,
 						port,
-						this.host,
-				  );
+						this.host
+					);
 
 		this.servers.set(debugSession.id, server);
 		return { server, connectionPromise: deferredConnection.promise };

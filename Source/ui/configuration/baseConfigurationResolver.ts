@@ -39,8 +39,9 @@ export abstract class BaseConfigurationResolver<
 	}
 
 	constructor(
-    @inject(ExtensionContext) protected readonly extensionContext: vscode.ExtensionContext,
-  ) {}
+		@inject(ExtensionContext)
+		protected readonly extensionContext: vscode.ExtensionContext
+	) {}
 
 	/**
 	 * @inheritdoc
@@ -48,7 +49,7 @@ export abstract class BaseConfigurationResolver<
 	public async resolveDebugConfiguration(
 		folder: vscode.WorkspaceFolder | undefined,
 		config: vscode.DebugConfiguration,
-		token?: vscode.CancellationToken,
+		token?: vscode.CancellationToken
 	): Promise<T | null | undefined> {
 		if (config.type) {
 			config.type = this.getType(); // ensure type is set for aliased configurations
@@ -60,14 +61,14 @@ export abstract class BaseConfigurationResolver<
 
 		const castConfig = config as ResolvingConfiguration<T>;
 		castConfig.sourceMaps ??= sourceMapSteppingEnabled.read(
-			this.extensionContext.workspaceState,
+			this.extensionContext.workspaceState
 		);
 
 		try {
 			const resolved = await this.resolveDebugConfigurationAsync(
 				folder,
 				castConfig,
-				token,
+				token
 			);
 			return resolved && this.commonResolution(resolved, folder);
 		} catch (err) {
@@ -88,7 +89,7 @@ export abstract class BaseConfigurationResolver<
 
 		const allDefaults = readConfig(
 			vscode.workspace,
-			Configuration.DefaultRuntimeExecutables,
+			Configuration.DefaultRuntimeExecutables
 		);
 		const defaultValue = allDefaults ? allDefaults[cfg.type] : undefined;
 		if (defaultValue) {
@@ -102,7 +103,7 @@ export abstract class BaseConfigurationResolver<
 	protected abstract resolveDebugConfigurationAsync(
 		folder: vscode.WorkspaceFolder | undefined,
 		config: ResolvingConfiguration<T>,
-		token?: vscode.CancellationToken,
+		token?: vscode.CancellationToken
 	): Promise<T | null | undefined>;
 
 	/**
@@ -110,18 +111,18 @@ export abstract class BaseConfigurationResolver<
 	 */
 	protected commonResolution(
 		config: T,
-		folder: vscode.WorkspaceFolder | undefined,
+		folder: vscode.WorkspaceFolder | undefined
 	): T {
 		config.trace = fulfillLoggerOptions(
 			config.trace,
-			this.extensionContext.logPath,
+			this.extensionContext.logPath
 		);
 		config.__workspaceCachePath = this.extensionContext.storagePath;
 		config.__breakOnConditionalError =
 			readConfig(
 				vscode.workspace,
 				Configuration.BreakOnConditionalError,
-				folder,
+				folder
 			) ?? false;
 
 		if (folder) {
@@ -137,9 +138,9 @@ export abstract class BaseConfigurationResolver<
 					.map((f) =>
 						isAbsolute(f)
 							? vscode.workspace.getWorkspaceFolder(
-									vscode.Uri.file(f),
-							  )?.uri.fsPath
-							: f,
+									vscode.Uri.file(f)
+								)?.uri.fsPath
+							: f
 					)
 					.find(truthy) ||
 				vscode.workspace.workspaceFolders?.[0]?.uri.fsPath ||

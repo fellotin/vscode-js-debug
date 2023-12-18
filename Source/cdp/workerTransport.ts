@@ -21,7 +21,7 @@ export class WorkerTransport implements ITransport {
 
 	constructor(
 		private readonly sessionId: string,
-		private readonly sink: Cdp.Api,
+		private readonly sink: Cdp.Api
 	) {
 		this.disposables.push(
 			sink.NodeWorker.on("detachedFromWorker", (evt) => {
@@ -34,7 +34,7 @@ export class WorkerTransport implements ITransport {
 				if (evt.sessionId === sessionId) {
 					this.onMessageEmitter.fire([evt.message, new HrTime()]);
 				}
-			}),
+			})
 		);
 	}
 

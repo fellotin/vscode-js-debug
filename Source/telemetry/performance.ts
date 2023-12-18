@@ -11,7 +11,7 @@ export const logPerf = async <T>(
 	logger: ILogger,
 	name: string,
 	fn: () => T | Promise<T>,
-	metadata: object = {},
+	metadata: object = {}
 ): Promise<T> => {
 	const start = Date.now();
 	try {

@@ -31,7 +31,7 @@ export class DapTelemetryReporter implements ITelemetryReporter {
 
 	private readonly flushEmitter = new EventEmitter<void>();
 	private readonly loggers = createLoggers((params) =>
-		this.pushOutput(params),
+		this.pushOutput(params)
 	);
 	private readonly batchFlushTimeout: { [K in Batchable]?: NodeJS.Timeout } =
 		{};
@@ -68,7 +68,7 @@ export class DapTelemetryReporter implements ITelemetryReporter {
 		key: Batchable,
 		method: string,
 		duration: number,
-		error?: Error,
+		error?: Error
 	) {
 		this.batchers[key].add(method, duration, error);
 

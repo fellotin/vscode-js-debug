@@ -51,7 +51,7 @@ export class RawPipeTransport implements ITransport {
 	constructor(
 		private readonly logger: ILogger,
 		protected readonly pipeWrite: Duplex | Writable,
-		protected readonly pipeRead?: Readable,
+		protected readonly pipeRead?: Readable
 	) {
 		const read = pipeRead || pipeWrite;
 		this.streams = {
@@ -59,11 +59,11 @@ export class RawPipeTransport implements ITransport {
 				.on("error", (error) =>
 					this.logger.error(LogTag.Internal, "pipeRead error", {
 						error,
-					}),
+					})
 				)
 				.pipe(split("\0"))
 				.on("data", (json) =>
-					this.messageEmitter.fire([json, new HrTime()]),
+					this.messageEmitter.fire([json, new HrTime()])
 				)
 				.on("end", this.onceEnded),
 			write: pipeWrite

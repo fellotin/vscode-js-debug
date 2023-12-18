@@ -73,7 +73,7 @@ const onceBp = (maxDepth: number): IAsyncStackPolicy => {
 					if (evt.reason !== "instrumentation") {
 						tryEnable();
 					}
-				}),
+				})
 			);
 
 			return disposable;

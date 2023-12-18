@@ -26,6 +26,6 @@ export class ManagedState<T> {
 
 	constructor(
 		private readonly key: string,
-		private readonly defaultValue: T,
+		private readonly defaultValue: T
 	) {}
 }

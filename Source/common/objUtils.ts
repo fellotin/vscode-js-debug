@@ -3,7 +3,7 @@
  *--------------------------------------------------------*/
 
 export const truthy = <T>(
-	value: T | null | false | undefined | "" | void,
+	value: T | null | false | undefined | "" | void
 ): value is T => !!value;
 
 export const removeNulls = <V>(obj: { [key: string]: V | null }) =>
@@ -31,15 +31,15 @@ export const assertNever = (value: never, message: string): never => {
  */
 export function filterValues<V, F extends V>(
 	obj: Readonly<{ [key: string]: V }>,
-	predicate: (value: V, key: string) => value is F,
+	predicate: (value: V, key: string) => value is F
 ): { [key: string]: F };
 export function filterValues<V>(
 	obj: Readonly<{ [key: string]: V }>,
-	predicate: (value: V, key: string) => boolean,
+	predicate: (value: V, key: string) => boolean
 ): { [key: string]: V };
 export function filterValues<V>(
 	obj: Readonly<{ [key: string]: V }>,
-	predicate: (value: V, key: string) => boolean,
+	predicate: (value: V, key: string) => boolean
 ): { [key: string]: V } {
 	const next: { [key: string]: V } = {};
 	for (const key of Object.keys(obj)) {
@@ -57,7 +57,7 @@ export function filterValues<V>(
  */
 export function mapValues<T, R>(
 	obj: Readonly<{ [key: string]: T }>,
-	generator: (value: T, key: string) => R,
+	generator: (value: T, key: string) => R
 ): { [key: string]: R } {
 	const next: { [key: string]: R } = {};
 	for (const key of Object.keys(obj)) {
@@ -73,7 +73,7 @@ export function mapValues<T, R>(
  */
 export function mapKeys<T>(
 	obj: Readonly<{ [key: string]: T }>,
-	generator: (key: string, value: T) => string | void,
+	generator: (key: string, value: T) => string | void
 ): { [key: string]: T } {
 	const next: { [key: string]: T } = {};
 	for (const key of Object.keys(obj)) {
@@ -91,7 +91,7 @@ export function mapKeys<T>(
  */
 export function filterObject<T>(
 	obj: Readonly<{ [key: string]: T }>,
-	predicate: (key: string, value: T) => boolean,
+	predicate: (key: string, value: T) => boolean
 ): { [key: string]: T } {
 	const next: { [key: string]: T } = {};
 	for (const key of Object.keys(obj)) {
@@ -108,7 +108,7 @@ export function filterObject<T>(
  */
 export function sortKeys<T>(
 	obj: T,
-	sortFn?: (a: keyof T, b: keyof T) => number,
+	sortFn?: (a: keyof T, b: keyof T) => number
 ): T {
 	if (!obj || typeof obj !== "object" || obj instanceof Array) {
 		return obj;
@@ -178,7 +178,7 @@ export function caseInsensitiveMerge<V>(
  */
 export function getCaseInsensitiveProperty<R>(
 	obj: { [key: string]: R },
-	prop: string,
+	prop: string
 ): R | undefined {
 	if (obj.hasOwnProperty(prop)) {
 		return obj[prop]; // fast path
@@ -201,7 +201,7 @@ const unset = Symbol("unset");
  * the result.
  */
 export function once<T, Args extends unknown[]>(
-	fn: (...args: Args) => T,
+	fn: (...args: Args) => T
 ): ((...args: Args) => T) & { value?: T; forget(): void } {
 	let value: T | typeof unset = unset;
 	const onced = (...args: Args) => {
@@ -226,7 +226,7 @@ export function once<T, Args extends unknown[]>(
  * Memoizes the single-parameter function.
  */
 export function memoize<T, R>(
-	fn: (arg: T) => R,
+	fn: (arg: T) => R
 ): ((arg: T) => R) & { clear(): void } {
 	const cached = new Map<T, R>();
 	const wrapper = (arg: T): R => {
@@ -249,7 +249,7 @@ export function memoize<T, R>(
  * Memoizes the last call to a single-parameter function.
  */
 export function memoizeLast<T, R>(
-	fn: (arg: T) => R,
+	fn: (arg: T) => R
 ): ((arg: T) => R) & { clear(): void } {
 	let cached: { arg: T; val: R } | undefined;
 	const wrapper = (arg: T): R => {
@@ -270,7 +270,7 @@ export function memoizeLast<T, R>(
  * Memoizes the single-parameter function using weak references.
  */
 export function memoizeWeak<T extends object, R>(
-	fn: (arg: T) => R,
+	fn: (arg: T) => R
 ): (arg: T) => R {
 	const cached = new WeakMap<T, R>();
 	const wrapper = (arg: T): R => {
@@ -292,7 +292,7 @@ export function memoizeWeak<T extends object, R>(
  */
 export function debounce(
 	duration: number,
-	fn: () => void,
+	fn: () => void
 ): (() => void) & { clear: () => void } {
 	let timeout: NodeJS.Timer | void;
 	const debounced = () => {
@@ -322,7 +322,7 @@ export function debounce(
  */
 export function trailingEdgeThrottle(
 	duration: number,
-	fn: () => void,
+	fn: () => void
 ): (() => void) & { clear: () => void; queued: () => boolean } {
 	let timeout: NodeJS.Timer | void;
 	const debounced = () => {
@@ -354,7 +354,7 @@ export function trailingEdgeThrottle(
  */
 export async function bisectArrayAsync<T>(
 	items: ReadonlyArray<T>,
-	predicate: (item: T) => Promise<boolean> | boolean,
+	predicate: (item: T) => Promise<boolean> | boolean
 ): Promise<[T[], T[]]> {
 	const a: T[] = [];
 	const b: T[] = [];

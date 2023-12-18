@@ -19,14 +19,14 @@ export async function getWSEndpoint(
 	browserURL: string,
 	cancellationToken: CancellationToken,
 	logger: ILogger,
-	isNode: boolean,
+	isNode: boolean
 ): Promise<string> {
 	const provider = new BasicResourceProvider(fs);
 	const [jsonVersion, jsonList] = await Promise.all([
 		fetchJsonWithLocalhostFallback<{ webSocketDebuggerUrl?: string }>(
 			provider,
 			new URL("/json/version", browserURL),
-			cancellationToken,
+			cancellationToken
 		),
 		// Chrome publishes its top-level debugg on /json/version, while Node does not.
 		// Request both and return whichever one got us a string. ONLY try this on
@@ -34,7 +34,11 @@ export async function getWSEndpoint(
 		isNode
 			? fetchJsonWithLocalhostFallback<
 					{ webSocketDebuggerUrl: string }[]
-			  >(provider, new URL("/json/list", browserURL), cancellationToken)
+				>(
+					provider,
+					new URL("/json/list", browserURL),
+					cancellationToken
+				)
 			: Promise.resolve(undefined),
 	]);
 
@@ -42,12 +46,12 @@ export async function getWSEndpoint(
 		logger.verbose(
 			LogTag.RuntimeLaunch,
 			"Error looking up /json/version",
-			jsonVersion,
+			jsonVersion
 		);
 	} else if (jsonVersion.body.webSocketDebuggerUrl) {
 		const fixed = fixRemoteUrl(
 			jsonVersion.url,
-			jsonVersion.body.webSocketDebuggerUrl,
+			jsonVersion.body.webSocketDebuggerUrl
 		);
 		logger.verbose(
 			LogTag.RuntimeLaunch,
@@ -55,7 +59,7 @@ export async function getWSEndpoint(
 			{
 				url: jsonVersion.body.webSocketDebuggerUrl,
 				fixed,
-			},
+			}
 		);
 		return fixed;
 	}
@@ -66,12 +70,12 @@ export async function getWSEndpoint(
 		logger.verbose(
 			LogTag.RuntimeLaunch,
 			"Error looking up /json/list",
-			jsonList,
+			jsonList
 		);
 	} else {
 		const fixed = fixRemoteUrl(
 			jsonList.url,
-			jsonList.body[0].webSocketDebuggerUrl,
+			jsonList.body[0].webSocketDebuggerUrl
 		);
 		logger.verbose(
 			LogTag.RuntimeLaunch,
@@ -79,7 +83,7 @@ export async function getWSEndpoint(
 			{
 				url: jsonList.body[0].webSocketDebuggerUrl,
 				fixed,
-			},
+			}
 		);
 		return fixed;
 	}
@@ -96,7 +100,7 @@ export async function getWSEndpoint(
 async function fetchJsonWithLocalhostFallback<T>(
 	provider: BasicResourceProvider,
 	url: URL,
-	cancellationToken: CancellationToken,
+	cancellationToken: CancellationToken
 ): Promise<Response<T>> {
 	if (url.hostname !== "localhost") {
 		return provider.fetchJson<T>(url.toString(), cancellationToken, {
@@ -116,7 +120,7 @@ async function fetchJsonWithLocalhostFallback<T>(
 			[urlA, urlB].map(async (url) => {
 				lastResponse = await provider.fetchJson<T>(url, cts.token);
 				return lastResponse.ok && lastResponse;
-			}),
+			})
 		);
 
 		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -131,7 +135,7 @@ const makeRetryGetWSEndpoint =
 	async (
 		browserURL: string,
 		cancellationToken: CancellationToken,
-		logger: ILogger,
+		logger: ILogger
 	): Promise<string> => {
 		while (true) {
 			try {
@@ -139,12 +143,12 @@ const makeRetryGetWSEndpoint =
 					browserURL,
 					cancellationToken,
 					logger,
-					isNode,
+					isNode
 				);
 			} catch (e) {
 				if (cancellationToken.isCancellationRequested) {
 					throw new Error(
-						`Could not connect to debug target at ${browserURL}: ${e.message}`,
+						`Could not connect to debug target at ${browserURL}: ${e.message}`
 					);
 				}
 

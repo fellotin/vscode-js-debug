@@ -41,7 +41,7 @@ export class DurationTerminationConditionFactory
 				input.validationMessage = l10n.t("Please enter a number");
 			} else if (Number(value) < 1) {
 				input.validationMessage = l10n.t(
-					"Please enter a number greater than 1",
+					"Please enter a number greater than 1"
 				);
 			} else {
 				input.validationMessage = undefined;
@@ -58,7 +58,7 @@ export class DurationTerminationConditionFactory
 
 				this.lastDuration = Number(input.value);
 				resolve(
-					new DurationTerminationCondition(this.lastDuration * 1000),
+					new DurationTerminationCondition(this.lastDuration * 1000)
 				);
 			});
 
@@ -82,7 +82,7 @@ class DurationTerminationCondition implements ITerminationCondition {
 		const updateTimer = () =>
 			session.setStatus(
 				Category.TerminationTimer,
-				`${Math.round((deadline - Date.now()) / 1000)}s`,
+				`${Math.round((deadline - Date.now()) / 1000)}s`
 			);
 		const stopTimeout = setTimeout(() => session.stop(), this.duration);
 		const updateInterval = setInterval(updateTimer, 1000);

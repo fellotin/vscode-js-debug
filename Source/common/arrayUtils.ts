@@ -13,7 +13,7 @@ export function asArray<T>(thing: T | readonly T[]): readonly T[] {
 export function binarySearch<T>(
 	array: ArrayLike<T>,
 	key: T,
-	comparator: (a: T, b: T) => number,
+	comparator: (a: T, b: T) => number
 ): number {
 	let low = 0;
 	let high = array.length - 1;
@@ -38,7 +38,7 @@ export function binarySearch<T>(
  */
 export function groupBy<T, K>(
 	array: T[],
-	accessor: (item: T) => K,
+	accessor: (item: T) => K
 ): Map<K, T[]> {
 	const groups: Map<K, T[]> = new Map();
 

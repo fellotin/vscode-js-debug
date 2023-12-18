@@ -34,6 +34,6 @@ export const createMutableLaunchConfig = (source: AnyLaunchConfiguration) => {
 						return source[key as keyof AnyLaunchConfiguration];
 				}
 			},
-		},
+		}
 	);
 };

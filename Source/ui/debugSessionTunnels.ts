@@ -16,8 +16,8 @@ export class DebugSessionTunnels implements IDisposable {
 	constructor() {
 		this.disposable.push(
 			vscode.debug.onDidTerminateDebugSession((session) =>
-				this.destroySession(session.id),
-			),
+				this.destroySession(session.id)
+			)
 		);
 	}
 
@@ -49,7 +49,7 @@ export class DebugSessionTunnels implements IDisposable {
 			label: string;
 			localPort?: number;
 			remotePort: number;
-		},
+		}
 	) {
 		let tunnel = this.tunnels.get(sessionId);
 		if (!tunnel) {

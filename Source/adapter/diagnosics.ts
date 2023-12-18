@@ -89,7 +89,7 @@ export class Diagnostics {
 	 * Generates an HTML diagnostic report.
 	 */
 	public async generateHtml(
-		file = join(tmpdir(), "js-debug-diagnostics.html"),
+		file = join(tmpdir(), "js-debug-diagnostics.html")
 	) {
 		await this.fs.writeFile(
 			file,
@@ -102,10 +102,12 @@ export class Diagnostics {
         <style>${await this.fs.readFile(toolStylePath, "utf-8")}<</style>
       </head>
       <body>
-        <script>window.DUMP=${JSON.stringify(await this.generateObject())}</script>
+        <script>window.DUMP=${JSON.stringify(
+			await this.generateObject()
+		)}</script>
         <script>${await this.fs.readFile(toolPath, "utf-8")}</script>
       </body>
-      </html>`,
+      </html>`
 		);
 
 		return file;
@@ -128,10 +130,10 @@ export class Diagnostics {
 								? {
 										...bp,
 										uiLocations: bp.uiLocations.map((l) =>
-											this.dumpUiLocation(l),
+											this.dumpUiLocation(l)
 										),
-								  }
-								: { ...bp, done: undefined },
+									}
+								: { ...bp, done: undefined }
 						),
 					});
 				}
@@ -161,8 +163,8 @@ export class Diagnostics {
 										[k.sourceReference, v] as [
 											number,
 											string,
-										],
-							  )
+										]
+								)
 							: undefined,
 					sourceMap: isSourceWithSourceMap(source)
 						? {
@@ -170,13 +172,13 @@ export class Diagnostics {
 								metadata: source.sourceMap.metadata,
 								sources: mapValues(
 									Object.fromEntries(
-										source.sourceMap.sourceByUrl,
+										source.sourceMap.sourceByUrl
 									),
-									(v) => v.sourceReference,
+									(v) => v.sourceReference
 								),
-						  }
+							}
 						: undefined,
-				}))(),
+				}))()
 			);
 		}
 

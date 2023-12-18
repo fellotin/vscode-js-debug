@@ -31,7 +31,7 @@ describe("SourceMapOverrides", () => {
 		it("handles non-capturing groups", () => {
 			const r = new SourceMapOverrides(
 				{ "/a/?:*/*": "/b/*" },
-				Logger.null,
+				Logger.null
 			);
 			expect(r.apply("/a/foo/bar")).to.equal("/b/bar");
 		});
@@ -39,7 +39,7 @@ describe("SourceMapOverrides", () => {
 		it("applies longer replacements first", () => {
 			const r = new SourceMapOverrides(
 				{ "/a/*": "/c", "/a/foo": "/b" },
-				Logger.null,
+				Logger.null
 			);
 			expect(r.apply("/a/foo")).to.equal("/b");
 		});
@@ -47,7 +47,7 @@ describe("SourceMapOverrides", () => {
 		it("preserves $ in right hand side", () => {
 			const r = new SourceMapOverrides(
 				{ "/a/*": "/c/$/$1/$$/*" },
-				Logger.null,
+				Logger.null
 			);
 			expect(r.apply("/a/foo")).to.equal("/c/$/$1/$$/foo");
 		});
@@ -55,7 +55,7 @@ describe("SourceMapOverrides", () => {
 		it("allows raw regex", () => {
 			const r = new SourceMapOverrides(
 				{ "/a/([^/]+)/(.+)": "/c/dir-$1/$2" },
-				Logger.null,
+				Logger.null
 			);
 			expect(r.apply("/a/b/foo")).to.equal("/c/dir-b/foo");
 		});
@@ -69,11 +69,11 @@ describe("SourceMapOverrides", () => {
 					"/*": "*",
 					"/./~/*": "${webRoot}/node_modules/*",
 				},
-				Logger.null,
+				Logger.null
 			);
 
 			expect(r.apply("webpack:///src/app/app.component.ts")).to.equal(
-				path.join("${webRoot}/src/app/app.component.ts"),
+				path.join("${webRoot}/src/app/app.component.ts")
 			);
 		});
 
@@ -86,11 +86,11 @@ describe("SourceMapOverrides", () => {
 					"packages/meteor:/💻app/*":
 						"${workspaceFolder}/.meteor/packages/*",
 				},
-				Logger.null,
+				Logger.null
 			);
 
 			expect(
-				r.apply("meteor://💻app/packages/base64/base64.js"),
+				r.apply("meteor://💻app/packages/base64/base64.js")
 			).to.equal(path.join("${webRoot}/packages/base64/base64.js"));
 		});
 
@@ -100,27 +100,27 @@ describe("SourceMapOverrides", () => {
 					"H:\\cv-measure\\measure-tools/test-app/measure-tools/src/*":
 						"H:\\cv-measure\\measure-tools/measure-tools/src/*",
 				},
-				Logger.null,
+				Logger.null
 			);
 
 			expect(
 				r.apply(
-					"H:/cv-measure/measure-tools/test-app/measure-tools/src/api/Measurement.ts",
-				),
+					"H:/cv-measure/measure-tools/test-app/measure-tools/src/api/Measurement.ts"
+				)
 			).to.equal(
 				path.win32.join(
-					"H:/cv-measure/measure-tools/measure-tools/src/api/Measurement.ts",
-				),
+					"H:/cv-measure/measure-tools/measure-tools/src/api/Measurement.ts"
+				)
 			);
 		});
 
 		it("handles single file overrides", () => {
 			const r = new SourceMapOverrides(
 				{ "/foo/bar.js": "${webRoot}/baz.js" },
-				Logger.null,
+				Logger.null
 			);
 			expect(r.apply("/foo/bar.js")).to.equal(
-				path.join("${webRoot}/baz.js"),
+				path.join("${webRoot}/baz.js")
 			);
 		});
 	});
@@ -131,40 +131,40 @@ describe("SourceMapOverrides", () => {
 			() =>
 				(r = new SourceMapOverrides(
 					baseDefaults.sourceMapPathOverrides,
-					Logger.null,
-				)),
+					Logger.null
+				))
 		);
 
 		it("does not touch already valid paths", () => {
 			expect(r.apply("https://contoso.com/foo.ts")).to.equal(
-				"https://contoso.com/foo.ts",
+				"https://contoso.com/foo.ts"
 			);
 			expect(r.apply("file:///dev/foo.ts")).to.equal(
-				"file:///dev/foo.ts",
+				"file:///dev/foo.ts"
 			);
 		});
 
 		it("resolves webpack paths", () => {
 			expect(r.apply("webpack:///src/index.ts")).to.equal(
-				path.join("${workspaceFolder}/src/index.ts"),
+				path.join("${workspaceFolder}/src/index.ts")
 			);
 		});
 
 		it("replaces webpack namespaces", () => {
 			expect(r.apply("webpack://lib/src/index.ts")).to.equal(
-				path.join("${workspaceFolder}/src/index.ts"),
+				path.join("${workspaceFolder}/src/index.ts")
 			);
 		});
 
 		it("maps an absolute path on windows", () => {
 			expect(r.apply("webpack:///c:/users/connor/hello.ts")).to.equal(
-				"c:\\users\\connor\\hello.ts",
+				"c:\\users\\connor\\hello.ts"
 			);
 		});
 
 		it("maps an absolute path on unix", () => {
 			expect(r.apply("webpack:////users/connor/hello.ts")).to.equal(
-				"/users/connor/hello.ts",
+				"/users/connor/hello.ts"
 			);
 		});
 	});

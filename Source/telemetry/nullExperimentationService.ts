@@ -15,7 +15,7 @@ export class NullExperimentationService implements IExperimentationService {
 	 */
 	getTreatment<K extends keyof IExperiments>(
 		_name: K,
-		defaultValue: IExperiments[K],
+		defaultValue: IExperiments[K]
 	): Promise<IExperiments[K]> {
 		return Promise.resolve(defaultValue);
 	}

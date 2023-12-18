@@ -29,11 +29,11 @@ export const enum DefaultJsDebugPorts {
  */
 export function findOpenPort(
 	options?: Partial<IFindOpenPortOptions<number>>,
-	cancellationToken?: CancellationToken,
+	cancellationToken?: CancellationToken
 ): Promise<number>;
 export function findOpenPort<T>(
 	options: Partial<IFindOpenPortOptions<T>>,
-	cancellationToken?: CancellationToken,
+	cancellationToken?: CancellationToken
 ): Promise<T>;
 export async function findOpenPort<T>(
 	{
@@ -42,7 +42,7 @@ export async function findOpenPort<T>(
 		attempts = 1000,
 		tester = acquirePortNumber as PortTesterFn<T>,
 	}: Partial<IFindOpenPortOptions<T>> = {},
-	cancellationToken: CancellationToken = NeverCancelled,
+	cancellationToken: CancellationToken = NeverCancelled
 ) {
 	let port = randomInRange(min, max);
 	for (let i = Math.min(attempts, max - min); ; i--) {
@@ -76,7 +76,7 @@ export async function isPortOpen(port: number, ct?: CancellationToken) {
  */
 export function acquirePortNumber(
 	port: number,
-	ct: CancellationToken = NeverCancelled,
+	ct: CancellationToken = NeverCancelled
 ) {
 	let disposable: IDisposable | undefined;
 	return new Promise((resolve, reject) => {
@@ -102,7 +102,7 @@ export function acquirePortNumber(
 export const makeAcquireTcpServer =
 	(
 		onSocket: (socket: net.Socket) => void,
-		host?: string,
+		host?: string
 	): PortTesterFn<net.Server> =>
 	(port, ct) => {
 		const server = net.createServer(onSocket);
@@ -123,7 +123,7 @@ export const makeAcquireWebSocketServer =
 				...options,
 				port,
 			}),
-			ct,
+			ct
 		);
 
 interface IServerLike {
@@ -134,7 +134,7 @@ interface IServerLike {
 
 export const waitForServerToListen = <T extends IServerLike>(
 	server: T,
-	ct: CancellationToken,
+	ct: CancellationToken
 ): Promise<T> => {
 	let disposable: IDisposable | undefined;
 	return new Promise<T>((resolve, reject) => {

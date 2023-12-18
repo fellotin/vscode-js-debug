@@ -10,7 +10,7 @@ import { Headers, OptionsOfTextResponseBody } from "got";
 export const addHeader: (
 	headers: Headers,
 	key: string,
-	value: string,
+	value: string
 ) => Headers = (options, key, value) => {
 	key = key.toLowerCase();
 
@@ -27,14 +27,14 @@ export const addHeader: (
 
 export const mergeOptions = (
 	into: OptionsOfTextResponseBody,
-	from: Partial<OptionsOfTextResponseBody>,
+	from: Partial<OptionsOfTextResponseBody>
 ) => {
 	const cast = into as Record<string, unknown>;
 	for (const [key, value] of Object.entries(from)) {
 		if (typeof value === "object" && !!value) {
 			cast[key] = Object.assign(
 				(cast[key] || {}) as Record<string, unknown>,
-				value,
+				value
 			);
 		} else {
 			cast[key] = value;

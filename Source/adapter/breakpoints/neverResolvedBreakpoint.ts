@@ -22,7 +22,7 @@ export class NeverResolvedBreakpoint extends UserDefinedBreakpoint {
 		manager: BreakpointManager,
 		dapId: number,
 		source: Dap.Source,
-		dapParams: Dap.SourceBreakpoint,
+		dapParams: Dap.SourceBreakpoint
 	) {
 		super(manager, dapId, source, dapParams, new HitCondition(() => false));
 	}

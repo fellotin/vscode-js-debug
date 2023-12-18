@@ -33,7 +33,7 @@ export class DelegateLauncherFactory {
 	public addDelegate(
 		target: ITarget,
 		dap: IPendingDapApi,
-		parent?: ITarget,
+		parent?: ITarget
 	): number {
 		const ref = {
 			id: idCounter++,

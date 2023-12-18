@@ -18,21 +18,21 @@ export class ExpressionCondition implements IBreakpointCondition {
 		params: Dap.SourceBreakpoint,
 		breakCondition: string,
 		breakOnError: boolean,
-		evaluator: IEvaluator,
+		evaluator: IEvaluator
 	) {
 		breakCondition = wrapBreakCondition(breakCondition, breakOnError);
 
 		const err = breakCondition && getSyntaxErrorIn(breakCondition);
 		if (err) {
 			throw new ProtocolError(
-				invalidBreakPointCondition(params, err.message),
+				invalidBreakPointCondition(params, err.message)
 			);
 		}
 
 		const { canEvaluateDirectly, invoke } =
 			evaluator.prepare(breakCondition);
 		return new ExpressionCondition(
-			canEvaluateDirectly ? breakCondition : invoke,
+			canEvaluateDirectly ? breakCondition : invoke
 		);
 	}
 

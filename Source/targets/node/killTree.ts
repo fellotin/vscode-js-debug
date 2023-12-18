@@ -12,7 +12,7 @@ import { KillBehavior } from "../../configuration";
 export function killTree(
 	processId: number,
 	logger: ILogger,
-	behavior = KillBehavior.Forceful,
+	behavior = KillBehavior.Forceful
 ): boolean {
 	if (behavior === KillBehavior.None) {
 		return true;
@@ -29,14 +29,14 @@ export function killTree(
 				`${TASK_KILL} ${
 					behavior === KillBehavior.Forceful ? "/F" : ""
 				} /T /PID ${processId}`,
-				{ stdio: "pipe" },
+				{ stdio: "pipe" }
 			);
 			return true;
 		} catch (err) {
 			logger.error(
 				LogTag.RuntimeException,
 				"Error running taskkill.exe",
-				err,
+				err
 			);
 			return false;
 		}
@@ -54,7 +54,7 @@ export function killTree(
 				logger.error(
 					LogTag.RuntimeException,
 					"Error running terminateProcess",
-					r,
+					r
 				);
 				return false;
 			}
@@ -64,7 +64,7 @@ export function killTree(
 			logger.error(
 				LogTag.RuntimeException,
 				"Error running terminateProcess",
-				err,
+				err
 			);
 			return false;
 		}

@@ -18,7 +18,7 @@ export interface IExperimentationService {
 	 */
 	getTreatment<K extends keyof IExperiments>(
 		name: K,
-		defaultValue: IExperiments[K],
+		defaultValue: IExperiments[K]
 	): Promise<IExperiments[K]>;
 }
 

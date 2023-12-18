@@ -34,7 +34,7 @@ describe("SourceMap", () => {
 			},
 			"",
 			["one.js"],
-			false,
+			false
 		);
 
 		expect(map.sourceContentFor("one.js")).to.eq(sampleSource);
@@ -49,7 +49,7 @@ describe("SourceMap", () => {
 			},
 			"",
 			["one.js"],
-			false,
+			false
 		);
 
 		expect(map.sourceContentFor("one.js")).to.eq(sampleSource);

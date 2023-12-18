@@ -47,7 +47,7 @@ export namespace CacheTree {
 	 */
 	export function getOrMakeChild<T>(
 		node: CacheTree<T>,
-		name: string,
+		name: string
 	): CacheTree<T> {
 		const child = (node.children[name] ??= { children: {} });
 		child[touched] = 1;
@@ -89,7 +89,7 @@ export namespace CacheTree {
 	function _getDir<T>(
 		node: CacheTree<T>,
 		parts: string[],
-		i: number,
+		i: number
 	): CacheTree<T> {
 		const child = getOrMakeChild(node, parts[i]);
 		if (i === parts.length - 1) {

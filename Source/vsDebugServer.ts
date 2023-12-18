@@ -34,7 +34,7 @@ class VSDebugSession implements IDebugSessionLike {
 		public id: string,
 		name: string,
 		private readonly childConnection: Promise<DapConnection>,
-		public readonly configuration: DebugConfiguration,
+		public readonly configuration: DebugConfiguration
 	) {
 		this._name = name;
 	}
@@ -57,7 +57,7 @@ class VsDebugServer implements ISessionLauncher<VSDebugSession> {
 	constructor(
 		host?: string,
 		inputStream?: Readable,
-		outputStream?: Writable,
+		outputStream?: Writable
 	) {
 		const services = createGlobalContainer({
 			storagePath,
@@ -70,14 +70,14 @@ class VsDebugServer implements ISessionLauncher<VSDebugSession> {
 			"root",
 			l10n.t("JavaScript debug adapter"),
 			deferredConnection.promise,
-			{ type: DebugType.Chrome, name: "root", request: "launch" },
+			{ type: DebugType.Chrome, name: "root", request: "launch" }
 		);
 		if (inputStream && outputStream) {
 			this.launchRootFromExisting(
 				deferredConnection,
 				rootSession,
 				inputStream,
-				outputStream,
+				outputStream
 			);
 		} else {
 			this.launchRoot(deferredConnection, rootSession);
@@ -88,34 +88,34 @@ class VsDebugServer implements ISessionLauncher<VSDebugSession> {
 		deferredConnection: IDeferred<DapConnection>,
 		session: VSDebugSession,
 		inputStream: Readable,
-		outputStream: Writable,
+		outputStream: Writable
 	) {
 		const newSession = this.sessionServer.createRootDebugSessionFromStreams(
 			session,
 			inputStream,
-			outputStream,
+			outputStream
 		);
 		deferredConnection.resolve(newSession.connection);
 	}
 
 	async launchRoot(
 		deferredConnection: IDeferred<DapConnection>,
-		session: VSDebugSession,
+		session: VSDebugSession
 	) {
 		const result = await this.sessionServer.createRootDebugServer(
 			session,
-			debugServerPort ?? 0,
+			debugServerPort ?? 0
 		);
 		result.connectionPromise.then((x) => deferredConnection.resolve(x));
 		console.log(
-			(result.server.address() as net.AddressInfo).port.toString(),
+			(result.server.address() as net.AddressInfo).port.toString()
 		);
 	}
 
 	public launch(
 		parentSession: Session<VSDebugSession>,
 		target: ITarget,
-		config: IPseudoAttachConfiguration,
+		config: IPseudoAttachConfiguration
 	): void {
 		const childAttachConfig = {
 			...config,
@@ -127,7 +127,7 @@ class VsDebugServer implements ISessionLauncher<VSDebugSession> {
 			target.id(),
 			target.name(),
 			deferredConnection.promise,
-			childAttachConfig,
+			childAttachConfig
 		);
 
 		this.sessionServer
@@ -172,7 +172,7 @@ if (debugServerPort !== undefined) {
 		console.log(
 			`Listening at ${(server.address() as net.AddressInfo).address}:${
 				(server.address() as net.AddressInfo).port
-			}`,
+			}`
 		);
 	});
 } else {

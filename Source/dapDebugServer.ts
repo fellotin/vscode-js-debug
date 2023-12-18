@@ -70,7 +70,7 @@ function collectInitialize(dap: Dap.Api) {
 			verified: false,
 			message: l10n.t(
 				"breakpoint.provisionalBreakpoint",
-				`Unbound breakpoint`,
+				`Unbound breakpoint`
 			),
 		})); // TODO: Put a useful message here
 		return { breakpoints };
@@ -108,7 +108,7 @@ function collectInitialize(dap: Dap.Api) {
 
 	return new Promise<IInitializationCollection>((resolve) => {
 		const handle = async (
-			launchParams: Dap.LaunchParams | Dap.AttachParams,
+			launchParams: Dap.LaunchParams | Dap.AttachParams
 		): Promise<Dap.LaunchResult | Dap.AttachResult> => {
 			// By spec, clients should not call launch until after ConfigurationDone...
 			// but VS Code doesn't actually do this, and breakpoints aren't sent
@@ -146,7 +146,7 @@ class DapSessionManager implements IBinderDelegate {
 
 	constructor(
 		private readonly dapRoot: Dap.Api,
-		public readonly services: Container,
+		public readonly services: Container
 	) {}
 
 	/** @inheritdoc */
@@ -163,7 +163,7 @@ class DapSessionManager implements IBinderDelegate {
 			const parentCnx = this.sessions.get(parent.id())?.settledValue;
 			if (!parentCnx) {
 				throw new Error(
-					"Expected parent session to have a settled value",
+					"Expected parent session to have a settled value"
 				);
 			}
 			dap = parentCnx.connection.dap();
@@ -191,18 +191,18 @@ class DapSessionManager implements IBinderDelegate {
 	/** @inheritdoc */
 	public async initAdapter(
 		adapter: DebugAdapter,
-		target: ITarget,
+		target: ITarget
 	): Promise<boolean> {
 		const init = this.sessions.get(target.id())?.settledValue;
 		if (!init) {
 			throw new Error(
-				`Expected to find pending init for target ${target.id()}`,
+				`Expected to find pending init for target ${target.id()}`
 			);
 		}
 
 		if (init.setExceptionBreakpointsParams)
 			await adapter.setExceptionBreakpoints(
-				init.setExceptionBreakpointsParams,
+				init.setExceptionBreakpointsParams
 			);
 		for (const { params, ids } of init.setBreakpointsParams)
 			await adapter.breakpointManager.setBreakpoints(params, ids);
@@ -259,7 +259,7 @@ function startDebugServer(options: net.ListenOptions) {
 				const transport = new StreamDapTransport(
 					socket,
 					socket,
-					logger,
+					logger
 				);
 				const connection = new DapConnection(transport, logger);
 				const dap = connection.dap();
@@ -272,7 +272,7 @@ function startDebugServer(options: net.ListenOptions) {
 						[...managers].find((m) => m.hasPendingTarget(ptId));
 					if (!manager) {
 						throw new Error(
-							`Cannot find pending target for ${ptId}`,
+							`Cannot find pending target for ${ptId}`
 						);
 					}
 					logger.connectTo(manager.services.get(ILogger));
@@ -290,14 +290,14 @@ function startDebugServer(options: net.ListenOptions) {
 						manager,
 						connection,
 						sessionServices,
-						new TargetOrigin("targetOrigin"),
+						new TargetOrigin("targetOrigin")
 					);
 					transport.closed(() => {
 						binder.dispose();
 						managers.delete(manager);
 					});
 					initialized.deferred.resolve(
-						await binder.boot(initialized.launchParams, dap),
+						await binder.boot(initialized.launchParams, dap)
 					);
 				}
 			} catch (e) {
@@ -317,7 +317,7 @@ function startDebugServer(options: net.ListenOptions) {
 					typeof addr === "string"
 						? addr
 						: `${addr.address}:${addr.port}`
-				}`,
+				}`
 			);
 		});
 }
@@ -327,8 +327,8 @@ const [, argv1, portOrSocket = "8123", host = "localhost"] = process.argv;
 if (process.argv.includes("--help")) {
 	console.log(
 		`Usage: ${path.basename(
-			argv1,
-		)} [port|socket path=8123] [host=localhost]`,
+			argv1
+		)} [port|socket path=8123] [host=localhost]`
 	);
 } else if (!isNaN(Number(portOrSocket))) {
 	startDebugServer({ port: Number(portOrSocket), host });

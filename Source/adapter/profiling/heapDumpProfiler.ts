@@ -19,7 +19,7 @@ export class HeapDumpProfiler implements IProfiler<void> {
 	public static readonly extension = ".heapsnapshot";
 	public static readonly label = l10n.t("Heap Snapshot");
 	public static readonly description = l10n.t(
-		"Generates a .heapsnapshot file you can open in the Chrome devtools",
+		"Generates a .heapsnapshot file you can open in the Chrome devtools"
 	);
 	public static readonly instant = true;
 
@@ -33,17 +33,18 @@ export class HeapDumpProfiler implements IProfiler<void> {
 	};
 
 	constructor(@inject(ICdpApi) private readonly cdp: Cdp.Api) {
-    this.cdp.HeapProfiler.on('addHeapSnapshotChunk', ({ chunk }) =>
-      this.currentWriter?.stream.write(chunk),
-    );
-  }
+		this.cdp.HeapProfiler.on(
+			"addHeapSnapshotChunk",
+			({ chunk }) => this.currentWriter?.stream.write(chunk)
+		);
+	}
 
 	/**
 	 * @inheritdoc
 	 */
 	public async start(
 		_options: StartProfileParams<void>,
-		file: string,
+		file: string
 	): Promise<IProfile> {
 		return {
 			onStop: new EventEmitter<void>().event,

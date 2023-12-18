@@ -27,7 +27,7 @@ export class TerminalDebugConfigurationResolver
 {
 	protected async resolveDebugConfigurationAsync(
 		folder: vscode.WorkspaceFolder | undefined,
-		config: ResolvedConfiguration<ITerminalLaunchConfiguration>,
+		config: ResolvedConfiguration<ITerminalLaunchConfiguration>
 	): Promise<ITerminalLaunchConfiguration | undefined> {
 		if (!config.cwd) {
 			config.cwd = guessWorkingDirectory(undefined, folder);
@@ -38,7 +38,7 @@ export class TerminalDebugConfigurationResolver
 				vscode.commands,
 				Commands.CreateDebuggerTerminal,
 				undefined,
-				folder,
+				folder
 			);
 			return undefined;
 		}

@@ -22,7 +22,7 @@ export abstract class TextualMessage<
 	protected readonly stackTrace = once((thread: Thread) =>
 		this.event.stackTrace
 			? StackTrace.fromRuntime(thread, this.event.stackTrace)
-			: undefined,
+			: undefined
 	);
 
 	constructor(protected readonly event: T) {}
@@ -31,7 +31,7 @@ export abstract class TextualMessage<
 	 * Returns the DAP representation of the console message.
 	 */
 	public abstract toDap(
-		thread: Thread,
+		thread: Thread
 	): Promise<Dap.OutputEventParams> | Dap.OutputEventParams;
 
 	/**
@@ -88,15 +88,15 @@ export abstract class TextualMessage<
 	protected formatDefaultString(
 		thread: Thread,
 		args: ReadonlyArray<Cdp.Runtime.RemoteObject>,
-		includeStackInVariables = false,
+		includeStackInVariables = false
 	) {
 		const useMessageFormat = args.length > 1 && args[0].type === "string";
 		const formatResult = useMessageFormat
 			? formatMessage(
 					args[0].value,
 					args.slice(1) as AnyObject[],
-					messageFormatters,
-			  )
+					messageFormatters
+				)
 			: formatMessage("", args as AnyObject[], messageFormatters);
 
 		const output = formatResult.result + "\n";
@@ -108,7 +108,7 @@ export abstract class TextualMessage<
 				thread,
 				output,
 				args,
-				includeStackInVariables,
+				includeStackInVariables
 			);
 		}
 	}
@@ -117,7 +117,7 @@ export abstract class TextualMessage<
 		thread: Thread,
 		output: string,
 		args: ReadonlyArray<Cdp.Runtime.RemoteObject>,
-		includeStackInVariables: boolean,
+		includeStackInVariables: boolean
 	) {
 		if (
 			args.some((a) => a.subtype === "error") ||
@@ -131,7 +131,7 @@ export abstract class TextualMessage<
 		const outputVar = thread.replVariables.createVariableForOutput(
 			output,
 			args,
-			includeStackInVariables ? this.stackTrace(thread) : undefined,
+			includeStackInVariables ? this.stackTrace(thread) : undefined
 		);
 
 		return { output, variablesReference: outputVar.id };
@@ -152,7 +152,7 @@ export class AssertMessage extends TextualMessage<Cdp.Runtime.ConsoleAPICalledEv
 			...(await this.formatDefaultString(
 				thread,
 				this.event.args,
-				/* includeStack= */ true,
+				/* includeStack= */ true
 			)),
 			...(await this.getUiLocation(thread)),
 		};
@@ -163,7 +163,7 @@ class DefaultMessage extends TextualMessage<Cdp.Runtime.ConsoleAPICalledEvent> {
 	constructor(
 		event: Cdp.Runtime.ConsoleAPICalledEvent,
 		private readonly includeStack: boolean,
-		private readonly category: Required<Dap.OutputEventParams["category"]>,
+		private readonly category: Required<Dap.OutputEventParams["category"]>
 	) {
 		super(event);
 	}
@@ -176,7 +176,7 @@ class DefaultMessage extends TextualMessage<Cdp.Runtime.ConsoleAPICalledEvent> {
 			...(await this.formatDefaultString(
 				thread,
 				this.event.args,
-				this.includeStack,
+				this.includeStack
 			)),
 			...(await this.getUiLocation(thread)),
 		};
@@ -242,7 +242,7 @@ export class TableMessage extends DefaultMessage {
 						"",
 						this.event.args,
 						undefined,
-						this.event.type,
+						this.event.type
 					).id,
 				...(await this.getUiLocation(thread)),
 			};

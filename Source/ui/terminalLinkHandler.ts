@@ -40,15 +40,20 @@ export class TerminalLinkHandler
 	private notifiedCantOpenOnWeb = false;
 	private baseConfiguration = this.readConfig();
 
-	constructor(@inject(IDefaultBrowserProvider) private defaultBrowser: IDefaultBrowserProvider) {
-    this.disposable.push(
-      vscode.workspace.onDidChangeConfiguration(evt => {
-        if (evt.affectsConfiguration(Configuration.DebugByLinkOptions)) {
-          this.baseConfiguration = this.readConfig();
-        }
-      }),
-    );
-  }
+	constructor(
+		@inject(IDefaultBrowserProvider)
+		private defaultBrowser: IDefaultBrowserProvider
+	) {
+		this.disposable.push(
+			vscode.workspace.onDidChangeConfiguration((evt) => {
+				if (
+					evt.affectsConfiguration(Configuration.DebugByLinkOptions)
+				) {
+					this.baseConfiguration = this.readConfig();
+				}
+			})
+		);
+	}
 
 	/**
 	 * Turns on link handling in the given terminal.
@@ -68,7 +73,7 @@ export class TerminalLinkHandler
 	 * @inheritdoc
 	 */
 	public provideTerminalLinks(
-		context: vscode.TerminalLinkContext,
+		context: vscode.TerminalLinkContext
 	): ITerminalLink[] {
 		switch (this.baseConfiguration.enabled) {
 			case "off":
@@ -92,7 +97,7 @@ export class TerminalLinkHandler
 				const folder = vscode.workspace.getWorkspaceFolder(
 					typeof context.terminal.creationOptions.cwd === "string"
 						? vscode.Uri.file(context.terminal.creationOptions.cwd)
-						: context.terminal.creationOptions.cwd,
+						: context.terminal.creationOptions.cwd
 				);
 
 				if (folder) {
@@ -150,7 +155,7 @@ export class TerminalLinkHandler
 	public async handleTerminalLink(terminal: ITerminalLink): Promise<void> {
 		if (!(await this.handleTerminalLinkInner(terminal))) {
 			vscode.env.openExternal(
-				vscode.Uri.parse(terminal.target.toString()),
+				vscode.Uri.parse(terminal.target.toString())
 			);
 		}
 	}
@@ -159,7 +164,7 @@ export class TerminalLinkHandler
 	 * Launches a browser debug session when a link is clicked from a debug terminal.
 	 */
 	public async handleTerminalLinkInner(
-		terminal: ITerminalLink,
+		terminal: ITerminalLink
 	): Promise<boolean> {
 		if (!terminal.target) {
 			return false;
@@ -174,8 +179,8 @@ export class TerminalLinkHandler
 
 			vscode.window.showInformationMessage(
 				l10n.t(
-					"We can't launch a browser in debug mode from here. If you want to debug this webpage, open this workspace from VS Code on your desktop.",
-				),
+					"We can't launch a browser in debug mode from here. If you want to debug this webpage, open this workspace from VS Code on your desktop."
+				)
 			);
 
 			this.notifiedCantOpenOnWeb = true;
@@ -214,7 +219,7 @@ export class TerminalLinkHandler
 	private readConfig() {
 		let baseConfig = readConfig(
 			vscode.workspace,
-			Configuration.DebugByLinkOptions,
+			Configuration.DebugByLinkOptions
 		);
 
 		if (typeof baseConfig === "boolean") {

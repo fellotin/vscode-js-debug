@@ -147,19 +147,21 @@ export abstract class NodeLauncherBase<T extends AnyNodeConfiguration>
 	private bootloaderFile = once(this.getBootloaderFile.bind(this));
 
 	constructor(
-    @inject(INodeBinaryProvider) private readonly pathProvider: INodeBinaryProvider,
-    @inject(ILogger) protected readonly logger: ILogger,
-    @inject(IPortLeaseTracker) protected readonly portLeaseTracker: IPortLeaseTracker,
-    @inject(ISourcePathResolverFactory)
-    protected readonly pathResolverFactory: ISourcePathResolverFactory,
-  ) {}
+		@inject(INodeBinaryProvider)
+		private readonly pathProvider: INodeBinaryProvider,
+		@inject(ILogger) protected readonly logger: ILogger,
+		@inject(IPortLeaseTracker)
+		protected readonly portLeaseTracker: IPortLeaseTracker,
+		@inject(ISourcePathResolverFactory)
+		protected readonly pathResolverFactory: ISourcePathResolverFactory
+	) {}
 
 	/**
 	 * @inheritdoc
 	 */
 	public async launch(
 		params: AnyLaunchConfiguration,
-		context: ILaunchContext,
+		context: ILaunchContext
 	): Promise<ILaunchResult> {
 		const resolved = this.resolveParams(params);
 		if (!resolved) {
@@ -169,7 +171,7 @@ export abstract class NodeLauncherBase<T extends AnyNodeConfiguration>
 		this._stopServer(); // clear any ongoing run
 
 		const { server, pipe } = await this._startServer(
-			context.telemetryReporter,
+			context.telemetryReporter
 		);
 		const logger = this.logger.forTarget();
 		const run = (this.run = {
@@ -180,7 +182,7 @@ export abstract class NodeLauncherBase<T extends AnyNodeConfiguration>
 			logger,
 			pathResolver: this.pathResolverFactory.create(
 				resolved,
-				this.logger,
+				this.logger
 			) as NodeSourcePathResolver,
 		});
 
@@ -217,15 +219,15 @@ export abstract class NodeLauncherBase<T extends AnyNodeConfiguration>
 				delay(2000).then(() => false),
 				Promise.all(
 					[...this.serverConnections].map(
-						(c) => new Promise((r) => c.onDisconnected(r)),
-					),
+						(c) => new Promise((r) => c.onDisconnected(r))
+					)
 				),
 			]);
 
 			if (!closeOk) {
 				this.logger.warn(
 					LogTag.RuntimeLaunch,
-					"Timeout waiting for server connections to close",
+					"Timeout waiting for server connections to close"
 				);
 				this.closeAllConnections();
 			}
@@ -242,8 +244,8 @@ export abstract class NodeLauncherBase<T extends AnyNodeConfiguration>
 				cancellationToken:
 					this.run.params.timeout > 0
 						? CancellationTokenSource.withTimeout(
-								this.run.params.timeout,
-						  ).token
+								this.run.params.timeout
+							).token
 						: NeverCancelled,
 			},
 		});
@@ -265,7 +267,7 @@ export abstract class NodeLauncherBase<T extends AnyNodeConfiguration>
 	 * or undefined if they cannot.
 	 */
 	protected abstract resolveParams(
-		params: AnyLaunchConfiguration,
+		params: AnyLaunchConfiguration
 	): T | undefined;
 
 	/**
@@ -291,11 +293,11 @@ export abstract class NodeLauncherBase<T extends AnyNodeConfiguration>
 		return this.pathProvider.resolveAndValidate(
 			EnvironmentVars.merge(
 				EnvironmentVars.processEnv(),
-				this.getConfiguredEnvironment(params),
+				this.getConfiguredEnvironment(params)
 			),
 			executable,
 			params.nodeVersionHint,
-			params.cwd,
+			params.cwd
 		);
 	}
 
@@ -323,7 +325,7 @@ export abstract class NodeLauncherBase<T extends AnyNodeConfiguration>
 	protected async resolveEnvironment(
 		{ params, serverAddress }: IRunData<T>,
 		binary: NodeBinary,
-		additionalOptions?: Partial<IBootloaderInfo>,
+		additionalOptions?: Partial<IBootloaderInfo>
 	) {
 		const baseEnv = this.getConfiguredEnvironment(params);
 		const bootloader = await this.bootloaderFile(params.cwd, binary);
@@ -381,7 +383,7 @@ export abstract class NodeLauncherBase<T extends AnyNodeConfiguration>
 		// eslint-disable-next-line
 		_run: IRunData<T>,
 		// eslint-disable-next-line
-		_target: Cdp.Target.TargetInfo,
+		_target: Cdp.Target.TargetInfo
 	): INodeTargetLifecycleHooks {
 		return {};
 	}
@@ -391,7 +393,7 @@ export abstract class NodeLauncherBase<T extends AnyNodeConfiguration>
 		const server = await new Promise<net.Server>((resolve, reject) => {
 			const s = net
 				.createServer((socket) =>
-					this._startSession(socket, telemetryReporter),
+					this._startSession(socket, telemetryReporter)
 				)
 				.on("error", reject)
 				.listen(pipe, () => resolve(s));
@@ -415,7 +417,7 @@ export abstract class NodeLauncherBase<T extends AnyNodeConfiguration>
 
 	protected async _startSession(
 		socket: net.Socket,
-		telemetryReporter: ITelemetryReporter,
+		telemetryReporter: ITelemetryReporter
 	) {
 		if (!this.run) {
 			return;
@@ -424,7 +426,7 @@ export abstract class NodeLauncherBase<T extends AnyNodeConfiguration>
 		const { connection, cdp, targetInfo } = await this.acquireTarget(
 			socket,
 			telemetryReporter,
-			this.run.logger,
+			this.run.logger
 		);
 		if (!this.run) {
 			// if we aren't running a session, discard the socket.
@@ -446,7 +448,7 @@ export abstract class NodeLauncherBase<T extends AnyNodeConfiguration>
 			this.createLifecycle(cdp, this.run, targetInfo),
 			targetInfo.openerId
 				? this.targets.get(targetInfo.openerId)
-				: undefined,
+				: undefined
 		);
 
 		this.listenToWorkerDomain(cdp, telemetryReporter, target);
@@ -457,7 +459,7 @@ export abstract class NodeLauncherBase<T extends AnyNodeConfiguration>
 	private async listenToWorkerDomain(
 		cdp: Cdp.Api,
 		telemetryReporter: ITelemetryReporter,
-		parent: NodeTarget,
+		parent: NodeTarget
 	) {
 		cdp.NodeWorker.on("attachedToWorker", (evt) => {
 			const transport = new WorkerTransport(evt.sessionId, cdp);
@@ -477,9 +479,9 @@ export abstract class NodeLauncherBase<T extends AnyNodeConfiguration>
 				new Connection(
 					transport,
 					parent.logger,
-					telemetryReporter,
+					telemetryReporter
 				).rootSession(),
-				parent.logger,
+				parent.logger
 			);
 
 			const disposables = new DisposableList();
@@ -497,27 +499,27 @@ export abstract class NodeLauncherBase<T extends AnyNodeConfiguration>
 	protected async acquireTarget(
 		socket: net.Socket,
 		rawTelemetryReporter: ITelemetryReporter,
-		logger: ILogger,
+		logger: ILogger
 	) {
 		const connection = new Connection(
 			new RawPipeTransport(logger, socket),
 			logger,
-			rawTelemetryReporter,
+			rawTelemetryReporter
 		);
 
 		this.serverConnections.add(connection);
 		connection.onDisconnected(() =>
-			this.serverConnections.delete(connection),
+			this.serverConnections.delete(connection)
 		);
 
 		const cdp = connection.rootSession();
 		const { targetInfo } = await new Promise<Cdp.Target.TargetCreatedEvent>(
-			(f) => cdp.Target.on("targetCreated", f),
+			(f) => cdp.Target.on("targetCreated", f)
 		);
 
 		const cast = targetInfo as WatchdogTarget;
 		const portLease = this.portLeaseTracker.register(
-			cast.processInspectorPort,
+			cast.processInspectorPort
 		);
 		connection.onDisconnected(() => portLease.dispose());
 
@@ -536,7 +538,7 @@ export abstract class NodeLauncherBase<T extends AnyNodeConfiguration>
 	 */
 	protected async getBootloaderFile(
 		cwd: string | undefined,
-		binary: NodeBinary,
+		binary: NodeBinary
 	) {
 		const targetPath = forceForwardSlashes(bootloaderDefaultPath);
 
@@ -558,7 +560,7 @@ export abstract class NodeLauncherBase<T extends AnyNodeConfiguration>
 		if (!os.tmpdir().includes(" ") || !cwd) {
 			const tmpPath = path.join(
 				os.tmpdir(),
-				"vscode-js-debug-bootloader.js",
+				"vscode-js-debug-bootloader.js"
 			);
 			await fs.promises.writeFile(tmpPath, contents);
 			return { interpolatedPath: tmpPath, dispose: () => undefined };
@@ -579,7 +581,7 @@ export abstract class NodeLauncherBase<T extends AnyNodeConfiguration>
 	 */
 	protected async gatherTelemetryFromCdp(
 		cdp: Cdp.Api,
-		run: IRunData<T>,
+		run: IRunData<T>
 	): Promise<IProcessTelemetry | undefined> {
 		for (let retries = 0; retries < 8; retries++) {
 			const telemetry = await cdp.Runtime.evaluate({
@@ -599,7 +601,7 @@ export abstract class NodeLauncherBase<T extends AnyNodeConfiguration>
 			if (!telemetry || !telemetry.result.value) {
 				this.logger.error(
 					LogTag.RuntimeTarget,
-					"Undefined result getting telemetry",
+					"Undefined result getting telemetry"
 				);
 				return;
 			}
@@ -607,7 +609,7 @@ export abstract class NodeLauncherBase<T extends AnyNodeConfiguration>
 			if (typeof telemetry.result.value !== "object") {
 				this.logger.info(
 					LogTag.RuntimeTarget,
-					"Process not yet defined, will retry",
+					"Process not yet defined, will retry"
 				);
 				await delay(50 * 2 ** retries);
 				continue;

@@ -32,7 +32,7 @@ export const IEvaluator = Symbol("IEvaluator");
  */
 export type PreparedCallFrameExpr = (
 	params: Omit<Cdp.Debugger.EvaluateOnCallFrameParams, "expression">,
-	hoisted?: { [key: string]: Cdp.Runtime.RemoteObject },
+	hoisted?: { [key: string]: Cdp.Runtime.RemoteObject }
 ) => Promise<Cdp.Debugger.EvaluateOnCallFrameResult | undefined>;
 
 /**
@@ -50,7 +50,7 @@ export interface IEvaluator {
 	 */
 	prepare(
 		expression: string,
-		options?: IPrepareOptions,
+		options?: IPrepareOptions
 	): { canEvaluateDirectly: boolean; invoke: PreparedCallFrameExpr };
 
 	/**
@@ -59,7 +59,7 @@ export interface IEvaluator {
 	 */
 	evaluate(
 		params: Cdp.Debugger.EvaluateOnCallFrameParams,
-		options?: IEvaluateOptions,
+		options?: IEvaluateOptions
 	): Promise<Cdp.Debugger.EvaluateOnCallFrameResult>;
 
 	/**
@@ -67,7 +67,7 @@ export interface IEvaluator {
 	 */
 	evaluate(
 		params: Cdp.Runtime.EvaluateParams,
-		options?: IEvaluateOptions,
+		options?: IEvaluateOptions
 	): Promise<Cdp.Runtime.EvaluateResult>;
 
 	/**
@@ -77,7 +77,7 @@ export interface IEvaluator {
 		params:
 			| Cdp.Runtime.EvaluateParams
 			| Cdp.Debugger.EvaluateOnCallFrameParams,
-		options?: IEvaluateOptions,
+		options?: IEvaluateOptions
 	): Promise<
 		Cdp.Runtime.EvaluateResult | Cdp.Debugger.EvaluateOnCallFrameResult
 	>;
@@ -165,7 +165,7 @@ export class Evaluator implements IEvaluator {
 	 */
 	public prepare(
 		expression: string,
-		{ isInternalScript, hoist, renames }: IPrepareOptions = {},
+		{ isInternalScript, hoist, renames }: IPrepareOptions = {}
 	): { canEvaluateDirectly: boolean; invoke: PreparedCallFrameExpr } {
 		if (isInternalScript !== false) {
 			expression += getSourceSuffix();
@@ -184,7 +184,7 @@ export class Evaluator implements IEvaluator {
 		const { transformed, hoisted } = this.replaceVariableInExpression(
 			expression,
 			toHoist,
-			renames,
+			renames
 		);
 		if (!hoisted.size) {
 			return {
@@ -206,14 +206,14 @@ export class Evaluator implements IEvaluator {
 							ident === returnValueStr
 								? this.returnValue
 								: hoistMap[ident],
-							hoisted,
-						),
-					),
+							hoisted
+						)
+					)
 				).then(() =>
 					this.cdp.Debugger.evaluateOnCallFrame({
 						...params,
 						expression: transformed,
-					}),
+					})
 				),
 		};
 	}
@@ -222,17 +222,17 @@ export class Evaluator implements IEvaluator {
 	 * @inheritdoc
 	 */
 	public evaluate(
-		params: Cdp.Debugger.EvaluateOnCallFrameParams,
+		params: Cdp.Debugger.EvaluateOnCallFrameParams
 	): Promise<Cdp.Debugger.EvaluateOnCallFrameResult>;
 	public evaluate(
 		params: Cdp.Runtime.EvaluateParams,
-		options?: IEvaluateOptions,
+		options?: IEvaluateOptions
 	): Promise<Cdp.Runtime.EvaluateResult>;
 	public async evaluate(
 		params:
 			| Cdp.Debugger.EvaluateOnCallFrameParams
 			| Cdp.Runtime.EvaluateParams,
-		options?: IEvaluateOptions,
+		options?: IEvaluateOptions
 	) {
 		// no call frame means there will not be any relevant $returnValue to reference
 		if (!("callFrameId" in params)) {
@@ -242,7 +242,7 @@ export class Evaluator implements IEvaluator {
 		let prepareOptions: IPrepareOptions | undefined = options;
 		if (options?.stackFrame) {
 			const mapping = await this.renameProvider.provideOnStackframe(
-				options.stackFrame,
+				options.stackFrame
 			);
 			prepareOptions = {
 				...prepareOptions,
@@ -258,7 +258,7 @@ export class Evaluator implements IEvaluator {
 	 */
 	public async hoistValue(
 		object: Cdp.Runtime.RemoteObject | undefined,
-		hoistedVar: string,
+		hoistedVar: string
 	) {
 		const objectId = object?.objectId;
 		const dehoist = `setTimeout(() => { delete globalThis.${hoistedVar} }, 0)`;
@@ -272,7 +272,7 @@ export class Evaluator implements IEvaluator {
 			await this.cdp.Runtime.evaluate({
 				expression:
 					`globalThis.${hoistedVar} = ${JSON.stringify(
-						object?.value,
+						object?.value
 					)};` +
 					`${dehoist};` +
 					getSourceSuffix(),
@@ -287,14 +287,14 @@ export class Evaluator implements IEvaluator {
 	private replaceVariableInExpression(
 		expr: string,
 		hoistMap: Map<string /* identifier */, string /* hoised */>,
-		renames: RenamePrepareOptions | undefined,
+		renames: RenamePrepareOptions | undefined
 	): { hoisted: Set<string>; transformed: string } {
 		const hoisted = new Set<string>();
 		let mutated = false;
 
 		const replacement = (
 			name: string,
-			fallback: Expression,
+			fallback: Expression
 		): ConditionalExpression => ({
 			type: "ConditionalExpression",
 			test: {
@@ -337,7 +337,7 @@ export class Evaluator implements IEvaluator {
 
 				const cname = renames?.mapping.getCompiledName(
 					node.name,
-					renames.position,
+					renames.position
 				);
 				if (cname) {
 					mutated = true;

@@ -22,7 +22,7 @@ export class Hasher implements IDisposable {
 
 	constructor(
 		private readonly maxFailures = 3,
-		private readonly hasherScriptPath = join(__dirname, "hash.js"),
+		private readonly hasherScriptPath = join(__dirname, "hash.js")
 	) {}
 
 	/**
@@ -55,7 +55,7 @@ export class Hasher implements IDisposable {
 	public async verifyBytes(
 		data: string | Buffer,
 		expected: string,
-		checkNode: boolean,
+		checkNode: boolean
 	) {
 		const r = await this.send({
 			type: MessageType.VerifyBytes,
@@ -73,7 +73,7 @@ export class Hasher implements IDisposable {
 	public async verifyFile(
 		file: string,
 		expected: string,
-		checkNode: boolean,
+		checkNode: boolean
 	) {
 		const r = await this.send({
 			type: MessageType.VerifyFile,
@@ -149,7 +149,7 @@ export class Hasher implements IDisposable {
 			if (!newInstance) {
 				for (const { deferred } of this.deferredMap.values()) {
 					deferred.reject(
-						new Error("hash.js process unexpectedly exited"),
+						new Error("hash.js process unexpectedly exited")
 					);
 				}
 				this.deferredMap.clear();

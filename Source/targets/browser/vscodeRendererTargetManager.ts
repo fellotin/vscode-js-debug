@@ -32,7 +32,7 @@ export class VSCodeRendererTargetManager extends BrowserTargetManager {
 		launchParams: IRendererAttachParams,
 		logger: ILogger,
 		telemetry: ITelemetryReporter,
-		targetOrigin: ITargetOrigin,
+		targetOrigin: ITargetOrigin
 	): Promise<BrowserTargetManager | undefined> {
 		const rootSession = connection.rootSession();
 		const result = await rootSession.Target.attachToBrowserTarget({});
@@ -46,12 +46,12 @@ export class VSCodeRendererTargetManager extends BrowserTargetManager {
 			logger,
 			telemetry,
 			launchParams,
-			targetOrigin,
+			targetOrigin
 		);
 	}
 
 	private readonly baseFilter = createTargetFilterForConfig(
-		this.launchParams,
+		this.launchParams
 	);
 
 	/**
@@ -91,7 +91,7 @@ export class VSCodeRendererTargetManager extends BrowserTargetManager {
 	 * @inheritdoc
 	 */
 	public waitForMainTarget(
-		filter?: (target: Cdp.Target.TargetInfo) => boolean,
+		filter?: (target: Cdp.Target.TargetInfo) => boolean
 	): Promise<BrowserTarget | undefined> {
 		const params = this.launchParams as IRendererAttachParams;
 
@@ -112,10 +112,10 @@ export class VSCodeRendererTargetManager extends BrowserTargetManager {
 						this.attachedToTarget(
 							targetInfo,
 							response.sessionId,
-							false,
+							false
 						);
 					}
-				}),
+				})
 			);
 		}
 
@@ -129,14 +129,14 @@ export class VSCodeRendererTargetManager extends BrowserTargetManager {
 		targetInfo: Cdp.Target.TargetInfo,
 		sessionId: Cdp.Target.SessionID,
 		waitingForDebugger: boolean,
-		parentTarget?: BrowserTarget,
+		parentTarget?: BrowserTarget
 	): BrowserTarget {
 		const target = super.attachedToTarget(
 			targetInfo,
 			sessionId,
 			waitingForDebugger || this.filter(targetInfo),
 			parentTarget,
-			false,
+			false
 		);
 
 		if (targetInfo.type === BrowserTargetType.IFrame) {

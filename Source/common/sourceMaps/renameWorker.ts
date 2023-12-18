@@ -16,14 +16,14 @@ type TypeWithChildren = { children?: TypeWithChildren[] };
  */
 export function extractScopeRangesWithFactory<T extends TypeWithChildren>(
 	source: string,
-	factory: (start: SourceLocation, end: SourceLocation) => T,
+	factory: (start: SourceLocation, end: SourceLocation) => T
 ) {
 	const program = parseProgram(source);
 
 	const push = (
 		indexingNode: Node,
 		{ loc: start }: Node = indexingNode,
-		{ loc: end }: Node = indexingNode,
+		{ loc: end }: Node = indexingNode
 	) => {
 		if (!start || !end) {
 			throw new Error("should include locations");
@@ -90,6 +90,6 @@ if (!isMainThread) {
 		extractScopeRangesWithFactory<FlatTree>(workerData, (start, end) => ({
 			start: start.start,
 			end: end.end,
-		})),
+		}))
 	);
 }

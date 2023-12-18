@@ -5,7 +5,7 @@
 import { FunctionComponent, h } from "preact";
 
 export const DecisionButtons = <T extends string>(
-	options: T[],
+	options: T[]
 ): FunctionComponent<{
 	value: T | undefined;
 	onChange(option: T): void;
@@ -17,8 +17,7 @@ export const DecisionButtons = <T extends string>(
 					<button
 						key={b}
 						onClick={() => onChange(b)}
-						className={value === b ? "active" : ""}
-					>
+						className={value === b ? "active" : ""}>
 						{b}
 					</button>
 				))}

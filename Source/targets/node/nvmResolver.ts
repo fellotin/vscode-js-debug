@@ -26,7 +26,7 @@ export interface INvmResolver {
 	 * Throws a ProtocolError if the requested version is not found in the path.
 	 */
 	resolveNvmVersionPath(
-		version: string,
+		version: string
 	): Promise<{ directory: string; binary: string }>;
 }
 
@@ -49,12 +49,13 @@ const enum Vars {
 @injectable()
 export class NvmResolver implements INvmResolver {
 	constructor(
-    @inject(IFsUtils) private readonly fsUtils = new LocalFsUtils(fsPromises),
-    private readonly env = process.env,
-    private readonly arch = process.arch,
-    private readonly platform = process.platform,
-    private readonly homedir = os.homedir(),
-  ) {}
+		@inject(IFsUtils)
+		private readonly fsUtils = new LocalFsUtils(fsPromises),
+		private readonly env = process.env,
+		private readonly arch = process.arch,
+		private readonly platform = process.platform,
+		private readonly homedir = os.homedir()
+	) {}
 
 	public async resolveNvmVersionPath(version: string) {
 		let directory: string | undefined = undefined;
@@ -102,7 +103,7 @@ export class NvmResolver implements INvmResolver {
 			const fnmDir =
 				this.platform === "win32"
 					? this.env[Vars.FnmHome] ||
-					  path.join(this.env["APPDATA"] || "", "fnm")
+						path.join(this.env["APPDATA"] || "", "fnm")
 					: this.env[Vars.FnmHome] || path.join(this.homedir, ".fnm");
 			if (await this.fsUtils.exists(fnmDir)) {
 				directory = await this.resolveFnm(version, fnmDir);
@@ -116,7 +117,7 @@ export class NvmResolver implements INvmResolver {
 
 		if (!directory || !(await this.fsUtils.exists(directory))) {
 			throw new ProtocolError(
-				nvmVersionNotFound(version, versionManagers.join("/")),
+				nvmVersionNotFound(version, versionManagers.join("/"))
 			);
 		}
 
@@ -132,8 +133,8 @@ export class NvmResolver implements INvmResolver {
 		if (
 			await some(
 				["node64.exe", "node64"].map((exe) =>
-					this.fsUtils.exists(path.join(dir, exe)),
-				),
+					this.fsUtils.exists(path.join(dir, exe))
+				)
 			)
 		) {
 			return "node64";
@@ -144,7 +145,7 @@ export class NvmResolver implements INvmResolver {
 
 	private async resolveNvs(
 		nvsHome: string | undefined,
-		{ remoteName, semanticVersion, arch }: IVersionStringData,
+		{ remoteName, semanticVersion, arch }: IVersionStringData
 	) {
 		if (!nvsHome) {
 			throw new ProtocolError(nvsNotFound());
@@ -153,7 +154,7 @@ export class NvmResolver implements INvmResolver {
 		const dir = this.findBinFolderForVersion(
 			path.join(nvsHome, remoteName),
 			semanticVersion,
-			(d) => fs.existsSync(path.join(d, arch)),
+			(d) => fs.existsSync(path.join(d, arch))
 		);
 
 		if (!dir) {
@@ -180,7 +181,7 @@ export class NvmResolver implements INvmResolver {
 		}
 		const directory = this.findBinFolderForVersion(
 			path.join(nvmHome, "versions", "node"),
-			`v${version}`,
+			`v${version}`
 		);
 
 		return directory ? path.join(directory, "bin") : undefined;
@@ -198,7 +199,7 @@ export class NvmResolver implements INvmResolver {
 	private async resolveFnm(version: string, fnmHome: string) {
 		const directory = this.findBinFolderForVersion(
 			path.join(fnmHome, "node-versions"),
-			`v${version}`,
+			`v${version}`
 		);
 
 		if (!directory) return;
@@ -211,7 +212,7 @@ export class NvmResolver implements INvmResolver {
 	private findBinFolderForVersion(
 		dir: string,
 		version: string,
-		extraTest?: (candidateDir: string) => void,
+		extraTest?: (candidateDir: string) => void
 	): string | undefined {
 		if (!fs.existsSync(dir)) {
 			return undefined;

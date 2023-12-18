@@ -43,7 +43,7 @@ class VSDebugSession implements IDebugSessionLike {
 		public id: string,
 		name: string,
 		private readonly childConnection: Promise<DapConnection>,
-		public readonly configuration: DebugConfiguration,
+		public readonly configuration: DebugConfiguration
 	) {
 		this._name = name;
 	}
@@ -68,7 +68,7 @@ class VSSessionManager {
 	constructor(inputStream: Readable, outputStream: Writable) {
 		this.sessionManager = new SessionManager<VSDebugSession>(
 			this.services,
-			this.buildVSSessionLauncher(),
+			this.buildVSSessionLauncher()
 		);
 		this.rootTransport = new StreamDapTransport(inputStream, outputStream);
 		this.createSession(undefined, "rootSession", {
@@ -87,7 +87,7 @@ class VSSessionManager {
 				this.createSession(
 					target.id(),
 					target.name(),
-					childAttachConfig,
+					childAttachConfig
 				);
 
 				// Custom message currently not part of DAP
@@ -106,25 +106,25 @@ class VSSessionManager {
 	createSession(
 		sessionId: string | undefined,
 		name: string,
-		config: IPseudoAttachConfiguration,
+		config: IPseudoAttachConfiguration
 	) {
 		const deferredConnection = getDeferred<DapConnection>();
 		const vsSession = new VSDebugSession(
 			sessionId || "root",
 			name,
 			deferredConnection.promise,
-			config,
+			config
 		);
 		const transport = new SessionIdDapTransport(
 			sessionId,
-			this.rootTransport,
+			this.rootTransport
 		);
 		const newSession = config.__pendingTargetId
 			? this.sessionManager.createNewChildSession(
 					vsSession,
 					config.__pendingTargetId,
-					transport,
-			  )
+					transport
+				)
 			: this.sessionManager.createNewRootSession(vsSession, transport);
 		deferredConnection.resolve(newSession.connection);
 		return newSession;

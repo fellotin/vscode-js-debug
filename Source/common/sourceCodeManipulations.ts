@@ -37,14 +37,14 @@ export const getEnd: (node: Node | AcornNode) => number = (node) =>
 
 export const getText: (src: string, node: Node | AcornNode) => string = (
 	src,
-	node,
+	node
 ) => src.slice(getStart(node), getEnd(node));
 
 export const parseProgram = (str: string, strict = false) =>
 	(strict ? parseStrict : parse)(str, acornOptions) as unknown as Program;
 
 export const parseSource: (str: string) => (Statement & AcornNode)[] = (
-	str,
+	str
 ) => {
 	const parsed = parseProgram(str) as unknown as {
 		body: (Statement & AcornNode)[];
@@ -72,14 +72,14 @@ export const parseSource: (str: string) => (Statement & AcornNode)[] = (
 export function statementsToFunction(
 	parameterNames: ReadonlyArray<string>,
 	statements: ReadonlyArray<Statement>,
-	catchAndReturnErrors: boolean,
+	catchAndReturnErrors: boolean
 ): AnyFunctionExpression {
 	if (statements.length > 1 || statements[0].type !== "FunctionDeclaration") {
 		return statementToFunction(
 			parameterNames,
 			statements,
 			true,
-			catchAndReturnErrors,
+			catchAndReturnErrors
 		);
 	}
 
@@ -113,7 +113,7 @@ export function statementsToFunction(
 			},
 		],
 		true,
-		catchAndReturnErrors,
+		catchAndReturnErrors
 	);
 }
 
@@ -124,7 +124,7 @@ const codeToFunctionExecutingCode = (
 	parameterNames: ReadonlyArray<string>,
 	body: ReadonlyArray<Statement>,
 	preserveThis: boolean,
-	catchAndReturnErrors: boolean,
+	catchAndReturnErrors: boolean
 ): AnyFunctionExpression => {
 	const param: Identifier = { type: "Identifier", name: "e" };
 	const innerWithTry: TryStatement = {
@@ -191,7 +191,7 @@ const codeToFunctionExecutingCode = (
 					name,
 				})),
 				body: { type: "BlockStatement", body: inner },
-		  }
+			}
 		: {
 				type: "ArrowFunctionExpression",
 				params: parameterNames.map((name) => ({
@@ -200,7 +200,7 @@ const codeToFunctionExecutingCode = (
 				})),
 				expression: false,
 				body: { type: "BlockStatement", body: inner },
-		  };
+			};
 };
 
 /**
@@ -208,7 +208,7 @@ const codeToFunctionExecutingCode = (
  * */
 export const functionToFunctionCall = (
 	argumentsList: ReadonlyArray<string>,
-	functionCode: FunctionExpression | ArrowFunctionExpression,
+	functionCode: FunctionExpression | ArrowFunctionExpression
 ): CallExpression => ({
 	type: "CallExpression",
 	arguments: argumentsList.map((name) => ({ type: "Identifier", name })),
@@ -223,7 +223,7 @@ export const functionToFunctionCall = (
 export const returnErrorsFromStatements = (
 	parameterNames: ReadonlyArray<string>,
 	statements: ReadonlyArray<Statement>,
-	preserveThis: boolean,
+	preserveThis: boolean
 ) =>
 	functionToFunctionCall(
 		parameterNames,
@@ -231,8 +231,8 @@ export const returnErrorsFromStatements = (
 			parameterNames,
 			statements,
 			preserveThis,
-			/*catchAndReturnErrors*/ true,
-		),
+			/*catchAndReturnErrors*/ true
+		)
 	);
 
 /**
@@ -243,7 +243,7 @@ function statementToFunction(
 	parameterNames: ReadonlyArray<string>,
 	statements: ReadonlyArray<Statement>,
 	preserveThis: boolean,
-	catchAndReturnErrors: boolean,
+	catchAndReturnErrors: boolean
 ) {
 	const last = statements[statements.length - 1];
 	if (last.type !== "ReturnStatement") {
@@ -260,7 +260,7 @@ function statementToFunction(
 		parameterNames,
 		statements,
 		preserveThis,
-		catchAndReturnErrors,
+		catchAndReturnErrors
 	);
 }
 
@@ -303,7 +303,7 @@ export const traverse = (
 	visitor: {
 		enter: (node: Node, parent?: Node) => VisitorOption | void;
 		leave?: (node: Node) => void;
-	},
+	}
 ) => {
 	traverseInner(node, visitor);
 };
@@ -317,10 +317,10 @@ export const replace = <T extends Node>(
 	visitor: {
 		enter: (
 			node: Node,
-			parent?: Node,
+			parent?: Node
 		) => VisitorOption | { replace: Node } | void;
 		leave?: (node: Node) => void;
-	},
+	}
 ): T => {
 	const r = traverseInner(node, visitor);
 	if (r && typeof r === "object") {
@@ -341,7 +341,7 @@ const traverseInner = (
 		enter: (node: Node, parent?: Node) => VisitorResult | void;
 		leave?: (node: Node) => void;
 	},
-	parent?: Node,
+	parent?: Node
 ): VisitorOption.Break | { replace: Node } | undefined => {
 	if (!node) {
 		return;

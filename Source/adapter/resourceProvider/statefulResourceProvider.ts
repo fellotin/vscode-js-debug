@@ -23,14 +23,16 @@ export class StatefulResourceProvider
 	private readonly disposables = new DisposableList();
 
 	constructor(
-    @inject(FS) fs: FsPromises,
-    @inject(ILogger) private readonly logger: ILogger,
-    @optional() @inject(ITarget) private readonly target?: ITarget,
-    @optional() @inject(ICdpApi) private readonly cdp?: Cdp.Api,
-    @optional() @inject(IRequestOptionsProvider) options?: IRequestOptionsProvider,
-  ) {
-    super(fs, options);
-  }
+		@inject(FS) fs: FsPromises,
+		@inject(ILogger) private readonly logger: ILogger,
+		@optional() @inject(ITarget) private readonly target?: ITarget,
+		@optional() @inject(ICdpApi) private readonly cdp?: Cdp.Api,
+		@optional()
+		@inject(IRequestOptionsProvider)
+		options?: IRequestOptionsProvider
+	) {
+		super(fs, options);
+	}
 
 	/**
 	 * @inheritdoc
@@ -42,14 +44,14 @@ export class StatefulResourceProvider
 	protected async fetchHttp(
 		url: string,
 		cancellationToken: CancellationToken,
-		headers: Headers = {},
+		headers: Headers = {}
 	): Promise<Response<string>> {
 		const res = await super.fetchHttp(url, cancellationToken, headers);
 		if (!res.ok) {
 			this.logger.info(
 				LogTag.Runtime,
 				"Network load failed, falling back to CDP",
-				{ url, res },
+				{ url, res }
 			);
 			return this.fetchOverBrowserNetwork(url, res);
 		}
@@ -59,7 +61,7 @@ export class StatefulResourceProvider
 
 	private async fetchOverBrowserNetwork(
 		url: string,
-		original: Response<string>,
+		original: Response<string>
 	): Promise<Response<string>> {
 		if (!this.cdp) {
 			return original;
@@ -108,7 +110,7 @@ export class StatefulResourceProvider
 					"Stream error encountered in middle, falling back",
 					{
 						url,
-					},
+					}
 				);
 				return original;
 			}

@@ -46,7 +46,7 @@ import { WatchDog } from "./watchdogSpawn";
  */
 const tryGetProgramFromArgs = async (
 	fsUtils: IFsUtils,
-	config: INodeLaunchConfiguration,
+	config: INodeLaunchConfiguration
 ) => {
 	if (typeof config.stopOnEntry === "string") {
 		return resolve(config.cwd, config.stopOnEntry);
@@ -76,24 +76,29 @@ export class NodeLauncher extends NodeLauncherBase<INodeLaunchConfiguration> {
 	private attachSimplePort?: number;
 
 	constructor(
-    @inject(INodeBinaryProvider) pathProvider: INodeBinaryProvider,
-    @inject(ILogger) logger: ILogger,
-    @inject(IBreakpointsPredictor) private readonly bpPredictor: IBreakpointsPredictor,
-    @multiInject(IProgramLauncher) private readonly launchers: ReadonlyArray<IProgramLauncher>,
-    @inject(RestartPolicyFactory) private readonly restarters: RestartPolicyFactory,
-    @inject(IFsUtils) private readonly fsUtils: LocalFsUtils,
-    @inject(IPackageJsonProvider) private readonly packageJson: IPackageJsonProvider,
-    @inject(ISourcePathResolverFactory) pathResolverFactory: ISourcePathResolverFactory,
-    @inject(IPortLeaseTracker) portLeaseTracker: IPortLeaseTracker,
-  ) {
-    super(pathProvider, logger, portLeaseTracker, pathResolverFactory);
-  }
+		@inject(INodeBinaryProvider) pathProvider: INodeBinaryProvider,
+		@inject(ILogger) logger: ILogger,
+		@inject(IBreakpointsPredictor)
+		private readonly bpPredictor: IBreakpointsPredictor,
+		@multiInject(IProgramLauncher)
+		private readonly launchers: ReadonlyArray<IProgramLauncher>,
+		@inject(RestartPolicyFactory)
+		private readonly restarters: RestartPolicyFactory,
+		@inject(IFsUtils) private readonly fsUtils: LocalFsUtils,
+		@inject(IPackageJsonProvider)
+		private readonly packageJson: IPackageJsonProvider,
+		@inject(ISourcePathResolverFactory)
+		pathResolverFactory: ISourcePathResolverFactory,
+		@inject(IPortLeaseTracker) portLeaseTracker: IPortLeaseTracker
+	) {
+		super(pathProvider, logger, portLeaseTracker, pathResolverFactory);
+	}
 
 	/**
 	 * @inheritdoc
 	 */
 	protected resolveParams(
-		params: AnyLaunchConfiguration,
+		params: AnyLaunchConfiguration
 	): INodeLaunchConfiguration | undefined {
 		let config: INodeLaunchConfiguration | undefined;
 		if (params.type === DebugType.Node && params.request === "launch") {
@@ -118,16 +123,16 @@ export class NodeLauncher extends NodeLauncherBase<INodeLaunchConfiguration> {
 	 * Launches the program.
 	 */
 	protected async launchProgram(
-		runData: IRunData<INodeLaunchConfiguration>,
+		runData: IRunData<INodeLaunchConfiguration>
 	): Promise<void> {
 		if (runData.params.program) {
 			runData.params.program = await this.tryGetCompiledFile(
-				runData.params.program,
+				runData.params.program
 			);
 		}
 
 		this.attachSimplePort = await this.getSimpleAttachPortIfAny(
-			runData.params,
+			runData.params
 		);
 		const doLaunch = async (restartPolicy: IRestartPolicy) => {
 			// Close any existing program. We intentionally don't wait for stop() to
@@ -138,7 +143,7 @@ export class NodeLauncher extends NodeLauncherBase<INodeLaunchConfiguration> {
 
 			const binary = await this.resolveNodePath(
 				runData.params,
-				runData.params.runtimeExecutable || undefined,
+				runData.params.runtimeExecutable || undefined
 			);
 
 			const warning = binary.warning;
@@ -174,14 +179,14 @@ export class NodeLauncher extends NodeLauncherBase<INodeLaunchConfiguration> {
 			const launcher = this.launchers.find((l) => l.canLaunch(options));
 			if (!launcher) {
 				throw new Error(
-					"Cannot find an appropriate launcher for the given set of options",
+					"Cannot find an appropriate launcher for the given set of options"
 				);
 			}
 
 			let program = await launcher.launchProgram(
 				binary.path,
 				options,
-				runData.context,
+				runData.context
 			);
 
 			if (this.attachSimplePort) {
@@ -191,7 +196,7 @@ export class NodeLauncher extends NodeLauncherBase<INodeLaunchConfiguration> {
 					inspectorURL: await retryGetNodeEndpoint(
 						`http://127.0.0.1:${this.attachSimplePort}`,
 						runData.context.cancellationToken,
-						this.logger,
+						this.logger
 					),
 					waitForDebugger: true,
 					dynamicAttach: true,
@@ -252,7 +257,7 @@ export class NodeLauncher extends NodeLauncherBase<INodeLaunchConfiguration> {
 
 		const script = getRunScript(
 			params.runtimeExecutable,
-			params.runtimeArgs,
+			params.runtimeArgs
 		);
 		if (!script) {
 			return;
@@ -272,7 +277,7 @@ export class NodeLauncher extends NodeLauncherBase<INodeLaunchConfiguration> {
 	protected createLifecycle(
 		cdp: Cdp.Api,
 		run: IRunData<INodeLaunchConfiguration>,
-		{ targetId }: Cdp.Target.TargetInfo,
+		{ targetId }: Cdp.Target.TargetInfo
 	): INodeTargetLifecycleHooks {
 		return {
 			initialized: async () => {
@@ -291,12 +296,12 @@ export class NodeLauncher extends NodeLauncherBase<INodeLaunchConfiguration> {
 				// do our best to find the entrypoint from the run params.
 				const program = await tryGetProgramFromArgs(
 					this.fsUtils,
-					run.params,
+					run.params
 				);
 				if (!program) {
 					this.logger.warn(
 						LogTag.Runtime,
-						"Could not resolve program entrypointfrom args",
+						"Could not resolve program entrypointfrom args"
 					);
 					return;
 				}
@@ -360,7 +365,7 @@ export class NodeLauncher extends NodeLauncherBase<INodeLaunchConfiguration> {
 				from: targetProgram,
 				to: entry.compiledPath,
 				candidates: mapped.size,
-			},
+			}
 		);
 
 		return entry.compiledPath;

@@ -10,7 +10,7 @@ export interface IResourceProvider {
 	 */
 	fetch(
 		url: string,
-		cancellationToken?: CancellationToken,
+		cancellationToken?: CancellationToken
 	): Promise<Response<string>>;
 
 	/**
@@ -18,7 +18,7 @@ export interface IResourceProvider {
 	 */
 	fetchJson<T>(
 		url: string,
-		cancellationToken?: CancellationToken,
+		cancellationToken?: CancellationToken
 	): Promise<Response<T>>;
 }
 
@@ -29,12 +29,12 @@ export class HttpStatusError extends Error {
 	constructor(
 		public readonly statusCode: number,
 		public readonly url: string,
-		public readonly body?: string,
+		public readonly body?: string
 	) {
 		super(
 			`Unexpected ${statusCode} response from ${url}: ${
 				body ?? "<empty body>"
-			}`,
+			}`
 		);
 	}
 }

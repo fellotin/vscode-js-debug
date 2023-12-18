@@ -53,10 +53,13 @@ export class BrowserAttacher<
 	readonly onTargetListChanged = this._onTargetListChangedEmitter.event;
 
 	constructor(
-    @inject(ILogger) protected readonly logger: ILogger,
-    @inject(ISourcePathResolver) private readonly pathResolver: ISourcePathResolver,
-    @optional() @inject(VSCodeApi) private readonly vscode?: typeof vscodeType,
-  ) {}
+		@inject(ILogger) protected readonly logger: ILogger,
+		@inject(ISourcePathResolver)
+		private readonly pathResolver: ISourcePathResolver,
+		@optional()
+		@inject(VSCodeApi)
+		private readonly vscode?: typeof vscodeType
+	) {}
 
 	/**
 	 * @inheritdoc
@@ -86,7 +89,7 @@ export class BrowserAttacher<
 	 */
 	public async launch(
 		params: AnyLaunchConfiguration,
-		context: ILaunchContext,
+		context: ILaunchContext
 	): Promise<ILaunchResult> {
 		const resolved = this.resolveParams(params);
 		if (!resolved) {
@@ -118,7 +121,7 @@ export class BrowserAttacher<
 	protected createTargetManager(
 		connection: CdpConnection,
 		params: T,
-		context: ILaunchContext,
+		context: ILaunchContext
 	) {
 		return BrowserTargetManager.connect(
 			connection,
@@ -127,7 +130,7 @@ export class BrowserAttacher<
 			params,
 			this.logger,
 			context.telemetryReporter,
-			context.targetOrigin,
+			context.targetOrigin
 		);
 	}
 
@@ -138,7 +141,7 @@ export class BrowserAttacher<
 	private async attemptToAttach(params: T, context: ILaunchContext) {
 		const connection = await this.acquireConnectionForBrowser(
 			context,
-			params,
+			params
 		);
 
 		this._connection = connection;
@@ -158,7 +161,7 @@ export class BrowserAttacher<
 				}
 			},
 			undefined,
-			this._disposables,
+			this._disposables
 		);
 
 		const targetManager = (this._targetManager =
@@ -169,10 +172,10 @@ export class BrowserAttacher<
 		}
 
 		targetManager.serviceWorkerModel.onDidChange(() =>
-			this._onTargetListChangedEmitter.fire(),
+			this._onTargetListChangedEmitter.fire()
 		);
 		targetManager.frameModel.onFrameNavigated(() =>
-			this._onTargetListChangedEmitter.fire(),
+			this._onTargetListChangedEmitter.fire()
 		);
 		targetManager.onTargetAdded(() => {
 			this._onTargetListChangedEmitter.fire();
@@ -187,7 +190,7 @@ export class BrowserAttacher<
 
 		const result = await Promise.race([
 			targetManager.waitForMainTarget(
-				await this.getTargetFilter(targetManager, params),
+				await this.getTargetFilter(targetManager, params)
 			),
 			delay(params.timeout).then(() => {
 				throw new ProtocolError(targetPageNotFound());
@@ -202,7 +205,7 @@ export class BrowserAttacher<
 	 */
 	protected async getTargetFilter(
 		manager: BrowserTargetManager,
-		params: AnyChromiumAttachConfiguration,
+		params: AnyChromiumAttachConfiguration
 	): Promise<TargetFilter> {
 		const rawFilter = createTargetFilterForConfig(params);
 		const baseFilter = requirePageTarget(rawFilter);
@@ -226,7 +229,7 @@ export class BrowserAttacher<
 				detail: target.url,
 				targetId: target.targetId,
 			})),
-			{ matchOnDescription: true, matchOnDetail: true, placeHolder },
+			{ matchOnDescription: true, matchOnDetail: true, placeHolder }
 		);
 
 		if (!selected) {
@@ -241,14 +244,14 @@ export class BrowserAttacher<
 	 */
 	protected async acquireConnectionForBrowser(
 		{ telemetryReporter, cancellationToken }: ILaunchContext,
-		params: AnyChromiumAttachConfiguration,
+		params: AnyChromiumAttachConfiguration
 	): Promise<CdpConnection> {
 		while (this._lastLaunchParams === params) {
 			try {
 				return await this.acquireConnectionInner(
 					telemetryReporter,
 					params,
-					cancellationToken,
+					cancellationToken
 				);
 			} catch (e) {
 				if (cancellationToken.isCancellationRequested) {
@@ -257,9 +260,9 @@ export class BrowserAttacher<
 							l10n.t(
 								"Cannot connect to the target at {0}: {1}",
 								`${params.address}:${params.port}`,
-								e.message,
-							),
-						),
+								e.message
+							)
+						)
 					);
 				}
 
@@ -272,9 +275,9 @@ export class BrowserAttacher<
 				l10n.t(
 					"Cannot connect to the target at {0}: {1}",
 					`${params.address}:${params.port}`,
-					"Cancelled",
-				),
-			),
+					"Cancelled"
+				)
+			)
 		);
 	}
 
@@ -285,14 +288,14 @@ export class BrowserAttacher<
 	protected async acquireConnectionInner(
 		rawTelemetryReporter: ITelemetryReporter,
 		params: AnyChromiumAttachConfiguration,
-		cancellationToken: CancellationToken,
+		cancellationToken: CancellationToken
 	) {
 		const browserURL = `http://${params.address}:${params.port}`;
 		return await launcher.attach(
 			{ browserURL, inspectUri: params.inspectUri, pageURL: params.url },
 			cancellationToken,
 			this.logger,
-			rawTelemetryReporter,
+			rawTelemetryReporter
 		);
 	}
 

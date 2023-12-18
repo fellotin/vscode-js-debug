@@ -45,22 +45,22 @@ export class SourceMap implements SourceMapConsumer {
 		public readonly metadata: Readonly<ISourceMapMetadata>,
 		private readonly actualRoot: string,
 		public readonly actualSources: ReadonlyArray<string>,
-		public readonly hasNames: boolean,
+		public readonly hasNames: boolean
 	) {
 		if (actualSources.length !== original.sources.length) {
 			throw new Error(
-				`Expected actualSources.length === original.source.length`,
+				`Expected actualSources.length === original.source.length`
 			);
 		}
 
 		for (let i = 0; i < actualSources.length; i++) {
 			this.sourceActualToOriginal.set(
 				actualSources[i],
-				original.sources[i],
+				original.sources[i]
 			);
 			this.sourceOriginalToActual.set(
 				original.sources[i],
-				actualSources[i],
+				actualSources[i]
 			);
 		}
 	}
@@ -93,8 +93,8 @@ export class SourceMap implements SourceMapConsumer {
 				isDataUri(this.metadata.sourceMapUrl)
 					? this.metadata.compiledPath
 					: this.metadata.sourceMapUrl,
-				this.sourceRoot + sourceUrl,
-			),
+				this.sourceRoot + sourceUrl
+			)
 		);
 	}
 
@@ -109,7 +109,7 @@ export class SourceMap implements SourceMapConsumer {
 	 * @inheritdoc
 	 */
 	originalPositionFor(
-		generatedPosition: Position & { bias?: number | undefined },
+		generatedPosition: Position & { bias?: number | undefined }
 	): NullableMappedPosition {
 		const mapped = this.original.originalPositionFor(generatedPosition);
 		if (mapped.source) {
@@ -124,7 +124,7 @@ export class SourceMap implements SourceMapConsumer {
 	 * @inheritdoc
 	 */
 	generatedPositionFor(
-		originalPosition: MappedPosition & { bias?: number | undefined },
+		originalPosition: MappedPosition & { bias?: number | undefined }
 	): NullablePosition {
 		return this.original.generatedPositionFor({
 			...originalPosition,
@@ -138,7 +138,7 @@ export class SourceMap implements SourceMapConsumer {
 	 * @inheritdoc
 	 */
 	allGeneratedPositionsFor(
-		originalPosition: MappedPosition,
+		originalPosition: MappedPosition
 	): NullablePosition[] {
 		return this.original.allGeneratedPositionsFor({
 			...originalPosition,
@@ -160,11 +160,11 @@ export class SourceMap implements SourceMapConsumer {
 	 */
 	sourceContentFor(
 		source: string,
-		returnNullOnMissing?: boolean | undefined,
+		returnNullOnMissing?: boolean | undefined
 	): string | null {
 		return this.original.sourceContentFor(
 			this.sourceActualToOriginal.get(source) ?? source,
-			returnNullOnMissing,
+			returnNullOnMissing
 		);
 	}
 
@@ -174,7 +174,7 @@ export class SourceMap implements SourceMapConsumer {
 	eachMapping<ThisArg = void>(
 		callback: (this: ThisArg, mapping: MappingItem) => void,
 		context?: ThisArg,
-		order?: number | undefined,
+		order?: number | undefined
 	): void {
 		return this.original.eachMapping(callback, context, order);
 	}

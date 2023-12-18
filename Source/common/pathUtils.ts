@@ -21,8 +21,8 @@ export const getRandomPipe = () =>
 	path.join(
 		namedSocketDirectory,
 		`node-cdp.${process.pid}-${randomBytes(4).toString(
-			"hex",
-		)}-${pipeCounter++}.sock`,
+			"hex"
+		)}-${pipeCounter++}.sock`
 	);
 
 /*
@@ -31,7 +31,7 @@ export const getRandomPipe = () =>
 export async function findInPath(
 	fs: FsPromises,
 	program: string,
-	env: { [key: string]: string | null | undefined },
+	env: { [key: string]: string | null | undefined }
 ): Promise<string | undefined> {
 	let locator: string;
 	if (process.platform === "win32") {
@@ -85,7 +85,7 @@ export async function findInPath(
 export async function findExecutable(
 	fs: FsPromises,
 	program: string | undefined,
-	env: EnvironmentVars,
+	env: EnvironmentVars
 ): Promise<string | undefined> {
 	if (!program) {
 		return undefined;
@@ -169,7 +169,7 @@ export const properSplit = (path: string) => path.split(splitRe);
 
 export function fixDriveLetter(
 	aPath: string,
-	uppercaseDriveLetter = false,
+	uppercaseDriveLetter = false
 ): string {
 	if (!aPath) return aPath;
 
@@ -195,7 +195,7 @@ export function fixDriveLetter(
  */
 export function fixDriveLetterAndSlashes(
 	aPath: string,
-	uppercaseDriveLetter = false,
+	uppercaseDriveLetter = false
 ): string {
 	if (!aPath) return aPath;
 

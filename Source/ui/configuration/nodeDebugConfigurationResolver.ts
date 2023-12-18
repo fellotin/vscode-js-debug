@@ -49,19 +49,19 @@ type ResolvingNodeConfiguration =
 @injectable()
 export class NodeConfigurationResolver extends BaseConfigurationResolver<AnyNodeConfiguration> {
 	constructor(
-    @inject(ExtensionContext) context: vscode.ExtensionContext,
-    @inject(INvmResolver) private readonly nvmResolver: INvmResolver,
-    @inject(IFsUtils) private readonly fsUtils: LocalFsUtils,
-  ) {
-    super(context);
-  }
+		@inject(ExtensionContext) context: vscode.ExtensionContext,
+		@inject(INvmResolver) private readonly nvmResolver: INvmResolver,
+		@inject(IFsUtils) private readonly fsUtils: LocalFsUtils
+	) {
+		super(context);
+	}
 
 	/**
 	 * @inheritdoc
 	 */
 	public async resolveDebugConfigurationWithSubstitutedVariables(
 		_folder: vscode.WorkspaceFolder | undefined,
-		rawConfig: vscode.DebugConfiguration,
+		rawConfig: vscode.DebugConfiguration
 	): Promise<vscode.DebugConfiguration | undefined> {
 		const config = rawConfig as AnyNodeConfiguration;
 		if (
@@ -89,9 +89,9 @@ export class NodeConfigurationResolver extends BaseConfigurationResolver<AnyNode
 				vscode.window.showErrorMessage(
 					l10n.t(
 						"The configured `cwd` {0} does not exist.",
-						config.cwd,
+						config.cwd
 					),
-					{ modal: true },
+					{ modal: true }
 				);
 				return;
 			}
@@ -100,9 +100,9 @@ export class NodeConfigurationResolver extends BaseConfigurationResolver<AnyNode
 				vscode.window.showErrorMessage(
 					l10n.t(
 						"The configured `cwd` {0} is not a folder.",
-						config.cwd,
+						config.cwd
 					),
-					{ modal: true },
+					{ modal: true }
 				);
 				return;
 			}
@@ -117,14 +117,14 @@ export class NodeConfigurationResolver extends BaseConfigurationResolver<AnyNode
 	protected async resolveDebugConfigurationAsync(
 		folder: vscode.WorkspaceFolder | undefined,
 		config: ResolvingNodeConfiguration,
-		cancellationToken: CancellationToken,
+		cancellationToken: CancellationToken
 	): Promise<AnyNodeConfiguration | undefined> {
 		if (!config.name && !config.type && !config.request) {
 			config = await createLaunchConfigFromContext(folder, true, config);
 			if (config.request === "launch" && !config.program) {
 				vscode.window.showErrorMessage(
 					l10n.t("Cannot find a program to debug"),
-					{ modal: true },
+					{ modal: true }
 				);
 				return;
 			}
@@ -136,7 +136,7 @@ export class NodeConfigurationResolver extends BaseConfigurationResolver<AnyNode
 				config.localRoot || // https://github.com/microsoft/vscode-js-debug/issues/894#issuecomment-745449195
 				guessWorkingDirectory(
 					config.request === "launch" ? config.program : undefined,
-					folder,
+					folder
 				);
 		}
 
@@ -191,7 +191,7 @@ export class NodeConfigurationResolver extends BaseConfigurationResolver<AnyNode
 				config.env = new EnvironmentVars(config.env).addToPath(
 					directory,
 					"prepend",
-					true,
+					true
 				).value;
 				config.runtimeExecutable =
 					!config.runtimeExecutable ||
@@ -219,7 +219,7 @@ export class NodeConfigurationResolver extends BaseConfigurationResolver<AnyNode
 				if (config.attachSimplePort === 0) {
 					config.attachSimplePort = await findOpenPort(
 						undefined,
-						cancellationToken,
+						cancellationToken
 					);
 					const arg = `--inspect-brk=${config.attachSimplePort}`;
 					config.runtimeArgs = config.runtimeArgs
@@ -252,7 +252,7 @@ export class NodeConfigurationResolver extends BaseConfigurationResolver<AnyNode
 
 export function guessWorkingDirectory(
 	program?: string,
-	folder?: vscode.WorkspaceFolder,
+	folder?: vscode.WorkspaceFolder
 ): string {
 	if (folder) {
 		return folder.uri.fsPath;
@@ -285,13 +285,13 @@ export function guessWorkingDirectory(
 
 function getAbsoluteLocation(
 	folder: vscode.WorkspaceFolder | undefined,
-	relpath: string,
+	relpath: string
 ) {
 	if (folder) {
 		relpath = resolveVariableInConfig(
 			relpath,
 			"workspaceFolder",
-			folder.uri.fsPath,
+			folder.uri.fsPath
 		);
 	}
 
@@ -299,7 +299,7 @@ function getAbsoluteLocation(
 		relpath = resolveVariableInConfig(
 			relpath,
 			"workspaceRoot",
-			vscode.workspace.workspaceFolders[0].uri.fsPath,
+			vscode.workspace.workspaceFolders[0].uri.fsPath
 		);
 	}
 
@@ -324,7 +324,7 @@ function getAbsoluteLocation(
 async function guessOutFiles(
 	fsUtils: LocalFsUtils,
 	folder: vscode.WorkspaceFolder | undefined,
-	config: ResolvingNodeLaunchConfiguration,
+	config: ResolvingNodeLaunchConfiguration
 ) {
 	if (config.outFiles || !folder) {
 		return;
@@ -351,7 +351,7 @@ async function guessOutFiles(
 		programLocation,
 		async (p) =>
 			!p.includes("node_modules") &&
-			(await fsUtils.exists(path.join(p, "package.json"))),
+			(await fsUtils.exists(path.join(p, "package.json")))
 	);
 
 	if (root) {
@@ -383,7 +383,7 @@ const commonEntrypoints = ["index.js", "main.js"];
 export async function createLaunchConfigFromContext(
 	folder: vscode.WorkspaceFolder | undefined,
 	resolve: boolean,
-	existingConfig?: ResolvingNodeConfiguration,
+	existingConfig?: ResolvingNodeConfiguration
 ): Promise<ResolvingNodeConfiguration> {
 	const config: ResolvingNodeConfiguration = {
 		type: DebugType.Node,
@@ -405,8 +405,8 @@ export async function createLaunchConfigFromContext(
 			writeToConsole(
 				l10n.t(
 					"Launch configuration for '{0}' project created.",
-					"Mern Starter",
-				),
+					"Mern Starter"
+				)
 			);
 		}
 		configureMern(config);
@@ -418,7 +418,7 @@ export async function createLaunchConfigFromContext(
 		program = await guessProgramFromPackage(folder, pkg, resolve);
 		if (program && resolve) {
 			writeToConsole(
-				l10n.t("Launch configuration created based on 'package.json'."),
+				l10n.t("Launch configuration created based on 'package.json'.")
 			);
 		}
 	}
@@ -448,8 +448,8 @@ export async function createLaunchConfigFromContext(
 			commonEntrypoints.map(
 				async (file) =>
 					(await existsInjected(fs, path.join(basePath, file))) &&
-					"${workspaceFolder}" + path.sep + file,
-			),
+					"${workspaceFolder}" + path.sep + file
+			)
 		);
 	}
 
@@ -470,14 +470,14 @@ export async function createLaunchConfigFromContext(
 	if (
 		useSourceMaps ||
 		vscode.workspace.textDocuments.some((document) =>
-			isTranspiledLanguage(document.languageId),
+			isTranspiledLanguage(document.languageId)
 		)
 	) {
 		if (resolve) {
 			writeToConsole(
 				l10n.t(
-					"Adjust glob pattern(s) in the 'outFiles' attribute so that they cover the generated JavaScript.",
-				),
+					"Adjust glob pattern(s) in the 'outFiles' attribute so that they cover the generated JavaScript."
+				)
 			);
 		}
 
@@ -528,13 +528,13 @@ function isTranspiledLanguage(languagId: string): boolean {
 
 async function loadJSON<T>(
 	folder: vscode.WorkspaceFolder | undefined,
-	file: string,
+	file: string
 ): Promise<T | undefined> {
 	if (folder) {
 		try {
 			const content = await fs.readFile(
 				path.join(folder.uri.fsPath, file),
-				"utf8",
+				"utf8"
 			);
 			return JSON.parse(content);
 		} catch (error) {
@@ -549,7 +549,7 @@ async function loadJSON<T>(
 async function guessProgramFromPackage(
 	folder: vscode.WorkspaceFolder | undefined,
 	packageJson: IPartialPackageJson,
-	resolve: boolean,
+	resolve: boolean
 ): Promise<string | undefined> {
 	let program: string | undefined;
 

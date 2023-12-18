@@ -56,7 +56,7 @@ function globToRe(glob: string) {
 				regexParts.push(
 					wildcards
 						.map((s) => escapeRegexSpecialChars(s))
-						.join("[^\\/]*"),
+						.join("[^\\/]*")
 				);
 			} else {
 				regexParts.push(escapeRegexSpecialChars(p));

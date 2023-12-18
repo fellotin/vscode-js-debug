@@ -53,7 +53,7 @@ const watch: IPreviewContext = {
 const fallback: IPreviewContext = { budget: 100_000, quoted: true };
 
 export const getContextForType = (
-	type: PreviewContextType | string | undefined,
+	type: PreviewContextType | string | undefined
 ) => {
 	switch (type) {
 		case PreviewContextType.Repl:

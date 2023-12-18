@@ -34,7 +34,7 @@ export interface IConsole extends IDisposable {
 	 * cannot be parsed or should not be sent to the client.
 	 */
 	parse(
-		event: Cdp.Runtime.ConsoleAPICalledEvent,
+		event: Cdp.Runtime.ConsoleAPICalledEvent
 	): IConsoleMessage | undefined;
 
 	/**

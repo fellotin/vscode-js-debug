@@ -62,7 +62,7 @@ export class DelegateLauncher implements ILauncher {
 
 	constructor(
 		private readonly parentList: ObservableMap<number, IDelegateRef>,
-		private readonly logger: ILogger,
+		private readonly logger: ILogger
 	) {
 		parentList.onAdd(([, ref]) => {
 			// we don't need to recurse upwards for the parents, since we know we
@@ -87,7 +87,7 @@ export class DelegateLauncher implements ILauncher {
 	 */
 	public async launch(
 		params: AnyLaunchConfiguration,
-		context: ILaunchContext,
+		context: ILaunchContext
 	): Promise<ILaunchResult> {
 		if (params.type !== DebugType.Terminal || params.request !== "attach") {
 			return { blockSessionTermination: false };
@@ -99,7 +99,7 @@ export class DelegateLauncher implements ILauncher {
 			// town down a moment later. Ref: https://github.com/microsoft/vscode/issues/106576
 			setTimeout(
 				() => this.onTerminatedEmitter.fire({ killed: true, code: 0 }),
-				1,
+				1
 			);
 			return { blockSessionTermination: true };
 		}
@@ -107,7 +107,7 @@ export class DelegateLauncher implements ILauncher {
 		const origin = delegate.target.targetOrigin();
 		if (!(origin instanceof MutableTargetOrigin)) {
 			throw new Error(
-				`Expected delegate session to have a mutable target origin`,
+				`Expected delegate session to have a mutable target origin`
 			);
 		}
 

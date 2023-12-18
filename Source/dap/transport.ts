@@ -72,7 +72,7 @@ export class StreamDapTransport implements IDapTransport {
 	constructor(
 		private readonly inputStream: Readable,
 		private readonly outputStream: Writable,
-		logger?: ILogger,
+		logger?: ILogger
 	) {
 		this.logger = logger;
 		this._rawData = Buffer.alloc(0);
@@ -100,12 +100,12 @@ export class StreamDapTransport implements IDapTransport {
 		}
 		const data = `Content-Length: ${Buffer.byteLength(
 			json,
-			"utf8",
+			"utf8"
 		)}\r\n\r\n${json}`;
 		if (this.outputStream.destroyed) {
 			this.logger?.warn(
 				LogTag.DapSend,
-				"Message not sent. Connection was closed.",
+				"Message not sent. Connection was closed."
 			);
 			onDidWrite?.();
 			return;
@@ -118,7 +118,7 @@ export class StreamDapTransport implements IDapTransport {
 				this.logger?.error(
 					LogTag.DapSend,
 					"Error while writing to output stream",
-					err,
+					err
 				);
 				this.close();
 			}
@@ -144,7 +144,7 @@ export class StreamDapTransport implements IDapTransport {
 					const message = this._rawData.toString(
 						"utf8",
 						0,
-						this._contentLength,
+						this._contentLength
 					);
 					this._rawData = this._rawData.slice(this._contentLength);
 					this._contentLength = -1;
@@ -161,7 +161,7 @@ export class StreamDapTransport implements IDapTransport {
 							});
 						} catch (e) {
 							console.error(
-								"Error handling data: " + (e && e.message),
+								"Error handling data: " + (e && e.message)
 							);
 						}
 					}
@@ -206,10 +206,10 @@ export class SessionIdDapTransport implements IDapTransport {
 
 	constructor(
 		public readonly sessionId: string | undefined,
-		protected readonly rootTransport: IDapTransport,
+		protected readonly rootTransport: IDapTransport
 	) {
 		this.disposables.push(
-			rootTransport.messageReceived((e) => this.onMessage(e)),
+			rootTransport.messageReceived((e) => this.onMessage(e))
 		);
 		this.disposables.push(rootTransport.closed(() => this.close()));
 	}

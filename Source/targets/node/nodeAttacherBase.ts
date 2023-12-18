@@ -26,7 +26,7 @@ export abstract class NodeAttacherBase<
 > extends NodeLauncherBase<T> {
 	protected async appendEnvironmentVariables(
 		cdp: Cdp.Api,
-		vars: EnvironmentVars,
+		vars: EnvironmentVars
 	) {
 		const expression =
 			`typeof process==='undefined'||process.pid===undefined?'process not defined':(()=>{` +
@@ -35,8 +35,8 @@ export abstract class NodeAttacherBase<
 					const k = JSON.stringify(key);
 					return appendVars.includes(key)
 						? `process.env[${k}]=(process.env[${k}]||'')+${JSON.stringify(
-								value,
-						  )}`
+								value
+							)}`
 						: `process.env[${k}]=${JSON.stringify(value)}`;
 				})
 				.join(";") +
@@ -53,7 +53,7 @@ export abstract class NodeAttacherBase<
 			if (!result) {
 				this.logger.error(
 					LogTag.RuntimeTarget,
-					"Undefined result setting child environment vars",
+					"Undefined result setting child environment vars"
 				);
 				return;
 			}
@@ -68,7 +68,7 @@ export abstract class NodeAttacherBase<
 			this.logger.error(
 				LogTag.RuntimeTarget,
 				"Error setting child environment vars",
-				result,
+				result
 			);
 			await delay(50);
 		}

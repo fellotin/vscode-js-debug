@@ -14,7 +14,7 @@ export const enumerateProperties = remoteFunction(function (
 	this: unknown,
 	target: unknown,
 	prefix: string,
-	isGlobal: boolean,
+	isGlobal: boolean
 ) {
 	const defaultType = isGlobal
 		? CompletionKind.Variable
@@ -22,7 +22,7 @@ export const enumerateProperties = remoteFunction(function (
 	const getCompletionKind = (
 		name: string,
 		dtype: string | undefined,
-		value: unknown,
+		value: unknown
 	) => {
 		if (dtype !== "function") {
 			return defaultType;
@@ -72,7 +72,7 @@ export const enumerateProperties = remoteFunction(function (
 	for (; object != null; object = (object as any).__proto__) {
 		sortPrefix += "~";
 		const props = Object.getOwnPropertyNames(object).filter(
-			(l) => l.startsWith(prefix) && !l.match(/^\d+$/),
+			(l) => l.startsWith(prefix) && !l.match(/^\d+$/)
 		);
 
 		for (const name of props) {

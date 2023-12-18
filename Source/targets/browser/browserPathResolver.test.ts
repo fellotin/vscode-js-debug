@@ -39,8 +39,8 @@ export const testVueMapper: IVueFileMapper = {
 		url.includes("lookup.vue")
 			? VueHandling.Lookup
 			: url.includes("omit.vue")
-			  ? VueHandling.Omit
-			  : VueHandling.Unhandled,
+				? VueHandling.Omit
+				: VueHandling.Unhandled,
 };
 
 describe("BrowserPathResolver", () => {
@@ -74,14 +74,14 @@ describe("BrowserPathResolver", () => {
 				clientID: "vscode",
 				baseUrl: "http://localhost:1234/",
 				sourceMapOverrides: defaultSourceMapPathOverrides(
-					path.join(testFixturesDir, "web"),
+					path.join(testFixturesDir, "web")
 				),
 				localRoot: null,
 				remoteRoot: null,
 				resolveSourceMapLocations: null,
 				remoteFilePrefix: undefined,
 			},
-			Logger.null,
+			Logger.null
 		);
 
 		const fakeMap = {
@@ -90,7 +90,7 @@ describe("BrowserPathResolver", () => {
 				sourceMapUrl: path.join(
 					testFixturesDir,
 					"web",
-					"bundle.map.js",
+					"bundle.map.js"
 				),
 			} as ISourceMapMetadata,
 		} as unknown as SourceMap;
@@ -100,16 +100,11 @@ describe("BrowserPathResolver", () => {
 				await resolver.urlToAbsolutePath({
 					url: "lookup.vue",
 					map: fakeMap,
-				}),
+				})
 			).to.equal(
 				fixDriveLetter(
-					path.join(
-						testFixturesDir,
-						"web",
-						"looked up",
-						"lookup.vue",
-					),
-				),
+					path.join(testFixturesDir, "web", "looked up", "lookup.vue")
+				)
 			);
 		});
 
@@ -118,7 +113,7 @@ describe("BrowserPathResolver", () => {
 				await resolver.urlToAbsolutePath({
 					url: "omit.vue",
 					map: fakeMap,
-				}),
+				})
 			).to.be.undefined;
 		});
 
@@ -127,11 +122,11 @@ describe("BrowserPathResolver", () => {
 				await resolver.urlToAbsolutePath({
 					url: "whatever.vue",
 					map: fakeMap,
-				}),
+				})
 			).to.equal(
 				fixDriveLetter(
-					path.join(testFixturesDir, "web", "whatever.vue"),
-				),
+					path.join(testFixturesDir, "web", "whatever.vue")
+				)
 			);
 		});
 
@@ -154,7 +149,7 @@ describe("BrowserPathResolver", () => {
 							onChild(path.join(testFixturesDir, "web", "b.vue")),
 						]);
 					},
-				},
+				}
 			);
 
 			it("has correct vue handling", () => {
@@ -174,7 +169,7 @@ describe("BrowserPathResolver", () => {
 
 			it("maps basenames to disk", async () => {
 				expect(await mapper.lookup("webpack:///a.vue?f00d")).to.equal(
-					path.join(testFixturesDir, "web", "a.vue"),
+					path.join(testFixturesDir, "web", "a.vue")
 				);
 				expect(await mapper.lookup("webpack:///q.vue?f00d")).to.be
 					.undefined;
@@ -209,13 +204,13 @@ describe("BrowserPathResolver", () => {
 						"/sibling": path.join(testFixturesDir, "sibling-dir"),
 						"https://example.com/abs": path.join(
 							testFixturesDir,
-							"abs",
+							"abs"
 						),
 					},
 					clientID: "vscode",
 					baseUrl: "http://localhost:1234/",
 					sourceMapOverrides: defaultSourceMapPathOverrides(
-						path.join(testFixturesDir, "web"),
+						path.join(testFixturesDir, "web")
 					),
 					localRoot: null,
 					remoteRoot: null,
@@ -223,27 +218,22 @@ describe("BrowserPathResolver", () => {
 					remoteFilePrefix: undefined,
 					...options,
 				},
-				Logger.null,
+				Logger.null
 			);
 
 		it("selects webRoot correctly", () => {
 			const e1 = "http://localhost:1234/foo/bar(\\.html)?";
 			expect(
 				resolver().absolutePathToUrlRegexp(
-					path.join(testFixturesDir, "web", "foo", "bar.html"),
-				),
+					path.join(testFixturesDir, "web", "foo", "bar.html")
+				)
 			).to.equal(urlToRegex(e1, [0, e1.length - 9]));
 
 			const e2 = "http://localhost:1234/sibling/foo/bar(\\.html)?";
 			expect(
 				resolver().absolutePathToUrlRegexp(
-					path.join(
-						testFixturesDir,
-						"sibling-dir",
-						"foo",
-						"bar.html",
-					),
-				),
+					path.join(testFixturesDir, "sibling-dir", "foo", "bar.html")
+				)
 			).to.equal(urlToRegex(e2, [0, e2.length - 9]));
 		});
 
@@ -251,8 +241,8 @@ describe("BrowserPathResolver", () => {
 			const e = "http://localhost:1234/../foo/bar(\\.html)?";
 			expect(
 				resolver().absolutePathToUrlRegexp(
-					path.join(testFixturesDir, "foo", "bar.html"),
-				),
+					path.join(testFixturesDir, "foo", "bar.html")
+				)
 			).to.equal(urlToRegex(e, [0, e.length - 9]));
 		});
 
@@ -260,19 +250,19 @@ describe("BrowserPathResolver", () => {
 			const filePath = path.join(testFixturesDir, "web", "foo.js");
 			expect(
 				resolver({ baseUrl: undefined }).absolutePathToUrlRegexp(
-					filePath,
-				),
+					filePath
+				)
 			).to.equal(
 				urlToRegex(absolutePathToFileUrl(filePath)) +
-					"|[hH][tT][tT][pP][sS]?:\\/\\/[^\\/]+\\/[fF][oO][oO]\\.[jJ][sS]($|\\?)",
+					"|[hH][tT][tT][pP][sS]?:\\/\\/[^\\/]+\\/[fF][oO][oO]\\.[jJ][sS]($|\\?)"
 			);
 		});
 
 		it("does not mangle absolute pathmapping", () => {
 			expect(
 				resolver({ baseUrl: undefined }).absolutePathToUrlRegexp(
-					path.join(testFixturesDir, "abs", "x.js"),
-				),
+					path.join(testFixturesDir, "abs", "x.js")
+				)
 			).to.equal(urlToRegex("https://example.com/abs/x.js"));
 		});
 
@@ -284,8 +274,8 @@ describe("BrowserPathResolver", () => {
 						"/override": path.join(testFixturesDir, "web"),
 					},
 				}).absolutePathToUrlRegexp(
-					path.join(testFixturesDir, "web", "x.js"),
-				),
+					path.join(testFixturesDir, "web", "x.js")
+				)
 			).to.equal(urlToRegex("http://localhost:1234/override/x.js"));
 		});
 	});
@@ -312,7 +302,7 @@ describe("BrowserPathResolver", () => {
 					resolveSourceMapLocations: null,
 					remoteFilePrefix: undefined,
 				},
-				await Logger.test(),
+				await Logger.test()
 			);
 
 			const url = "webpack:///src/app/app.component.html";
@@ -324,7 +314,7 @@ describe("BrowserPathResolver", () => {
 			});
 
 			expect(absolutePath).to.equal(
-				`c:\\Users\\user\\Source\\Repos\\Angular Project\\${folder}\\src\\app\\app.component.html`,
+				`c:\\Users\\user\\Source\\Repos\\Angular Project\\${folder}\\src\\app\\app.component.html`
 			);
 		});
 	});

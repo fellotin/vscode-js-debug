@@ -17,7 +17,7 @@ declare const DUMP: IDiagnosticDump | undefined;
 const App: FunctionComponent<{ dump: IDiagnosticDump }> = ({ dump }) => {
 	const [experience, setExperience] = usePersistedState<Experience>(
 		"experience",
-		Experience.Intro,
+		Experience.Intro
 	);
 
 	return (
@@ -29,8 +29,7 @@ const App: FunctionComponent<{ dump: IDiagnosticDump }> = ({ dump }) => {
 					<a
 						role="button"
 						onClick={() => setExperience(Experience.Intro)}
-						className="back"
-					>
+						className="back">
 						&larr; Back
 					</a>
 					{experience === Experience.BreakpointHelper ? (

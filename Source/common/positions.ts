@@ -38,7 +38,7 @@ export class Base0Position implements IPosition {
 
 	constructor(
 		public readonly lineNumber: number,
-		public readonly columnNumber: number,
+		public readonly columnNumber: number
 	) {}
 
 	public get base0() {
@@ -70,7 +70,7 @@ export class Base1Position implements IPosition {
 
 	constructor(
 		public readonly lineNumber: number,
-		public readonly columnNumber: number,
+		public readonly columnNumber: number
 	) {}
 
 	public get base0() {
@@ -103,7 +103,7 @@ export class Base01Position implements IPosition {
 
 	constructor(
 		public readonly lineNumber: number,
-		public readonly columnNumber: number,
+		public readonly columnNumber: number
 	) {}
 
 	public get base0() {
@@ -130,11 +130,11 @@ export class Base01Position implements IPosition {
 export class Range {
 	public static ZERO = new Range(
 		new Base0Position(0, 0),
-		new Base0Position(0, 0),
+		new Base0Position(0, 0)
 	);
 	public static INFINITE = new Range(
 		new Base0Position(0, 0),
-		new Base0Position(Infinity, Infinity),
+		new Base0Position(Infinity, Infinity)
 	);
 
 	/**
@@ -167,7 +167,7 @@ export class Range {
 
 	constructor(
 		public readonly begin: IPosition,
-		public readonly end: IPosition,
+		public readonly end: IPosition
 	) {}
 
 	/**

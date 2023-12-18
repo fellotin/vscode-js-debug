@@ -45,7 +45,7 @@ export class SourceAnnotationHelper {
 			callFrame,
 			locations: (async () => {
 				const source = await this.sources.getScriptById(
-					callFrame.scriptId,
+					callFrame.scriptId
 				)?.source;
 				if (!source) {
 					return [];
@@ -61,7 +61,7 @@ export class SourceAnnotationHelper {
 					locations.map(async (loc) => ({
 						...loc,
 						source: await loc.source.toDapShallow(),
-					})),
+					}))
 				);
 			})(),
 		});
@@ -76,7 +76,7 @@ export class SourceAnnotationHelper {
 				.map(async (l) => ({
 					callFrame: l.callFrame,
 					locations: await l.locations,
-				})),
+				}))
 		);
 	}
 }

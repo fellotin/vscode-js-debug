@@ -30,7 +30,10 @@ const replacer = (_key: string, value: unknown): unknown => {
 export class FileLogSink implements ILogSink {
 	private stream?: Writable;
 
-	constructor(private readonly file: string, private readonly dap?: Dap.Api) {
+	constructor(
+		private readonly file: string,
+		private readonly dap?: Dap.Api
+	) {
 		try {
 			mkdirSync(dirname(file), { recursive: true });
 		} catch {

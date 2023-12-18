@@ -27,17 +27,17 @@ import { BrowserLauncher } from "./browserLauncher";
 @injectable()
 export class ChromeLauncher extends BrowserLauncher<IChromeLaunchConfiguration> {
 	constructor(
-    @inject(StoragePath) storagePath: string,
-    @inject(ILogger) logger: ILogger,
-    @inject(BrowserFinder)
-    @tagged('browser', 'chrome')
-    protected readonly browserFinder: IBrowserFinder,
-    @inject(FS) fs: FsPromises,
-    @inject(ISourcePathResolver) pathResolver: ISourcePathResolver,
-    @inject(IInitializeParams) initializeParams: Dap.InitializeParams,
-  ) {
-    super(storagePath, logger, pathResolver, initializeParams, fs);
-  }
+		@inject(StoragePath) storagePath: string,
+		@inject(ILogger) logger: ILogger,
+		@inject(BrowserFinder)
+		@tagged("browser", "chrome")
+		protected readonly browserFinder: IBrowserFinder,
+		@inject(FS) fs: FsPromises,
+		@inject(ISourcePathResolver) pathResolver: ISourcePathResolver,
+		@inject(IInitializeParams) initializeParams: Dap.InitializeParams
+	) {
+		super(storagePath, logger, pathResolver, initializeParams, fs);
+	}
 
 	/**
 	 * @inheritdoc
@@ -56,15 +56,15 @@ export class ChromeLauncher extends BrowserLauncher<IChromeLaunchConfiguration> 
 	protected async findBrowserPath(executablePath: string): Promise<string> {
 		const resolvedPath = await this.findBrowserByExe(
 			this.browserFinder,
-			executablePath,
+			executablePath
 		);
 		if (!resolvedPath || !(await canAccess(this.fs, resolvedPath))) {
 			throw new ProtocolError(
 				browserNotFound(
 					"Chrome",
 					executablePath,
-					(await this.browserFinder.findAll()).map((b) => b.quality),
-				),
+					(await this.browserFinder.findAll()).map((b) => b.quality)
+				)
 			);
 		}
 

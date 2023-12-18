@@ -54,7 +54,7 @@ export class NodeDynamicDebugConfigurationProvider extends BaseConfigurationProv
 			await Promise.all([
 				this.getFromNpmScripts(folder),
 				this.getFromActiveFile(),
-			]),
+			])
 		);
 
 		// convert any absolute paths to directories or files to nicer ${workspaceFolder}-based paths
@@ -68,7 +68,7 @@ export class NodeDynamicDebugConfigurationProvider extends BaseConfigurationProv
 					if (value && path.isAbsolute(value)) {
 						config[key] = path.join(
 							"${workspaceFolder}",
-							path.relative(folder.uri.fsPath, value),
+							path.relative(folder.uri.fsPath, value)
 						);
 					}
 				}
@@ -90,7 +90,7 @@ export class NodeDynamicDebugConfigurationProvider extends BaseConfigurationProv
 	 * Adds suggestions discovered from npm scripts.
 	 */
 	protected async getFromNpmScripts(
-		folder?: vscode.WorkspaceFolder,
+		folder?: vscode.WorkspaceFolder
 	): Promise<DynamicConfig[]> {
 		const openTerminal: AnyResolvingConfiguration = {
 			type: getPreferredOrDebugType(DebugType.Terminal),

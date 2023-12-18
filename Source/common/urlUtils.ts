@@ -57,7 +57,7 @@ export function comparePathsWithoutCasing(a: string, b: string) {
 export function comparePathsWithoutCasingOrSlashes(a: string, b: string) {
 	return comparePathsWithoutCasing(
 		forceForwardSlashes(a),
-		forceForwardSlashes(b),
+		forceForwardSlashes(b)
 	);
 }
 
@@ -94,7 +94,7 @@ export const getNormalizedBinaryName = (binaryPath: string) => {
  */
 export const nearestDirectoryWhere = async (
 	rootDir: string,
-	predicate: (dir: string) => Promise<boolean>,
+	predicate: (dir: string) => Promise<boolean>
 ): Promise<string | undefined> => {
 	while (true) {
 		if (await predicate(rootDir)) {
@@ -116,7 +116,7 @@ export const nearestDirectoryWhere = async (
 export const nearestDirectoryContaining = (
 	fsUtils: IFsUtils,
 	rootDir: string,
-	file: string,
+	file: string
 ) => nearestDirectoryWhere(rootDir, (p) => fsUtils.exists(path.join(p, file)));
 
 // todo: not super correct, and most node libraries don't handle this accurately
@@ -174,7 +174,7 @@ export const isLoopback = memoize(async (address: string) => {
 
 export function completeUrl(
 	base: string | undefined,
-	relative: string,
+	relative: string
 ): string | undefined {
 	try {
 		return new URL(relative, base).href;
@@ -196,7 +196,7 @@ export function removeQueryString(url: string) {
 // This allows relative source map sources to reference outside of webRoot.
 export function completeUrlEscapingRoot(
 	base: string | undefined,
-	relative: string,
+	relative: string
 ): string {
 	try {
 		new URL(relative);
@@ -281,7 +281,7 @@ export function fileUrlToAbsolutePath(urlOrPath: string): string | undefined {
 					} else {
 						return `${scheme}://`; // Url has own authority.
 					}
-				},
+				}
 			);
 	} else if (!isFileUrl(urlOrPath)) {
 		return undefined;
@@ -338,7 +338,7 @@ export function absolutePathToFileUrl(absolutePath: string): string {
  * different from {@link absolutePathToFileUrl}, but should be more correct.
  */
 export function absolutePathToFileUrlWithDetection(
-	absolutePath: string,
+	absolutePath: string
 ): string {
 	if (!absolutePath.startsWith("/")) {
 		return "file:///" + platformPathToUrlPath(absolutePath);
@@ -363,7 +363,7 @@ export function isDataUri(uri: string | undefined | null): uri is string {
 const urlToRegexChar = (
 	char: string,
 	arr: Set<string>,
-	escapeRegex: boolean,
+	escapeRegex: boolean
 ) => {
 	if (!escapeRegex || char === ":") {
 		arr.add(char);
@@ -408,7 +408,7 @@ const charRangeToUrlReGroup = (
 	str: string,
 	start: number,
 	end: number,
-	escapeRegex: boolean,
+	escapeRegex: boolean
 ) => {
 	let re = "";
 
@@ -422,12 +422,12 @@ const charRangeToUrlReGroup = (
 			urlToRegexChar(
 				char.toLowerCase(),
 				charToUrlReGroupSet,
-				escapeRegex,
+				escapeRegex
 			);
 			urlToRegexChar(
 				char.toUpperCase(),
 				charToUrlReGroupSet,
-				escapeRegex,
+				escapeRegex
 			);
 		}
 
@@ -442,7 +442,7 @@ const charRangeToUrlReGroup = (
  */
 export function urlToRegex(
 	aPath: string,
-	[escapeReStart, escapeReEnd]: [number, number] = [0, aPath.length],
+	[escapeReStart, escapeReEnd]: [number, number] = [0, aPath.length]
 ) {
 	if (escapeReEnd <= escapeReStart) {
 		return aPath;
@@ -456,7 +456,7 @@ export function urlToRegex(
 		aPath,
 		escapeReEnd,
 		aPath.length,
-		false,
+		false
 	);
 	const unescapedPath = aPath.slice(escapeReStart, escapeReEnd);
 
@@ -485,8 +485,8 @@ export function urlToRegex(
 		// an insensitive drive letter.
 		patterns.push(
 			makeDriveLetterReCaseInsensitive(
-				`${rePrefix}${re}${reSuffix}`,
-			).concat("($|\\?)"),
+				`${rePrefix}${re}${reSuffix}`
+			).concat("($|\\?)")
 		);
 	}
 
@@ -497,7 +497,7 @@ export const makeDriveLetterReCaseInsensitive = (re: string) =>
 	re.replace(
 		/^(file:\\\/\\\/\\\/)?([a-z]):/i,
 		(_, file = "", letter) =>
-			`${file}[${letter.toUpperCase()}${letter.toLowerCase()}]:`,
+			`${file}[${letter.toUpperCase()}${letter.toLowerCase()}]:`
 	);
 
 /**
@@ -514,7 +514,7 @@ export function isFileUrl(candidate: string): candidate is FileUrl {
 
 export function maybeAbsolutePathToFileUrl(
 	rootPath: string | undefined,
-	sourceUrl: string,
+	sourceUrl: string
 ): string {
 	if (
 		rootPath &&
@@ -561,10 +561,10 @@ export function platformPathToUrlPath(p: string): string {
 
 export function platformPathToPreferredCase(p: string): string;
 export function platformPathToPreferredCase(
-	p: string | undefined,
+	p: string | undefined
 ): string | undefined;
 export function platformPathToPreferredCase(
-	p: string | undefined,
+	p: string | undefined
 ): string | undefined {
 	if (p && platform === "win32" && p[1] === ":")
 		return p[0].toUpperCase() + p.substring(1);
@@ -578,7 +578,7 @@ export type TargetFilter = (info: Cdp.Target.TargetInfo) => boolean;
  */
 export const createTargetFilterForConfig = (
 	config: AnyChromiumConfiguration,
-	additonalMatches: ReadonlyArray<string> = [],
+	additonalMatches: ReadonlyArray<string> = []
 ): ((t: { url: string }) => boolean) => {
 	const filter =
 		config.urlFilter || ("file" in config && config.file) || config.url;
@@ -636,7 +636,7 @@ export const createTargetFilter = (
 		if (hashIndex !== -1) {
 			aUrl = aUrl.slice(
 				0,
-				aUrl[hashIndex - 1] === "/" ? hashIndex - 1 : hashIndex,
+				aUrl[hashIndex - 1] === "/" ? hashIndex - 1 : hashIndex
 			);
 		}
 
@@ -646,8 +646,8 @@ export const createTargetFilter = (
 	const escaped = targetUrls.map((url) =>
 		escapeRegexSpecialChars(standardizeMatch(url), "/*").replace(
 			/(\/\*$)|\*/g,
-			".*",
-		),
+			".*"
+		)
 	);
 	const targetUrlRegex = new RegExp("^(" + escaped.join("|") + ")$", "g");
 

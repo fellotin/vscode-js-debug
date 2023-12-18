@@ -31,14 +31,14 @@ export interface IRenameProvider {
 	 * Provides renames at the given stackframe.
 	 */
 	provideOnStackframe(
-		frame: StackFrame,
+		frame: StackFrame
 	): RenameMapping | Promise<RenameMapping>;
 
 	/**
 	 * Provides renames for the given Source.
 	 */
 	provideForSource(
-		source: Source | undefined,
+		source: Source | undefined
 	): RenameMapping | Promise<RenameMapping>;
 }
 
@@ -52,10 +52,12 @@ export class RenameProvider implements IRenameProvider {
 	>();
 
 	constructor(
-    @inject(ILogger) private readonly logger: ILogger,
-    @inject(ISourceMapFactory) private readonly sourceMapFactory: ISourceMapFactory,
-    @inject(AnyLaunchConfiguration) private readonly launchConfig: AnyLaunchConfiguration,
-  ) {}
+		@inject(ILogger) private readonly logger: ILogger,
+		@inject(ISourceMapFactory)
+		private readonly sourceMapFactory: ISourceMapFactory,
+		@inject(AnyLaunchConfiguration)
+		private readonly launchConfig: AnyLaunchConfiguration
+	) {}
 
 	/**
 	 * @inheritdoc
@@ -130,7 +132,7 @@ export class RenameProvider implements IRenameProvider {
 				`Error parsing content for source tree: ${e}}`,
 				{
 					url: sourceMap.metadata.compiledPath,
-				},
+				}
 			);
 			return RenameMapping.None;
 		}
@@ -144,7 +146,7 @@ export class RenameProvider implements IRenameProvider {
 
 			const position = new Base01Position(
 				mapping.generatedLine,
-				mapping.generatedColumn,
+				mapping.generatedColumn
 			).base0;
 			const start = toOffset.convert(position);
 			identifierRe.lastIndex = start;
@@ -175,7 +177,7 @@ export class RenameProvider implements IRenameProvider {
 			`renames calculated in ${end - start}ms`,
 			{
 				url: sourceMap.metadata.compiledPath,
-			},
+			}
 		);
 
 		return new RenameMapping(scopeTree);
@@ -200,7 +202,7 @@ export class RenameMapping {
 	public getOriginalName(compiledName: string, compiledPosition: IPosition) {
 		return this.getClosestRename(
 			compiledPosition,
-			(r) => r.compiled === compiledName,
+			(r) => r.compiled === compiledName
 		)?.original;
 	}
 
@@ -210,16 +212,17 @@ export class RenameMapping {
 	public getCompiledName(originalName: string, compiledPosition: IPosition) {
 		return this.getClosestRename(
 			compiledPosition,
-			(r) => r.original === originalName,
+			(r) => r.original === originalName
 		)?.compiled;
 	}
 
 	private getClosestRename(
 		compiledPosition: IPosition,
-		filter: (rename: IRename) => boolean,
+		filter: (rename: IRename) => boolean
 	) {
-		return this.renames.findDeepest(compiledPosition, (n) =>
-			n.data?.find(filter),
+		return this.renames.findDeepest(
+			compiledPosition,
+			(n) => n.data?.find(filter)
 		);
 	}
 }

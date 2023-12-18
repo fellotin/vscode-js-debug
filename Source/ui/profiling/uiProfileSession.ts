@@ -54,7 +54,7 @@ export class UiProfileSession implements IDisposable {
 	constructor(
 		public readonly session: vscode.DebugSession,
 		public readonly impl: IProfilerCtor,
-		private readonly termination?: ITerminationCondition,
+		private readonly termination?: ITerminationCondition
 	) {
 		this.disposables.push(
 			vscode.debug.onDidReceiveDebugSessionCustomEvent((event) => {
@@ -69,7 +69,7 @@ export class UiProfileSession implements IDisposable {
 				if (s === session) {
 					this.stopEmitter.fire(undefined);
 				}
-			}),
+			})
 		);
 
 		if (termination) {
@@ -92,7 +92,7 @@ export class UiProfileSession implements IDisposable {
 					this.session.customRequest("startProfile", {
 						type: this.impl.type,
 						...this.termination?.customData,
-					}),
+					})
 			);
 		} catch (e) {
 			vscode.window.showErrorMessage(e.message);
@@ -132,7 +132,7 @@ export class UiProfileSession implements IDisposable {
 				location: vscode.ProgressLocation.Window,
 				title: l10n.t("Stopping profile..."),
 			},
-			() => this.session.customRequest("stopProfile", {}),
+			() => this.session.customRequest("stopProfile", {})
 		);
 
 		// this will trigger a profileStateUpdate with running=false

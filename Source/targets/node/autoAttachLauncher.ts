@@ -58,22 +58,24 @@ export class AutoAttachLauncher
 	private telemetryItems = new Map<number, IProcessTelemetry>();
 
 	constructor(
-    @inject(INodeBinaryProvider) pathProvider: INodeBinaryProvider,
-    @inject(ILogger) logger: ILogger,
-    @inject(ExtensionContext) private readonly extensionContext: vscode.ExtensionContext,
-    @inject(FS) private readonly fs: FsPromises,
-    @inject(ISourcePathResolverFactory) pathResolverFactory: ISourcePathResolverFactory,
-    @inject(IPortLeaseTracker) portLeaseTracker: IPortLeaseTracker,
-  ) {
-    super(pathProvider, logger, portLeaseTracker, pathResolverFactory);
-  }
+		@inject(INodeBinaryProvider) pathProvider: INodeBinaryProvider,
+		@inject(ILogger) logger: ILogger,
+		@inject(ExtensionContext)
+		private readonly extensionContext: vscode.ExtensionContext,
+		@inject(FS) private readonly fs: FsPromises,
+		@inject(ISourcePathResolverFactory)
+		pathResolverFactory: ISourcePathResolverFactory,
+		@inject(IPortLeaseTracker) portLeaseTracker: IPortLeaseTracker
+	) {
+		super(pathProvider, logger, portLeaseTracker, pathResolverFactory);
+	}
 
 	/**
 	 * Gets the address of the socket server that children must use to connect.
 	 */
 	public get deferredSocketName() {
 		const options = this.extensionContext.environmentVariableCollection.get(
-			"VSCODE_INSPECTOR_OPTIONS",
+			"VSCODE_INSPECTOR_OPTIONS"
 		);
 
 		if (!options) {
@@ -93,7 +95,7 @@ export class AutoAttachLauncher
 		return Promise.resolve(
 			target instanceof NodeTarget
 				? this.telemetryItems.get(target.processId())
-				: undefined,
+				: undefined
 		);
 	}
 
@@ -101,7 +103,7 @@ export class AutoAttachLauncher
 	 * @inheritdoc
 	 */
 	protected resolveParams(
-		params: AnyLaunchConfiguration,
+		params: AnyLaunchConfiguration
 	): ITerminalLaunchConfiguration | undefined {
 		if (params.type === DebugType.Terminal && params.request === "launch") {
 			return params;
@@ -114,11 +116,11 @@ export class AutoAttachLauncher
 	 * Launches the program.
 	 */
 	protected async launchProgram(
-		runData: IRunData<ITerminalLaunchConfiguration>,
+		runData: IRunData<ITerminalLaunchConfiguration>
 	): Promise<void> {
 		await this.applyInspectorOptions(
 			this.extensionContext.environmentVariableCollection,
-			runData,
+			runData
 		);
 		this.program = new StubProgram();
 		this.program.stopped.then((data) => this.onProgramTerminated(data));
@@ -132,14 +134,14 @@ export class AutoAttachLauncher
 		if (this.run) {
 			await this.applyInspectorOptions(
 				this.extensionContext.environmentVariableCollection,
-				this.run,
+				this.run
 			);
 		}
 	}
 
 	private async applyInspectorOptions(
 		variables: vscode.EnvironmentVariableCollection,
-		runData: IRunData<ITerminalLaunchConfiguration>,
+		runData: IRunData<ITerminalLaunchConfiguration>
 	) {
 		let binary: NodeBinary;
 		try {
@@ -157,7 +159,7 @@ export class AutoAttachLauncher
 
 		const autoAttachMode = readConfig(
 			vscode.workspace,
-			Configuration.AutoAttachMode,
+			Configuration.AutoAttachMode
 		);
 		const debugVars = await this.resolveEnvironment(runData, binary, {
 			deferredMode: true,
@@ -186,19 +188,19 @@ export class AutoAttachLauncher
 					"https://code.visualstudio.com/docs/nodejs/nodejs-debugging#_auto-attach",
 					autoAttachMode,
 				],
-			}),
+			})
 		);
 		variables.prepend("NODE_OPTIONS", bootloaderEnv.NODE_OPTIONS);
 		variables.append(
 			"VSCODE_INSPECTOR_OPTIONS",
-			bootloaderEnv.VSCODE_INSPECTOR_OPTIONS,
+			bootloaderEnv.VSCODE_INSPECTOR_OPTIONS
 		);
 	}
 
 	private readSmartPatterns() {
 		const configured = readConfig(
 			vscode.workspace,
-			Configuration.AutoAttachSmartPatterns,
+			Configuration.AutoAttachSmartPatterns
 		);
 		const allFolders =
 			vscode.workspace.workspaceFolders?.length === 1
@@ -218,7 +220,7 @@ export class AutoAttachLauncher
 	 */
 	protected async getBootloaderFile(
 		cwd: string | undefined,
-		binary: NodeBinary,
+		binary: NodeBinary
 	) {
 		// Use the local bootloader in development mode for easier iteration
 		// if (this.extensionContext.extensionMode === vscode.ExtensionMode.Development) {
@@ -235,7 +237,7 @@ export class AutoAttachLauncher
 			) {
 				throw new AutoAttachPreconditionFailed(
 					`The \`node\` version on your PATH is too old (${binary.version?.major}), so we cannot enable auto-attach in your environment`,
-					"https://github.com/microsoft/vscode-js-debug/issues/708",
+					"https://github.com/microsoft/vscode-js-debug/issues/708"
 				);
 			}
 		}
@@ -252,7 +254,7 @@ export class AutoAttachLauncher
 			copyFile(
 				this.fs,
 				watchdogPath,
-				path.join(storagePath, "watchdog.js"),
+				path.join(storagePath, "watchdog.js")
 			),
 		]);
 
@@ -289,7 +291,10 @@ export class AutoAttachLauncher
 }
 
 export class AutoAttachPreconditionFailed extends Error {
-	constructor(message: string, public readonly helpLink?: string) {
+	constructor(
+		message: string,
+		public readonly helpLink?: string
+	) {
 		super(message);
 	}
 }

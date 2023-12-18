@@ -78,7 +78,7 @@ export class VueFileMapper implements IVueFileMapper {
 	private readonly getMapping = once(async () => {
 		const basenameToPath = new Map<string, string>();
 		await this.search.streamAllChildren(this.files, (file) =>
-			basenameToPath.set(basename(file), file),
+			basenameToPath.set(basename(file), file)
 		);
 
 		return basenameToPath;
@@ -108,7 +108,7 @@ export class VueFileMapper implements IVueFileMapper {
 		return vueSourceUrlRe.test(sourceUrl)
 			? VueHandling.Lookup
 			: vueGeneratedRe.test(sourceUrl)
-			  ? VueHandling.Omit
-			  : VueHandling.Unhandled;
+				? VueHandling.Omit
+				: VueHandling.Unhandled;
 	}
 }

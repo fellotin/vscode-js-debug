@@ -73,12 +73,14 @@ export abstract class BrowserLauncher<T extends AnyChromiumLaunchConfiguration>
 	private readonly _terminatedCts = new CancellationTokenSource();
 
 	constructor(
-    @inject(StoragePath) private readonly storagePath: string,
-    @inject(ILogger) protected readonly logger: ILogger,
-    @inject(ISourcePathResolver) private readonly pathResolver: ISourcePathResolver,
-    @inject(IInitializeParams) private readonly initializeParams: Dap.InitializeParams,
-    @inject(FS) protected readonly fs: FsPromises,
-  ) {}
+		@inject(StoragePath) private readonly storagePath: string,
+		@inject(ILogger) protected readonly logger: ILogger,
+		@inject(ISourcePathResolver)
+		private readonly pathResolver: ISourcePathResolver,
+		@inject(IInitializeParams)
+		private readonly initializeParams: Dap.InitializeParams,
+		@inject(FS) protected readonly fs: FsPromises
+	) {}
 
 	/**
 	 * @inheritdoc
@@ -113,10 +115,10 @@ export abstract class BrowserLauncher<T extends AnyChromiumLaunchConfiguration>
 		dap: Dap.Api,
 		cancellationToken: CancellationToken,
 		telemetryReporter: ITelemetryReporter,
-		promisedPort?: Promise<number>,
+		promisedPort?: Promise<number>
 	): Promise<launcher.ILaunchResult> {
 		const executablePath = await this.findBrowserPath(
-			executable || "stable",
+			executable || "stable"
 		);
 
 		// If we had a custom executable, don't resolve a data
@@ -130,8 +132,8 @@ export abstract class BrowserLauncher<T extends AnyChromiumLaunchConfiguration>
 					this.storagePath,
 					runtimeArgs?.includes("--headless")
 						? ".headless-profile"
-						: ".profile",
-				),
+						: ".profile"
+				)
 			);
 		}
 
@@ -168,13 +170,13 @@ export abstract class BrowserLauncher<T extends AnyChromiumLaunchConfiguration>
 				url,
 				inspectUri,
 				promisedPort,
-			},
+			}
 		);
 	}
 
 	protected getFilterForTarget(params: T) {
 		return requirePageTarget(
-			createTargetFilterForConfig(params, ["about:blank"]),
+			createTargetFilterForConfig(params, ["about:blank"])
 		);
 	}
 
@@ -189,7 +191,7 @@ export abstract class BrowserLauncher<T extends AnyChromiumLaunchConfiguration>
 				params,
 				ctx.dap,
 				ctx.cancellationToken,
-				ctx.telemetryReporter,
+				ctx.telemetryReporter
 			);
 		} catch (e) {
 			throw new ProtocolError(browserLaunchFailed(e));
@@ -200,7 +202,7 @@ export abstract class BrowserLauncher<T extends AnyChromiumLaunchConfiguration>
 		// good until the debug session is terminated, once the initial session
 		// has been craeted.
 		const launchCts = new CancellationTokenSource(
-			this._terminatedCts.token,
+			this._terminatedCts.token
 		);
 
 		// Retry connections as long as the launch process is running,
@@ -226,7 +228,7 @@ export abstract class BrowserLauncher<T extends AnyChromiumLaunchConfiguration>
 						category: "stderr",
 						output: l10n.t(
 							"Browser connection failed, will retry: {0}",
-							err?.message || "Connection closed",
+							err?.message || "Connection closed"
 						),
 					});
 
@@ -269,7 +271,7 @@ export abstract class BrowserLauncher<T extends AnyChromiumLaunchConfiguration>
 
 		const launchTokenListener =
 			ctx.cancellationToken.onCancellationRequested(() =>
-				launchCts.cancel(),
+				launchCts.cancel()
 			);
 
 		try {
@@ -283,7 +285,7 @@ export abstract class BrowserLauncher<T extends AnyChromiumLaunchConfiguration>
 		params: T,
 		launched: launcher.ILaunchResult,
 		cdp: CdpConnection,
-		ctx: ILaunchContext,
+		ctx: ILaunchContext
 	) {
 		this._connectionForTest = cdp;
 
@@ -294,17 +296,17 @@ export abstract class BrowserLauncher<T extends AnyChromiumLaunchConfiguration>
 			params,
 			this.logger,
 			ctx.telemetryReporter,
-			ctx.targetOrigin,
+			ctx.targetOrigin
 		);
 		if (!this._targetManager) {
 			throw new ProtocolError(browserAttachFailed());
 		}
 
 		this._targetManager.serviceWorkerModel.onDidChange(() =>
-			this._onTargetListChangedEmitter.fire(),
+			this._onTargetListChangedEmitter.fire()
 		);
 		this._targetManager.frameModel.onFrameNavigated(() =>
-			this._onTargetListChangedEmitter.fire(),
+			this._onTargetListChangedEmitter.fire()
 		);
 		this._disposables.push(this._targetManager);
 
@@ -321,7 +323,7 @@ export abstract class BrowserLauncher<T extends AnyChromiumLaunchConfiguration>
 		const mainTarget = await timeoutPromise(
 			this._targetManager.waitForMainTarget(filter),
 			ctx.cancellationToken,
-			"Could not attach to main target",
+			"Could not attach to main target"
 		);
 
 		if (!mainTarget) {
@@ -337,7 +339,7 @@ export abstract class BrowserLauncher<T extends AnyChromiumLaunchConfiguration>
 	 */
 	private async finishLaunch(
 		mainTarget: BrowserTarget,
-		params: T,
+		params: T
 	): Promise<void> {
 		if ("skipNavigateForTest" in params) {
 			return;
@@ -349,11 +351,11 @@ export abstract class BrowserLauncher<T extends AnyChromiumLaunchConfiguration>
 			// them if there's no file on disk that match the full `file`.
 			const fullFile = path.resolve(
 				params.webRoot || params.rootPath || "",
-				params.file,
+				params.file
 			);
 			const di = Math.min(
 				fullFile.includes("#") ? fullFile.indexOf("#") : Infinity,
-				fullFile.includes("?") ? fullFile.indexOf("?") : Infinity,
+				fullFile.includes("?") ? fullFile.indexOf("?") : Infinity
 			);
 
 			if (isFinite(di) && !(await existsInjected(this.fs, fullFile))) {
@@ -377,7 +379,7 @@ export abstract class BrowserLauncher<T extends AnyChromiumLaunchConfiguration>
 	 */
 	public async launch(
 		params: AnyLaunchConfiguration,
-		context: ILaunchContext,
+		context: ILaunchContext
 	): Promise<ILaunchResult> {
 		const resolved = this.resolveParams(params);
 		if (!resolved) {
@@ -393,7 +395,7 @@ export abstract class BrowserLauncher<T extends AnyChromiumLaunchConfiguration>
 	 * or undefined if they cannot.
 	 */
 	protected abstract resolveParams(
-		params: AnyLaunchConfiguration,
+		params: AnyLaunchConfiguration
 	): T | undefined;
 
 	/**
@@ -420,7 +422,7 @@ export abstract class BrowserLauncher<T extends AnyChromiumLaunchConfiguration>
 
 	protected async findBrowserByExe(
 		finder: IBrowserFinder,
-		executablePath: string,
+		executablePath: string
 	): Promise<string | undefined> {
 		if (executablePath === "*") {
 			// try to find the stable browser, but if that fails just get any browser

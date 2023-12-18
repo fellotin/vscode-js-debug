@@ -28,7 +28,7 @@ export class ServiceWorkerVersion {
 
 	constructor(
 		registration: ServiceWorkerRegistration,
-		payload: Cdp.ServiceWorker.ServiceWorkerVersion,
+		payload: Cdp.ServiceWorker.ServiceWorkerVersion
 	) {
 		this.registration = registration;
 		this.id = payload.versionId;
@@ -107,10 +107,10 @@ export class ServiceWorkerModel implements IDisposable {
 		this._cdp = cdp;
 		cdp.ServiceWorker.enable({});
 		cdp.ServiceWorker.on("workerRegistrationUpdated", (event) =>
-			this._workerRegistrationsUpdated(event.registrations),
+			this._workerRegistrationsUpdated(event.registrations)
 		);
 		cdp.ServiceWorker.on("workerVersionUpdated", (event) =>
-			this._workerVersionsUpdated(event.versions),
+			this._workerVersionsUpdated(event.versions)
 		);
 		if (ServiceWorkerModel._mode !== "normal")
 			this.setMode(ServiceWorkerModel._mode);
@@ -139,17 +139,17 @@ export class ServiceWorkerModel implements IDisposable {
 	}
 
 	registration(
-		registrationId: Cdp.ServiceWorker.RegistrationID,
+		registrationId: Cdp.ServiceWorker.RegistrationID
 	): ServiceWorkerRegistration | undefined {
 		return this._registrations.get(registrationId);
 	}
 
 	_workerVersionsUpdated(
-		payloads: Cdp.ServiceWorker.ServiceWorkerVersion[],
+		payloads: Cdp.ServiceWorker.ServiceWorkerVersion[]
 	): void {
 		for (const payload of payloads) {
 			const registration = this._registrations.get(
-				payload.registrationId,
+				payload.registrationId
 			);
 			if (!registration) {
 				continue;
@@ -174,7 +174,7 @@ export class ServiceWorkerModel implements IDisposable {
 	}
 
 	_workerRegistrationsUpdated(
-		payloads: Cdp.ServiceWorker.ServiceWorkerRegistration[],
+		payloads: Cdp.ServiceWorker.ServiceWorkerRegistration[]
 	): void {
 		for (const payload of payloads) {
 			if (payload.isDeleted) {
@@ -184,7 +184,7 @@ export class ServiceWorkerModel implements IDisposable {
 				if (this._registrations.has(payload.registrationId)) return;
 				this._registrations.set(
 					payload.registrationId,
-					new ServiceWorkerRegistration(payload),
+					new ServiceWorkerRegistration(payload)
 				);
 			}
 		}

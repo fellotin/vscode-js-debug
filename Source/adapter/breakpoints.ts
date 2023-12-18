@@ -243,7 +243,7 @@ export class BreakpointManager {
 				(bp) =>
 					bp.originalPosition.columnNumber ===
 						location.columnNumber &&
-					bp.originalPosition.lineNumber === location.lineNumber,
+					bp.originalPosition.lineNumber === location.lineNumber
 			);
 	}
 
@@ -256,14 +256,14 @@ export class BreakpointManager {
 		thread: Thread,
 		fromSource: Source,
 		sourceMap: SourceMap,
-		toSource: Source,
+		toSource: Source
 	) {
 		const tryUpdateLocations = (breakpoints: UserDefinedBreakpoint[]) =>
 			bisectArrayAsync(breakpoints, async (bp) => {
 				const gen =
 					await this._sourceContainer.getOptiminalOriginalPosition(
 						sourceMap,
-						bp.originalPosition,
+						bp.originalPosition
 					);
 				if (!gen) {
 					return false;
@@ -280,7 +280,7 @@ export class BreakpointManager {
 						lineNumber: base1.lineNumber,
 						columnNumber: base1.columnNumber,
 						source: toSource,
-					},
+					}
 				);
 				return false;
 			});
@@ -309,7 +309,7 @@ export class BreakpointManager {
 	 */
 	public async updateEntryBreakpointMode(
 		thread: Thread,
-		mode: EntryBreakpointMode,
+		mode: EntryBreakpointMode
 	) {
 		if (mode === this.entryBreakpointMode) {
 			return;
@@ -320,8 +320,8 @@ export class BreakpointManager {
 		this.entryBreakpointMode = mode;
 		await Promise.all(
 			previous.map((p) =>
-				this.ensureModuleEntryBreakpoint(thread, p.source),
-			),
+				this.ensureModuleEntryBreakpoint(thread, p.source)
+			)
 		);
 	}
 
@@ -332,7 +332,7 @@ export class BreakpointManager {
 	 */
 	public async applyEnabledFilter(
 		filter: BreakpointEnableFilter | undefined,
-		compare: BreakpointEnableFilter | typeof DontCompare = DontCompare,
+		compare: BreakpointEnableFilter | typeof DontCompare = DontCompare
 	) {
 		if (compare !== DontCompare && this._enabledFilter !== compare) {
 			return;
@@ -347,8 +347,8 @@ export class BreakpointManager {
 
 		await Promise.all(
 			[...this._byDapId.values()].map((bp) =>
-				this._enabledFilter(bp) ? bp.enable(thread) : bp.disable(),
-			),
+				this._enabledFilter(bp) ? bp.enable(thread) : bp.disable()
+			)
 		);
 	}
 
@@ -359,7 +359,7 @@ export class BreakpointManager {
 		thread: Thread,
 		source: Source,
 		start: IPosition,
-		end: IPosition,
+		end: IPosition
 	) {
 		const start1 = start.base1;
 		const end1 = end.base1;
@@ -381,7 +381,7 @@ export class BreakpointManager {
 		if (startLocations.length !== endLocations.length) {
 			this.logger.warn(
 				LogTag.Internal,
-				"Expected to have the same number of start and end locations",
+				"Expected to have the same number of start and end locations"
 			);
 			return [];
 		}
@@ -398,7 +398,7 @@ export class BreakpointManager {
 			if (start.source !== end.source) {
 				this.logger.warn(
 					LogTag.Internal,
-					"Expected to have the same number of start and end scripts",
+					"Expected to have the same number of start and end scripts"
 				);
 				continue;
 			}
@@ -448,15 +448,15 @@ export class BreakpointManager {
 												base0To1({
 													lineNumber,
 													columnNumber,
-												}),
+												})
 											),
-										},
+										}
 									);
 
 								result.push({ breakLocation, uiLocations });
-							}),
+							})
 						);
-					}),
+					})
 			);
 		}
 		await Promise.all(todo);
@@ -471,7 +471,7 @@ export class BreakpointManager {
 		this._thread = thread;
 		this._thread.cdp().Debugger.on("breakpointResolved", (event) => {
 			const breakpoint = this._resolvedBreakpoints.get(
-				event.breakpointId,
+				event.breakpointId
 			);
 			if (breakpoint) {
 				breakpoint.updateUiLocations(thread, event.breakpointId, [
@@ -486,7 +486,7 @@ export class BreakpointManager {
 				const breakpoint = this._resolvedBreakpoints.get(id);
 				if (breakpoint) {
 					const source = this._sourceContainer.source(
-						breakpoint.source,
+						breakpoint.source
 					);
 					if (isSourceWithMap(source)) sources.push(source);
 				}
@@ -509,7 +509,7 @@ export class BreakpointManager {
 		) {
 			this.setRuntimeSourcemapPausePatterns(
 				thread,
-				this.launchConfig.runtimeSourcemapPausePatterns,
+				this.launchConfig.runtimeSourcemapPausePatterns
 			); // will update the launchblocker
 		}
 
@@ -533,15 +533,15 @@ export class BreakpointManager {
 
 	private setRuntimeSourcemapPausePatterns(
 		thread: Thread,
-		patterns: ReadonlyArray<string>,
+		patterns: ReadonlyArray<string>
 	) {
 		return Promise.all(
 			patterns.map((pattern) =>
 				this._setBreakpoint(
 					new PatternEntryBreakpoint(this, pattern),
-					thread,
-				),
-			),
+					thread
+				)
+			)
 		);
 	}
 
@@ -566,11 +566,11 @@ export class BreakpointManager {
 			entryBpSet = Promise.all([
 				this.updateEntryBreakpointMode(
 					thread,
-					EntryBreakpointMode.Greedy,
+					EntryBreakpointMode.Greedy
 				),
 				thread.setScriptSourceMapHandler(
 					false,
-					this._scriptSourceMapHandler,
+					this._scriptSourceMapHandler
 				),
 			]).then(() => true);
 		} else if (
@@ -579,12 +579,12 @@ export class BreakpointManager {
 		) {
 			entryBpSet = thread.setScriptSourceMapHandler(
 				false,
-				this._scriptSourceMapHandler,
+				this._scriptSourceMapHandler
 			);
 		} else {
 			entryBpSet = thread.setScriptSourceMapHandler(
 				true,
-				this._scriptSourceMapHandler,
+				this._scriptSourceMapHandler
 			);
 		}
 		this._sourceMapHandlerInstalled = { entryBpSet };
@@ -601,13 +601,13 @@ export class BreakpointManager {
 		}
 
 		this.addLaunchBlocker(
-			Promise.race([delay(breakpointSetTimeout), b.enable(thread)]),
+			Promise.race([delay(breakpointSetTimeout), b.enable(thread)])
 		);
 	}
 
 	public async setBreakpoints(
 		params: Dap.SetBreakpointsParams,
-		ids: number[],
+		ids: number[]
 	): Promise<Dap.SetBreakpointsResult> {
 		if (
 			!this._sourceMapHandlerInstalled &&
@@ -619,7 +619,7 @@ export class BreakpointManager {
 
 		const wasEntryBpSet = await this._sourceMapHandlerInstalled?.entryBpSet;
 		params.source.path = urlUtils.platformPathToPreferredCase(
-			params.source.path,
+			params.source.path
 		);
 		const containedSource = this._sourceContainer.source(params.source);
 
@@ -647,7 +647,7 @@ export class BreakpointManager {
 		// Creates new breakpoints for the parameters, unsetting any previous
 		// breakpoints that don't still exist in the params.
 		const mergeInto = (
-			previous: UserDefinedBreakpoint[],
+			previous: UserDefinedBreakpoint[]
 		): ISetBreakpointResult => {
 			const result: ISetBreakpointResult = {
 				unbound: previous.slice(),
@@ -668,7 +668,7 @@ export class BreakpointManager {
 						ids[index],
 						params.source,
 						bpParams,
-						this.conditionFactory.getConditionFor(bpParams),
+						this.conditionFactory.getConditionFor(bpParams)
 					);
 				} catch (e) {
 					if (!(e instanceof ProtocolError)) {
@@ -680,12 +680,12 @@ export class BreakpointManager {
 						this,
 						ids[index],
 						params.source,
-						bpParams,
+						bpParams
 					);
 				}
 
 				const existingIndex = result.unbound.findIndex((p) =>
-					p.equivalentTo(created),
+					p.equivalentTo(created)
 				);
 				const existing = result.unbound[existingIndex];
 				if (existing?.equivalentTo?.(created)) {
@@ -705,8 +705,8 @@ export class BreakpointManager {
 			params.source.sourceReference
 				? this._byRef.get(params.source.sourceReference)
 				: params.source.path
-				  ? this._byPath.get(params.source.path)
-				  : undefined;
+					? this._byPath.get(params.source.path)
+					: undefined;
 
 		const result = mergeInto(getCurrent() ?? []);
 		if (params.source.sourceReference) {
@@ -731,7 +731,7 @@ export class BreakpointManager {
 			result.unbound.map((b) => {
 				this._byDapId.delete(b.dapId);
 				return b.disable();
-			}),
+			})
 		);
 
 		this._totalBreakpointsCount += result.new.length;
@@ -761,20 +761,20 @@ export class BreakpointManager {
 				result.new
 					.filter(this._enabledFilter)
 					.filter((bp) => currentList?.includes(bp))
-					.map((b) => b.enable(thread)),
+					.map((b) => b.enable(thread))
 			);
 
 			this.addLaunchBlocker(
-				Promise.race([delay(breakpointSetTimeout), promise]),
+				Promise.race([delay(breakpointSetTimeout), promise])
 			);
 			await promise;
 		}
 
 		const dapBreakpoints = await Promise.all(
-			result.list.map((b) => b.toDap()),
+			result.list.map((b) => b.toDap())
 		);
 		this._breakpointsStatisticsCalculator.registerBreakpoints(
-			dapBreakpoints,
+			dapBreakpoints
 		);
 
 		// In the next task after we send the response to the adapter, mark the
@@ -789,7 +789,7 @@ export class BreakpointManager {
 	 */
 	public async notifyBreakpointChange(
 		breakpoint: UserDefinedBreakpoint,
-		emitChange: boolean,
+		emitChange: boolean
 	): Promise<void> {
 		// check if it was removed (#1406)
 		if (!this._byDapId.has(breakpoint.dapId)) {
@@ -799,7 +799,7 @@ export class BreakpointManager {
 		const dap = await breakpoint.toDap();
 		if (dap.verified) {
 			this._breakpointsStatisticsCalculator.registerResolvedBreakpoint(
-				breakpoint.dapId,
+				breakpoint.dapId
 			);
 			this.suggester.notifyVerifiedBreakpoint();
 		}
@@ -817,13 +817,13 @@ export class BreakpointManager {
 	 */
 	public isEntrypointBreak(
 		hitBreakpointIds: ReadonlyArray<Cdp.Debugger.BreakpointId>,
-		scriptId: string,
+		scriptId: string
 	) {
 		// Fix: if we stopped in a script where an active entrypoint breakpoint
 		// exists, regardless of the reason, treat this as a breakpoint.
 		// ref: https://github.com/microsoft/vscode/issues/107859
 		const entryInScript = [...this.moduleEntryBreakpoints.values()].some(
-			(bp) => bp.enabled && bp.cdpScriptIds.has(scriptId),
+			(bp) => bp.enabled && bp.cdpScriptIds.has(scriptId)
 		);
 
 		if (entryInScript) {
@@ -850,7 +850,7 @@ export class BreakpointManager {
 		pausedEvent: Cdp.Debugger.PausedEvent,
 		hitBreakpointIds: ReadonlyArray<Cdp.Debugger.BreakpointId>,
 		delegateEntryBreak: IBreakpointPathAndId | undefined,
-		continueByDefault = false,
+		continueByDefault = false
 	) {
 		if (!hitBreakpointIds.length) {
 			return pausedEvent.reason !== "instrumentation";
@@ -894,7 +894,7 @@ export class BreakpointManager {
 				} else {
 					votesForContinue++;
 				}
-			}),
+			})
 		);
 
 		return votesForPause > 0 || votesForContinue === 0;
@@ -904,13 +904,13 @@ export class BreakpointManager {
 	 * Registers that the given breakpoints were hit for statistics.
 	 */
 	public registerBreakpointsHit(
-		hitBreakpointIds: ReadonlyArray<Cdp.Debugger.BreakpointId>,
+		hitBreakpointIds: ReadonlyArray<Cdp.Debugger.BreakpointId>
 	) {
 		for (const breakpointId of hitBreakpointIds) {
 			const breakpoint = this._resolvedBreakpoints.get(breakpointId);
 			if (breakpoint instanceof UserDefinedBreakpoint) {
 				this._breakpointsStatisticsCalculator.registerBreakpointHit(
-					breakpoint.dapId,
+					breakpoint.dapId
 				);
 			}
 		}
@@ -937,7 +937,7 @@ export class BreakpointManager {
 
 		const key = EntryBreakpoint.getModeKeyForSource(
 			this.entryBreakpointMode,
-			source.path,
+			source.path
 		);
 		if (!source.path || this.moduleEntryBreakpoints.has(key)) {
 			return;

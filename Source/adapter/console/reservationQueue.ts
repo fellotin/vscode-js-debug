@@ -102,7 +102,7 @@ class Reservation<T> {
 				},
 				() => {
 					this.value = rejected;
-				},
+				}
 			);
 		}
 	}

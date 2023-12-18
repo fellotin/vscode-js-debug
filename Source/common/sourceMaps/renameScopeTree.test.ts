@@ -30,7 +30,7 @@ describe("extractScopeRanges", () => {
 
 	const calculateActual = (
 		source: string,
-		root: ScopeNode<void>,
+		root: ScopeNode<void>
 	): string[] => {
 		const toOffset = new PositionToOffset(source);
 		const actual: string[] = [];
@@ -39,7 +39,7 @@ describe("extractScopeRanges", () => {
 				context +
 				source.slice(
 					toOffset.convert(node.range.begin),
-					toOffset.convert(node.range.end),
+					toOffset.convert(node.range.end)
 				);
 			actual.push(own);
 			node.children?.forEach((c) => gather(c, own + " -> "));
@@ -53,7 +53,7 @@ describe("extractScopeRanges", () => {
 		it(source, async () => {
 			const actual = calculateActual(
 				source,
-				await extractScopeRanges<void>(source),
+				await extractScopeRanges<void>(source)
 			);
 			expect(actual).to.deep.equal(expected);
 		});
@@ -101,13 +101,13 @@ describe("extractScopeRanges", () => {
 		tree.forEach((n) => (n.data = i++));
 
 		expect(
-			tree.findDeepest(new Base0Position(3, 15), (n) => n)?.data,
+			tree.findDeepest(new Base0Position(3, 15), (n) => n)?.data
 		).to.equal(4);
 		expect(
 			// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 			tree.findDeepest(new Base0Position(3, 15), (n) =>
-				n.data! % 2 === 1 ? n : undefined,
-			)?.data,
+				n.data! % 2 === 1 ? n : undefined
+			)?.data
 		).to.equal(3);
 	});
 });

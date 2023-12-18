@@ -29,7 +29,7 @@ export const stubbedDapApi = (): StubDapApi => {
 
 				return s;
 			},
-		},
+		}
 	) as StubDapApi;
 
 	return proxy;

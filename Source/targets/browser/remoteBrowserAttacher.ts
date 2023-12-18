@@ -20,19 +20,20 @@ import { RemoteBrowserHelper } from "./remoteBrowserHelper";
 @injectable()
 export class RemoteBrowserAttacher extends BrowserAttacher<AnyChromiumAttachConfiguration> {
 	constructor(
-    @inject(RemoteBrowserHelper) private readonly helper: RemoteBrowserHelper,
-    @inject(ILogger) logger: ILogger,
-    @inject(ISourcePathResolver) pathResolver: ISourcePathResolver,
-    @optional() @inject(VSCodeApi) vscode?: typeof vscodeType,
-  ) {
-    super(logger, pathResolver, vscode);
-  }
+		@inject(RemoteBrowserHelper)
+		private readonly helper: RemoteBrowserHelper,
+		@inject(ILogger) logger: ILogger,
+		@inject(ISourcePathResolver) pathResolver: ISourcePathResolver,
+		@optional() @inject(VSCodeApi) vscode?: typeof vscodeType
+	) {
+		super(logger, pathResolver, vscode);
+	}
 
 	/**
 	 * @override
 	 */
 	protected resolveParams(
-		params: AnyLaunchConfiguration,
+		params: AnyLaunchConfiguration
 	): params is AnyChromiumAttachConfiguration {
 		return (
 			params.request === "attach" &&
@@ -47,7 +48,7 @@ export class RemoteBrowserAttacher extends BrowserAttacher<AnyChromiumAttachConf
 	 */
 	protected async acquireConnectionForBrowser(
 		context: ILaunchContext,
-		params: AnyChromiumAttachConfiguration,
+		params: AnyChromiumAttachConfiguration
 	): Promise<Connection> {
 		const transport = await this.helper.launch(
 			context.dap,
@@ -59,13 +60,13 @@ export class RemoteBrowserAttacher extends BrowserAttacher<AnyChromiumAttachConf
 					host: params.address,
 					port: params.port,
 				},
-			},
+			}
 		);
 
 		return new Connection(
 			transport,
 			this.logger,
-			context.telemetryReporter,
+			context.telemetryReporter
 		);
 	}
 }

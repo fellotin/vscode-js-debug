@@ -27,7 +27,7 @@ export interface ITerminationConditionFactory {
 }
 
 export const ITerminationConditionFactory = Symbol(
-	"ITerminationConditionFactory",
+	"ITerminationConditionFactory"
 );
 
 export interface ITerminationCondition extends IDisposable {

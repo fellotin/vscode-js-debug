@@ -17,7 +17,7 @@ import { memoize } from "../../common/objUtils";
 export function constructInspectorWSUri(
 	inspectUriFormat: string,
 	urlText: string | null | undefined,
-	browserInspectUri: string,
+	browserInspectUri: string
 ): string {
 	const getUrl = memoize((maybeText: string | null | undefined) => {
 		if (maybeText) {
@@ -40,7 +40,7 @@ export function constructInspectorWSUri(
 	const inspectUri = inspectUriFormat.replace(
 		/{([^\}]+)}/g,
 		(match, key: string) =>
-			replacements.hasOwnProperty(key) ? replacements[key]() : match,
+			replacements.hasOwnProperty(key) ? replacements[key]() : match
 	);
 
 	return inspectUri;

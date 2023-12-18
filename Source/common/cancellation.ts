@@ -34,11 +34,11 @@ export class TaskCancelledError extends ProtocolError {
 export function timeoutPromise<T>(
 	promise: Promise<T>,
 	cancellation: CancellationToken,
-	message?: string,
+	message?: string
 ): Promise<T> {
 	if (cancellation.isCancellationRequested) {
 		return Promise.reject(
-			new TaskCancelledError(message || "Task cancelled"),
+			new TaskCancelledError(message || "Task cancelled")
 		);
 	}
 
@@ -66,7 +66,7 @@ export function timeoutPromise<T>(
  */
 export function cancellableRace<T>(
 	promises: ReadonlyArray<(ct: CancellationToken) => Promise<T>>,
-	parent?: CancellationToken,
+	parent?: CancellationToken
 ): Promise<T> {
 	const cts = new CancellationTokenSource(parent);
 

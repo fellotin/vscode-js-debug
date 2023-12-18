@@ -30,7 +30,7 @@ export interface IProfileController {
 	start(
 		dap: Dap.Api,
 		thread: Thread,
-		params: Dap.StartProfileParams,
+		params: Dap.StartProfileParams
 	): Promise<void>;
 }
 
@@ -81,7 +81,7 @@ export class ProfileController implements IProfileController {
 			const promise = this.saveConsoleProfile(dap, evt);
 			const shutdownBlocker = this.shutdown.register(
 				ShutdownOrder.BeforeScripts,
-				() => promise,
+				() => promise
 			);
 			await promise;
 			shutdownBlocker.dispose();
@@ -96,7 +96,7 @@ export class ProfileController implements IProfileController {
 	public async start(
 		dap: Dap.Api,
 		thread: Thread,
-		params: Dap.StartProfileParams,
+		params: Dap.StartProfileParams
 	): Promise<void> {
 		if (this.profile) {
 			throw new ProtocolError(invalidConcurrentProfile());
@@ -106,7 +106,7 @@ export class ProfileController implements IProfileController {
 			(err) => {
 				this.profile = undefined;
 				throw err;
-			},
+			}
 		);
 
 		await this.profile;
@@ -114,7 +114,7 @@ export class ProfileController implements IProfileController {
 
 	private async saveConsoleProfile(
 		dap: Dap.Api,
-		evt: Cdp.Profiler.ConsoleProfileFinishedEvent,
+		evt: Cdp.Profiler.ConsoleProfileFinishedEvent
 	) {
 		let basename: string;
 		if (evt.title) {
@@ -135,7 +135,7 @@ export class ProfileController implements IProfileController {
 			output:
 				l10n.t(
 					'CPU profile saved as "{0}" in your workspace folder',
-					basename,
+					basename
 				) + "\n",
 			category: "console",
 		});
@@ -144,7 +144,7 @@ export class ProfileController implements IProfileController {
 	private async startProfileInner(
 		dap: Dap.Api,
 		thread: Thread,
-		params: Dap.StartProfileParams,
+		params: Dap.StartProfileParams
 	) {
 		let keepDebuggerOn = false;
 		let enableFilter: BreakpointEnableFilter;
@@ -162,7 +162,7 @@ export class ProfileController implements IProfileController {
 
 		const file = join(
 			tmpdir(),
-			`vscode-js-profile-${randomBytes(4).toString("hex")}`,
+			`vscode-js-profile-${randomBytes(4).toString("hex")}`
 		);
 		const profile = await this.factory.get(params.type).start(params, file);
 		const runningProfile: IRunningProfile = {
@@ -173,7 +173,7 @@ export class ProfileController implements IProfileController {
 		};
 
 		profile.onUpdate((label) =>
-			dap.profilerStateUpdate({ label, running: true }),
+			dap.profilerStateUpdate({ label, running: true })
 		);
 		profile.onStop(() => this.disposeProfile(runningProfile));
 

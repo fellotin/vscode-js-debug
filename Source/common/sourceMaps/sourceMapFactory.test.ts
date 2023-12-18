@@ -58,7 +58,7 @@ describe("SourceMapFactory", () => {
 				return Promise.resolve({
 					ok: true,
 					body: Buffer.from(dataUriToBuffer(url).buffer).toString(
-						"utf8",
+						"utf8"
 					),
 					url: url,
 					statusCode: 200,
@@ -93,7 +93,7 @@ describe("SourceMapFactory", () => {
 				},
 			},
 			stubDap.actual,
-			Logger.null,
+			Logger.null
 		);
 	});
 

@@ -132,14 +132,14 @@ const commandsObj: { [K in Commands]: null } = {
  * Set of all known commands.
  */
 export const allCommands: ReadonlySet<Commands> = new Set(
-	Object.keys(commandsObj),
+	Object.keys(commandsObj)
 );
 
 /**
  * Set of all known debug types.
  */
 export const allDebugTypes: ReadonlySet<DebugType> = new Set(
-	Object.keys(debugTypes),
+	Object.keys(debugTypes)
 );
 
 /**
@@ -206,7 +206,7 @@ export interface ICommandTypes {
 	[Commands.CreateDebuggerTerminal](
 		commandToRun?: string,
 		workspaceFolder?: WorkspaceFolder,
-		config?: Partial<ITerminalLaunchConfiguration>,
+		config?: Partial<ITerminalLaunchConfiguration>
 	): void;
 	[Commands.CreateDiagnostics](): void;
 	[Commands.GetDiagnosticLogs](): void;
@@ -222,7 +222,7 @@ export interface ICommandTypes {
 	[Commands.StartWithStopOnEntry](): void;
 	[Commands.RequestCDPProxy](
 		sessionId: string,
-		forwardToUi?: boolean,
+		forwardToUi?: boolean
 	): { host: string; port: number; path: string } | undefined;
 	[Commands.OpenEdgeDevTools](): void;
 
@@ -243,7 +243,7 @@ export const registerCommand = <K extends keyof ICommandTypes>(
 	key: K,
 	fn: (
 		...args: Parameters<ICommandTypes[K]>
-	) => Thenable<ReturnType<ICommandTypes[K]>>,
+	) => Thenable<ReturnType<ICommandTypes[K]>>
 ) => ns.registerCommand(key, fn);
 
 /**
@@ -272,7 +272,7 @@ export const asCommand = <K extends keyof ICommandTypes>(command: {
 export const readConfig = <K extends keyof IConfigurationTypes>(
 	wsp: typeof workspace,
 	key: K,
-	folder?: WorkspaceFolder,
+	folder?: WorkspaceFolder
 ) => wsp.getConfiguration(undefined, folder).get<IConfigurationTypes[K]>(key);
 
 /**
@@ -282,7 +282,7 @@ export const writeConfig = <K extends keyof IConfigurationTypes>(
 	wsp: typeof workspace,
 	key: K,
 	value: IConfigurationTypes[K],
-	target?: ConfigurationTarget,
+	target?: ConfigurationTarget
 ) => wsp.getConfiguration().update(key, value, target);
 
 export const enum ContextKey {
@@ -302,5 +302,5 @@ export interface IContextKeyTypes {
 export const setContextKey = async <K extends keyof IContextKeyTypes>(
 	ns: typeof commands,
 	key: K,
-	value: IContextKeyTypes[K] | null,
+	value: IContextKeyTypes[K] | null
 ) => await ns.executeCommand("setContext", key, value);

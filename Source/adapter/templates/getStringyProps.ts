@@ -32,7 +32,7 @@ declare const runtimeArgs: [symbol[]];
 export const getStringyProps = templateFunction(function (
 	this: unknown,
 	maxLength: number,
-	customToString: (defaultRepr: string) => unknown,
+	customToString: (defaultRepr: string) => unknown
 ) {
 	const out: Record<string, string> = {};
 	const defaultPlaceholder = "<<default preview>>";
@@ -90,7 +90,7 @@ export const getStringyProps = templateFunction(function (
 export const getToStringIfCustom = templateFunction(function (
 	this: unknown,
 	maxLength: number,
-	customToString: (defaultRepr: string) => unknown,
+	customToString: (defaultRepr: string) => unknown
 ) {
 	if (customToString) {
 		try {

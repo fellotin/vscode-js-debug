@@ -59,7 +59,7 @@ const makeTester = () => {
 					NODE_OPTIONS: undefined,
 					ELECTRON_RUN_AS_NODE: "1",
 				},
-			},
+			}
 		);
 
 		return r.status === 0;

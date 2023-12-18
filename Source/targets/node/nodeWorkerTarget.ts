@@ -22,7 +22,7 @@ export class NodeWorkerTarget implements ITarget {
 		private readonly parentTarget: NodeTarget,
 		private readonly targetOriginValue: ITargetOrigin,
 		private readonly cdp: Cdp.Api,
-		public readonly logger: ILogger,
+		public readonly logger: ILogger
 	) {
 		cdp.pause();
 	}

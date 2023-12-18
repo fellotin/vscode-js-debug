@@ -12,7 +12,7 @@ const hasher = new Hasher();
 export async function checkContentHash(
 	absolutePath: string,
 	contentHash?: string,
-	contentOverride?: string,
+	contentOverride?: string
 ): Promise<string | undefined> {
 	if (!absolutePath) {
 		return undefined;

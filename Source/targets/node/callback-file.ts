@@ -18,7 +18,7 @@ export class CallbackFile<T> implements IDisposable {
 	 */
 	public readonly path = path.join(
 		tmpdir(),
-		`node-debug-callback-${randomBytes(8).toString("hex")}`,
+		`node-debug-callback-${randomBytes(8).toString("hex")}`
 	);
 
 	private disposed = false;

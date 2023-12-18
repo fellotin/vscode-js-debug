@@ -46,13 +46,13 @@ const wildcardHostname = "https?:\\/\\/[^\\/]+\\/";
 @injectable()
 export class BrowserSourcePathResolver extends SourcePathResolverBase<IOptions> {
 	constructor(
-    @inject(IVueFileMapper) private readonly vueMapper: IVueFileMapper,
-    @inject(IFsUtils) private readonly fsUtils: IFsUtils,
-    options: IOptions,
-    logger: ILogger,
-  ) {
-    super(options, logger);
-  }
+		@inject(IVueFileMapper) private readonly vueMapper: IVueFileMapper,
+		@inject(IFsUtils) private readonly fsUtils: IFsUtils,
+		options: IOptions,
+		logger: ILogger
+	) {
+		super(options, logger);
+	}
 
 	/** @override */
 	private absolutePathToUrlPath(absolutePath: string): {
@@ -67,10 +67,10 @@ export class BrowserSourcePathResolver extends SourcePathResolverBase<IOptions> 
 				.sort(
 					([p1, directoryA], [p2, directoryB]) =>
 						directoryB.length - directoryA.length ||
-						p2.length - p1.length,
+						p2.length - p1.length
 				)
 				.find(([, directory]) =>
-					isSubpathOrEqualTo(directory, absolutePath),
+					isSubpathOrEqualTo(directory, absolutePath)
 				) || defaultMapping;
 		if (!bestMatch) {
 			return {
@@ -87,7 +87,7 @@ export class BrowserSourcePathResolver extends SourcePathResolverBase<IOptions> 
 		}
 
 		let urlPath = utils.platformPathToUrlPath(
-			path.relative(bestMatch[1], absolutePath),
+			path.relative(bestMatch[1], absolutePath)
 		);
 		const urlPrefix = bestMatch[0].replace(/\/$|^\//g, "");
 		if (urlPrefix) {
@@ -170,7 +170,7 @@ export class BrowserSourcePathResolver extends SourcePathResolverBase<IOptions> 
 			const clientPath = await defaultPathMappingResolver(
 				joinedPath,
 				this.options.pathMapping,
-				this.logger,
+				this.logger
 			);
 			if (clientPath) {
 				if (
@@ -214,14 +214,14 @@ export class BrowserSourcePathResolver extends SourcePathResolverBase<IOptions> 
 			this.sourceMapOverrides.apply(fullSourceEntry);
 		if (mappedFullSourceEntry !== fullSourceEntry) {
 			mappedFullSourceEntry = fixDriveLetterAndSlashes(
-				mappedFullSourceEntry,
+				mappedFullSourceEntry
 			);
 			// Prefixing ../ClientApp is a workaround for a bug in ASP.NET debugging in VisualStudio because the wwwroot is not properly configured
 			const clientAppPath = properResolve(
 				pathMapping["/"],
 				"..",
 				"ClientApp",
-				properRelative(pathMapping["/"], mappedFullSourceEntry),
+				properRelative(pathMapping["/"], mappedFullSourceEntry)
 			);
 			if (
 				this.options.clientID === "visualstudio" &&
@@ -246,9 +246,9 @@ export class BrowserSourcePathResolver extends SourcePathResolverBase<IOptions> 
 					map.metadata.compiledPath,
 					pathMapping,
 					defaultPathMappingResolver,
-					this.logger,
+					this.logger
 				),
-				url,
+				url
 			);
 		}
 
@@ -284,8 +284,8 @@ export class BrowserSourcePathResolver extends SourcePathResolverBase<IOptions> 
 		const urlRegex = urlToRegex(url, [startRegexEscape, endRegexEscape]);
 		return transform.needsWildcard
 			? `${urlToRegex(
-					utils.absolutePathToFileUrl(absolutePath),
-			  )}|${urlRegex}`
+					utils.absolutePathToFileUrl(absolutePath)
+				)}|${urlRegex}`
 			: urlRegex;
 	}
 }

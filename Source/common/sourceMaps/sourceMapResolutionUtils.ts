@@ -18,7 +18,7 @@ import {
 
 export function getFullSourceEntry(
 	sourceRoot: string | undefined,
-	sourcePath: string,
+	sourcePath: string
 ): string {
 	if (!sourceRoot) {
 		return sourcePath;
@@ -39,7 +39,7 @@ export async function getComputedSourceRoot(
 	generatedPath: string,
 	pathMapping: PathMapping,
 	resolver: PathMappingResolver,
-	logger: ILogger,
+	logger: ILogger
 ): Promise<string> {
 	generatedPath = utils.fileUrlToAbsolutePath(generatedPath) || generatedPath;
 
@@ -66,7 +66,7 @@ export async function getComputedSourceRoot(
 			const mappedPath = await resolver(
 				generatedUrlPath,
 				pathMapping,
-				logger,
+				logger
 			);
 			const mappedDirname = path.dirname(mappedPath);
 			absSourceRoot = properJoin(mappedDirname, sourceRoot);
@@ -83,7 +83,7 @@ export async function getComputedSourceRoot(
 			`no sourceRoot specified, using script dirname`,
 			{
 				absSourceRoot,
-			},
+			}
 		);
 	} else {
 		// No sourceRoot and runtime script is not on disk, resolve the sourceRoot location on disk
@@ -95,7 +95,7 @@ export async function getComputedSourceRoot(
 		logger.verbose(
 			LogTag.SourceMapParsing,
 			`no sourceRoot specified, using webRoot + script path dirname`,
-			{ absSourceRoot },
+			{ absSourceRoot }
 		);
 	}
 
@@ -115,7 +115,7 @@ export async function getComputedSourceRoot(
 export type PathMappingResolver = (
 	scriptUrlOrPath: string,
 	pathMapping: PathMapping,
-	logger: ILogger,
+	logger: ILogger
 ) => Promise<string>;
 
 /**
@@ -125,14 +125,14 @@ export type PathMappingResolver = (
 export const defaultPathMappingResolver: PathMappingResolver = async (
 	scriptUrlPath,
 	pathMapping,
-	logger,
+	logger
 ) => {
 	if (!scriptUrlPath || !scriptUrlPath.startsWith("/")) {
 		return "";
 	}
 
 	const mappingKeys = Object.keys(pathMapping).sort(
-		(a, b) => b.length - a.length,
+		(a, b) => b.length - a.length
 	);
 	for (let pattern of mappingKeys) {
 		// empty pattern match nothing use / to match root
@@ -144,7 +144,7 @@ export const defaultPathMappingResolver: PathMappingResolver = async (
 		if (pattern[0] !== "/") {
 			logger.verbose(
 				LogTag.SourceMapParsing,
-				`Keys should be absolute: ${pattern}`,
+				`Keys should be absolute: ${pattern}`
 			);
 			pattern = "/" + pattern;
 		}
@@ -173,7 +173,7 @@ export const moduleAwarePathMappingResolver =
 		const implicit = await utils.nearestDirectoryContaining(
 			fsUtils,
 			path.dirname(compiledPath),
-			"package.json",
+			"package.json"
 		);
 
 		// 3. If there's no specific root, try to use the base path mappings
@@ -186,7 +186,7 @@ export const moduleAwarePathMappingResolver =
 			sourceRoot,
 			// filter the mapping to directories that could be
 			filterObject(pathMapping, (key) => key.length >= implicit.length),
-			logger,
+			logger
 		);
 
 		// 5. On *nix, try at this point to see if the original path given is
@@ -208,7 +208,7 @@ export const moduleAwarePathMappingResolver =
 
 function pathMappingPatternMatchesPath(
 	pattern: string,
-	scriptPath: string,
+	scriptPath: string
 ): boolean {
 	if (pattern === scriptPath) {
 		return true;
@@ -225,7 +225,7 @@ function pathMappingPatternMatchesPath(
 function toClientPath(
 	pattern: string,
 	mappingRHS: string,
-	scriptPath: string,
+	scriptPath: string
 ): string {
 	const rest = decodeURIComponent(scriptPath.substring(pattern.length));
 	const mappedResult = rest ? properJoin(mappingRHS, rest) : mappingRHS;

@@ -29,7 +29,7 @@ export interface IDebugConfigurationResolver {
 }
 
 export const IDebugConfigurationResolver = Symbol(
-	"IDebugConfigurationResolver",
+	"IDebugConfigurationResolver"
 );
 
 export interface IDebugConfigurationProvider {
@@ -45,5 +45,5 @@ export interface IDebugConfigurationProvider {
 }
 
 export const IDebugConfigurationProvider = Symbol(
-	"IDebugConfigurationProvider",
+	"IDebugConfigurationProvider"
 );

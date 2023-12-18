@@ -29,7 +29,7 @@ export async function watchAllChildren(
 	},
 	openerId: string,
 	logger: ILogger,
-	cancellation: CancellationToken = NeverCancelled,
+	cancellation: CancellationToken = NeverCancelled
 ): Promise<WatchDog[]> {
 	const node = await getProcessTree(options.pid, logger);
 	if (!node) {
@@ -52,7 +52,7 @@ export async function watchAllChildren(
 				`http://${options.hostname}:${port}`,
 				cancellation,
 				logger,
-				true,
+				true
 			)
 				.then((inspectorURL) =>
 					WatchDog.attach({
@@ -63,7 +63,7 @@ export async function watchAllChildren(
 						dynamicAttach: true,
 						pid: String(child.pid),
 						openerId,
-					}),
+					})
 				)
 				.catch((err) =>
 					logger.info(
@@ -73,9 +73,9 @@ export async function watchAllChildren(
 							err,
 							port,
 							child,
-						},
-					),
-				),
+						}
+					)
+				)
 		);
 	}
 
@@ -87,7 +87,7 @@ export async function watchAllChildren(
  */
 async function getProcessTree(
 	rootPid: number,
-	logger: ILogger,
+	logger: ILogger
 ): Promise<IProcessTreeNode | undefined> {
 	const map = new Map<number, IProcessTreeNode>();
 

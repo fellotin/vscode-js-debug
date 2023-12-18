@@ -103,7 +103,7 @@ export class FileGlobList {
 					// otherwise just resolve relative to this cwd
 					const rel = path.relative(
 						cwd,
-						path.resolve(this.rootPath, pattern),
+						path.resolve(this.rootPath, pattern)
 					);
 					if (!rel.startsWith("..")) {
 						negations.push(forceForwardSlashes(rel));

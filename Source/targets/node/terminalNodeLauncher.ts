@@ -67,7 +67,7 @@ export interface ITerminalLauncherLike
 	 * Gets telemetry of the last-started process.
 	 */
 	getProcessTelemetry(
-		target: ITarget,
+		target: ITarget
 	): Promise<IProcessTelemetry | undefined>;
 }
 
@@ -80,20 +80,21 @@ export class TerminalNodeLauncher extends NodeLauncherBase<ITerminalLaunchConfig
 	private terminalCreatedEmitter = new EventEmitter<vscode.Terminal>();
 	protected callbackFile = path.join(
 		tmpdir(),
-		`node-debug-callback-${randomBytes(8).toString("hex")}`,
+		`node-debug-callback-${randomBytes(8).toString("hex")}`
 	);
 
 	public readonly onTerminalCreated = this.terminalCreatedEmitter.event;
 
 	constructor(
-    @inject(INodeBinaryProvider) pathProvider: INodeBinaryProvider,
-    @inject(ILogger) logger: ILogger,
-    @inject(FS) private readonly fs: FsPromises,
-    @inject(ISourcePathResolverFactory) pathResolverFactory: ISourcePathResolverFactory,
-    @inject(IPortLeaseTracker) portLeaseTracker: IPortLeaseTracker,
-  ) {
-    super(pathProvider, logger, portLeaseTracker, pathResolverFactory);
-  }
+		@inject(INodeBinaryProvider) pathProvider: INodeBinaryProvider,
+		@inject(ILogger) logger: ILogger,
+		@inject(FS) private readonly fs: FsPromises,
+		@inject(ISourcePathResolverFactory)
+		pathResolverFactory: ISourcePathResolverFactory,
+		@inject(IPortLeaseTracker) portLeaseTracker: IPortLeaseTracker
+	) {
+		super(pathProvider, logger, portLeaseTracker, pathResolverFactory);
+	}
 
 	/**
 	 * Gets telemetry of the last-started process.
@@ -101,7 +102,7 @@ export class TerminalNodeLauncher extends NodeLauncherBase<ITerminalLaunchConfig
 	public async getProcessTelemetry() {
 		try {
 			return JSON.parse(
-				await this.fs.readFile(this.callbackFile, "utf-8"),
+				await this.fs.readFile(this.callbackFile, "utf-8")
 			) as IProcessTelemetry;
 		} catch {
 			return undefined;
@@ -112,7 +113,7 @@ export class TerminalNodeLauncher extends NodeLauncherBase<ITerminalLaunchConfig
 	 * @inheritdoc
 	 */
 	protected resolveParams(
-		params: AnyLaunchConfiguration,
+		params: AnyLaunchConfiguration
 	): ITerminalLaunchConfiguration | undefined {
 		if (params.type === DebugType.Terminal && params.request === "launch") {
 			return params;
@@ -133,7 +134,7 @@ export class TerminalNodeLauncher extends NodeLauncherBase<ITerminalLaunchConfig
 	 * Launches the program.
 	 */
 	protected async launchProgram(
-		runData: IRunData<ITerminalLaunchConfiguration>,
+		runData: IRunData<ITerminalLaunchConfiguration>
 	): Promise<void> {
 		// Make sure that, if we can _find_ a in their path, it's the right
 		// version so that we don't mysteriously never connect fail.

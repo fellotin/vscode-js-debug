@@ -26,7 +26,7 @@ export class ExtensionHostConfigurationResolver
 {
 	protected async resolveDebugConfigurationAsync(
 		folder: vscode.WorkspaceFolder | undefined,
-		config: ResolvingExtensionHostConfiguration,
+		config: ResolvingExtensionHostConfiguration
 	): Promise<IExtensionHostLaunchConfiguration | undefined> {
 		if (config.debugWebWorkerHost === undefined) {
 			const extensionKind = await getExtensionKind(folder, config);
@@ -58,7 +58,7 @@ const devPathArg = "--extensionDevelopmentPath=";
 
 const getExtensionKind = async (
 	folder: vscode.WorkspaceFolder | undefined,
-	config: ResolvingExtensionHostConfiguration,
+	config: ResolvingExtensionHostConfiguration
 ) => {
 	const arg = config.args?.find((a) => a.startsWith(devPathArg));
 	if (!arg) {
@@ -68,13 +68,13 @@ const getExtensionKind = async (
 	const resolvedFolder = resolveVariableInConfig(
 		arg.slice(devPathArg.length),
 		"workspaceFolder",
-		folder?.uri.fsPath ?? config.__workspaceFolder ?? "",
+		folder?.uri.fsPath ?? config.__workspaceFolder ?? ""
 	);
 	let extensionKind: string | string[];
 	try {
 		const json = await fs.readFile(
 			join(resolvedFolder, "package.json"),
-			"utf-8",
+			"utf-8"
 		);
 		extensionKind = JSON.parse(json).extensionKind ?? "workspace";
 	} catch {

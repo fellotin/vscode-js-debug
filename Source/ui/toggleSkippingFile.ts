@@ -8,7 +8,7 @@ import { fileURLToPath } from "url";
 import { isFileUrl } from "../common/urlUtils";
 
 export async function toggleSkippingFile(
-	aPath: string | number,
+	aPath: string | number
 ): Promise<void> {
 	if (!aPath) {
 		const activeEditor = vscode.window.activeTextEditor;
@@ -30,7 +30,7 @@ export async function toggleSkippingFile(
 
 		await vscode.debug.activeDebugSession.customRequest(
 			"toggleSkipFileStatus",
-			args,
+			args
 		);
 	}
 }

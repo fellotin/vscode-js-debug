@@ -46,7 +46,7 @@ export class BrowserTargetManager implements IDisposable {
 		launchParams: AnyChromiumConfiguration,
 		logger: ILogger,
 		telemetry: ITelemetryReporter,
-		targetOrigin: ITargetOrigin,
+		targetOrigin: ITargetOrigin
 	): Promise<BrowserTargetManager | undefined> {
 		const rootSession = connection.rootSession();
 		const result = await rootSession.Target.attachToBrowserTarget({});
@@ -60,7 +60,7 @@ export class BrowserTargetManager implements IDisposable {
 			logger,
 			telemetry,
 			launchParams,
-			targetOrigin,
+			targetOrigin
 		);
 	}
 
@@ -72,7 +72,7 @@ export class BrowserTargetManager implements IDisposable {
 		private readonly logger: ILogger,
 		private readonly telemetry: ITelemetryReporter,
 		protected readonly launchParams: AnyChromiumConfiguration,
-		targetOrigin: ITargetOrigin,
+		targetOrigin: ITargetOrigin
 	) {
 		this._connection = connection;
 		this._sourcePathResolver = sourcePathResolver;
@@ -93,7 +93,7 @@ export class BrowserTargetManager implements IDisposable {
 
 	targetList() {
 		return Array.from(this._targets.values()).filter((target) =>
-			jsTypes.has(target.type()),
+			jsTypes.has(target.type())
 		);
 	}
 
@@ -102,7 +102,7 @@ export class BrowserTargetManager implements IDisposable {
 	 */
 
 	public async getCandiateInfo(
-		filter?: (target: Cdp.Target.TargetInfo) => boolean,
+		filter?: (target: Cdp.Target.TargetInfo) => boolean
 	) {
 		const targets = await this._browser.Target.getTargets({});
 		if (!targets) {
@@ -137,16 +137,16 @@ export class BrowserTargetManager implements IDisposable {
 	 * filter attaches.
 	 */
 	public waitForMainTarget(
-		filter?: (target: Cdp.Target.TargetInfo) => boolean,
+		filter?: (target: Cdp.Target.TargetInfo) => boolean
 	): Promise<BrowserTarget | undefined> {
 		let callback: (result: BrowserTarget | undefined) => void;
 		const promise = new Promise<BrowserTarget | undefined>(
-			(f) => (callback = f),
+			(f) => (callback = f)
 		);
 		const attachInner = async (targetInfo: Cdp.Target.TargetInfo) => {
 			if (
 				[...this._targets.values()].some(
-					(t) => t.targetId === targetInfo.targetId,
+					(t) => t.targetId === targetInfo.targetId
 				) ||
 				this._detachedTargets.has(targetInfo.targetId)
 			) {
@@ -165,7 +165,7 @@ export class BrowserTargetManager implements IDisposable {
 					if (evt.targetInfo.targetId === targetInfo.targetId) {
 						targetInfo = evt.targetInfo;
 					}
-				},
+				}
 			);
 
 			let response: Cdp.Target.AttachToBrowserTargetResult | undefined;
@@ -184,7 +184,7 @@ export class BrowserTargetManager implements IDisposable {
 			}
 
 			callback(
-				this.attachedToTarget(targetInfo, response.sessionId, true),
+				this.attachedToTarget(targetInfo, response.sessionId, true)
 			);
 		};
 
@@ -192,14 +192,14 @@ export class BrowserTargetManager implements IDisposable {
 
 		this._browser.Target.on(
 			"targetCreated",
-			this.enqueueLifecycleFn((evt) => attachInner(evt.targetInfo)),
+			this.enqueueLifecycleFn((evt) => attachInner(evt.targetInfo))
 		);
 
 		this._browser.Target.on("targetInfoChanged", (evt) =>
 			this._targetInfoChanged(
 				evt.targetInfo,
-				this.enqueueLifecycleFn(attachInner),
-			),
+				this.enqueueLifecycleFn(attachInner)
+			)
 		);
 
 		this._browser.Target.on(
@@ -208,7 +208,7 @@ export class BrowserTargetManager implements IDisposable {
 				if (event.targetId) {
 					await this._detachedFromTarget(event.sessionId, false);
 				}
-			}),
+			})
 		);
 
 		return promise;
@@ -228,7 +228,7 @@ export class BrowserTargetManager implements IDisposable {
 		sessionId: Cdp.Target.SessionID,
 		waitingForDebugger: boolean,
 		parentTarget?: BrowserTarget,
-		waitForDebuggerOnStart = true,
+		waitForDebuggerOnStart = true
 	): BrowserTarget {
 		const existing = this._targets.get(sessionId);
 		if (existing) {
@@ -248,7 +248,7 @@ export class BrowserTargetManager implements IDisposable {
 			() => {
 				this._connection.disposeSession(sessionId);
 				this._detachedFromTarget(sessionId);
-			},
+			}
 		);
 		this._targets.set(sessionId, target);
 		if (parentTarget)
@@ -259,7 +259,7 @@ export class BrowserTargetManager implements IDisposable {
 				event.targetInfo,
 				event.sessionId,
 				event.waitingForDebugger,
-				target,
+				target
 			);
 		});
 		cdp.Target.on("detachedFromTarget", async (event) => {
@@ -280,8 +280,8 @@ export class BrowserTargetManager implements IDisposable {
 			this.logger.info(
 				LogTag.RuntimeTarget,
 				"Error setting network cache state",
-				err,
-			),
+				err
+			)
 		);
 
 		// For the 'top-level' page, gather telemetry.
@@ -327,7 +327,7 @@ export class BrowserTargetManager implements IDisposable {
 			this.logger.verbose(
 				LogTag.RuntimeTarget,
 				"Retrieved browser information",
-				info,
+				info
 			);
 
 			const parts = (info.product || "").split("/");
@@ -345,14 +345,14 @@ export class BrowserTargetManager implements IDisposable {
 			this.logger.warn(
 				LogTag.RuntimeTarget,
 				"Error getting browser telemetry",
-				e,
+				e
 			);
 		}
 	}
 
 	async _detachedFromTarget(
 		sessionId: string,
-		isStillAttachedInternally = true,
+		isStillAttachedInternally = true
 	) {
 		const target = this._targets.get(sessionId);
 		if (!target) {
@@ -392,10 +392,10 @@ export class BrowserTargetManager implements IDisposable {
 
 	private async _targetInfoChanged(
 		targetInfo: Cdp.Target.TargetInfo,
-		attemptAttach: (info: Cdp.Target.TargetInfo) => Promise<void>,
+		attemptAttach: (info: Cdp.Target.TargetInfo) => Promise<void>
 	) {
 		const targets = [...this._targets.values()].filter(
-			(t) => t.targetId === targetInfo.targetId,
+			(t) => t.targetId === targetInfo.targetId
 		);
 
 		// if we arent' attach, detach any existing targets and then attempt to
@@ -404,8 +404,8 @@ export class BrowserTargetManager implements IDisposable {
 			if (targets.length) {
 				await Promise.all(
 					targets.map((t) =>
-						this._detachedFromTarget(t.sessionId, false),
-					),
+						this._detachedFromTarget(t.sessionId, false)
+					)
 				);
 			}
 

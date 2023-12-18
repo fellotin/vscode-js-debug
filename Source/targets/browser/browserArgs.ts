@@ -79,7 +79,7 @@ export class BrowserArgs {
 	 */
 	public remove(key: string) {
 		return new BrowserArgs(
-			mapToArgs({ ...this.argMap(), [key]: undefined }),
+			mapToArgs({ ...this.argMap(), [key]: undefined })
 		);
 	}
 
@@ -93,7 +93,7 @@ export class BrowserArgs {
 				...(args instanceof BrowserArgs
 					? args.argMap()
 					: argsToMap(args)),
-			}),
+			})
 		);
 	}
 
@@ -107,7 +107,7 @@ export class BrowserArgs {
 				[debugPipeArg]: connection === "pipe" ? null : undefined,
 				[debugPortArg]:
 					connection !== "pipe" ? String(connection) : undefined,
-			}),
+			})
 		);
 	}
 

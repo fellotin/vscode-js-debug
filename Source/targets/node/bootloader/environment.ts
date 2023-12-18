@@ -164,7 +164,7 @@ export class BootloaderEnvironment {
 	 */
 	public updateInspectorOption<K extends keyof IBootloaderInfo>(
 		key: K,
-		value: IBootloaderInfo[K],
+		value: IBootloaderInfo[K]
 	) {
 		const options = this.inspectorOptions;
 		if (options) {

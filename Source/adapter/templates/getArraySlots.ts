@@ -11,7 +11,7 @@ import { remoteFunction } from ".";
 export const getArraySlots = remoteFunction(function (
 	this: unknown[],
 	start: number,
-	count: number,
+	count: number
 ) {
 	const result = {};
 	const from = start === -1 ? 0 : start;

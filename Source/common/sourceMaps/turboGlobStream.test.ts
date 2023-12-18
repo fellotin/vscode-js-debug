@@ -50,8 +50,8 @@ describe("TurboGlobStream", () => {
 					.then(() =>
 						expect(matches.sort()).to.deep.equal(
 							expected,
-							`bad result in call number ${i + 1}`,
-						),
+							`bad result in call number ${i + 1}`
+						)
 					)
 					.then(resolve, reject);
 			});
@@ -127,7 +127,7 @@ describe("TurboGlobStream", () => {
 		});
 
 		expect(
-			fileProcessor.args.slice().sort((a, b) => a[0].localeCompare(b[0])),
+			fileProcessor.args.slice().sort((a, b) => a[0].localeCompare(b[0]))
 		).to.deep.equal([
 			[join(dir, "a", "a1.js"), { siblings: ["a1.js", "a2.js"] }],
 			[join(dir, "a", "a2.js"), { siblings: ["a1.js", "a2.js"] }],
@@ -146,7 +146,7 @@ describe("TurboGlobStream", () => {
 		});
 
 		expect(
-			fileProcessor.args.slice().sort((a, b) => a[0].localeCompare(b[0])),
+			fileProcessor.args.slice().sort((a, b) => a[0].localeCompare(b[0]))
 		).to.deep.equal([
 			[join(dir, "a", "a1.js"), { siblings: ["a1.js", "a2.js"] }],
 			[join(dir, "a", "a2.js"), { siblings: ["a1.js", "a2.js"] }],

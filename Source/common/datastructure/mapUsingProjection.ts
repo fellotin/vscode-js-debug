@@ -3,7 +3,10 @@
  *--------------------------------------------------------*/
 
 class KeyAndValue<K, V> {
-	constructor(public readonly key: K, public readonly value: V) {}
+	constructor(
+		public readonly key: K,
+		public readonly value: V
+	) {}
 
 	public toString(): string {
 		return `${this.key}: ${this.value}`;
@@ -22,7 +25,7 @@ export class MapUsingProjection<K, V, P = K> implements Map<K, V> {
 		readonly initialContents?:
 			| Map<K, V>
 			| Iterable<[K, V]>
-			| ReadonlyArray<[K, V]>,
+			| ReadonlyArray<[K, V]>
 	) {
 		const entries = Array.from(initialContents || []).map<
 			[P, KeyAndValue<K, V>]
@@ -44,15 +47,15 @@ export class MapUsingProjection<K, V, P = K> implements Map<K, V> {
 	}
 
 	public forEach(
-		callbackfn: (value: V, key: K, map: Map<K, V>) => void,
+		callbackfn: (value: V, key: K, map: Map<K, V>) => void
 	): void;
 	public forEach<T>(
 		callbackfn: (this: T, value: V, key: K, map: Map<K, V>) => void,
-		thisArg: T,
+		thisArg: T
 	): void;
 	public forEach<T>(
 		callbackfn: (value: V, key: K, map: Map<K, V>) => void,
-		thisArg?: T,
+		thisArg?: T
 	): void {
 		this.projectionToKeyAndValue.forEach((keyAndValue) => {
 			callbackfn.call(thisArg, keyAndValue.value, keyAndValue.key, this);
@@ -72,7 +75,7 @@ export class MapUsingProjection<K, V, P = K> implements Map<K, V> {
 	public set(key: K, value: V): this {
 		this.projectionToKeyAndValue.set(
 			this.projection(key),
-			new KeyAndValue(key, value),
+			new KeyAndValue(key, value)
 		);
 		return this;
 	}

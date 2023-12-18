@@ -137,7 +137,7 @@ export const ICompletions = Symbol("ICompletions");
  */
 export interface ICompletions {
 	completions(
-		options: ICompletionContext & ICompletionExpression,
+		options: ICompletionContext & ICompletionExpression
 	): Promise<Dap.CompletionItem[]>;
 }
 
@@ -152,11 +152,11 @@ export class Completions {
 	) {}
 
 	public async completions(
-		options: ICompletionContext & ICompletionExpression,
+		options: ICompletionContext & ICompletionExpression
 	): Promise<Dap.CompletionItem[]> {
 		const source = parseProgram(options.expression);
 		const offset = new PositionToOffset(options.expression).convert(
-			options.position,
+			options.position
 		);
 		let candidate: () => Promise<ICompletionWithSort[]> = () =>
 			Promise.resolve([]);
@@ -181,13 +181,13 @@ export class Completions {
 									this.elementAccessCompleter(
 										options,
 										memberExpression,
-										offset,
+										offset
 									)
 							: () =>
 									this.propertyAccessCompleter(
 										options,
 										memberExpression,
-										offset,
+										offset
 									);
 					} else if (node.type === "Identifier") {
 						candidate = () =>
@@ -195,7 +195,7 @@ export class Completions {
 								options,
 								source,
 								node,
-								offset,
+								offset
 							);
 					}
 					parent = node;
@@ -204,7 +204,7 @@ export class Completions {
 		});
 
 		return candidate().then((v) =>
-			v.sort((a, b) => (a.sortText > b.sortText ? 1 : -1)),
+			v.sort((a, b) => (a.sortText > b.sortText ? 1 : -1))
 		);
 	}
 
@@ -214,7 +214,7 @@ export class Completions {
 	private async elementAccessCompleter(
 		options: ICompletionContext,
 		node: MemberExpression,
-		offset: number,
+		offset: number
 	) {
 		if (
 			node.property.type !== "Literal" ||
@@ -228,7 +228,7 @@ export class Completions {
 
 		const prefix = options.expression.slice(
 			getStart(node.property) + 1,
-			offset,
+			offset
 		);
 		const completions = await this.defaultCompletions(options, prefix);
 
@@ -250,7 +250,7 @@ export class Completions {
 		options: ICompletionContext,
 		source: Program,
 		node: Identifier,
-		offset: number,
+		offset: number
 	) {
 		// Walk through the expression and look for any locally-declared variables or identifiers.
 		const localIdentifiers: ICompletionWithSort[] = [];
@@ -294,7 +294,7 @@ export class Completions {
 	async propertyAccessCompleter(
 		options: ICompletionContext,
 		node: MemberExpression,
-		offset: number,
+		offset: number
 	): Promise<ICompletionWithSort[]> {
 		const { result, isArray } = await this.completePropertyAccess({
 			executionContextId: options.executionContextId,
@@ -366,7 +366,7 @@ export class Completions {
 			callFrameId
 				? { ...params, callFrameId }
 				: { ...params, contextId: executionContextId },
-			{ stackFrame },
+			{ stackFrame }
 		);
 
 		if (!objRefResult || objRefResult.exceptionDetails) {
@@ -384,14 +384,14 @@ export class Completions {
 				expression: enumeratePropertiesTemplate.expr(
 					`(${expression})`,
 					JSON.stringify(prefix),
-					JSON.stringify(isInGlobalScope),
+					JSON.stringify(isInGlobalScope)
 				),
 			};
 
 			const propsResult = await this.evaluator.evaluate(
 				callFrameId
 					? { ...primitiveParams, callFrameId }
-					: { ...primitiveParams, contextId: executionContextId },
+					: { ...primitiveParams, contextId: executionContextId }
 			);
 
 			return !propsResult || propsResult.exceptionDetails
@@ -424,7 +424,7 @@ export class Completions {
 	 */
 	private async defaultCompletions(
 		options: ICompletionContext,
-		prefix = "",
+		prefix = ""
 	): Promise<ICompletionWithSort[]> {
 		for (const global of ["self", "global", "this"]) {
 			const { result: items } = await this.completePropertyAccess({
@@ -462,7 +462,7 @@ export class Completions {
 
 	private syntheticCompletions(
 		_options: ICompletionContext,
-		prefix: string,
+		prefix: string
 	): ICompletionWithSort[] {
 		if (
 			this.evaluator.hasReturnValue &&

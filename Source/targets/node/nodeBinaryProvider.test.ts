@@ -25,14 +25,14 @@ describe("NodeBinaryProvider", function () {
 	let p: NodeBinaryProvider;
 	const env = (name: string) =>
 		EnvironmentVars.empty.addToPath(
-			join(testWorkspace, "nodePathProvider", name),
+			join(testWorkspace, "nodePathProvider", name)
 		);
 	const binaryLocation = (name: string, binary = "node") =>
 		join(
 			testWorkspace,
 			"nodePathProvider",
 			name,
-			process.platform === "win32" ? `${binary}.exe` : binary,
+			process.platform === "win32" ? `${binary}.exe` : binary
 		);
 
 	let packageJson: IPackageJsonProvider;
@@ -68,7 +68,7 @@ describe("NodeBinaryProvider", function () {
 	it("resolves absolute paths", async () => {
 		const binary = await p.resolveAndValidate(
 			EnvironmentVars.empty,
-			binaryLocation("up-to-date"),
+			binaryLocation("up-to-date")
 		);
 		expect(binary.path).to.equal(binaryLocation("up-to-date"));
 		expect(binary.version).to.deep.equal(new Semver(12, 0, 0));
@@ -80,12 +80,12 @@ describe("NodeBinaryProvider", function () {
 		it("resolves absolute paths with extension on windows", async () => {
 			const binary = await p.resolveAndValidate(
 				new EnvironmentVars(process.env).addToPath(
-					join(testWorkspace, "nodePathProvider", "no-node"),
+					join(testWorkspace, "nodePathProvider", "no-node")
 				),
-				"babel",
+				"babel"
 			);
 			expect(binary.path).to.equal(
-				join(testWorkspace, "nodePathProvider", "no-node", "babel.cmd"),
+				join(testWorkspace, "nodePathProvider", "no-node", "babel.cmd")
 			);
 		});
 	}
@@ -123,7 +123,7 @@ describe("NodeBinaryProvider", function () {
 		const binary = await p.resolveAndValidate(
 			env("outdated"),
 			undefined,
-			11,
+			11
 		);
 		expect(binary.path).to.equal(binaryLocation("outdated"));
 		expect(binary.version).to.deep.equal(new Semver(11, 0, 0));
@@ -137,8 +137,8 @@ describe("NodeBinaryProvider", function () {
 					testWorkspace,
 					"nodePathProvider",
 					"node-module",
-					"package.json",
-				),
+					"package.json"
+				)
 			);
 		const binary = await p.resolveAndValidate(env("outdated"), "npm");
 		expect(binary.path).to.equal(binaryLocation("outdated", "npm"));
@@ -169,7 +169,7 @@ describe("NodeBinaryProvider", function () {
 
 				const binary = await p.resolveAndValidate(
 					EnvironmentVars.empty,
-					"electron",
+					"electron"
 				);
 				expect(binary.version).to.deep.equal(new Semver(12, 0, 0));
 			}
@@ -182,7 +182,7 @@ describe("NodeBinaryProvider", function () {
 
 			const binary = await p.resolveAndValidate(
 				EnvironmentVars.empty,
-				"electron",
+				"electron"
 			);
 			expect(binary.version).to.deep.equal(new Semver(12, 0, 0));
 		});
@@ -194,7 +194,7 @@ describe("NodeBinaryProvider", function () {
 
 			const binary = await p.resolveAndValidate(
 				EnvironmentVars.empty,
-				"electron",
+				"electron"
 			);
 			expect(binary.version).to.deep.equal(new Semver(10, 0, 0));
 		});
@@ -206,7 +206,7 @@ describe("NodeBinaryProvider", function () {
 
 			const binary = await p.resolveAndValidate(
 				EnvironmentVars.empty,
-				"electron",
+				"electron"
 			);
 			expect(binary.version).to.deep.equal(new Semver(10, 0, 0));
 		});
@@ -264,7 +264,7 @@ describe("NodeBinary", () => {
 			for (const [capability, expected] of Object.entries(c)) {
 				expect(b.has(Number(capability) as Capability)).to.equal(
 					expected,
-					capability,
+					capability
 				);
 			}
 		});

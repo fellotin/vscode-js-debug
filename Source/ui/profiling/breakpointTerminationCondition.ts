@@ -29,17 +29,18 @@ export class BreakpointTerminationConditionFactory
 	public readonly id = "breakpoint";
 	public readonly label = l10n.t("Pick Breakpoint");
 	public readonly description = l10n.t(
-		"Run until a specific breakpoint is hit",
+		"Run until a specific breakpoint is hit"
 	);
 
 	constructor(
-    @inject(FS) private readonly fs: FsPromises,
-    @inject(ExtensionContext) private readonly context: vscode.ExtensionContext,
-  ) {}
+		@inject(FS) private readonly fs: FsPromises,
+		@inject(ExtensionContext)
+		private readonly context: vscode.ExtensionContext
+	) {}
 
 	public async onPick(
 		session: vscode.DebugSession,
-		breakpointIds?: ReadonlyArray<number>,
+		breakpointIds?: ReadonlyArray<number>
 	) {
 		if (breakpointIds) {
 			return new BreakpointTerminationCondition(breakpointIds);
@@ -62,7 +63,7 @@ export class BreakpointTerminationConditionFactory
 
 				const location = active[0].location;
 				const document = await vscode.workspace.openTextDocument(
-					location.uri,
+					location.uri
 				);
 				vscode.window.showTextDocument(document, {
 					selection: location.range,
@@ -75,14 +76,14 @@ export class BreakpointTerminationConditionFactory
 
 			(async () => {
 				const codeBps = vscode.debug.breakpoints.filter(
-					(bp) => bp.enabled && bp instanceof vscode.SourceBreakpoint,
+					(bp) => bp.enabled && bp instanceof vscode.SourceBreakpoint
 				);
 				const dapBps = await Promise.all(
-					codeBps.map((bp) => session.getDebugProtocolBreakpoint(bp)),
+					codeBps.map((bp) => session.getDebugProtocolBreakpoint(bp))
 				);
 				const candidates = await this.getCandidates(
 					dapBps as (Dap.Breakpoint | undefined)[],
-					codeBps as vscode.SourceBreakpoint[],
+					codeBps as vscode.SourceBreakpoint[]
 				);
 
 				quickPick.items = candidates;
@@ -99,7 +100,7 @@ export class BreakpointTerminationConditionFactory
 
 		await this.warnSlowCode();
 		return new BreakpointTerminationCondition(
-			chosen.map((c) => Number(c.id)),
+			chosen.map((c) => Number(c.id))
 		);
 	}
 
@@ -110,16 +111,16 @@ export class BreakpointTerminationConditionFactory
 
 		vscode.window.showWarningMessage(
 			l10n.t(
-				'Profiling with breakpoints enabled can change the performance of your code. It can be useful to validate your findings with the "duration" or "manual" termination conditions.',
+				'Profiling with breakpoints enabled can change the performance of your code. It can be useful to validate your findings with the "duration" or "manual" termination conditions.'
 			),
-			l10n.t("Got it!"),
+			l10n.t("Got it!")
 		);
 		await this.context.workspaceState.update(warnedKey, true);
 	}
 
 	private async getCandidates(
 		dapBps: ReadonlyArray<Dap.Breakpoint | undefined>,
-		codeBps: ReadonlyArray<vscode.SourceBreakpoint>,
+		codeBps: ReadonlyArray<vscode.SourceBreakpoint>
 	): Promise<BreakpointPickItem[]> {
 		if (dapBps.length !== codeBps.length) {
 			throw new Error("Mismatched breakpoint array lengths");
@@ -137,7 +138,7 @@ export class BreakpointTerminationConditionFactory
 
 					const location = codeBp.location;
 					const folder = vscode.workspace.getWorkspaceFolder(
-						location.uri,
+						location.uri
 					);
 					const labelPath = folder
 						? path.relative(folder.uri.fsPath, location.uri.fsPath)
@@ -150,8 +151,8 @@ export class BreakpointTerminationConditionFactory
 						location,
 						description: lines?.[location.range.start.line]?.trim(),
 					};
-				},
-			),
+				}
+			)
 		);
 
 		return candidates.filter(truthy);

@@ -135,7 +135,7 @@ export class DiagnosticToolSuggester {
 						this.hadNonModuleSourcemap = true;
 						this.disposable.disposeObject(listener);
 					}
-				}),
+				})
 			);
 		}
 	}

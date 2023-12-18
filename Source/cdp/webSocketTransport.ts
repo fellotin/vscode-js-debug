@@ -30,7 +30,7 @@ export class WebSocketTransport implements ITransport {
 	static async create(
 		url: string,
 		cancellationToken: CancellationToken,
-		remoteHostHeader?: string,
+		remoteHostHeader?: string
 	): Promise<WebSocketTransport> {
 		const isSecure = !url.startsWith("ws://");
 		const targetAddressIsLoopback = await isLoopback(url);
@@ -50,7 +50,7 @@ export class WebSocketTransport implements ITransport {
 				return await timeoutPromise(
 					new Promise<WebSocketTransport>((resolve, reject) => {
 						ws.addEventListener("open", () =>
-							resolve(new WebSocketTransport(ws)),
+							resolve(new WebSocketTransport(ws))
 						);
 						ws.addEventListener("error", (errorEvent) => {
 							// Check for invalid http redirects for compatibility with old cdp proxies
@@ -67,13 +67,13 @@ export class WebSocketTransport implements ITransport {
 							this.create(
 								redirectUrl,
 								cancellationToken,
-								remoteHostHeader,
+								remoteHostHeader
 							).then(resolve, reject);
 						});
 					}),
 					CancellationTokenSource.withTimeout(2000, cancellationToken)
 						.token,
-					`Could not open ${url}`,
+					`Could not open ${url}`
 				).catch((err) => {
 					ws.close();
 					throw err;

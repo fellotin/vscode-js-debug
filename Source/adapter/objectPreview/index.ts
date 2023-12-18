@@ -34,7 +34,7 @@ export function previewAsObject(
 	object:
 		| Cdp.Runtime.RemoteObject
 		| Cdp.Runtime.ObjectPreview
-		| Cdp.Runtime.PropertyPreview,
+		| Cdp.Runtime.PropertyPreview
 ): object is ObjectPreview.PreviewAsObjectType {
 	return (
 		object.type === "function" ||
@@ -47,16 +47,16 @@ export function previewAsObject(
  * Returns whether the given type should be previwed as an array.
  */
 export function isArray(
-	object: Cdp.Runtime.RemoteObject,
+	object: Cdp.Runtime.RemoteObject
 ): object is ObjectPreview.ArrayObj;
 export function isArray(
-	object: ObjectPreview.AnyPreview,
+	object: ObjectPreview.AnyPreview
 ): object is ObjectPreview.ArrayPreview;
 export function isArray(
 	object:
 		| Cdp.Runtime.RemoteObject
 		| Cdp.Runtime.ObjectPreview
-		| Cdp.Runtime.PropertyPreview,
+		| Cdp.Runtime.PropertyPreview
 ): boolean {
 	return object.subtype === "array" || object.subtype === "typedarray";
 }
@@ -64,13 +64,13 @@ export function isArray(
 export function previewRemoteObject(
 	object: Cdp.Runtime.RemoteObject,
 	contextType?: string,
-	valueFormat?: Dap.ValueFormat,
+	valueFormat?: Dap.ValueFormat
 ): string {
 	const context = getContextForType(contextType);
 	const result = previewRemoteObjectInternal(
 		object as ObjectPreview.AnyObject,
 		context,
-		valueFormat,
+		valueFormat
 	);
 
 	if (object.preview?.subtype === "regexp") return result;
@@ -81,7 +81,7 @@ export function previewRemoteObject(
 function previewRemoteObjectInternal(
 	object: ObjectPreview.AnyObject,
 	context: IPreviewContext,
-	valueFormat?: Dap.ValueFormat,
+	valueFormat?: Dap.ValueFormat
 ): string {
 	// Evaluating function does not produce preview object for it.
 	if (object.type === "function") {
@@ -100,9 +100,7 @@ function previewRemoteObjectInternal(
 }
 
 export function propertyWeight(
-	prop:
-		| Cdp.Runtime.PropertyDescriptor
-		| Cdp.Runtime.PrivatePropertyDescriptor,
+	prop: Cdp.Runtime.PropertyDescriptor | Cdp.Runtime.PrivatePropertyDescriptor
 ): number {
 	if (prop.name === "__proto__") return 0;
 	if (prop.name.startsWith("__")) return 1;
@@ -111,14 +109,14 @@ export function propertyWeight(
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function privatePropertyWeight(
-	_prop: Cdp.Runtime.PrivatePropertyDescriptor,
+	_prop: Cdp.Runtime.PrivatePropertyDescriptor
 ): number {
 	return 20;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function internalPropertyWeight(
-	_prop: Cdp.Runtime.InternalPropertyDescriptor,
+	_prop: Cdp.Runtime.InternalPropertyDescriptor
 ): number {
 	return 10;
 }
@@ -126,7 +124,7 @@ export function internalPropertyWeight(
 function renderPreview(
 	preview: ObjectPreview.AnyPreview,
 	characterBudget: number,
-	valueFormat: Dap.ValueFormat | undefined,
+	valueFormat: Dap.ValueFormat | undefined
 ): string {
 	if (isArray(preview)) {
 		return renderArrayPreview(preview, characterBudget);
@@ -135,7 +133,7 @@ function renderPreview(
 	if ((preview.subtype as string) === "internal#entry") {
 		return stringUtils.trimEnd(
 			(preview as { description: string }).description || "",
-			characterBudget,
+			characterBudget
 		);
 	}
 
@@ -152,7 +150,7 @@ function renderPreview(
 
 function renderArrayPreview(
 	preview: ObjectPreview.ArrayPreview,
-	characterBudget: number,
+	characterBudget: number
 ): string {
 	const builder = new BudgetStringBuilder(characterBudget);
 	let description = preview.description;
@@ -183,7 +181,7 @@ function renderArrayPreview(
 		if (!propsBuilder.checkBudget()) break;
 		if (!isNaN(prop.name as unknown as number)) continue;
 		propsBuilder.append(
-			renderPropertyPreview(prop, propsBuilder.budget(), prop.name),
+			renderPropertyPreview(prop, propsBuilder.budget(), prop.name)
 		);
 	}
 	if (preview.overflow) propsBuilder.appendEllipsis();
@@ -194,12 +192,12 @@ function renderArrayPreview(
 function renderObjectPreview(
 	preview: ObjectPreview.PreviewAsObjectType,
 	characterBudget: number,
-	format: Dap.ValueFormat | undefined,
+	format: Dap.ValueFormat | undefined
 ): string {
 	const builder = new BudgetStringBuilder(characterBudget, " ");
 	if (preview.description !== "Object")
 		builder.append(
-			stringUtils.trimEnd(preview.description, builder.budget()),
+			stringUtils.trimEnd(preview.description, builder.budget())
 		);
 
 	const map = new Map<string, ObjectPreview.PropertyPreview>();
@@ -212,7 +210,7 @@ function renderObjectPreview(
 	const primitiveValue = map.get("[[PrimitiveValue]]");
 	if (primitiveValue) {
 		builder.append(
-			`(${renderPropertyPreview(primitiveValue, builder.budget() - 2)})`,
+			`(${renderPropertyPreview(primitiveValue, builder.budget() - 2)})`
 		);
 		return builder.build();
 	}
@@ -228,8 +226,8 @@ function renderObjectPreview(
 				`{${renderPropertyPreview(
 					promiseValue,
 					builder.budget() - 2,
-					`<${promiseStatus.value}>`,
-				)}}`,
+					`<${promiseStatus.value}>`
+				)}}`
 			);
 		return builder.build();
 	}
@@ -245,7 +243,7 @@ function renderObjectPreview(
 	for (const prop of properties) {
 		if (!propsBuilder.checkBudget()) break;
 		propsBuilder.append(
-			renderPropertyPreview(prop, propsBuilder.budget(), prop.name),
+			renderPropertyPreview(prop, propsBuilder.budget(), prop.name)
 		);
 	}
 
@@ -258,26 +256,26 @@ function renderObjectPreview(
 			const key = renderPreview(
 				entry.key,
 				Math.min(maxEntryPreviewLength, propsBuilder.budget()),
-				format,
+				format
 			);
 			const value = renderPreview(
 				entry.value,
 				Math.min(
 					maxEntryPreviewLength,
-					propsBuilder.budget() - key.length - 4,
+					propsBuilder.budget() - key.length - 4
 				),
-				format,
+				format
 			);
 			propsBuilder.append(
-				appendKeyValue(key, " => ", value, propsBuilder.budget()),
+				appendKeyValue(key, " => ", value, propsBuilder.budget())
 			);
 		} else {
 			propsBuilder.append(
 				renderPreview(
 					entry.value,
 					Math.min(maxEntryPreviewLength, propsBuilder.budget()),
-					format,
-				),
+					format
+				)
 			);
 		}
 	}
@@ -312,7 +310,7 @@ function truncateValue(value: string, characterBudget: number): string {
 function renderPrimitivePreview(
 	preview: ObjectPreview.Primitive,
 	characterBudget: number,
-	valueFormat: Dap.ValueFormat | undefined,
+	valueFormat: Dap.ValueFormat | undefined
 ): string {
 	if (preview.type === "object" && preview.subtype === "null") {
 		return valueOrEllipsis("null", characterBudget);
@@ -341,7 +339,7 @@ function appendKeyValue(
 	key: string | undefined,
 	separator: string,
 	value: string,
-	characterBudget: number,
+	characterBudget: number
 ) {
 	if (key === undefined)
 		return stringUtils.trimMiddle(value, characterBudget);
@@ -349,14 +347,14 @@ function appendKeyValue(
 		return stringUtils.trimEnd(key, characterBudget);
 	return `${key}${separator}${stringUtils.trimMiddle(
 		value,
-		characterBudget - key.length - separator.length,
+		characterBudget - key.length - separator.length
 	)}`; // Keep in sync with characterBudget calculation.
 }
 
 function renderPropertyPreview(
 	prop: ObjectPreview.PropertyPreview,
 	characterBudget: number,
-	name?: string,
+	name?: string
 ): string {
 	characterBudget = Math.min(characterBudget, maxPropertyPreviewLength);
 	if (prop.type === "function")
@@ -374,7 +372,7 @@ function renderValue(
 	object: ObjectPreview.AnyObject,
 	budget: number,
 	quote: boolean,
-	format: Dap.ValueFormat | undefined,
+	format: Dap.ValueFormat | undefined
 ): string {
 	if (object.type === "string") {
 		let stringValue =
@@ -385,7 +383,7 @@ function renderValue(
 		}
 		const value = stringUtils.trimMiddle(
 			stringValue,
-			quote ? budget - 2 : budget,
+			quote ? budget - 2 : budget
 		);
 		return quote ? `'${value}'` : value;
 	}
@@ -405,19 +403,19 @@ function renderValue(
 	if (object.description) {
 		return stringUtils.trimEnd(
 			object.description,
-			Math.max(budget, 100000),
+			Math.max(budget, 100000)
 		);
 	}
 
 	return stringUtils.trimEnd(
 		String("value" in object ? object.value : object.description),
-		budget,
+		budget
 	);
 }
 
 function formatFunctionDescription(
 	description: string,
-	characterBudget: number,
+	characterBudget: number
 ): string {
 	const builder = new BudgetStringBuilder(characterBudget);
 	const text = description
@@ -483,7 +481,7 @@ function formatFunctionDescription(
 				contents.substring(0, startOfArgumentsIndex).trim() || "";
 			const args = contents.substring(
 				startOfArgumentsIndex,
-				endIndex + 1,
+				endIndex + 1
 			);
 			return name + args;
 		}
@@ -502,7 +500,7 @@ function formatFunctionDescription(
 }
 
 export function previewException(
-	rawException: Cdp.Runtime.RemoteObject | ObjectPreview.AnyObject,
+	rawException: Cdp.Runtime.RemoteObject | ObjectPreview.AnyObject
 ): { title: string; stackTrace?: string } {
 	const exception = rawException as ObjectPreview.AnyObject;
 	if (exception.type !== "object" || exception.subtype === "null") {
@@ -511,7 +509,7 @@ export function previewException(
 				exception,
 				maxExceptionTitleLength,
 				false,
-				undefined,
+				undefined
 			),
 		};
 	}
@@ -537,7 +535,7 @@ function formatAsNumber(
 	param: ObjectPreview.Numeric,
 	round: boolean,
 	characterBudget: number,
-	format: Dap.ValueFormat | undefined,
+	format: Dap.ValueFormat | undefined
 ): string {
 	if (param.type === "number") {
 		if ("unserializableValue" in param) {
@@ -561,21 +559,19 @@ function formatAsNumber(
 			: +String(fallback.description);
 	return stringUtils.trimEnd(
 		String(round ? Math.floor(value) : value),
-		characterBudget,
+		characterBudget
 	);
 }
 
 function formatAsString(
 	param: ObjectPreview.StringObj,
-	characterBudget: number,
+	characterBudget: number
 ): string {
 	return stringUtils.trimMiddle(
 		String(
-			typeof param.value !== "undefined"
-				? param.value
-				: param.description,
+			typeof param.value !== "undefined" ? param.value : param.description
 		),
-		characterBudget,
+		characterBudget
 	);
 }
 
@@ -591,7 +587,7 @@ export function formatAsTable(param: Cdp.Runtime.ObjectPreview): string {
 		value.set(undefined, row.name); // row index is a first column
 		colLengths.set(
 			undefined,
-			Math.max(colLengths.get(undefined) || 0, row.name.length),
+			Math.max(colLengths.get(undefined) || 0, row.name.length)
 		);
 
 		rows.push(value);
@@ -601,7 +597,7 @@ export function formatAsTable(param: Cdp.Runtime.ObjectPreview): string {
 			value.set(prop.name, prop.value);
 			colLengths.set(
 				prop.name,
-				Math.max(colLengths.get(prop.name) || 0, prop.value.length),
+				Math.max(colLengths.get(prop.name) || 0, prop.value.length)
 			);
 		});
 	}
@@ -611,14 +607,14 @@ export function formatAsTable(param: Cdp.Runtime.ObjectPreview): string {
 		if (name)
 			colLengths.set(
 				name,
-				Math.max(colLengths.get(name) || 0, name.length),
+				Math.max(colLengths.get(name) || 0, name.length)
 			);
 	}
 
 	// Shrink columns if necessary.
 	const columnsWidth = Array.from(colLengths.values()).reduce(
 		(a, c) => a + c,
-		0,
+		0
 	);
 	const maxColumnsWidth = maxTableWidth - 4 - (colNames.size - 1) * 3;
 	if (columnsWidth > maxColumnsWidth) {
@@ -627,7 +623,7 @@ export function formatAsTable(param: Cdp.Runtime.ObjectPreview): string {
 			// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 			const newWidth = Math.max(
 				minTableCellWidth,
-				(colLengths.get(name)! * ratio) | 0,
+				(colLengths.get(name)! * ratio) | 0
 			);
 			colLengths.set(name, newWidth);
 		}
@@ -646,7 +642,7 @@ export function formatAsTable(param: Cdp.Runtime.ObjectPreview): string {
 			.replace("[", "╭")
 			.replace(/\|/g, "┬")
 			.replace("]", "╮")
-			.replace(/-/g, "┄"), // CodeQL [SM02383] The non-global replaces are replacing the sides of the table and do not need to be global.
+			.replace(/-/g, "┄") // CodeQL [SM02383] The non-global replaces are replacing the sides of the table and do not need to be global.
 	);
 	const header: string[] = [];
 	// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -658,7 +654,7 @@ export function formatAsTable(param: Cdp.Runtime.ObjectPreview): string {
 			.replace("[", "├")
 			.replace(/\|/g, "┼")
 			.replace("]", "┤")
-			.replace(/-/g, "┄"), // CodeQL [SM02383] The non-global replaces are replacing the sides of the table and do not need to be global.
+			.replace(/-/g, "┄") // CodeQL [SM02383] The non-global replaces are replacing the sides of the table and do not need to be global.
 	);
 
 	for (const value of rows) {
@@ -674,7 +670,7 @@ export function formatAsTable(param: Cdp.Runtime.ObjectPreview): string {
 			.replace("[", "╰")
 			.replace(/\|/g, "┴")
 			.replace("]", "╯")
-			.replace(/-/g, "┄"), // CodeQL [SM02383] The non-global replaces are replacing the sides of the table and do not need to be global.
+			.replace(/-/g, "┄") // CodeQL [SM02383] The non-global replaces are replacing the sides of the table and do not need to be global.
 	);
 	return table
 		.map((row) => stringUtils.trimEnd(row, maxTableWidth))
@@ -689,7 +685,7 @@ export const messageFormatters: messageFormat.Formatters<ObjectPreview.AnyObject
 			(param, context) =>
 				formatAsString(
 					param as ObjectPreview.StringObj,
-					context.budget,
+					context.budget
 				),
 		],
 		[
@@ -699,7 +695,7 @@ export const messageFormatters: messageFormat.Formatters<ObjectPreview.AnyObject
 					param as ObjectPreview.Numeric,
 					true,
 					context.budget,
-					undefined,
+					undefined
 				),
 		],
 		[
@@ -709,7 +705,7 @@ export const messageFormatters: messageFormat.Formatters<ObjectPreview.AnyObject
 					param as ObjectPreview.Numeric,
 					true,
 					context.budget,
-					undefined,
+					undefined
 				),
 		],
 		[
@@ -719,14 +715,14 @@ export const messageFormatters: messageFormat.Formatters<ObjectPreview.AnyObject
 					param as ObjectPreview.Numeric,
 					false,
 					context.budget,
-					undefined,
+					undefined
 				),
 		],
 		[
 			"c",
 			(param) =>
 				messageFormat.formatCssAsAnsi(
-					(param as { value: string }).value,
+					(param as { value: string }).value
 				),
 		],
 		["o", (param, context) => previewRemoteObjectInternal(param, context)],

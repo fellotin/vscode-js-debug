@@ -27,10 +27,12 @@ export class DiagnosticsUI implements IExtensionContribution {
 	private isPrompting = false;
 
 	constructor(
-    @inject(FS) private readonly fs: FsPromises,
-    @inject(ExtensionContext) private readonly context: vscode.ExtensionContext,
-    @inject(DebugSessionTracker) private readonly tracker: DebugSessionTracker,
-  ) {}
+		@inject(FS) private readonly fs: FsPromises,
+		@inject(ExtensionContext)
+		private readonly context: vscode.ExtensionContext,
+		@inject(DebugSessionTracker)
+		private readonly tracker: DebugSessionTracker
+	) {}
 
 	public register(context: vscode.ExtensionContext) {
 		context.subscriptions.push(
@@ -51,13 +53,13 @@ export class DiagnosticsUI implements IExtensionContribution {
 							toFile: uri.fsPath,
 						});
 					}
-				},
+				}
 			),
 			registerCommand(
 				vscode.commands,
 				Commands.CreateDiagnostics,
 				async () =>
-					this.getDiagnosticInfo(await this.getTargetSession()),
+					this.getDiagnosticInfo(await this.getTargetSession())
 			),
 
 			vscode.debug.onDidReceiveDebugSessionCustomEvent(async (evt) => {
@@ -83,7 +85,7 @@ export class DiagnosticsUI implements IExtensionContribution {
 					"It looks like you might be having trouble with breakpoints. Would you like to open our diagnostic tool?",
 					yes,
 					notNow,
-					never,
+					never
 				);
 
 				this.isPrompting = false;
@@ -92,7 +94,7 @@ export class DiagnosticsUI implements IExtensionContribution {
 					case yes:
 						this.getDiagnosticInfo(
 							await this.getTargetSession(),
-							true,
+							true
 						);
 						break;
 					case never:
@@ -102,7 +104,7 @@ export class DiagnosticsUI implements IExtensionContribution {
 						this.dismissedForSession = true;
 						break;
 				}
-			}),
+			})
 		);
 	}
 
@@ -127,19 +129,19 @@ export class DiagnosticsUI implements IExtensionContribution {
 	private pickSession() {
 		return DebugSessionTracker.pickSession(
 			this.tracker.getConcreteSessions(),
-			l10n.t("Select the session you want to inspect:"),
+			l10n.t("Select the session you want to inspect:")
 		);
 	}
 
 	private async getDiagnosticInfo(
 		session: vscode.DebugSession | undefined,
-		fromSuggestion = false,
+		fromSuggestion = false
 	) {
 		if (!session || !this.tracker.isRunning(session)) {
 			vscode.window.showErrorMessage(
 				l10n.t(
-					'It looks like your debug session has already ended. Try debugging again, then run the "Debug: Diagnose Breakpoint Problems" command.',
-				),
+					'It looks like your debug session has already ended. Try debugging again, then run the "Debug: Diagnose Breakpoint Problems" command.'
+				)
 			);
 
 			return;
@@ -158,7 +160,7 @@ export class DiagnosticsUI implements IExtensionContribution {
 			vscode.ViewColumn.Active,
 			{
 				enableScripts: true,
-			},
+			}
 		);
 
 		panel.webview.html = await this.fs.readFile(file, "utf-8");

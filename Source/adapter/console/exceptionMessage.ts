@@ -78,8 +78,8 @@ export class ExceptionMessage extends TextualMessage<Cdp.Runtime.ExceptionDetail
 					? thread.replVariables.createVariableForOutput(
 							message,
 							args,
-							stackTrace,
-					  ).id
+							stackTrace
+						).id
 					: undefined,
 			...(await this.getUiLocation(thread)),
 		};

@@ -41,7 +41,7 @@ describe("ExceptionPauseService", () => {
 			upcastPartial<SourceContainer>({
 				getScriptById,
 				getSourceScriptById: getScriptById,
-			}),
+			})
 		);
 	});
 
@@ -56,7 +56,7 @@ describe("ExceptionPauseService", () => {
 		await assertNotResolved(ep.launchBlocker);
 		await ep.apply(stubCdp.actual);
 		expect(
-			stubCdp.Debugger.setPauseOnExceptions.calledWith({ state: "all" }),
+			stubCdp.Debugger.setPauseOnExceptions.calledWith({ state: "all" })
 		).to.be.true;
 		await assertResolved(ep.launchBlocker);
 	});
@@ -65,7 +65,7 @@ describe("ExceptionPauseService", () => {
 		await ep.apply(stubCdp.actual);
 		await ep.setBreakpoints({ filters: [PauseOnExceptionsState.All] });
 		expect(
-			stubCdp.Debugger.setPauseOnExceptions.calledWith({ state: "all" }),
+			stubCdp.Debugger.setPauseOnExceptions.calledWith({ state: "all" })
 		).to.be.true;
 		await assertResolved(ep.launchBlocker);
 	});
@@ -74,11 +74,11 @@ describe("ExceptionPauseService", () => {
 		await ep.apply(stubCdp.actual);
 		await ep.setBreakpoints({ filters: [PauseOnExceptionsState.All] });
 		expect(
-			stubCdp.Debugger.setPauseOnExceptions.calledWith({ state: "all" }),
+			stubCdp.Debugger.setPauseOnExceptions.calledWith({ state: "all" })
 		).to.be.true;
 		await ep.setBreakpoints({ filters: [PauseOnExceptionsState.None] });
 		expect(
-			stubCdp.Debugger.setPauseOnExceptions.calledWith({ state: "none" }),
+			stubCdp.Debugger.setPauseOnExceptions.calledWith({ state: "none" })
 		).to.be.true;
 	});
 
@@ -86,13 +86,13 @@ describe("ExceptionPauseService", () => {
 		await ep.apply(stubCdp.actual);
 		await ep.setBreakpoints({ filters: [PauseOnExceptionsState.All] });
 		expect(
-			stubCdp.Debugger.setPauseOnExceptions.calledWith({ state: "all" }),
+			stubCdp.Debugger.setPauseOnExceptions.calledWith({ state: "all" })
 		).to.be.true;
 		await ep.setBreakpoints({ filters: [PauseOnExceptionsState.Uncaught] });
 		expect(
 			stubCdp.Debugger.setPauseOnExceptions.calledWith({
 				state: "uncaught",
-			}),
+			})
 		).to.be.true;
 	});
 
@@ -126,7 +126,7 @@ describe("ExceptionPauseService", () => {
 					} as unknown as Cdp.Debugger.CallFrame,
 				],
 				reason: "exception",
-			}),
+			})
 		).to.be.false;
 
 		expect(
@@ -137,7 +137,7 @@ describe("ExceptionPauseService", () => {
 					} as unknown as Cdp.Debugger.CallFrame,
 				],
 				reason: "exception",
-			}),
+			})
 		).to.be.true;
 	});
 	it("prepares an expression if a condition is given", async () => {
@@ -160,7 +160,7 @@ describe("ExceptionPauseService", () => {
 		]);
 		expect(stubDap.output.called).to.be.false;
 		expect(
-			stubCdp.Debugger.setPauseOnExceptions.calledWith({ state: "all" }),
+			stubCdp.Debugger.setPauseOnExceptions.calledWith({ state: "all" })
 		).to.be.true;
 
 		expr.onFirstCall()
@@ -180,7 +180,7 @@ describe("ExceptionPauseService", () => {
 				],
 				reason: "exception",
 				data: "oh no!",
-			}),
+			})
 		).to.be.true;
 
 		expect(
@@ -195,7 +195,7 @@ describe("ExceptionPauseService", () => {
 				],
 				reason: "exception",
 				data: "oh no!",
-			}),
+			})
 		).to.be.false;
 	});
 });

@@ -51,7 +51,7 @@ export const registerUiComponents = (container: Container) => {
 	});
 
 	allConfigurationProviders.forEach((cls) =>
-		container.bind(IDebugConfigurationProvider).to(cls).inSingletonScope(),
+		container.bind(IDebugConfigurationProvider).to(cls).inSingletonScope()
 	);
 
 	container

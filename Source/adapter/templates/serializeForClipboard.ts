@@ -13,13 +13,13 @@ declare class Node {
  */
 export const serializeForClipboardTmpl = templateFunction(function (
 	valueToStringify: unknown,
-	spaces: number,
+	spaces: number
 ) {
 	const indent = " ".repeat(spaces);
 	const eol = "\n";
 
 	function getTypedArrayContructor(
-		value: unknown,
+		value: unknown
 	): TypedArrayConstructor | undefined {
 		if (value instanceof Uint8Array) return Uint8Array;
 		if (value instanceof Uint8ClampedArray) return Uint8ClampedArray;
@@ -36,7 +36,7 @@ export const serializeForClipboardTmpl = templateFunction(function (
 	function serializeToJavaScriptyString(
 		value: unknown,
 		level = 0,
-		seen: unknown[] = [],
+		seen: unknown[] = []
 	): string {
 		switch (typeof value) {
 			case "bigint":
@@ -53,7 +53,7 @@ export const serializeForClipboardTmpl = templateFunction(function (
 					const match = /^[ \t]+/.exec(line);
 					if (match) {
 						trimSpaceRe = new RegExp(
-							`^[ \\t]{0,${match[0].length}}`,
+							`^[ \\t]{0,${match[0].length}}`
 						);
 						break;
 					}
@@ -100,13 +100,13 @@ export const serializeForClipboardTmpl = templateFunction(function (
 				const typedCtor = getTypedArrayContructor(value);
 				if (typedCtor) {
 					return `new ${typedCtor.name}([${(value as TypedArray).join(
-						", ",
+						", "
 					)}])`;
 				}
 
 				if (value instanceof ArrayBuffer) {
 					return `new Uint8Array([${new Uint8Array(value).join(
-						", ",
+						", "
 					)}]).buffer`;
 				}
 
@@ -120,7 +120,7 @@ export const serializeForClipboardTmpl = templateFunction(function (
 									...seen,
 									value,
 								]) +
-								",",
+								","
 						),
 						indent.repeat(level) + "]",
 					].join(eol);
@@ -139,9 +139,9 @@ export const serializeForClipboardTmpl = templateFunction(function (
 							serializeToJavaScriptyString(
 								asPropMap[key],
 								level + 1,
-								[...seen, value],
+								[...seen, value]
 							) +
-							",",
+							","
 					),
 					indent.repeat(level) + "}",
 				].join(eol);

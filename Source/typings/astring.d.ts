@@ -63,7 +63,7 @@ declare module "astring" {
 		generator?: {
 			[T in Node["type"]]: (
 				node: Node & { type: T },
-				state: State,
+				state: State
 			) => void;
 		};
 	}

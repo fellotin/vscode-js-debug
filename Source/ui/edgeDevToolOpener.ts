@@ -36,7 +36,10 @@ function findRootSession(session: vscode.DebugSession): vscode.DebugSession {
 
 @injectable()
 export class EdgeDevToolOpener implements IExtensionContribution {
-	constructor(@inject(DebugSessionTracker) private readonly tracker: DebugSessionTracker) {}
+	constructor(
+		@inject(DebugSessionTracker)
+		private readonly tracker: DebugSessionTracker
+	) {}
 
 	/** @inheritdoc */
 	public register(context: vscode.ExtensionContext) {
@@ -54,9 +57,9 @@ export class EdgeDevToolOpener implements IExtensionContribution {
 										.getConcreteSessions()
 										.filter(qualifies),
 									l10n.t(
-										"Select the page where you want to open the devtools",
-									),
-							  );
+										"Select the page where you want to open the devtools"
+									)
+								);
 
 					if (!session) {
 						return;
@@ -68,7 +71,7 @@ export class EdgeDevToolOpener implements IExtensionContribution {
 						return await vscode.commands.executeCommand(
 							commandId,
 							session.id,
-							rootSession.configuration,
+							rootSession.configuration
 						);
 					} catch (e) {
 						if (
@@ -77,14 +80,14 @@ export class EdgeDevToolOpener implements IExtensionContribution {
 						) {
 							return vscode.commands.executeCommand(
 								"workbench.extensions.action.showExtensionsWithIds",
-								[toolExtensionId],
+								[toolExtensionId]
 							);
 						} else {
 							throw e;
 						}
 					}
-				},
-			),
+				}
+			)
 		);
 	}
 }

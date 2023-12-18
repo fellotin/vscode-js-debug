@@ -16,20 +16,22 @@ import { ManagedState } from "./managedState";
 
 export const sourceMapSteppingEnabled = new ManagedState(
 	"sourceSteppingEnabled",
-	true,
+	true
 );
 
 @injectable()
 export class SourceSteppingUI implements IExtensionContribution {
 	constructor(
-    @inject(ExtensionContext) private readonly context: vscode.ExtensionContext,
-    @inject(DebugSessionTracker) private readonly tracker: DebugSessionTracker,
-  ) {}
+		@inject(ExtensionContext)
+		private readonly context: vscode.ExtensionContext,
+		@inject(DebugSessionTracker)
+		private readonly tracker: DebugSessionTracker
+	) {}
 
 	/** @inheritdoc */
 	public register(context: vscode.ExtensionContext) {
 		const isDisabled = new ManagedContextKey(
-			ContextKey.IsMapSteppingDisabled,
+			ContextKey.IsMapSteppingDisabled
 		);
 
 		if (
@@ -42,7 +44,7 @@ export class SourceSteppingUI implements IExtensionContribution {
 			isDisabled.value = !enabled;
 			sourceMapSteppingEnabled.write(
 				this.context.workspaceState,
-				enabled,
+				enabled
 			);
 			for (const session of this.tracker.getConcreteSessions()) {
 				session.customRequest("setSourceMapStepping", { enabled });
@@ -55,15 +57,15 @@ export class SourceSteppingUI implements IExtensionContribution {
 				Commands.EnableSourceMapStepping,
 				async () => {
 					setEnabled(true);
-				},
+				}
 			),
 			registerCommand(
 				vscode.commands,
 				Commands.DisableSourceMapStepping,
 				async () => {
 					setEnabled(false);
-				},
-			),
+				}
+			)
 		);
 	}
 }

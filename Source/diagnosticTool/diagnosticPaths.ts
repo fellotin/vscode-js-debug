@@ -32,7 +32,7 @@ export const sortScore = (source: IDiagnosticSource) => {
 
 export const prettyName = (
 	source: { absolutePath: string; url: string },
-	dump: IDiagnosticDump,
+	dump: IDiagnosticDump
 ) => {
 	if (source.url.startsWith(node16InternalUrl)) {
 		return source.url;
@@ -45,7 +45,7 @@ export const prettyName = (
 	if (properAbsolute(source.absolutePath) && dump.config.__workspaceFolder) {
 		return properRelative(
 			dump.config.__workspaceFolder,
-			source.absolutePath,
+			source.absolutePath
 		);
 	}
 
@@ -88,7 +88,7 @@ export const properRelative = (fromPath: string, toPath: string): string => {
 	} else {
 		return relative(
 			forceForwardSlashes(fixDriveLetter(fromPath)),
-			forceForwardSlashes(fixDriveLetter(toPath)),
+			forceForwardSlashes(fixDriveLetter(toPath))
 		);
 	}
 };

@@ -16,8 +16,8 @@ export class StartDebugingAndStopOnEntry implements IExtensionContribution {
 					config: {
 						stopOnEntry: true,
 					},
-				}),
-			),
+				})
+			)
 		);
 	}
 }

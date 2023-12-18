@@ -35,7 +35,10 @@ export class CombinedProgram implements IProgram {
 		this.b.stopped.then(async (r) => (await this.a.stop()) && r),
 	]);
 
-	constructor(private readonly a: IProgram, private readonly b: IProgram) {}
+	constructor(
+		private readonly a: IProgram,
+		private readonly b: IProgram
+	) {}
 
 	public gotTelemetery(telemetry: IProcessTelemetry) {
 		this.a.gotTelemetery(telemetry);
@@ -58,14 +61,14 @@ export class SubprocessProgram implements IProgram {
 	constructor(
 		private readonly child: ChildProcess,
 		private readonly logger: ILogger,
-		private readonly killBehavior: KillBehavior,
+		private readonly killBehavior: KillBehavior
 	) {
 		this.stopped = new Promise((resolve, reject) => {
 			child.once("exit", (code) =>
-				resolve({ killed: this.killed, code: code || 0 }),
+				resolve({ killed: this.killed, code: code || 0 })
 			);
 			child.once("error", (error) =>
-				reject({ killed: this.killed, code: 1, error }),
+				reject({ killed: this.killed, code: 1, error })
 			);
 		});
 	}
@@ -143,14 +146,14 @@ export class TerminalProcess implements IProgram {
 			(this.onStopped = (killed) => {
 				this.didStop = true;
 				resolve({ code: 0, killed });
-			}),
+			})
 	);
 	private loop?: { timer: NodeJS.Timer; processId: number };
 
 	constructor(
 		private readonly terminalResult: Dap.RunInTerminalResult,
 		private readonly logger: ILogger,
-		private readonly killBehavior: KillBehavior,
+		private readonly killBehavior: KillBehavior
 	) {
 		if (terminalResult.processId) {
 			this.startPollLoop(terminalResult.processId);
@@ -180,18 +183,18 @@ export class TerminalProcess implements IProgram {
 			killTree(this.loop.processId, this.logger, this.killBehavior);
 			this.startPollLoop(
 				this.loop.processId,
-				TerminalProcess.killConfirmInterval,
+				TerminalProcess.killConfirmInterval
 			);
 		} else if (this.terminalResult.shellProcessId) {
 			// If we had a shell process ID, well, that's good enough.
 			killTree(
 				this.terminalResult.shellProcessId,
 				this.logger,
-				this.killBehavior,
+				this.killBehavior
 			);
 			this.startPollLoop(
 				this.terminalResult.shellProcessId,
-				TerminalProcess.killConfirmInterval,
+				TerminalProcess.killConfirmInterval
 			);
 		} else {
 			// Otherwise, we can't do anything. Pretend like we did.
@@ -203,7 +206,7 @@ export class TerminalProcess implements IProgram {
 
 	private startPollLoop(
 		processId: number,
-		interval = TerminalProcess.terminationPollInterval,
+		interval = TerminalProcess.terminationPollInterval
 	) {
 		if (this.loop) {
 			clearInterval(this.loop.timer);

@@ -40,7 +40,7 @@ export class Console implements IConsole {
 			for (const event of events) {
 				this.dap.output(event);
 			}
-		},
+		}
 	);
 
 	/**
@@ -56,16 +56,16 @@ export class Console implements IConsole {
 	}
 
 	constructor(
-    @inject(IDapApi) private readonly dap: Dap.Api,
-    @inject(IShutdownParticipants) shutdown: IShutdownParticipants,
-  ) {
-    shutdown.register(ShutdownOrder.BeforeScripts, async () => {
-      if (this.length) {
-        await new Promise(r => this.onDrained(r));
-      }
-      this.dispose();
-    });
-  }
+		@inject(IDapApi) private readonly dap: Dap.Api,
+		@inject(IShutdownParticipants) shutdown: IShutdownParticipants
+	) {
+		shutdown.register(ShutdownOrder.BeforeScripts, async () => {
+			if (this.length) {
+				await new Promise((r) => this.onDrained(r));
+			}
+			this.dispose();
+		});
+	}
 
 	/**
 	 * @inheritdoc
@@ -103,7 +103,7 @@ export class Console implements IConsole {
 	 * @inheritdoc
 	 */
 	public parse(
-		event: Cdp.Runtime.ConsoleAPICalledEvent,
+		event: Cdp.Runtime.ConsoleAPICalledEvent
 	): IConsoleMessage | undefined {
 		if (event.type === "log") {
 			// Ignore the duplicate group events that Node.js can emit:

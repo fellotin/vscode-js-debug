@@ -17,9 +17,10 @@ export class LinkedBreakpointLocationUI implements ILinkedBreakpointLocation {
 	private didWarn = this.context.workspaceState.get(ignoreStorageKey, false);
 
 	constructor(
-    @inject(VSCodeApi) private readonly vscode: typeof vscodeType,
-    @inject(ExtensionContext) private readonly context: vscodeType.ExtensionContext,
-  ) {}
+		@inject(VSCodeApi) private readonly vscode: typeof vscodeType,
+		@inject(ExtensionContext)
+		private readonly context: vscodeType.ExtensionContext
+	) {}
 
 	async warn() {
 		if (this.didWarn) {
@@ -33,7 +34,7 @@ export class LinkedBreakpointLocationUI implements ILinkedBreakpointLocation {
 		const r = await this.vscode.window.showWarningMessage(
 			"It looks like you have symlinked files. You might need to update your configuration to make this work as expected.",
 			ignore,
-			readMore,
+			readMore
 		);
 
 		if (r === ignore) {

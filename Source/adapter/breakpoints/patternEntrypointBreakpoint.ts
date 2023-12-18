@@ -13,7 +13,10 @@ import { EntryBreakpoint } from "./entryBreakpoint";
  * entrypoint breakpoint, it's always applied from the "path" as its pattern.
  */
 export class PatternEntryBreakpoint extends EntryBreakpoint {
-	constructor(manager: BreakpointManager, private readonly pattern: string) {
+	constructor(
+		manager: BreakpointManager,
+		private readonly pattern: string
+	) {
 		super(manager, { path: pattern }, EntryBreakpointMode.Greedy);
 	}
 
@@ -34,7 +37,7 @@ export class PatternEntryBreakpoint extends EntryBreakpoint {
 			// fix case sensitivity on drive letter:
 			urlRegex: re.source.replace(
 				/([a-z]):/i,
-				(m, drive) => `[${drive.toLowerCase()}${drive.toUpperCase()}]:`,
+				(m, drive) => `[${drive.toLowerCase()}${drive.toUpperCase()}]:`
 			),
 			lineNumber: 0,
 			columnNumber: 0,

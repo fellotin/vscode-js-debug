@@ -31,12 +31,12 @@ import { NodeConfigurationResolver } from "./nodeDebugConfigurationResolver";
 import { TerminalDebugConfigurationResolver } from "./terminalDebugConfigurationResolver";
 
 const isLaunch = (
-	value: ResolvingConfiguration<unknown>,
+	value: ResolvingConfiguration<unknown>
 ): value is ResolvingConfiguration<IChromiumLaunchConfiguration> =>
 	value.request === "launch";
 
 const isAttach = (
-	value: ResolvingConfiguration<unknown>,
+	value: ResolvingConfiguration<unknown>
 ): value is ResolvingConfiguration<IChromiumAttachConfiguration> =>
 	value.request === "attach";
 
@@ -51,20 +51,20 @@ export abstract class ChromiumDebugConfigurationResolver<
 	implements vscode.DebugConfigurationProvider
 {
 	constructor(
-    @inject(ExtensionContext) context: vscode.ExtensionContext,
-    @inject(NodeConfigurationResolver)
-    private readonly nodeProvider: NodeConfigurationResolver,
-    @inject(TerminalDebugConfigurationResolver)
-    private readonly terminalProvider: TerminalDebugConfigurationResolver,
-    @inject(ExtensionLocation) private readonly location: ExtensionLocation,
-    @inject(FS) private readonly fs: FsPromises,
-  ) {
-    super(context);
-  }
+		@inject(ExtensionContext) context: vscode.ExtensionContext,
+		@inject(NodeConfigurationResolver)
+		private readonly nodeProvider: NodeConfigurationResolver,
+		@inject(TerminalDebugConfigurationResolver)
+		private readonly terminalProvider: TerminalDebugConfigurationResolver,
+		@inject(ExtensionLocation) private readonly location: ExtensionLocation,
+		@inject(FS) private readonly fs: FsPromises
+	) {
+		super(context);
+	}
 
 	protected async resolveBrowserCommon(
 		folder: vscode.WorkspaceFolder | undefined,
-		config: ResolvingConfiguration<T>,
+		config: ResolvingConfiguration<T>
 	) {
 		if (config.request === "attach") {
 			// todo https://github.com/microsoft/vscode-chrome-debug/blob/ee5ae7ac7734f369dba58ba57bb910aac467c97a/src/extension.ts#L48
@@ -80,7 +80,7 @@ export abstract class ChromiumDebugConfigurationResolver<
 
 			config.server = (await this.nodeProvider.resolveDebugConfiguration(
 				folder,
-				serverOpts,
+				serverOpts
 			)) as INodeLaunchConfiguration;
 		} else if (config.server && "command" in config.server) {
 			config.server =
@@ -120,7 +120,7 @@ export abstract class ChromiumDebugConfigurationResolver<
 	 */
 	public async resolveDebugConfigurationWithSubstitutedVariables?(
 		_folder: vscode.WorkspaceFolder | undefined,
-		debugConfiguration: vscode.DebugConfiguration,
+		debugConfiguration: vscode.DebugConfiguration
 	): Promise<vscode.DebugConfiguration | undefined> {
 		if ("__pendingTargetId" in debugConfiguration) {
 			return debugConfiguration as T;
@@ -168,13 +168,13 @@ export abstract class ChromiumDebugConfigurationResolver<
 						this.extensionContext.storagePath ?? tmpdir(),
 						cast.runtimeArgs?.includes("--headless")
 							? ".headless-profile"
-							: ".profile",
-				  );
+							: ".profile"
+					);
 
 		// Warn if there's an existing instance, so we probably can't launch it in debug mode:
 		const platformLock = join(
 			userDataDir,
-			process.platform === "win32" ? "lockfile" : "SingletonLock",
+			process.platform === "win32" ? "lockfile" : "SingletonLock"
 		);
 		const lockfileExists = await some<unknown>([
 			existsWithoutDeref(this.fs, platformLock),
@@ -188,10 +188,10 @@ export abstract class ChromiumDebugConfigurationResolver<
 					"It looks like a browser is already running from {0}. Please close it before trying to debug, otherwise VS Code may not be able to connect to it.",
 					cast.userDataDir === true
 						? l10n.t("an old debug session")
-						: l10n.t("the configured userDataDir"),
+						: l10n.t("the configured userDataDir")
 				),
 				{ modal: true },
-				debugAnyway,
+				debugAnyway
 			);
 
 			if (result !== debugAnyway) {

@@ -29,12 +29,12 @@ export class SubprocessProgramLauncher implements IProgramLauncher {
 	public async launchProgram(
 		binary: string,
 		config: INodeLaunchConfiguration,
-		context: ILaunchContext,
+		context: ILaunchContext
 	) {
 		const { executable, args, shell, cwd } = formatArguments(
 			binary,
 			getNodeLaunchArgs(config),
-			config.cwd,
+			config.cwd
 		);
 
 		// Send an appoximation of the command we're running to
@@ -49,7 +49,7 @@ export class SubprocessProgramLauncher implements IProgramLauncher {
 			cwd: cwd,
 			env: EnvironmentVars.merge(
 				EnvironmentVars.processEnv(),
-				config.env,
+				config.env
 			).defined(),
 		});
 
@@ -134,7 +134,7 @@ export class SubprocessProgramLauncher implements IProgramLauncher {
 const formatArguments = (
 	executable: string,
 	args: ReadonlyArray<string>,
-	cwd: string,
+	cwd: string
 ) => {
 	if (process.platform === "win32") {
 		executable = urlUtils.platformPathToPreferredCase(executable);

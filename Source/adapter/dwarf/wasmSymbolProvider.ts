@@ -25,7 +25,7 @@ export const IWasmSymbolProvider = Symbol("IWasmSymbolProvider");
 export interface IWasmSymbolProvider {
 	/** Loads WebAssembly symbols for the given wasm script, returning symbol information if it exists. */
 	loadWasmSymbols(
-		script: Cdp.Debugger.ScriptParsedEvent,
+		script: Cdp.Debugger.ScriptParsedEvent
 	): Promise<IWasmSymbols>;
 }
 
@@ -56,9 +56,11 @@ export class WasmWorkerFactory implements IWasmWorkerFactory {
 	private readonly cdp = new Map<number, Cdp.Api>();
 
 	constructor(
-    @inject(IDwarfModuleProvider) private readonly dwarf: IDwarfModuleProvider,
-    @inject(AnyLaunchConfiguration) private readonly launchConfig: AnyLaunchConfiguration,
-  ) {}
+		@inject(IDwarfModuleProvider)
+		private readonly dwarf: IDwarfModuleProvider,
+		@inject(AnyLaunchConfiguration)
+		private readonly launchConfig: AnyLaunchConfiguration
+	) {}
 
 	/** @inheritdoc */
 	public readonly prompt = once(() => this.dwarf.prompt());
@@ -84,7 +86,7 @@ export class WasmWorkerFactory implements IWasmWorkerFactory {
 				getWasmLinearMemory: (offset, length, stopId) =>
 					this.loadWasmValue(
 						`[].slice.call(new Uint8Array(memories[0].buffer, ${+offset}, ${+length}))`,
-						stopId,
+						stopId
 					).then((v: number[]) => new Uint8Array(v).buffer),
 			});
 
@@ -138,7 +140,7 @@ export class WasmWorkerFactory implements IWasmWorkerFactory {
 			throw new Error(
 				`evaluate failed: ${
 					result?.exceptionDetails?.text || "unknown"
-				}`,
+				}`
 			);
 		}
 
@@ -152,14 +154,15 @@ export class WasmSymbolProvider implements IWasmSymbolProvider, IDisposable {
 	private readonly worker = once(() => this.dwarf.spawn(this.cdp));
 
 	constructor(
-    @inject(IWasmWorkerFactory) private readonly dwarf: IWasmWorkerFactory,
-    @inject(ICdpApi) private readonly cdp: Cdp.Api,
-    @inject(ILogger) private readonly logger: ILogger,
-    @inject(AnyLaunchConfiguration) private readonly launchConfig: AnyLaunchConfiguration,
-  ) {}
+		@inject(IWasmWorkerFactory) private readonly dwarf: IWasmWorkerFactory,
+		@inject(ICdpApi) private readonly cdp: Cdp.Api,
+		@inject(ILogger) private readonly logger: ILogger,
+		@inject(AnyLaunchConfiguration)
+		private readonly launchConfig: AnyLaunchConfiguration
+	) {}
 
 	public async loadWasmSymbols(
-		script: Cdp.Debugger.ScriptParsedEvent,
+		script: Cdp.Debugger.ScriptParsedEvent
 	): Promise<IWasmSymbols> {
 		if (!this.launchConfig.enableDWARF) {
 			return this.defaultSymbols(script);
@@ -190,7 +193,7 @@ export class WasmSymbolProvider implements IWasmSymbolProvider, IDisposable {
 						!symbolsUrl && script.url.startsWith("wasm://")
 							? await this.getBytecode(script.scriptId)
 							: undefined,
-				},
+				}
 			);
 		} catch {
 			return this.defaultSymbols(script);
@@ -271,7 +274,7 @@ export interface IWasmSymbols extends IDisposable {
 	 * in webassembly. However, we encode the inline frame index in the line.
 	 */
 	originalPositionFor(
-		compiledPosition: IPosition,
+		compiledPosition: IPosition
 	): Promise<{ url: string; position: IPosition } | undefined>;
 
 	/**
@@ -281,7 +284,7 @@ export interface IWasmSymbols extends IDisposable {
 	 * in webassembly. However, we encode the inline frame index in the line.
 	 */
 	disassembledPositionFor(
-		compiledPosition: IPosition,
+		compiledPosition: IPosition
 	): Promise<{ url: string; position: IPosition } | undefined>;
 
 	/**
@@ -292,7 +295,7 @@ export interface IWasmSymbols extends IDisposable {
 	 */
 	compiledPositionFor(
 		sourceUrl: string,
-		sourcePosition: IPosition,
+		sourcePosition: IPosition
 	): Promise<IPosition[]>;
 
 	/**
@@ -304,7 +307,7 @@ export interface IWasmSymbols extends IDisposable {
 	 */
 	getVariablesInScope?(
 		callFrameId: string,
-		position: IPosition,
+		position: IPosition
 	): Promise<IWasmVariable[]>;
 
 	/**
@@ -327,7 +330,7 @@ export interface IWasmSymbols extends IDisposable {
 	evaluate?(
 		callFrameId: string,
 		position: IPosition,
-		expression: string,
+		expression: string
 	): Promise<Cdp.Runtime.RemoteObject | undefined>;
 
 	/**
@@ -340,7 +343,7 @@ export interface IWasmSymbols extends IDisposable {
 		direction: StepDirection,
 		position: IPosition,
 		sourceUrl?: string,
-		mappedPosition?: IPosition,
+		mappedPosition?: IPosition
 	): Promise<Range[]>;
 }
 
@@ -357,7 +360,7 @@ class DecompiledWasmSymbols implements IWasmSymbols {
 	constructor(
 		protected readonly event: Cdp.Debugger.ScriptParsedEvent,
 		protected readonly cdp: Cdp.Api,
-		files: string[],
+		files: string[]
 	) {
 		files.push((this.decompiledUrl = event.url.replace(".wasm", ".wat")));
 		this.files = files;
@@ -372,20 +375,20 @@ class DecompiledWasmSymbols implements IWasmSymbols {
 
 	/** @inheritdoc */
 	public originalPositionFor(
-		compiledPosition: IPosition,
+		compiledPosition: IPosition
 	): Promise<{ url: string; position: IPosition } | undefined> {
 		return this.disassembledPositionFor(compiledPosition);
 	}
 
 	/** @inheritdoc */
 	public async disassembledPositionFor(
-		compiledPosition: IPosition,
+		compiledPosition: IPosition
 	): Promise<{ url: string; position: IPosition } | undefined> {
 		const { byteOffsetsOfLines } = await this.doDisassemble();
 		const lineNumber = binarySearch(
 			byteOffsetsOfLines,
 			compiledPosition.base0.columnNumber,
-			(a, b) => a - b,
+			(a, b) => a - b
 		);
 
 		if (lineNumber === byteOffsetsOfLines.length) {
@@ -401,7 +404,7 @@ class DecompiledWasmSymbols implements IWasmSymbols {
 	/** @inheritdoc */
 	public async compiledPositionFor(
 		sourceUrl: string,
-		sourcePosition: IPosition,
+		sourcePosition: IPosition
 	): Promise<IPosition[]> {
 		if (sourceUrl !== this.decompiledUrl) {
 			return [];
@@ -439,7 +442,7 @@ class DecompiledWasmSymbols implements IWasmSymbols {
 			let start: number;
 			if (byteOffsetsOfLines) {
 				const newOffsets = new Uint32Array(
-					byteOffsetsOfLines.length + chunk.lines.length,
+					byteOffsetsOfLines.length + chunk.lines.length
 				);
 				start = byteOffsetsOfLines.length;
 				newOffsets.set(byteOffsetsOfLines);
@@ -494,14 +497,14 @@ class WasmSymbols extends DecompiledWasmSymbols {
 		cdp: Cdp.Api,
 		private readonly moduleId: string,
 		private readonly worker: IWasmWorkerExt,
-		files: string[],
+		files: string[]
 	) {
 		super(event, cdp, files);
 	}
 
 	/** @inheritdoc */
 	public override async originalPositionFor(
-		compiledPosition: IPosition,
+		compiledPosition: IPosition
 	): Promise<{ url: string; position: IPosition } | undefined> {
 		const locations = await this.worker.rpc.sendMessage(
 			"rawLocationToSourceLocation",
@@ -510,7 +513,7 @@ class WasmSymbols extends DecompiledWasmSymbols {
 					compiledPosition.base0.columnNumber - this.codeOffset,
 				inlineFrameIndex: compiledPosition.base0.lineNumber,
 				rawModuleId: this.moduleId,
-			},
+			}
 		);
 
 		if (!locations.length) {
@@ -520,7 +523,7 @@ class WasmSymbols extends DecompiledWasmSymbols {
 		return {
 			position: new Base0Position(
 				locations[0].lineNumber,
-				locations[0].columnNumber,
+				locations[0].columnNumber
 			),
 			url: locations[0].sourceFileURL,
 		};
@@ -529,7 +532,7 @@ class WasmSymbols extends DecompiledWasmSymbols {
 	/** @inheritdoc */
 	public override async compiledPositionFor(
 		sourceUrl: string,
-		sourcePosition: IPosition,
+		sourcePosition: IPosition
 	): Promise<IPosition[]> {
 		if (sourceUrl === this.decompiledUrl) {
 			return super.compiledPositionFor(sourceUrl, sourcePosition);
@@ -543,7 +546,7 @@ class WasmSymbols extends DecompiledWasmSymbols {
 				columnNumber: columnNumber === 0 ? -1 : columnNumber,
 				rawModuleId: this.moduleId,
 				sourceFileURL: sourceUrl,
-			},
+			}
 		);
 
 		// special case: unlike sourcemaps, if we resolve a location on a line
@@ -556,7 +559,7 @@ class WasmSymbols extends DecompiledWasmSymbols {
 			if (!mappedLines.includes(lineNumber) && next /* always > 0 */) {
 				return this.compiledPositionFor(
 					sourceUrl,
-					new Base0Position(next, 0),
+					new Base0Position(next, 0)
 				);
 			}
 		}
@@ -575,7 +578,7 @@ class WasmSymbols extends DecompiledWasmSymbols {
 	/** @inheritdoc */
 	public async getVariablesInScope(
 		callFrameId: string,
-		position: IPosition,
+		position: IPosition
 	): Promise<IWasmVariable[]> {
 		const location = {
 			codeOffset: position.base0.columnNumber - this.codeOffset,
@@ -585,7 +588,7 @@ class WasmSymbols extends DecompiledWasmSymbols {
 
 		const variables = await this.worker.rpc.sendMessage(
 			"listVariablesInScope",
-			location,
+			location
 		);
 
 		return variables.map(
@@ -598,19 +601,19 @@ class WasmSymbols extends DecompiledWasmSymbols {
 						"evaluate",
 						v.name,
 						location,
-						this.worker.getStopId(callFrameId),
+						this.worker.getStopId(callFrameId)
 					);
 					return result
 						? new WasmVariableEvaluation(result, this.worker.rpc)
 						: nullType;
 				},
-			}),
+			})
 		);
 	}
 
 	/** @inheritdoc */
 	public async getFunctionStack(
-		position: IPosition,
+		position: IPosition
 	): Promise<{ name: string }[]> {
 		const info = await this.worker.rpc.sendMessage("getFunctionInfo", {
 			codeOffset: position.base0.columnNumber - this.codeOffset,
@@ -626,7 +629,7 @@ class WasmSymbols extends DecompiledWasmSymbols {
 		direction: StepDirection,
 		position: IPosition,
 		sourceUrl?: string,
-		mappedPosition?: IPosition,
+		mappedPosition?: IPosition
 	): Promise<Range[]> {
 		if (sourceUrl === this.decompiledUrl) {
 			return [];
@@ -656,7 +659,7 @@ class WasmSymbols extends DecompiledWasmSymbols {
 				// Step out should step out of inline functions.
 				rawRanges = await this.worker.rpc.sendMessage(
 					"getInlinedFunctionRanges",
-					thisLocation,
+					thisLocation
 				);
 				break;
 			}
@@ -667,7 +670,7 @@ class WasmSymbols extends DecompiledWasmSymbols {
 				const ranges = await Promise.all([
 					this.worker.rpc.sendMessage(
 						"getInlinedCalleesRanges",
-						thisLocation,
+						thisLocation
 					),
 					getOwnLineRanges(),
 				]);
@@ -687,8 +690,8 @@ class WasmSymbols extends DecompiledWasmSymbols {
 			(r) =>
 				new Range(
 					new Base0Position(0, r.startOffset + this.codeOffset),
-					new Base0Position(0, r.endOffset + this.codeOffset),
-				),
+					new Base0Position(0, r.endOffset + this.codeOffset)
+				)
 		);
 	}
 
@@ -696,7 +699,7 @@ class WasmSymbols extends DecompiledWasmSymbols {
 	public async evaluate(
 		callFrameId: string,
 		position: IPosition,
-		expression: string,
+		expression: string
 	): Promise<Cdp.Runtime.RemoteObject | undefined> {
 		try {
 			const r = await this.worker.rpc.sendMessage(
@@ -707,7 +710,7 @@ class WasmSymbols extends DecompiledWasmSymbols {
 					inlineFrameIndex: position.base0.lineNumber,
 					rawModuleId: this.moduleId,
 				},
-				this.worker.getStopId(callFrameId),
+				this.worker.getStopId(callFrameId)
 			);
 
 			// cast since types in dwarf-debugging are slightly different than generated cdp API
@@ -730,7 +733,7 @@ class WasmSymbols extends DecompiledWasmSymbols {
 				const lines = await this.worker.rpc.sendMessage(
 					"getMappedLines",
 					this.moduleId,
-					sourceURL,
+					sourceURL
 				);
 				return new Uint32Array(lines?.sort((a, b) => a - b) || []);
 			} catch {
@@ -760,7 +763,7 @@ class WasmVariableEvaluation implements IWasmVariableEvaluation {
 
 	constructor(
 		evaluation: NonNullable<MethodReturn<"evaluate">>,
-		rpc: IWasmWorker["rpc"],
+		rpc: IWasmWorker["rpc"]
 	) {
 		this.type = evaluation.type;
 		this.description = evaluation.description;
@@ -775,7 +778,7 @@ class WasmVariableEvaluation implements IWasmVariableEvaluation {
 
 	private async _getChildren(
 		rpc: IWasmWorker["rpc"],
-		objectId: string,
+		objectId: string
 	): Promise<{ name: string; value: IWasmVariableEvaluation }[]> {
 		const vars = await rpc.sendMessage("getProperties", objectId);
 		return vars.map((v) => ({

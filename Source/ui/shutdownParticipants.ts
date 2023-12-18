@@ -53,7 +53,7 @@ export class ShutdownParticipants implements IShutdownParticipants {
 			this.shutdownStage++
 		) {
 			await Promise.all(
-				[...this.participants[this.shutdownStage]].map((p) => p()),
+				[...this.participants[this.shutdownStage]].map((p) => p())
 			);
 		}
 	}

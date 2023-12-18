@@ -13,7 +13,10 @@ import { DebugSessionTracker } from "./debugSessionTracker";
  */
 @injectable()
 export class CascadeTerminationTracker implements IExtensionContribution {
-	constructor(@inject(DebugSessionTracker) private readonly tracker: DebugSessionTracker) {}
+	constructor(
+		@inject(DebugSessionTracker)
+		private readonly tracker: DebugSessionTracker
+	) {}
 
 	/**
 	 * Registers the tracker for the extension.
@@ -32,7 +35,7 @@ export class CascadeTerminationTracker implements IExtensionContribution {
 						vscode.debug.stopDebugging(session);
 					}
 				}
-			}),
+			})
 		);
 	}
 }

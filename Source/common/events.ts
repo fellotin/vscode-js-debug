@@ -13,7 +13,7 @@ export interface IEvent<T> {
 	(
 		listener: (e: T) => void,
 		thisArg?: any,
-		disposables?: IDisposable[],
+		disposables?: IDisposable[]
 	): IDisposable;
 }
 
@@ -39,7 +39,7 @@ export class EventEmitter<T> implements IDisposable {
 		this.event = <ThisArg>(
 			listener: (this: ThisArg, e: T) => void,
 			thisArg?: ThisArg,
-			disposables?: IDisposable[],
+			disposables?: IDisposable[]
 		) => {
 			const data: ListenerData<T, ThisArg> = { listener, thisArg };
 			this._listeners.add(data);

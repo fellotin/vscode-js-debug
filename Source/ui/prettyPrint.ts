@@ -18,26 +18,29 @@ import { ManagedContextKey } from "./managedContextKey";
 @injectable()
 export class PrettyPrintUI implements IExtensionContribution {
 	private readonly canPrettyPrintKey = new ManagedContextKey(
-		ContextKey.CanPrettyPrint,
+		ContextKey.CanPrettyPrint
 	);
 
-	constructor(@inject(DebugSessionTracker) private readonly tracker: DebugSessionTracker) {}
+	constructor(
+		@inject(DebugSessionTracker)
+		private readonly tracker: DebugSessionTracker
+	) {}
 
 	/** @inheritdoc */
 	public register(context: vscode.ExtensionContext): void {
 		context.subscriptions.push(
 			registerCommand(vscode.commands, Commands.PrettyPrint, () =>
-				this.prettifyActive(),
+				this.prettifyActive()
 			),
 			vscode.window.onDidChangeActiveTextEditor((editor) =>
-				this.updateEditorState(editor),
+				this.updateEditorState(editor)
 			),
 			this.tracker.onSessionAdded(() =>
-				this.updateEditorState(vscode.window.activeTextEditor),
+				this.updateEditorState(vscode.window.activeTextEditor)
 			),
 			this.tracker.onSessionEnded(() =>
-				this.updateEditorState(vscode.window.activeTextEditor),
-			),
+				this.updateEditorState(vscode.window.activeTextEditor)
+			)
 		);
 	}
 
@@ -91,7 +94,7 @@ export class PrettyPrintUI implements IExtensionContribution {
 const sendPrintCommand = (
 	session: vscode.DebugSession,
 	source: Dap.Source,
-	cursor: vscode.Position,
+	cursor: vscode.Position
 ) =>
 	session.customRequest("prettyPrintSource", {
 		source,

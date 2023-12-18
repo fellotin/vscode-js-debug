@@ -5,7 +5,10 @@
 import { Dap } from "../dap/api";
 
 class BreakpointStatistic {
-	public constructor(public verified = false, public hit = false) {}
+	public constructor(
+		public verified = false,
+		public hit = false
+	) {}
 }
 
 export interface IManyBreakpointsStatistics {
@@ -23,7 +26,7 @@ export class BreakpointsStatisticsCalculator {
 				!this._statisticsById.has(breakpoint.id) &&
 				this._statisticsById.set(
 					breakpoint.id,
-					new BreakpointStatistic(breakpoint.verified, false),
+					new BreakpointStatistic(breakpoint.verified, false)
 				);
 		});
 	}

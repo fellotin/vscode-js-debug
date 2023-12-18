@@ -48,7 +48,7 @@ describe("Evaluator", () => {
 		stubCdp.Debugger.evaluateOnCallFrame.resolves(result);
 		expect(await prep.invoke({ callFrameId: "" })).to.equal(result);
 		expect(
-			stubCdp.Debugger.evaluateOnCallFrame.args[0][0].expression,
+			stubCdp.Debugger.evaluateOnCallFrame.args[0][0].expression
 		).to.match(/^foo\n\/\/# sourceURL=eval/m);
 	});
 
@@ -86,7 +86,7 @@ try {} catch ({ foo }) {}`,
 					mapping: new RenameMapping(node),
 					position: new Base01Position(0, 1),
 				},
-			},
+			}
 		);
 		expect(prep.canEvaluateDirectly).to.be.true;
 		stubCdp.Debugger.evaluateOnCallFrame.resolves(result);

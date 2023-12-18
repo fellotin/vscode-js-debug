@@ -54,14 +54,14 @@ export default class Connection {
 
 	constructor(
 		protected readonly transport: IDapTransport,
-		protected readonly logger: ILogger,
+		protected readonly logger: ILogger
 	) {
 		this._sequence = 1;
 
 		this.disposables.push(
 			this.transport.messageReceived((event) =>
-				this._onMessage(event.message, event.receivedTime),
-			),
+				this._onMessage(event.message, event.receivedTime)
+			)
 		);
 		this._dap = this._createApi();
 	}
@@ -84,7 +84,7 @@ export default class Connection {
 					if (methodName === "on") {
 						return (
 							requestName: string,
-							handler: (params: object) => Promise<object>,
+							handler: (params: object) => Promise<object>
 						) => {
 							this._requestHandlers.set(requestName, handler);
 							return () =>
@@ -98,7 +98,7 @@ export default class Connection {
 						if (isRequest(methodName)) {
 							return this.enqueueRequest(
 								methodName.slice(0, -requestSuffix.length),
-								params,
+								params
 							);
 						}
 
@@ -110,7 +110,7 @@ export default class Connection {
 						});
 					};
 				},
-			},
+			}
 		) as Dap.Api;
 	}
 
@@ -129,7 +129,7 @@ export default class Connection {
 		};
 		const once = (
 			eventName: string,
-			filter: (params?: object) => boolean,
+			filter: (params?: object) => boolean
 		) => {
 			return new Promise((cb) => {
 				const listener = (params?: object) => {
@@ -150,7 +150,7 @@ export default class Connection {
 					return (params?: object) =>
 						this.enqueueRequest(methodName, params);
 				},
-			},
+			}
 		) as Dap.TestApi;
 	}
 
@@ -183,7 +183,7 @@ export default class Connection {
 			this.logger.warn(
 				LogTag.DapSend,
 				`Not sending message because the connection has ended`,
-				message,
+				message
 			);
 			onDidWrite?.();
 		}
@@ -231,7 +231,7 @@ export default class Connection {
 				this.telemetryReporter?.reportOperation(
 					"dapOperation",
 					msg.command,
-					receivedTime.elapsed().ms,
+					receivedTime.elapsed().ms
 				);
 			} catch (e) {
 				if (e instanceof ProtocolError) {
@@ -262,7 +262,7 @@ export default class Connection {
 					"dapOperation",
 					msg.command,
 					receivedTime.elapsed().ms,
-					e,
+					e
 				);
 			}
 		}
@@ -275,7 +275,7 @@ export default class Connection {
 			if (
 				!this.logger.assert(
 					cb,
-					`Expected callback for request sequence ID ${msg.request_seq}`,
+					`Expected callback for request sequence ID ${msg.request_seq}`
 				)
 			) {
 				return;

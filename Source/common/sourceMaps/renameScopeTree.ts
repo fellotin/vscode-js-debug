@@ -27,12 +27,12 @@ export class ScopeNode<T> {
 		const hydrated = new ScopeNode<T>(
 			new Range(
 				new Base0Position(node.start.line, node.start.column),
-				new Base0Position(node.end.line, node.end.column),
-			),
+				new Base0Position(node.end.line, node.end.column)
+			)
 		);
 
 		hydrated.children = node.children?.map(
-			ScopeNode.hydrate,
+			ScopeNode.hydrate
 		) as ScopeNode<T>[];
 
 		return hydrated;
@@ -63,7 +63,7 @@ export class ScopeNode<T> {
 	/** Finds the deepest node matching the predicate and containing the position. */
 	public findDeepest<R>(
 		position: IPosition,
-		predicate: (node: ScopeNode<T>) => R | undefined,
+		predicate: (node: ScopeNode<T>) => R | undefined
 	): R | undefined {
 		if (!this.range.contains(position)) {
 			return undefined;
@@ -146,10 +146,12 @@ function extractScopeRangesMainProcess<T>(source: string) {
 		(start, end) =>
 			new ScopeNode<T>(
 				new Range(
-					new Base01Position(start.start.line, start.start.column)
-						.base0,
-					new Base01Position(end.end.line, end.end.column).base0,
-				),
-			),
+					new Base01Position(
+						start.start.line,
+						start.start.column
+					).base0,
+					new Base01Position(end.end.line, end.end.column).base0
+				)
+			)
 	);
 }

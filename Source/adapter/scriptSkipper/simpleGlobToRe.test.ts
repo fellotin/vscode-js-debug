@@ -61,11 +61,11 @@ describe("simpleGlobsToRe", () => {
 				if (expected !== !!matching) {
 					if (expected) {
 						throw new Error(
-							`Expected ${url} to match ${res.join(", or")}`,
+							`Expected ${url} to match ${res.join(", or")}`
 						);
 					} else {
 						throw new Error(
-							`Expected ${url} to not match, but ${matching} did`,
+							`Expected ${url} to not match, but ${matching} did`
 						);
 					}
 				}

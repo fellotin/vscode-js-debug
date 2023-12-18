@@ -32,13 +32,13 @@ export class LogPointCompiler {
 	 */
 	public compile(
 		params: Dap.SourceBreakpoint,
-		logMessage: string,
+		logMessage: string
 	): IBreakpointCondition {
 		const expression = this.logMessageToExpression(logMessage);
 		const err = getSyntaxErrorIn(expression);
 		if (err) {
 			throw new ProtocolError(
-				invalidBreakPointCondition(params, err.message),
+				invalidBreakPointCondition(params, err.message)
 			);
 		}
 
@@ -47,7 +47,7 @@ export class LogPointCompiler {
 		if (canEvaluateDirectly) {
 			return new SimpleCondition(
 				params,
-				this.logMessageToExpression(logMessage),
+				this.logMessageToExpression(logMessage)
 			);
 		}
 
@@ -100,7 +100,7 @@ export class LogPointCompiler {
 		}
 
 		const evalArgs = [JSON.stringify(formatParts.join("")), ...args].join(
-			", ",
+			", "
 		);
 		const result = `console.log(${evalArgs}), false`; // false for #1191
 		const hash = createHash("sha1")

@@ -24,7 +24,7 @@ export type Formatters<T> = Map<
 
 function tokenizeFormatString(
 	format: string,
-	formatterNames: string[],
+	formatterNames: string[]
 ): FormatToken[] {
 	if (!format.includes("%")) {
 		return [{ type: "string", value: format }]; // happy path, no formatting needed
@@ -42,7 +42,7 @@ function tokenizeFormatString(
 	function addSpecifierToken(
 		specifier: string,
 		precision: number | undefined,
-		substitutionIndex: number,
+		substitutionIndex: number
 	) {
 		tokens.push({
 			type: "specifier",
@@ -56,7 +56,7 @@ function tokenizeFormatString(
 	let substitutionIndex = 0;
 	const re = new RegExp(
 		`%%|%(?:(\\d+)\\$)?(?:\\.(\\d*))?([${formatterNames.join("")}])`,
-		"g",
+		"g"
 	);
 	for (let match = re.exec(format); !!match; match = re.exec(format)) {
 		const matchStart = match.index;
@@ -85,7 +85,7 @@ function tokenizeFormatString(
 export function formatMessage<T>(
 	format: string,
 	substitutions: ReadonlyArray<T>,
-	formatters: Formatters<T>,
+	formatters: Formatters<T>
 ): { result: string; usedAllSubs: boolean } {
 	const tokens = tokenizeFormatString(format, Array.from(formatters.keys()));
 	const usedSubstitutionIndexes = new Set<number>();
@@ -117,7 +117,7 @@ export function formatMessage<T>(
 			formatter(substitutions[index], {
 				budget: builder.budget(),
 				quoted: false,
-			}),
+			})
 		);
 	}
 
@@ -133,7 +133,7 @@ export function formatMessage<T>(
 			defaultFormatter(substitutions[i], {
 				budget: builder.budget(),
 				quoted: false,
-			}),
+			})
 		);
 	}
 

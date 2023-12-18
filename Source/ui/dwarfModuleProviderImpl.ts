@@ -16,10 +16,13 @@ const NEVER_REMIND = "dwarf.neverRemind";
 export class DwarfModuleProvider implements IDwarfModuleProvider {
 	private didPromptForSession = this.context.workspaceState.get(
 		NEVER_REMIND,
-		false,
+		false
 	);
 
-	constructor(@inject(ExtensionContext) private readonly context: vscode.ExtensionContext) {}
+	constructor(
+		@inject(ExtensionContext)
+		private readonly context: vscode.ExtensionContext
+	) {}
 
 	/** @inheritdoc */
 	public async load(): Promise<typeof dwf | undefined> {
@@ -60,7 +63,7 @@ export class DwarfModuleProvider implements IDwarfModuleProvider {
 			}),
 			yes,
 			l10n.t("Not Now"),
-			never,
+			never
 		);
 
 		if (response === yes) {
@@ -80,17 +83,17 @@ export class DwarfModuleProvider implements IDwarfModuleProvider {
 				try {
 					await vscode.commands.executeCommand(
 						"workbench.extensions.installExtension",
-						EXT_ID,
+						EXT_ID
 					);
 					vscode.window.showInformationMessage(
 						l10n.t(
-							"Installation complete! The extension will be used after you restart your debug session.",
-						),
+							"Installation complete! The extension will be used after you restart your debug session."
+						)
 					);
 				} catch (e) {
 					vscode.window.showErrorMessage(e.message || String(e));
 				}
-			},
+			}
 		);
 	}
 }

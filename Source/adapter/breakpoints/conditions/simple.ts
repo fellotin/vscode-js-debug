@@ -15,12 +15,12 @@ import { Dap } from "../../../dap/api";
 export class SimpleCondition implements IBreakpointCondition {
 	constructor(
 		params: Dap.SourceBreakpoint,
-		public readonly breakCondition: string | undefined,
+		public readonly breakCondition: string | undefined
 	) {
 		const err = breakCondition && getSyntaxErrorIn(breakCondition);
 		if (err) {
 			throw new ProtocolError(
-				invalidBreakPointCondition(params, err.message),
+				invalidBreakPointCondition(params, err.message)
 			);
 		}
 	}

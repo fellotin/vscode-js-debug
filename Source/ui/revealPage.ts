@@ -8,7 +8,7 @@ import { registerCommand, Commands } from "../common/contributionUtils";
 
 export const registerRevealPage = (
 	context: vscode.ExtensionContext,
-	tracker: DebugSessionTracker,
+	tracker: DebugSessionTracker
 ) => {
 	context.subscriptions.push(
 		registerCommand(
@@ -17,7 +17,7 @@ export const registerRevealPage = (
 			async (sessionId) => {
 				const session = tracker.getById(sessionId);
 				await session?.customRequest("revealPage");
-			},
-		),
+			}
+		)
 	);
 };

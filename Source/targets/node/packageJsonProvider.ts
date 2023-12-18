@@ -47,9 +47,10 @@ export const noPackageJsonProvider = {
 @injectable()
 export class PackageJsonProvider implements IPackageJsonProvider {
 	constructor(
-    @inject(IFsUtils) private readonly fs: IFsUtils,
-    @inject(AnyLaunchConfiguration) private readonly config: AnyLaunchConfiguration,
-  ) {}
+		@inject(IFsUtils) private readonly fs: IFsUtils,
+		@inject(AnyLaunchConfiguration)
+		private readonly config: AnyLaunchConfiguration
+	) {}
 
 	/**
 	 * Gets the package.json for the debugged program.
@@ -65,7 +66,7 @@ export class PackageJsonProvider implements IPackageJsonProvider {
 		const dir = await nearestDirectoryContaining(
 			this.fs,
 			this.config.cwd,
-			"package.json",
+			"package.json"
 		);
 		return dir ? join(dir, "package.json") : undefined;
 	});

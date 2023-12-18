@@ -50,7 +50,7 @@ export interface IBreakpointConditionFactory {
 }
 
 export const IBreakpointConditionFactory = Symbol(
-	"IBreakpointConditionFactory",
+	"IBreakpointConditionFactory"
 );
 
 @injectable()
@@ -58,12 +58,13 @@ export class BreakpointConditionFactory implements IBreakpointConditionFactory {
 	private breakOnError: boolean;
 
 	constructor(
-    @inject(LogPointCompiler) private readonly logPointCompiler: LogPointCompiler,
-    @inject(IEvaluator) private readonly evaluator: IEvaluator,
-    @inject(AnyLaunchConfiguration) launchConfig: AnyLaunchConfiguration,
-  ) {
-    this.breakOnError = launchConfig.__breakOnConditionalError;
-  }
+		@inject(LogPointCompiler)
+		private readonly logPointCompiler: LogPointCompiler,
+		@inject(IEvaluator) private readonly evaluator: IEvaluator,
+		@inject(AnyLaunchConfiguration) launchConfig: AnyLaunchConfiguration
+	) {
+		this.breakOnError = launchConfig.__breakOnConditionalError;
+	}
 
 	public getConditionFor(params: Dap.SourceBreakpoint): IBreakpointCondition {
 		if (params.condition) {
@@ -71,7 +72,7 @@ export class BreakpointConditionFactory implements IBreakpointConditionFactory {
 				params,
 				params.condition,
 				this.breakOnError,
-				this.evaluator,
+				this.evaluator
 			);
 		}
 

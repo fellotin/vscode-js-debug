@@ -53,7 +53,7 @@ export interface IBrowserProcess {
 	 */
 	transport(
 		options: ITransportOptions,
-		cancellation: CancellationToken,
+		cancellation: CancellationToken
 	): Promise<ITransport>;
 
 	/**
@@ -66,7 +66,7 @@ const inspectWsConnection = async (
 	logger: ILogger,
 	process: IBrowserProcess,
 	options: ITransportOptions,
-	cancellationToken: CancellationToken,
+	cancellationToken: CancellationToken
 ) => {
 	const endpoint =
 		options.connection === 0
@@ -74,8 +74,8 @@ const inspectWsConnection = async (
 			: await retryGetBrowserEndpoint(
 					`http://localhost:${options.connection}`,
 					cancellationToken,
-					logger,
-			  );
+					logger
+				);
 
 	const inspectWs = options.inspectUri
 		? constructInspectorWSUri(options.inspectUri, options.url, endpoint)
@@ -85,7 +85,7 @@ const inspectWsConnection = async (
 		try {
 			return await WebSocketTransport.create(
 				inspectWs,
-				cancellationToken,
+				cancellationToken
 			);
 		} catch (e) {
 			if (cancellationToken.isCancellationRequested) {
@@ -109,13 +109,13 @@ export class NonTrackedBrowserProcess implements IBrowserProcess {
 	 */
 	public async transport(
 		options: ITransportOptions,
-		cancellationToken: CancellationToken,
+		cancellationToken: CancellationToken
 	): Promise<ITransport> {
 		return inspectWsConnection(
 			this.logger,
 			this,
 			options,
-			cancellationToken,
+			cancellationToken
 		);
 	}
 
@@ -141,7 +141,7 @@ export class ChildProcessBrowserProcess implements IBrowserProcess {
 
 	constructor(
 		private readonly cp: ChildProcessWithoutNullStreams,
-		private readonly logger: ILogger,
+		private readonly logger: ILogger
 	) {
 		cp.on("exit", (code) => this.exitEmitter.fire(code || 0));
 		cp.on("error", (error) => this.errorEmitter.fire(error));
@@ -160,13 +160,13 @@ export class ChildProcessBrowserProcess implements IBrowserProcess {
 	 */
 	public async transport(
 		options: ITransportOptions,
-		cancellationToken: CancellationToken,
+		cancellationToken: CancellationToken
 	): Promise<ITransport> {
 		if (options.connection === "pipe") {
 			return new RawPipeTransport(
 				this.logger,
 				this.cp.stdio[3] as Writable,
-				this.cp.stdio[4] as Readable,
+				this.cp.stdio[4] as Readable
 			);
 		}
 
@@ -174,7 +174,7 @@ export class ChildProcessBrowserProcess implements IBrowserProcess {
 			this.logger,
 			this,
 			options,
-			cancellationToken,
+			cancellationToken
 		);
 	}
 
@@ -188,11 +188,11 @@ export class ChildProcessBrowserProcess implements IBrowserProcess {
 
 function waitForWSEndpoint(
 	browserProcess: IBrowserProcess,
-	cancellationToken: CancellationToken,
+	cancellationToken: CancellationToken
 ): Promise<string> {
 	if (!browserProcess.stderr) {
 		throw new Error(
-			"Cannot wait for a websocket for a target that lacks stderr",
+			"Cannot wait for a websocket for a target that lacks stderr"
 		);
 	}
 
@@ -214,8 +214,8 @@ function waitForWSEndpoint(
 			cleanup();
 			reject(
 				new TaskCancelledError(
-					`Timed out after ${timeout} ms while trying to connect to the browser!`,
-				),
+					`Timed out after ${timeout} ms while trying to connect to the browser!`
+				)
 			);
 		});
 
@@ -230,8 +230,8 @@ function waitForWSEndpoint(
 						"",
 						"TROUBLESHOOTING: https://github.com/GoogleChrome/puppeteer/blob/master/docs/troubleshooting.md",
 						"",
-					].join("\n"),
-				),
+					].join("\n")
+				)
 			);
 		}
 

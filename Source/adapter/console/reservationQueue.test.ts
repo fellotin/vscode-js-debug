@@ -36,13 +36,13 @@ describe("ReservationQueue", () => {
 			delay(1).then(() => {
 				gate1.resolve();
 				return 2;
-			}),
+			})
 		);
 		queue.enqueue(
 			gate1.promise.then(() => {
 				gate2.resolve();
 				return 3;
-			}),
+			})
 		);
 		await delay(10);
 		expect(sunk).to.deep.equal([[1, 2, 3]]);

@@ -140,7 +140,7 @@ export class Logger implements ILogger, IDisposable {
 	 */
 	public assert<T>(
 		assertion: T | false | undefined | null,
-		message: string,
+		message: string
 	): assertion is T {
 		if (
 			assertion === false ||

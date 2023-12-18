@@ -82,7 +82,7 @@ const jsDebugRegisteredToken = "$jsDebugIsRegistered";
 		console.error(
 			`Error in the js-debug bootloader, please report to https://aka.ms/js-dbg-issue: ${
 				e.stack || e.message || e
-			}`,
+			}`
 		);
 	}
 })();
@@ -97,8 +97,8 @@ function inspectOrQueue(env: IBootloaderInfo, ownId: string): boolean {
 	const mode = !isPipeAvailable(env.inspectorIpc)
 		? Mode.Inactive
 		: env.deferredMode
-		  ? Mode.Deferred
-		  : Mode.Immediate;
+			? Mode.Deferred
+			: Mode.Immediate;
 
 	bootloaderLogger.info(LogTag.Runtime, "Set debug mode", { mode });
 	if (mode === Mode.Inactive) {
@@ -170,13 +170,13 @@ function inspectOrQueue(env: IBootloaderInfo, ownId: string): boolean {
 					NODE_INSPECTOR_IPC: env.inspectorIpc,
 					ELECTRON_RUN_AS_NODE: "1",
 				},
-			},
+			}
 		);
 
 		if (status) {
 			console.error(stderr.toString());
 			console.error(
-				`Error activating auto attach, please report to https://aka.ms/js-dbg-issue`,
+				`Error activating auto attach, please report to https://aka.ms/js-dbg-issue`
 			);
 			return false; // some error status code
 		}
@@ -250,10 +250,10 @@ function autoAttachSmartPatternMatches(script: string, env: IBootloaderInfo) {
 		[script.replace(/\\/g, "/")],
 		[
 			...env.aaPatterns.map((p) =>
-				p.replace(knownToolToken, knownToolGlob),
+				p.replace(knownToolToken, knownToolGlob)
 			),
 		],
-		{ dot: true, nocase: true },
+		{ dot: true, nocase: true }
 	);
 
 	return r.length > 0;
