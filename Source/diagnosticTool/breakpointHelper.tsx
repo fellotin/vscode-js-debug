@@ -3,7 +3,7 @@
  *--------------------------------------------------------*/
 
 import { diffArrays } from "diff";
-import { Fragment, FunctionComponent, h } from "preact";
+import { Fragment, FunctionComponent } from "preact";
 import { useState } from "preact/hooks";
 import {
 	DiagnosticBreakpointArgs,
@@ -37,7 +37,7 @@ export const BreakpointHelper: FunctionComponent = () => {
 
 const hasAnyMatchedCdpBreakpoint = (
 	bp: IDiagnosticBreakpoint,
-	dump: IDiagnosticDump
+	dump: IDiagnosticDump,
 ) =>
 	bp.cdp.some((bp) => {
 		if ("location" in bp.args) {
@@ -83,18 +83,18 @@ const buildTracing = (bp: IDiagnosticBreakpoint, dump: IDiagnosticDump) => {
 					))}
 				</ul>
 			</p>
-		</li>
+		</li>,
 	);
 
 	const applied = bp.cdp.filter((cdp) => cdp.state === 1 /* Applied */);
 	const uiLocations = flatten(
-		applied.map((a) => (a.state === 1 /* Applied */ ? a.uiLocations : []))
+		applied.map((a) => (a.state === 1 /* Applied */ ? a.uiLocations : [])),
 	);
 	if (!uiLocations.length) {
 		steps.push(
 			<li key={key++}>
 				<NoUiLocation />
-			</li>
+			</li>,
 		);
 		return steps;
 	}
@@ -121,7 +121,7 @@ const buildTracing = (bp: IDiagnosticBreakpoint, dump: IDiagnosticDump) => {
 				</a>
 				!
 			</p>
-		</li>
+		</li>,
 	);
 
 	return steps;
@@ -180,7 +180,7 @@ const Breakpoint: FunctionComponent<{ bp: IDiagnosticBreakpoint }> = ({
 						absolutePath: bp.source.path as string,
 						url: bp.source.path as string,
 					},
-					dump
+					dump,
 				)}
 				:{bp.params.line}:{bp.params.column || 1}
 			</h2>
@@ -195,7 +195,7 @@ const FailedToSetLocation: FunctionComponent<{ bp: IDiagnosticBreakpoint }> = ({
 	const dump = useDump();
 	const desiredBasename = basename({ url: bp.source.path as string });
 	const matchingSources = dump.sources.filter(
-		(src) => basename(src).toLowerCase() === desiredBasename.toLowerCase()
+		(src) => basename(src).toLowerCase() === desiredBasename.toLowerCase(),
 	);
 
 	if (!matchingSources.length) {
@@ -257,7 +257,8 @@ const TextDiff: FunctionComponent<{ original: string; updated: string }> = ({
 		}).map((diff, i) => (
 			<span
 				className={diff.added ? "add" : diff.removed ? "rm" : ""}
-				key={i}>
+				key={i}
+			>
 				{i > 0 ? "/" : ""}
 				{diff.value.join("/")}
 			</span>
@@ -270,7 +271,7 @@ const UiLocation: FunctionComponent<{ loc: IDiagnosticUiLocation }> = ({
 }) => {
 	const dump = useDump();
 	const source = dump.sources.find(
-		(s) => s.sourceReference === loc.sourceReference
+		(s) => s.sourceReference === loc.sourceReference,
 	);
 
 	return (
@@ -288,7 +289,7 @@ const CdpBreakpoint: FunctionComponent<{
 	const dump = useDump();
 	const [showRegex, setShowRegex] = usePersistedState(
 		`showCdpBp${index}`,
-		false
+		false,
 	);
 	const { url, line, col, regex } =
 		"location" in cdp.args
@@ -298,13 +299,13 @@ const CdpBreakpoint: FunctionComponent<{
 							!s.compiledSourceRefToUrl &&
 							s.scriptIds.includes(
 								(cdp.args as Cdp.Debugger.SetBreakpointParams)
-									.location.scriptId
-							)
+									.location.scriptId,
+							),
 					)?.url,
 					regex: undefined,
 					line: cdp.args.location.lineNumber + 1,
 					col: (cdp.args.location.columnNumber || 0) + 1,
-				}
+			  }
 			: {
 					url: cdp.args.urlRegex
 						? demangleUrlRegex(cdp.args.urlRegex)
@@ -312,7 +313,7 @@ const CdpBreakpoint: FunctionComponent<{
 					regex: cdp.args.urlRegex,
 					line: cdp.args.lineNumber + 1,
 					col: (cdp.args.columnNumber || 0) + 1,
-				};
+			  };
 
 	return (
 		<li>
@@ -341,7 +342,7 @@ const demangleUrlRegex = (re: string) =>
 		.replace(/\|.+$/g, "") // drive absolute path (only keep file uri)
 		.replace(/\\\./g, "."); // escaped .
 
-const enum NoMatchingSourceHint {
+enum NoMatchingSourceHint {
 	Direct = "Loaded in directly",
 	SourceMap = "Be parsed from a sourcemap",
 }
@@ -356,7 +357,7 @@ const NoMatchingSourceHelper: FunctionComponent<{ basename: string }> = ({
 }) => {
 	const dump = useDump();
 	const [hint, setHint] = useState<NoMatchingSourceHint | undefined>(
-		!basename.endsWith(".js") ? NoMatchingSourceHint.SourceMap : undefined
+		basename.endsWith(".js") ? undefined : NoMatchingSourceHint.SourceMap,
 	);
 
 	return (
@@ -405,7 +406,7 @@ const NoMatchingSourceHelper: FunctionComponent<{ basename: string }> = ({
 								</li>
 							)}
 							{!dump.config.outFiles.includes(
-								"!**/node_modules/**"
+								"!**/node_modules/**",
 							) && (
 								<li>
 									It looks like you narrowed the{" "}

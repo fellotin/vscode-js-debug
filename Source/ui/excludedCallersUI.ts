@@ -3,8 +3,8 @@
  *--------------------------------------------------------*/
 
 import { createHash } from "crypto";
-import { inject, injectable } from "inversify";
 import { basename } from "path";
+import { inject, injectable } from "inversify";
 import * as vscode from "vscode";
 import {
 	Commands,
@@ -46,15 +46,15 @@ export class ExcludedCaller {
 
 	constructor(
 		public readonly caller: ICallerWithName,
-		public readonly target: ICallerWithName
+		public readonly target: ICallerWithName,
 	) {
 		this.treeItem = new vscode.TreeItem(
 			`${locationLabel(caller)} → ${locationLabel(target)}`,
-			vscode.TreeItemCollapsibleState.None
+			vscode.TreeItemCollapsibleState.None,
 		);
 
 		this.treeItem.tooltip = `Breaks at ${fullLabel(
-			target
+			target,
 		)} containing ${fullLabel(caller)} will be skipped`;
 
 		this.id = this.treeItem.id = createHash("sha1")
@@ -120,18 +120,18 @@ export class ExcludedCallersUI
 							column: topOfStack.column,
 							line: topOfStack.line,
 							source: topOfStack.source,
-						}
+						},
 					);
 
 					this.allCallers.set(caller.id, caller);
 					this.triggerUpdate();
-				}
+				},
 			),
 			registerCommand(vscode.commands, Commands.CallersGoToCaller, (c) =>
-				revealLocation(c.caller)
+				revealLocation(c.caller),
 			),
 			registerCommand(vscode.commands, Commands.CallersGoToTarget, (c) =>
-				revealLocation(c.target)
+				revealLocation(c.target),
 			),
 			registerCommand(
 				vscode.commands,
@@ -139,7 +139,7 @@ export class ExcludedCallersUI
 				async (c) => {
 					this.allCallers.delete(c.id);
 					this.triggerUpdate();
-				}
+				},
 			),
 			registerCommand(
 				vscode.commands,
@@ -147,13 +147,13 @@ export class ExcludedCallersUI
 				async () => {
 					this.allCallers.clear();
 					this.triggerUpdate();
-				}
+				},
 			),
 			this.sessionTracker.onSessionAdded((e) => {
 				if (this.allCallers.size > 0) {
 					this.sendCallersToSession(e);
 				}
-			})
+			}),
 		);
 	}
 
@@ -188,7 +188,7 @@ export class ExcludedCallersUI
 			setContextKey(
 				vscode.commands,
 				ContextKey.HasExcludedCallers,
-				hasCallers
+				hasCallers,
 			);
 			this.lastHadCallers = hasCallers;
 		}

@@ -56,15 +56,15 @@ export class ChromeLauncher extends BrowserLauncher<IChromeLaunchConfiguration> 
 	protected async findBrowserPath(executablePath: string): Promise<string> {
 		const resolvedPath = await this.findBrowserByExe(
 			this.browserFinder,
-			executablePath
+			executablePath,
 		);
 		if (!resolvedPath || !(await canAccess(this.fs, resolvedPath))) {
 			throw new ProtocolError(
 				browserNotFound(
 					"Chrome",
 					executablePath,
-					(await this.browserFinder.findAll()).map((b) => b.quality)
-				)
+					(await this.browserFinder.findAll()).map((b) => b.quality),
+				),
 			);
 		}
 

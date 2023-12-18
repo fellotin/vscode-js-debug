@@ -82,7 +82,7 @@ export interface ITarget {
 	supportsXHRBreakpoints(): boolean;
 	scriptUrlToUrl(url: string): string;
 	executionContextName(
-		context: Cdp.Runtime.ExecutionContextDescription
+		context: Cdp.Runtime.ExecutionContextDescription,
 	): string;
 	entryBreakpoint?: IBreakpointPathAndId | undefined;
 	logger: ILogger;
@@ -137,7 +137,7 @@ export interface ILauncher extends IDisposable {
 	 */
 	launch(
 		params: AnyLaunchConfiguration,
-		context: ILaunchContext
+		context: ILaunchContext,
 	): Promise<ILaunchResult>;
 
 	/**

@@ -5,17 +5,17 @@
 import { Container } from "inversify";
 import { IDwarfModuleProvider } from "../adapter/dwarf/dwarfModuleProvider";
 import { IRequestOptionsProvider } from "../adapter/resourceProvider/requestOptionsProvider";
-import { IExtensionContribution, trackDispose, VSCodeApi } from "../ioc-extras";
+import { IExtensionContribution, VSCodeApi, trackDispose } from "../ioc-extras";
 import { TerminalNodeLauncher } from "../targets/node/terminalNodeLauncher";
 import { ILauncher } from "../targets/targets";
 import { IExperimentationService } from "../telemetry/experimentationService";
 import { VSCodeExperimentationService } from "../telemetry/vscodeExperimentationService";
 import { CascadeTerminationTracker } from "./cascadeTerminateTracker";
 import {
-	allConfigurationProviders,
-	allConfigurationResolvers,
 	IDebugConfigurationProvider,
 	IDebugConfigurationResolver,
+	allConfigurationProviders,
+	allConfigurationResolvers,
 } from "./configuration";
 import { DebugLinkUi } from "./debugLinkUI";
 import { DebugSessionTracker } from "./debugSessionTracker";
@@ -51,7 +51,7 @@ export const registerUiComponents = (container: Container) => {
 	});
 
 	allConfigurationProviders.forEach((cls) =>
-		container.bind(IDebugConfigurationProvider).to(cls).inSingletonScope()
+		container.bind(IDebugConfigurationProvider).to(cls).inSingletonScope(),
 	);
 
 	container

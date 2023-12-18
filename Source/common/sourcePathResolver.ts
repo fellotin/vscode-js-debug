@@ -51,7 +51,7 @@ export interface ISourcePathResolver {
 	 * Attempts to convert an absolute path on disk to a URL for CDP.
 	 */
 	absolutePathToUrlRegexp(
-		absolutePath: string
+		absolutePath: string,
 	): Promise<string | undefined> | string | undefined;
 }
 

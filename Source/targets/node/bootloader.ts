@@ -4,9 +4,9 @@
 
 import { spawn, spawnSync } from "child_process";
 import * as fs from "fs";
+import * as path from "path";
 import * as inspector from "inspector";
 import match from "micromatch";
-import * as path from "path";
 import { AutoAttachMode } from "../../common/contributionUtils";
 import { findOpenPortSync } from "../../common/findOpenPortSync";
 import { knownToolGlob, knownToolToken } from "../../common/knownTools";
@@ -82,23 +82,23 @@ const jsDebugRegisteredToken = "$jsDebugIsRegistered";
 		console.error(
 			`Error in the js-debug bootloader, please report to https://aka.ms/js-dbg-issue: ${
 				e.stack || e.message || e
-			}`
+			}`,
 		);
 	}
 })();
 
-const enum Mode {
-	Immediate,
-	Deferred,
-	Inactive,
+enum Mode {
+	Immediate = 0,
+	Deferred = 1,
+	Inactive = 2,
 }
 
 function inspectOrQueue(env: IBootloaderInfo, ownId: string): boolean {
-	const mode = !isPipeAvailable(env.inspectorIpc)
-		? Mode.Inactive
-		: env.deferredMode
+	const mode = isPipeAvailable(env.inspectorIpc)
+		? env.deferredMode
 			? Mode.Deferred
-			: Mode.Immediate;
+			: Mode.Immediate
+		: Mode.Inactive;
 
 	bootloaderLogger.info(LogTag.Runtime, "Set debug mode", { mode });
 	if (mode === Mode.Inactive) {
@@ -170,13 +170,13 @@ function inspectOrQueue(env: IBootloaderInfo, ownId: string): boolean {
 					NODE_INSPECTOR_IPC: env.inspectorIpc,
 					ELECTRON_RUN_AS_NODE: "1",
 				},
-			}
+			},
 		);
 
 		if (status) {
 			console.error(stderr.toString());
 			console.error(
-				`Error activating auto attach, please report to https://aka.ms/js-dbg-issue`
+				`Error activating auto attach, please report to https://aka.ms/js-dbg-issue`,
 			);
 			return false; // some error status code
 		}
@@ -250,10 +250,10 @@ function autoAttachSmartPatternMatches(script: string, env: IBootloaderInfo) {
 		[script.replace(/\\/g, "/")],
 		[
 			...env.aaPatterns.map((p) =>
-				p.replace(knownToolToken, knownToolGlob)
+				p.replace(knownToolToken, knownToolGlob),
 			),
 		],
-		{ dot: true, nocase: true }
+		{ dot: true, nocase: true },
 	);
 
 	return r.length > 0;

@@ -23,7 +23,7 @@ export class LeaseFile implements IDisposable {
 	 */
 	public readonly path = path.join(
 		tmpdir(),
-		`node-debug-callback-${randomBytes(8).toString("hex")}`
+		`node-debug-callback-${randomBytes(8).toString("hex")}`,
 	);
 
 	/**
@@ -61,7 +61,7 @@ export class LeaseFile implements IDisposable {
 		if (!this.disposed) {
 			this.updateInterval = setInterval(
 				() => this.touch(),
-				LeaseFile.updateInterval
+				LeaseFile.updateInterval,
 			);
 		}
 	}

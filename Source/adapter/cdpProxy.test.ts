@@ -26,22 +26,22 @@ describe("CdpProxyProvider", () => {
 		const cdp = new Connection(
 			transport,
 			Logger.null,
-			new NullTelemetryReporter()
+			new NullTelemetryReporter(),
 		);
 		provider = new CdpProxyProvider(
 			cdp.createSession("sesh"),
 			new PortLeaseTracker("local"),
-			Logger.null
+			Logger.null,
 		);
 
 		const addr = await provider.proxy();
 		clientConn = new Connection(
 			await WebSocketTransport.create(
 				`ws://${addr.host}:${addr.port}${addr.path}`,
-				NeverCancelled
+				NeverCancelled,
 			),
 			Logger.null,
-			new NullTelemetryReporter()
+			new NullTelemetryReporter(),
 		);
 
 		client = clientConn.rootSession();
@@ -64,7 +64,7 @@ describe("CdpProxyProvider", () => {
 		});
 
 		expect(
-			await client.Runtime.evaluate({ expression: "hello!" })
+			await client.Runtime.evaluate({ expression: "hello!" }),
 		).to.deep.equal({ ok: true });
 	});
 
@@ -124,7 +124,7 @@ describe("CdpProxyProvider", () => {
 					method,
 					sessionId: message.sessionId,
 					params: {},
-				})
+				}),
 			);
 
 			transport.injectMessage({
@@ -136,16 +136,16 @@ describe("CdpProxyProvider", () => {
 
 		const recv: string[] = [];
 		client.Runtime.on("consoleAPICalled", () =>
-			recv.push("Runtime.consoleAPICalled")
+			recv.push("Runtime.consoleAPICalled"),
 		);
 		client.Runtime.on("exceptionThrown", () =>
-			recv.push("Runtime.exceptionThrown")
+			recv.push("Runtime.exceptionThrown"),
 		);
 		client.Debugger.on("scriptParsed", () =>
-			recv.push("Debugger.scriptParsed")
+			recv.push("Debugger.scriptParsed"),
 		);
 		client.Animation.on("animationStarted", () =>
-			recv.push("Animation.animationStarted")
+			recv.push("Animation.animationStarted"),
 		);
 
 		await client.Runtime.evaluate({ expression: "" });
@@ -208,7 +208,7 @@ describe("CdpProxyProvider", () => {
 
 			const events: Cdp.Runtime.RemoteObject[] = [];
 			client.Runtime.on("consoleAPICalled", (evt) =>
-				events.push(evt.args[0])
+				events.push(evt.args[0]),
 			);
 
 			for (let i = 0; i < 1000; i++) {

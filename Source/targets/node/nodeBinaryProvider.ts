@@ -2,9 +2,9 @@
  * Copyright (C) Microsoft Corporation. All rights reserved.
  *--------------------------------------------------------*/
 
+import { basename, dirname, extname, isAbsolute, resolve } from "path";
 import * as l10n from "@vscode/l10n";
 import { inject, injectable, optional } from "inversify";
-import { basename, dirname, extname, isAbsolute, resolve } from "path";
 import type * as vscodeType from "vscode";
 import { EnvironmentVars } from "../../common/environmentVars";
 import { existsInjected } from "../../common/fsUtils";
@@ -14,9 +14,9 @@ import { spawnAsync } from "../../common/processUtils";
 import { Semver } from "../../common/semver";
 import { getNormalizedBinaryName } from "../../common/urlUtils";
 import {
+	ErrorCodes,
 	cannotFindNodeBinary,
 	cwdDoesNotExist,
-	ErrorCodes,
 	isErrorOfType,
 	nodeBinaryOutOfDate,
 } from "../../dap/errors";
@@ -26,9 +26,9 @@ import { IPackageJsonProvider } from "./packageJsonProvider";
 
 export const INodeBinaryProvider = Symbol("INodeBinaryProvider");
 
-export const enum Capability {
-	UseSpacesInRequirePath,
-	UseInspectPublishUid,
+export enum Capability {
+	UseSpacesInRequirePath = 0,
+	UseInspectPublishUid = 1,
 }
 
 /**
@@ -38,7 +38,7 @@ export const enum Capability {
  */
 export function hideDebugInfoFromConsole(
 	binary: NodeBinary,
-	env: EnvironmentVars
+	env: EnvironmentVars,
 ) {
 	return binary.has(Capability.UseInspectPublishUid)
 		? env.addNodeOption("--inspect-publish-uid=http")
@@ -62,14 +62,14 @@ export const isPackageManager = (exe: string) =>
  */
 export const getRunScript = (
 	runtimeExecutable: string | null,
-	runtimeArgs: ReadonlyArray<string>
+	runtimeArgs: ReadonlyArray<string>,
 ) => {
 	if (!runtimeExecutable || !isPackageManager(runtimeExecutable)) {
 		return;
 	}
 
 	return runtimeArgs.find(
-		(a) => !a.startsWith("-") && a !== "run" && a !== "run-script"
+		(a) => !a.startsWith("-") && a !== "run" && a !== "run-script",
 	);
 };
 
@@ -87,14 +87,14 @@ const warningMessages: ReadonlyArray<IWarningMessage> = [
 		inclusiveMin: new Semver(16, 0, 0),
 		inclusiveMax: new Semver(16, 3, 99),
 		message: l10n.t(
-			"Some breakpoints might not work in your version of Node.js. We recommend upgrading for the latest bug, performance, and security fixes. Details: https://aka.ms/AAcsvqm"
+			"Some breakpoints might not work in your version of Node.js. We recommend upgrading for the latest bug, performance, and security fixes. Details: https://aka.ms/AAcsvqm",
 		),
 	},
 	{
 		inclusiveMin: new Semver(7, 0, 0),
 		inclusiveMax: new Semver(8, 99, 99),
 		message: l10n.t(
-			"You're running an outdated version of Node.js. We recommend upgrading for the latest bug, performance, and security fixes."
+			"You're running an outdated version of Node.js. We recommend upgrading for the latest bug, performance, and security fixes.",
 		),
 	},
 ];
@@ -134,7 +134,7 @@ export class NodeBinary {
 
 	constructor(
 		public readonly path: string,
-		public version: Semver | undefined
+		public version: Semver | undefined,
 	) {
 		if (version === undefined) {
 			version = assumedVersion;
@@ -166,7 +166,7 @@ export class NodeBinary {
 export class NodeBinaryOutOfDateError extends ProtocolError {
 	constructor(
 		public readonly version: string | Semver,
-		public readonly location: string
+		public readonly location: string,
 	) {
 		super(nodeBinaryOutOfDate(version.toString(), location));
 	}
@@ -211,7 +211,7 @@ export interface INodeBinaryProvider {
 		env: EnvironmentVars,
 		executable?: string,
 		explicitVersion?: number,
-		cwd?: string
+		cwd?: string,
 	): Promise<NodeBinary>;
 }
 
@@ -242,14 +242,14 @@ export class NodeBinaryProvider {
 		env: EnvironmentVars,
 		executable = "node",
 		explicitVersion?: number,
-		cwd?: string
+		cwd?: string,
 	): Promise<NodeBinary> {
 		try {
 			return await this.resolveAndValidateInner(
 				env,
 				executable,
 				explicitVersion,
-				cwd
+				cwd,
 			);
 		} catch (e) {
 			if (!(e instanceof NodeBinaryOutOfDateError)) {
@@ -259,7 +259,7 @@ export class NodeBinaryProvider {
 			if (await this.shouldTryDebuggingAnyway(e)) {
 				return new NodeBinary(
 					e.location,
-					e.version instanceof Semver ? e.version : undefined
+					e.version instanceof Semver ? e.version : undefined,
 				);
 			}
 
@@ -272,7 +272,7 @@ export class NodeBinaryProvider {
 	 * Node.js version.
 	 */
 	protected shouldTryDebuggingAnyway(
-		_outatedReason: NodeBinaryOutOfDateError
+		_outatedReason: NodeBinaryOutOfDateError,
 	) {
 		return Promise.resolve(false);
 	}
@@ -281,7 +281,7 @@ export class NodeBinaryProvider {
 		env: EnvironmentVars,
 		executable: string,
 		explicitVersion: number | undefined,
-		cwd: string | undefined
+		cwd: string | undefined,
 	): Promise<NodeBinary> {
 		const location = await this.resolveBinaryLocation(executable, env);
 		this.logger.info(LogTag.RuntimeLaunch, "Using binary at", {
@@ -290,7 +290,7 @@ export class NodeBinaryProvider {
 		});
 		if (!location) {
 			throw new ProtocolError(
-				cannotFindNodeBinary(executable, l10n.t("path does not exist"))
+				cannotFindNodeBinary(executable, l10n.t("path does not exist")),
 			);
 		}
 
@@ -308,7 +308,7 @@ export class NodeBinaryProvider {
 				if (packageJson) {
 					env = env.addToPath(
 						resolve(dirname(packageJson), "node_modules/.bin"),
-						"prepend"
+						"prepend",
 					);
 				}
 			}
@@ -318,7 +318,7 @@ export class NodeBinaryProvider {
 					env,
 					"node",
 					undefined,
-					cwd
+					cwd,
 				);
 				return new NodeBinary(location, realBinary.version);
 			} catch (e) {
@@ -357,7 +357,7 @@ export class NodeBinaryProvider {
 		});
 
 		const majorVersionMatch = /v([0-9]+)\.([0-9]+)\.([0-9]+)/.exec(
-			versionText
+			versionText,
 		);
 		if (!majorVersionMatch) {
 			throw new NodeBinaryOutOfDateError(versionText, location);
@@ -371,7 +371,7 @@ export class NodeBinaryProvider {
 			const nodeVersion = await this.resolveAndValidate(env);
 			version = Semver.min(
 				electronNodeVersion.get(version.major) ?? assumedVersion,
-				nodeVersion.version ?? assumedVersion
+				nodeVersion.version ?? assumedVersion,
 			);
 		}
 
@@ -386,7 +386,7 @@ export class NodeBinaryProvider {
 
 	public async resolveBinaryLocation(
 		executable: string,
-		env: EnvironmentVars
+		env: EnvironmentVars,
 	) {
 		return executable && isAbsolute(executable)
 			? await findExecutable(this.fs, executable, env)
@@ -435,7 +435,7 @@ export class InteractiveNodeBinaryProvider extends NodeBinaryProvider {
 		const yes = l10n.t("Yes");
 		const response = await this.vscode.window.showErrorMessage(
 			message,
-			yes
+			yes,
 		);
 
 		return response === yes;

@@ -2,7 +2,7 @@
  * Copyright (C) Microsoft Corporation. All rights reserved.
  *--------------------------------------------------------*/
 
-import { ILogger, ILogItem, LogLevel, LogTag } from ".";
+import { ILogItem, ILogger, LogLevel, LogTag } from ".";
 
 export class ProxyLogger implements ILogger {
 	private target?: { logger: ILogger } | { queue: ILogItem[] } = {
@@ -111,7 +111,7 @@ export class ProxyLogger implements ILogger {
 	 */
 	public assert<T>(
 		assertion: T | false | undefined | null,
-		message: string
+		message: string,
 	): assertion is T {
 		if (
 			assertion === false ||

@@ -16,7 +16,7 @@ import { IConsoleMessage } from "./consoleMessage";
 export class QueryObjectsMessage implements IConsoleMessage {
 	constructor(
 		private readonly protoObj: Cdp.Runtime.RemoteObject,
-		private readonly cdp: Cdp.Api
+		private readonly cdp: Cdp.Api,
 	) {}
 
 	public async toDap(thread: Thread): Promise<Dap.OutputEventParams> {
@@ -64,7 +64,7 @@ export class QueryObjectsMessage implements IConsoleMessage {
 			"\x1b[0m";
 		const variablesReference = thread.replVariables.createVariableForOutput(
 			text,
-			[withPreview]
+			[withPreview],
 		).id;
 
 		return {

@@ -50,7 +50,7 @@ export class HitCondition implements IBreakpointCondition {
 const makeTester = (
 	expression: string,
 	op: string,
-	value: number
+	value: number,
 ): ((n: number) => boolean) => {
 	switch (op) {
 		case "=":

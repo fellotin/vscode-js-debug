@@ -11,10 +11,7 @@ declare const acquireVsCodeApi: <T>() => {
 
 const api = acquireVsCodeApi<{ componentState?: { [key: string]: unknown } }>();
 
-const getComponentState = <T extends unknown>(
-	name: string,
-	defaultValue: T
-) => {
+const getComponentState = <T,>(name: string, defaultValue: T) => {
 	const states = api.getState()?.componentState || {};
 	return states.hasOwnProperty(name) ? (states[name] as T) : defaultValue;
 };
@@ -27,19 +24,16 @@ const setComponentState = (name: string, value: unknown) => {
 	});
 };
 
-export const usePersistedState = <T extends unknown>(
-	name: string,
-	initialValue: T
-) => {
+export const usePersistedState = <T,>(name: string, initialValue: T) => {
 	const [value, setValue] = useState(() =>
-		getComponentState(name, initialValue)
+		getComponentState(name, initialValue),
 	);
 	const setWrapped = useCallback(
 		(value: T) => {
 			setComponentState(name, value);
 			setValue(value);
 		},
-		[name, setValue]
+		[name, setValue],
 	);
 
 	return [value, setWrapped] as const;

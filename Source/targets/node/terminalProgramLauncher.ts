@@ -10,7 +10,7 @@ import Dap from "../../dap/api";
 import { cannotLaunchInTerminal } from "../../dap/errors";
 import { ProtocolError } from "../../dap/protocolError";
 import { ILaunchContext } from "../targets";
-import { getNodeLaunchArgs, IProgramLauncher } from "./processLauncher";
+import { IProgramLauncher, getNodeLaunchArgs } from "./processLauncher";
 import { TerminalProcess } from "./program";
 
 /**
@@ -28,7 +28,7 @@ export class TerminalProgramLauncher implements IProgramLauncher {
 	public async launchProgram(
 		binary: string,
 		config: INodeLaunchConfiguration,
-		context: ILaunchContext
+		context: ILaunchContext,
 	) {
 		const params: Dap.RunInTerminalParams = {
 			kind:
@@ -57,7 +57,7 @@ export class TerminalProgramLauncher implements IProgramLauncher {
 	 */
 	public sendLaunchRequest(
 		params: Dap.RunInTerminalParams,
-		context: ILaunchContext
+		context: ILaunchContext,
 	) {
 		return context.dap.runInTerminalRequest(params);
 	}

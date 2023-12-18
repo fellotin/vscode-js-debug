@@ -2,9 +2,9 @@
  * Copyright (C) Microsoft Corporation. All rights reserved.
  *--------------------------------------------------------*/
 
-import * as l10n from "@vscode/l10n";
 import { relative } from "path";
 import { URL } from "url";
+import * as l10n from "@vscode/l10n";
 import Cdp from "../cdp/api";
 import { checkContentHash } from "../common/hash/checkContentHash";
 import { once } from "../common/objUtils";
@@ -82,7 +82,7 @@ export class Source {
 		sourceMapMetadata?: ISourceMapMetadata,
 		public readonly inlineScriptOffset?: InlineScriptOffset,
 		public readonly runtimeScriptOffset?: InlineScriptOffset,
-		public readonly contentHash?: string
+		public readonly contentHash?: string,
 	) {
 		this.sourceReference = container.getSourceReference(url);
 		this._contentGetter = once(contentGetter);
@@ -103,7 +103,7 @@ export class Source {
 			this.inlineScriptOffset || this.runtimeScriptOffset
 				? undefined
 				: contentHash,
-			this._container._fileContentOverridesForTest.get(this.absolutePath)
+			this._container._fileContentOverridesForTest.get(this.absolutePath),
 		);
 	}
 
@@ -118,7 +118,7 @@ export class Source {
 				// refers to information in a module 'wrapper'; this happens in web extensions
 				lineNumber: Math.max(
 					1,
-					obj.lineNumber - this.runtimeScriptOffset.lineOffset
+					obj.lineNumber - this.runtimeScriptOffset.lineOffset,
 				),
 				columnNumber:
 					obj.columnNumber - this.runtimeScriptOffset.columnOffset,
@@ -248,7 +248,7 @@ export class Source {
 			fileName,
 			content,
 			baseUrl,
-			sourceMapUrl
+			sourceMapUrl,
 		);
 		if (!map) {
 			return undefined;
@@ -372,7 +372,7 @@ export class Source {
 				tokens.push(
 					/^\/[a-z]:/.test(url.pathname)
 						? url.pathname.slice(1)
-						: url.pathname
+						: url.pathname,
 				);
 			}
 
@@ -418,9 +418,9 @@ export interface ISourceScript {
 	url: string;
 }
 
-export const enum SourceLocationType {
-	SourceMap,
-	WasmSymbols,
+export enum SourceLocationType {
+	SourceMap = 0,
+	WasmSymbols = 1,
 }
 
 export interface ISourceLocationProvider {
@@ -441,7 +441,7 @@ export type SourceLocationProvider =
 export namespace SourceLocationProvider {
 	/** Waits for the sourcemap or wasm symbols to be loaded. */
 	export async function waitForValue(
-		p: SourceLocationProvider
+		p: SourceLocationProvider,
 	): Promise<SourceMap | IWasmSymbols | undefined> {
 		return p.value.promise;
 	}
@@ -449,7 +449,7 @@ export namespace SourceLocationProvider {
 	/** Waits for the sourcemap or wasm symbols to be loaded. */
 	export function waitForValueWithTimeout(
 		p: SourceLocationProvider,
-		timeout: number
+		timeout: number,
 	): Promise<SourceMap | IWasmSymbols | undefined> {
 		if (p.type === SourceLocationType.SourceMap && p.value.settledValue) {
 			return Promise.resolve(p.value.settledValue);
@@ -497,7 +497,7 @@ export class WasmSource
 	constructor(
 		container: SourceContainer,
 		public readonly event: Cdp.Debugger.ScriptParsedEvent,
-		absolutePath: string | undefined
+		absolutePath: string | undefined,
 	) {
 		super(
 			container,
@@ -505,12 +505,12 @@ export class WasmSource
 			absolutePath,
 			() =>
 				Promise.resolve(
-					"Binary content not shown, see the decompiled WAT file"
+					"Binary content not shown, see the decompiled WAT file",
 				),
 			undefined,
 			undefined,
 			undefined,
-			undefined
+			undefined,
 		);
 
 		this.sourceMap = {
@@ -544,19 +544,19 @@ export const isSourceWithMap = (source: unknown): source is ISourceWithMap =>
 	!!source && source instanceof Source && !!source.sourceMap;
 
 export const isSourceWithSourceMap = (
-	source: unknown
+	source: unknown,
 ): source is ISourceWithMap<ISourceMapLocationProvider> =>
 	isSourceWithMap(source) &&
 	source.sourceMap.type === SourceLocationType.SourceMap;
 
 export const isSourceWithWasm = (
-	source: unknown
+	source: unknown,
 ): source is ISourceWithMap<IWasmLocationProvider> =>
 	isSourceWithMap(source) &&
 	source.sourceMap.type === SourceLocationType.WasmSymbols;
 
 export const isWasmSymbols = (
-	source: SourceMap | IWasmSymbols | undefined
+	source: SourceMap | IWasmSymbols | undefined,
 ): source is IWasmSymbols =>
 	!!source && typeof (source as IWasmSymbols).getDisassembly === "function";
 
@@ -565,7 +565,7 @@ export type LineColumn = { lineNumber: number; columnNumber: number }; // 1-base
 
 export function uiToRawOffset<T extends LineColumn>(
 	lc: T,
-	offset?: InlineScriptOffset
+	offset?: InlineScriptOffset,
 ): T {
 	if (!offset) {
 		return lc;
@@ -582,7 +582,7 @@ export function uiToRawOffset<T extends LineColumn>(
 
 export function rawToUiOffset<T extends LineColumn>(
 	lc: T,
-	offset?: InlineScriptOffset
+	offset?: InlineScriptOffset,
 ): T {
 	if (!offset) {
 		return lc;

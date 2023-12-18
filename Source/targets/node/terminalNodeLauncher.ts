@@ -3,9 +3,9 @@
  *--------------------------------------------------------*/
 
 import { randomBytes } from "crypto";
-import { inject, injectable } from "inversify";
 import { tmpdir } from "os";
 import * as path from "path";
+import { inject, injectable } from "inversify";
 import * as vscode from "vscode";
 import { IPortLeaseTracker } from "../../adapter/portLeaseTracker";
 import { DebugType } from "../../common/contributionUtils";
@@ -22,9 +22,9 @@ import { FS, FsPromises } from "../../ioc-extras";
 import { ISourcePathResolverFactory } from "../sourcePathResolverFactory";
 import { IStopMetadata, ITarget } from "../targets";
 import {
-	hideDebugInfoFromConsole,
 	INodeBinaryProvider,
 	NodeBinary,
+	hideDebugInfoFromConsole,
 } from "./nodeBinaryProvider";
 import {
 	IProcessTelemetry,
@@ -67,7 +67,7 @@ export interface ITerminalLauncherLike
 	 * Gets telemetry of the last-started process.
 	 */
 	getProcessTelemetry(
-		target: ITarget
+		target: ITarget,
 	): Promise<IProcessTelemetry | undefined>;
 }
 
@@ -80,7 +80,7 @@ export class TerminalNodeLauncher extends NodeLauncherBase<ITerminalLaunchConfig
 	private terminalCreatedEmitter = new EventEmitter<vscode.Terminal>();
 	protected callbackFile = path.join(
 		tmpdir(),
-		`node-debug-callback-${randomBytes(8).toString("hex")}`
+		`node-debug-callback-${randomBytes(8).toString("hex")}`,
 	);
 
 	public readonly onTerminalCreated = this.terminalCreatedEmitter.event;
@@ -102,7 +102,7 @@ export class TerminalNodeLauncher extends NodeLauncherBase<ITerminalLaunchConfig
 	public async getProcessTelemetry() {
 		try {
 			return JSON.parse(
-				await this.fs.readFile(this.callbackFile, "utf-8")
+				await this.fs.readFile(this.callbackFile, "utf-8"),
 			) as IProcessTelemetry;
 		} catch {
 			return undefined;
@@ -113,7 +113,7 @@ export class TerminalNodeLauncher extends NodeLauncherBase<ITerminalLaunchConfig
 	 * @inheritdoc
 	 */
 	protected resolveParams(
-		params: AnyLaunchConfiguration
+		params: AnyLaunchConfiguration,
 	): ITerminalLaunchConfiguration | undefined {
 		if (params.type === DebugType.Terminal && params.request === "launch") {
 			return params;
@@ -134,7 +134,7 @@ export class TerminalNodeLauncher extends NodeLauncherBase<ITerminalLaunchConfig
 	 * Launches the program.
 	 */
 	protected async launchProgram(
-		runData: IRunData<ITerminalLaunchConfiguration>
+		runData: IRunData<ITerminalLaunchConfiguration>,
 	): Promise<void> {
 		// Make sure that, if we can _find_ a in their path, it's the right
 		// version so that we don't mysteriously never connect fail.

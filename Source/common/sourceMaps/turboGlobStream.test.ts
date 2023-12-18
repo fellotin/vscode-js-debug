@@ -2,9 +2,9 @@
  * Copyright (C) Microsoft Corporation. All rights reserved.
  *--------------------------------------------------------*/
 
-import { expect } from "chai";
 import { promises as fs } from "fs";
 import { join } from "path";
+import { expect } from "chai";
 import { spy } from "sinon";
 import { createFileTree, getTestDir } from "../../test/createFileTree";
 import { CacheTree } from "./cacheTree";
@@ -50,8 +50,8 @@ describe("TurboGlobStream", () => {
 					.then(() =>
 						expect(matches.sort()).to.deep.equal(
 							expected,
-							`bad result in call number ${i + 1}`
-						)
+							`bad result in call number ${i + 1}`,
+						),
 					)
 					.then(resolve, reject);
 			});
@@ -127,7 +127,7 @@ describe("TurboGlobStream", () => {
 		});
 
 		expect(
-			fileProcessor.args.slice().sort((a, b) => a[0].localeCompare(b[0]))
+			fileProcessor.args.slice().sort((a, b) => a[0].localeCompare(b[0])),
 		).to.deep.equal([
 			[join(dir, "a", "a1.js"), { siblings: ["a1.js", "a2.js"] }],
 			[join(dir, "a", "a2.js"), { siblings: ["a1.js", "a2.js"] }],
@@ -146,7 +146,7 @@ describe("TurboGlobStream", () => {
 		});
 
 		expect(
-			fileProcessor.args.slice().sort((a, b) => a[0].localeCompare(b[0]))
+			fileProcessor.args.slice().sort((a, b) => a[0].localeCompare(b[0])),
 		).to.deep.equal([
 			[join(dir, "a", "a1.js"), { siblings: ["a1.js", "a2.js"] }],
 			[join(dir, "a", "a2.js"), { siblings: ["a1.js", "a2.js"] }],

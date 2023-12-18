@@ -3,7 +3,7 @@
  *--------------------------------------------------------*/
 
 import { injectable } from "inversify";
-import { commands, ExtensionContext } from "vscode";
+import { ExtensionContext, commands } from "vscode";
 import { Commands, registerCommand } from "../common/contributionUtils";
 import { IExtensionContribution } from "../ioc-extras";
 
@@ -16,8 +16,8 @@ export class StartDebugingAndStopOnEntry implements IExtensionContribution {
 					config: {
 						stopOnEntry: true,
 					},
-				})
-			)
+				}),
+			),
 		);
 	}
 }

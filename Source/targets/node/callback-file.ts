@@ -1,10 +1,10 @@
+import { randomBytes } from "crypto";
+import { existsSync, readFileSync, unlinkSync } from "fs";
 /*---------------------------------------------------------
  * Copyright (C) Microsoft Corporation. All rights reserved.
  *--------------------------------------------------------*/
 import { tmpdir } from "os";
 import * as path from "path";
-import { randomBytes } from "crypto";
-import { unlinkSync, existsSync, readFileSync } from "fs";
 import { IDisposable } from "../../common/disposable";
 
 /**
@@ -18,7 +18,7 @@ export class CallbackFile<T> implements IDisposable {
 	 */
 	public readonly path = path.join(
 		tmpdir(),
-		`node-debug-callback-${randomBytes(8).toString("hex")}`
+		`node-debug-callback-${randomBytes(8).toString("hex")}`,
 	);
 
 	private disposed = false;

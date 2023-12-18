@@ -2,8 +2,8 @@
  * Copyright (C) Microsoft Corporation. All rights reserved.
  *--------------------------------------------------------*/
 
-import match from "micromatch";
 import * as path from "path";
+import match from "micromatch";
 import { ILogger, LogTag } from "../common/logging";
 import { node15InternalsPrefix } from "../common/node15Internal";
 import {
@@ -46,7 +46,7 @@ export abstract class SourcePathResolverBase<
 {
 	protected readonly sourceMapOverrides = new SourceMapOverrides(
 		this.options.sourceMapOverrides,
-		this.logger
+		this.logger,
 	);
 
 	/**
@@ -91,21 +91,21 @@ export abstract class SourcePathResolverBase<
 
 	constructor(
 		protected readonly options: T,
-		protected readonly logger: ILogger
+		protected readonly logger: ILogger,
 	) {}
 
 	/**
 	 * @inheritdoc
 	 */
 	public abstract urlToAbsolutePath(
-		request: IUrlResolution
+		request: IUrlResolution,
 	): Promise<string | undefined>;
 
 	/**
 	 * @inheritdoc
 	 */
 	public abstract absolutePathToUrlRegexp(
-		absolutePath: string
+		absolutePath: string,
 	): Promise<string | undefined> | string | undefined;
 
 	/**
@@ -163,7 +163,7 @@ export abstract class SourcePathResolverBase<
 			{
 				dot: true,
 				nocase: !caseSensitive,
-			}
+			},
 		);
 
 		return l.length > 0;
@@ -184,7 +184,7 @@ export abstract class SourcePathResolverBase<
 
 		const relativePath = properRelative(
 			this.options.remoteRoot,
-			remotePath
+			remotePath,
 		);
 		if (relativePath.startsWith("..")) {
 			return "";
@@ -195,7 +195,7 @@ export abstract class SourcePathResolverBase<
 		localPath = fixDriveLetter(localPath);
 		this.logger.verbose(
 			LogTag.RuntimeSourceMap,
-			`Mapped remoteToLocal: ${remotePath} -> ${localPath}`
+			`Mapped remoteToLocal: ${remotePath} -> ${localPath}`,
 		);
 		return properResolve(localPath);
 	}
@@ -218,11 +218,11 @@ export abstract class SourcePathResolverBase<
 
 		remotePath = fixDriveLetterAndSlashes(
 			remotePath,
-			/*uppercaseDriveLetter=*/ true
+			/*uppercaseDriveLetter=*/ true,
 		);
 		this.logger.verbose(
 			LogTag.RuntimeSourceMap,
-			`Mapped localToRemote: ${localPath} -> ${remotePath}`
+			`Mapped localToRemote: ${localPath} -> ${remotePath}`,
 		);
 		return remotePath;
 	}

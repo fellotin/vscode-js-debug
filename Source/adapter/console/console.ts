@@ -40,7 +40,7 @@ export class Console implements IConsole {
 			for (const event of events) {
 				this.dap.output(event);
 			}
-		}
+		},
 	);
 
 	/**
@@ -103,7 +103,7 @@ export class Console implements IConsole {
 	 * @inheritdoc
 	 */
 	public parse(
-		event: Cdp.Runtime.ConsoleAPICalledEvent
+		event: Cdp.Runtime.ConsoleAPICalledEvent,
 	): IConsoleMessage | undefined {
 		if (event.type === "log") {
 			// Ignore the duplicate group events that Node.js can emit:

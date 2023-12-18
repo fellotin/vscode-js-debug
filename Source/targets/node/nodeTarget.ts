@@ -48,7 +48,7 @@ export class NodeTarget implements ITarget {
 		public readonly targetInfo: WatchdogTarget,
 		public readonly logger: ILogger,
 		private readonly lifecycle: INodeTargetLifecycleHooks = {},
-		private readonly _parent: ITarget | undefined
+		private readonly _parent: ITarget | undefined,
 	) {
 		this.connection = connection;
 		this._cdp = cdp;
@@ -158,7 +158,7 @@ export class NodeTarget implements ITarget {
 				"Failed to attach to target",
 				{
 					targetId: this.targetInfo.targetId,
-				}
+				},
 			);
 			return; // timed out or cancelled, may have been a short-lived process
 		}

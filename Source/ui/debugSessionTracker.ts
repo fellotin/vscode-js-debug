@@ -26,7 +26,7 @@ export class DebugSessionTracker implements vscode.Disposable {
 	 */
 	public static pickSession(
 		candidates: vscode.DebugSession[],
-		title: string
+		title: string,
 	) {
 		if (candidates.length < 2) {
 			return candidates[0];
@@ -43,8 +43,8 @@ export class DebugSessionTracker implements vscode.Disposable {
 		return new Promise<vscode.DebugSession | undefined>((resolve) => {
 			qp.onDidAccept(() =>
 				resolve(
-					candidates.find((i) => i.id === qp.selectedItems[0]?.id)
-				)
+					candidates.find((i) => i.id === qp.selectedItems[0]?.id),
+				),
 			);
 			qp.onDidHide(() => resolve(undefined));
 			qp.show();
@@ -101,7 +101,7 @@ export class DebugSessionTracker implements vscode.Disposable {
 	 */
 	public getConcreteSessions() {
 		return [...this.sessions.values()].filter(
-			DebugSessionTracker.isConcreteSession
+			DebugSessionTracker.isConcreteSession,
 		);
 	}
 
@@ -110,7 +110,7 @@ export class DebugSessionTracker implements vscode.Disposable {
 	 */
 	public getChildren(session: vscode.DebugSession) {
 		return [...this.sessions.values()].filter(
-			(s) => s.configuration.__parentId === session.id
+			(s) => s.configuration.__parentId === session.id,
 		);
 	}
 
@@ -123,7 +123,7 @@ export class DebugSessionTracker implements vscode.Disposable {
 				}
 			},
 			undefined,
-			this._disposables
+			this._disposables,
 		);
 
 		vscode.debug.onDidTerminateDebugSession(
@@ -134,7 +134,7 @@ export class DebugSessionTracker implements vscode.Disposable {
 				}
 			},
 			undefined,
-			this._disposables
+			this._disposables,
 		);
 
 		// todo: move this into its own class
@@ -148,17 +148,17 @@ export class DebugSessionTracker implements vscode.Disposable {
 					const params =
 						event.body as Dap.RevealLocationRequestedEventParams;
 					const uri = vscode.debug.asDebugSourceUri(
-						event.body.source
+						event.body.source,
 					);
 					const options: vscode.TextDocumentShowOptions = {};
 					if (params.line) {
 						const position = new vscode.Position(
 							(params.line || 1) - 1,
-							(params.column || 1) - 1
+							(params.column || 1) - 1,
 						);
 						options.selection = new vscode.Range(
 							position,
-							position
+							position,
 						);
 					}
 					vscode.window.showTextDocument(uri, options);
@@ -172,7 +172,7 @@ export class DebugSessionTracker implements vscode.Disposable {
 				}
 			},
 			undefined,
-			this._disposables
+			this._disposables,
 		);
 	}
 

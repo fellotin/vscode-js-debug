@@ -50,7 +50,7 @@ export interface IBreakpointConditionFactory {
 }
 
 export const IBreakpointConditionFactory = Symbol(
-	"IBreakpointConditionFactory"
+	"IBreakpointConditionFactory",
 );
 
 @injectable()
@@ -72,7 +72,7 @@ export class BreakpointConditionFactory implements IBreakpointConditionFactory {
 				params,
 				params.condition,
 				this.breakOnError,
-				this.evaluator
+				this.evaluator,
 			);
 		}
 

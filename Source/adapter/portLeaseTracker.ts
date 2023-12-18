@@ -2,11 +2,11 @@
  * Copyright (C) Microsoft Corporation. All rights reserved.
  *--------------------------------------------------------*/
 
-import { inject, injectable } from "inversify";
 import * as net from "net";
+import { inject, injectable } from "inversify";
 import { CancellationToken } from "vscode";
 import * as WebSocket from "ws";
-import { cancellableRace, NeverCancelled } from "../common/cancellation";
+import { NeverCancelled, cancellableRace } from "../common/cancellation";
 import { IDisposable } from "../common/disposable";
 import { EventEmitter } from "../common/events";
 import {
@@ -27,19 +27,19 @@ export const acquireTrackedServer = async (
 	onSocket: (s: net.Socket) => void,
 	overridePort?: number,
 	host?: string,
-	ct = NeverCancelled
+	ct = NeverCancelled,
 ) => {
 	const server = overridePort
 		? await waitForServerToListen(
 				net.createServer(onSocket).listen(overridePort, host),
-				ct
-			)
+				ct,
+		  )
 		: await findOpenPort(
 				{ tester: makeAcquireTcpServer(onSocket, host) },
-				ct
-			);
+				ct,
+		  );
 	const dispose = tracker.register(
-		(server.address() as net.AddressInfo).port
+		(server.address() as net.AddressInfo).port,
 	);
 	server.on("close", () => dispose.dispose());
 	server.on("error", () => dispose.dispose());
@@ -52,14 +52,14 @@ export const acquireTrackedServer = async (
 export const acquireTrackedWebSocketServer = async (
 	tracker: IPortLeaseTracker,
 	options?: WebSocket.ServerOptions,
-	ct?: CancellationToken
+	ct?: CancellationToken,
 ) => {
 	const server = await findOpenPort(
 		{ tester: makeAcquireWebSocketServer(options) },
-		ct
+		ct,
 	);
 	const dispose = tracker.register(
-		(server.address() as net.AddressInfo).port
+		(server.address() as net.AddressInfo).port,
 	);
 	server.on("close", () => dispose.dispose());
 	server.on("error", () => dispose.dispose());

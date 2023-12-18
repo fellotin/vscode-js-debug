@@ -5,9 +5,9 @@
 import { inject, injectable, optional } from "inversify";
 import type * as vscode from "vscode";
 import {
-	getExperimentationService,
 	IExperimentationService,
 	TargetPopulation,
+	getExperimentationService,
 } from "vscode-tas-client";
 import { isNightly, packageVersion } from "../configuration";
 import { ExtensionContext } from "../ioc-extras";
@@ -24,7 +24,7 @@ export class VSCodeExperimentationService implements IJsDebugExpService {
 
 	constructor(
 		@inject(ITelemetryReporter) reporter: ITelemetryReporter,
-		@optional() @inject(ExtensionContext) context: vscode.ExtensionContext
+		@optional() @inject(ExtensionContext) context: vscode.ExtensionContext,
 	) {
 		// todo: will we ever want experimentation in VS proper?
 		if (context && reporter instanceof DapTelemetryReporter) {
@@ -45,7 +45,7 @@ export class VSCodeExperimentationService implements IJsDebugExpService {
 						});
 					},
 				},
-				context.globalState
+				context.globalState,
 			);
 		}
 	}
@@ -55,7 +55,7 @@ export class VSCodeExperimentationService implements IJsDebugExpService {
 	 */
 	public async getTreatment<K extends keyof IExperiments>(
 		name: K,
-		defaultValue: IExperiments[K]
+		defaultValue: IExperiments[K],
 	): Promise<IExperiments[K]> {
 		if (!this.service) {
 			return defaultValue;
@@ -65,7 +65,7 @@ export class VSCodeExperimentationService implements IJsDebugExpService {
 			const r = await this.service.getTreatmentVariableAsync(
 				"vscode",
 				name,
-				true
+				true,
 			);
 			return r as IExperiments[K];
 		} catch (e) {

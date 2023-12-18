@@ -2,14 +2,14 @@
  * Copyright (C) Microsoft Corporation. All rights reserved.
  *--------------------------------------------------------*/
 
-import * as vscode from "vscode";
 import { Container } from "inversify";
-import { registerCommand, Commands } from "../common/contributionUtils";
+import * as vscode from "vscode";
+import { Commands, registerCommand } from "../common/contributionUtils";
 import { UiProfileManager } from "./profiling/uiProfileManager";
 
 export const registerProfilingCommand = (
 	context: vscode.ExtensionContext,
-	container: Container
+	container: Container,
 ) => {
 	const manager = container.get(UiProfileManager);
 
@@ -21,11 +21,11 @@ export const registerProfilingCommand = (
 				manager.start(
 					typeof sessionIdOrArgs === "string"
 						? { sessionId: sessionIdOrArgs }
-						: sessionIdOrArgs ?? {}
-				)
+						: sessionIdOrArgs ?? {},
+				),
 		),
 		registerCommand(vscode.commands, Commands.StopProfile, (sessionId) =>
-			manager.stop(sessionId)
-		)
+			manager.stop(sessionId),
+		),
 	);
 };

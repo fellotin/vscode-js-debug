@@ -2,8 +2,8 @@
  * Copyright (C) Microsoft Corporation. All rights reserved.
  *--------------------------------------------------------*/
 
+import { Socket, connect } from "net";
 import { inject, injectable, optional } from "inversify";
-import { connect, Socket } from "net";
 import type * as vscodeType from "vscode";
 import Connection from "../../cdp/connection";
 import { RawPipeTransport } from "../../cdp/rawPipeTransport";
@@ -34,7 +34,7 @@ export class UWPWebviewBrowserAttacher extends BrowserAttacher<IEdgeParamsWithWe
 	constructor(
 		@inject(ILogger) logger: ILogger,
 		@inject(ISourcePathResolver) pathResolver: ISourcePathResolver,
-		@optional() @inject(VSCodeApi) vscode?: typeof vscodeType
+		@optional() @inject(VSCodeApi) vscode?: typeof vscodeType,
 	) {
 		super(logger, pathResolver, vscode);
 	}
@@ -43,7 +43,7 @@ export class UWPWebviewBrowserAttacher extends BrowserAttacher<IEdgeParamsWithWe
 	 * @override
 	 */
 	protected resolveParams(
-		params: AnyLaunchConfiguration
+		params: AnyLaunchConfiguration,
 	): params is IEdgeParamsWithWebviewPipe {
 		return (
 			params.request === "attach" &&
@@ -57,13 +57,13 @@ export class UWPWebviewBrowserAttacher extends BrowserAttacher<IEdgeParamsWithWe
 	 */
 	protected async acquireConnectionForBrowser(
 		context: ILaunchContext,
-		params: IEdgeParamsWithWebviewPipe
+		params: IEdgeParamsWithWebviewPipe,
 	): Promise<Connection> {
 		const { getAppContainerProcessTokens } = await import(
 			"@vscode/win32-app-container-tokens"
 		);
 		const pipeNames = getAppContainerProcessTokens(
-			params.useWebView.pipeName
+			params.useWebView.pipeName,
 		);
 		if (!pipeNames) {
 			throw new ProtocolError(uwpPipeNotAvailable());
@@ -79,11 +79,11 @@ export class UWPWebviewBrowserAttacher extends BrowserAttacher<IEdgeParamsWithWe
 							new Promise<Socket | undefined>((resolve) =>
 								pipe
 									.on("error", () => resolve(undefined))
-									.on("connect", () => resolve(pipe))
-							)
-					)
+									.on("connect", () => resolve(pipe)),
+							),
+					),
 				),
-				context.cancellationToken
+				context.cancellationToken,
 			);
 		} finally {
 			for (const pipe of pipes) {
@@ -101,7 +101,7 @@ export class UWPWebviewBrowserAttacher extends BrowserAttacher<IEdgeParamsWithWe
 		return new Connection(
 			transport,
 			this.logger,
-			context.telemetryReporter
+			context.telemetryReporter,
 		);
 	}
 }

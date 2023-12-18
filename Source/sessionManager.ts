@@ -39,7 +39,7 @@ export interface ISessionLauncher<T extends IDebugSessionLike> {
 	launch(
 		parentSession: Session<T>,
 		target: ITarget,
-		config: IPseudoAttachConfiguration
+		config: IPseudoAttachConfiguration,
 	): void;
 }
 
@@ -58,7 +58,7 @@ export class Session<TSessionImpl extends IDebugSessionLike>
 		transport: IDapTransport | DapConnection,
 		public readonly logger: ILogger,
 		public readonly sessionStates: SessionSubStates,
-		private readonly parent?: Session<TSessionImpl>
+		private readonly parent?: Session<TSessionImpl>,
 	) {
 		if (transport instanceof DapConnection) {
 			this.connection = transport;
@@ -73,12 +73,12 @@ export class Session<TSessionImpl extends IDebugSessionLike>
 			target.onNameChanged(() => this.setName(target)),
 			this.sessionStates.onAdd(
 				([sessionId]) =>
-					sessionId === this.debugSession.id && this.setName(target)
+					sessionId === this.debugSession.id && this.setName(target),
 			),
 			this.sessionStates.onRemove(
 				([sessionId]) =>
-					sessionId === this.debugSession.id && this.setName(target)
-			)
+					sessionId === this.debugSession.id && this.setName(target),
+			),
 		);
 
 		this.setName(target);
@@ -107,13 +107,13 @@ export class RootSession<
 	constructor(
 		public readonly debugSession: TSessionImpl,
 		transport: IDapTransport | DapConnection,
-		private readonly services: Container
+		private readonly services: Container,
 	) {
 		super(
 			debugSession,
 			transport,
 			services.get(ILogger),
-			services.get(SessionSubStates)
+			services.get(SessionSubStates),
 		);
 		this.connection.attachTelemetry(services.get(ITelemetryReporter));
 	}
@@ -128,7 +128,7 @@ export class RootSession<
 			delegate,
 			this.connection,
 			this.services,
-			new TargetOrigin(this.debugSession.id)
+			new TargetOrigin(this.debugSession.id),
 		);
 	}
 
@@ -162,7 +162,7 @@ export class SessionManager<TSessionImpl extends IDebugSessionLike>
 
 	constructor(
 		private readonly globalContainer: Container,
-		private readonly sessionLauncher: ISessionLauncher<TSessionImpl>
+		private readonly sessionLauncher: ISessionLauncher<TSessionImpl>,
 	) {}
 
 	public terminate(debugSession: TSessionImpl) {
@@ -180,12 +180,12 @@ export class SessionManager<TSessionImpl extends IDebugSessionLike>
 
 	public createNewRootSession(
 		debugSession: TSessionImpl,
-		transport: IDapTransport | DapConnection
+		transport: IDapTransport | DapConnection,
 	) {
 		const root = new RootSession(
 			debugSession,
 			transport,
-			createTopLevelSessionContainer(this.globalContainer)
+			createTopLevelSessionContainer(this.globalContainer),
 		);
 		root.createBinder(this);
 		this._sessions.set(debugSession.id, root);
@@ -198,7 +198,7 @@ export class SessionManager<TSessionImpl extends IDebugSessionLike>
 	public createNewChildSession(
 		debugSession: TSessionImpl,
 		pendingTargetId: string,
-		transport: IDapTransport | DapConnection
+		transport: IDapTransport | DapConnection,
 	): Session<TSessionImpl> {
 		const pending = this._pendingTarget.get(pendingTargetId);
 		if (!pending) {
@@ -211,7 +211,7 @@ export class SessionManager<TSessionImpl extends IDebugSessionLike>
 			transport,
 			parent.logger,
 			parent.sessionStates,
-			parent
+			parent,
 		);
 
 		this._pendingTarget.delete(pendingTargetId);
@@ -249,13 +249,13 @@ export class SessionManager<TSessionImpl extends IDebugSessionLike>
 					parentSession = await this.getOrLaunchSession(parentTarget);
 				} else {
 					parentSession = this._sessions.get(
-						target.targetOrigin().id
+						target.targetOrigin().id,
 					);
 				}
 
 				if (!parentSession) {
 					throw new Error(
-						"Expected to get a parent debug session for target"
+						"Expected to get a parent debug session for target",
 					);
 				}
 
@@ -277,8 +277,9 @@ export class SessionManager<TSessionImpl extends IDebugSessionLike>
 							? DebugType.Chrome
 							: (parentConfig.type as DebugType),
 					name: target.name(),
-					request: parentSession.debugSession.configuration
-						.request as "attach" | "launch",
+					request: parentSession.debugSession.configuration.request as
+						| "attach"
+						| "launch",
 					__pendingTargetId: target.id(),
 					// fix for https://github.com/microsoft/vscode/issues/102296
 					preRestartTask:
@@ -290,7 +291,7 @@ export class SessionManager<TSessionImpl extends IDebugSessionLike>
 				};
 
 				this.sessionLauncher.launch(parentSession, target, config);
-			}
+			},
 		);
 
 		this._sessionForTarget.set(target, newSession);
@@ -303,7 +304,7 @@ export class SessionManager<TSessionImpl extends IDebugSessionLike>
 	public initAdapter(
 		_debugAdapter: DebugAdapter,
 		_target: ITarget,
-		_launcher: ILauncher
+		_launcher: ILauncher,
 	): Promise<boolean> {
 		return Promise.resolve(false);
 	}

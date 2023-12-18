@@ -22,7 +22,7 @@ export class WindowsProcessTree extends BaseProcessTree {
 			process.env["WINDIR"] || "C:\\Windows",
 			"System32",
 			"wbem",
-			"WMIC.exe"
+			"WMIC.exe",
 		);
 		return this.spawn(wmic, [
 			"process",

@@ -6,7 +6,7 @@ import * as assert from "assert";
 import { expect } from "chai";
 import { LinkedList } from "./linkedList";
 
-describe("LinkedList", function () {
+describe("LinkedList", () => {
 	function assertElements<E>(list: LinkedList<E>, ...elements: E[]) {
 		// check size
 		assert.strictEqual(list.size, elements.length);
@@ -113,7 +113,7 @@ describe("LinkedList", function () {
 		assertElements(list, "boo", "far", "bar", "foo");
 	});
 
-	it("pop/unshift", function () {
+	it("pop/unshift", () => {
 		const list = new LinkedList<string>();
 		list.push("a");
 		list.push("b");

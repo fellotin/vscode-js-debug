@@ -31,7 +31,7 @@ export class DwarfModuleProvider implements IDwarfModuleProvider {
 			this.dap.output({
 				output: l10n.t(
 					"You may install the `{}` module via npm for enhanced WebAssembly debugging",
-					name
+					name,
 				),
 				category: "console",
 			});

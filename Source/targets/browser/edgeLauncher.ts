@@ -2,12 +2,12 @@
  * Copyright (C) Microsoft Corporation. All rights reserved.
  *--------------------------------------------------------*/
 
-import { IBrowserFinder } from "@vscode/js-debug-browsers";
 import { randomBytes } from "crypto";
-import { inject, injectable, tagged } from "inversify";
 import { createServer } from "net";
 import { tmpdir } from "os";
 import { join } from "path";
+import { IBrowserFinder } from "@vscode/js-debug-browsers";
+import { inject, injectable, tagged } from "inversify";
 import { CancellationToken } from "vscode";
 import CdpConnection from "../../cdp/connection";
 import { WebSocketTransport } from "../../cdp/webSocketTransport";
@@ -74,7 +74,7 @@ export class EdgeLauncher extends BrowserLauncher<IEdgeLaunchConfiguration> {
 		params: IEdgeLaunchConfiguration,
 		dap: Dap.Api,
 		cancellationToken: CancellationToken,
-		telemetryReporter: ITelemetryReporter
+		telemetryReporter: ITelemetryReporter,
 	) {
 		return super.launchBrowser(
 			{
@@ -86,7 +86,7 @@ export class EdgeLauncher extends BrowserLauncher<IEdgeLaunchConfiguration> {
 			telemetryReporter,
 			params.useWebView
 				? this.getWebviewPort(params, telemetryReporter)
-				: undefined
+				: undefined,
 		);
 	}
 
@@ -108,7 +108,7 @@ export class EdgeLauncher extends BrowserLauncher<IEdgeLaunchConfiguration> {
 	 */
 	private async getWebviewPort(
 		params: IEdgeLaunchConfiguration,
-		telemetryReporter: ITelemetryReporter
+		telemetryReporter: ITelemetryReporter,
 	): Promise<number> {
 		const promisedPort = getDeferred<number>();
 
@@ -127,7 +127,7 @@ export class EdgeLauncher extends BrowserLauncher<IEdgeLaunchConfiguration> {
 		const server = createServer((stream) => {
 			stream.on("data", async (data) => {
 				const info: IWebViewConnectionInfo = JSON.parse(
-					data.toString()
+					data.toString(),
 				);
 
 				// devtoolsActivePort will always start with the port number
@@ -142,12 +142,12 @@ export class EdgeLauncher extends BrowserLauncher<IEdgeLaunchConfiguration> {
 				const wsURL = `ws://${params.address}:${port}/devtools/${info.type}/${info.id}`;
 				const ws = await WebSocketTransport.create(
 					wsURL,
-					NeverCancelled
+					NeverCancelled,
 				);
 				const connection = new CdpConnection(
 					ws,
 					this.logger,
-					telemetryReporter
+					telemetryReporter,
 				);
 				await connection
 					.rootSession()
@@ -169,8 +169,9 @@ export class EdgeLauncher extends BrowserLauncher<IEdgeLaunchConfiguration> {
 		// See the WebView2 documentation for more details.
 		params.env = params.env || {};
 		params.env["WEBVIEW2_USER_DATA_FOLDER"] = params.userDataDir.toString();
-		params.env["WEBVIEW2_ADDITIONAL_BROWSER_ARGUMENTS"] =
-			`--remote-debugging-port=${params.port}`;
+		params.env[
+			"WEBVIEW2_ADDITIONAL_BROWSER_ARGUMENTS"
+		] = `--remote-debugging-port=${params.port}`;
 		params.env["WEBVIEW2_WAIT_FOR_SCRIPT_DEBUGGER"] = "true";
 		params.env["WEBVIEW2_PIPE_FOR_SCRIPT_DEBUGGER"] = pipeName;
 
@@ -183,15 +184,15 @@ export class EdgeLauncher extends BrowserLauncher<IEdgeLaunchConfiguration> {
 	protected async findBrowserPath(executablePath: string): Promise<string> {
 		const resolvedPath = await this.findBrowserByExe(
 			this.browserFinder,
-			executablePath
+			executablePath,
 		);
 		if (!resolvedPath || !(await canAccess(this.fs, resolvedPath))) {
 			throw new ProtocolError(
 				browserNotFound(
 					"Edge",
 					executablePath,
-					(await this.browserFinder.findAll()).map((b) => b.quality)
-				)
+					(await this.browserFinder.findAll()).map((b) => b.quality),
+				),
 			);
 		}
 

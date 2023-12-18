@@ -31,7 +31,7 @@ export function customBreakpoints(): Map<string, ICustomBreakpoint> {
 
 	function i(
 		instrumentation: string,
-		maybeTitle?: string
+		maybeTitle?: string,
 	): ICustomBreakpoint {
 		const title = maybeTitle || instrumentation;
 		return {
@@ -48,7 +48,7 @@ export function customBreakpoints(): Map<string, ICustomBreakpoint> {
 						short: errorName,
 						long: l10n.t(
 							'Paused on WebGL Error instrumentation breakpoint, error "{0}"',
-							errorName
+							errorName,
 						),
 					};
 				}
@@ -59,11 +59,11 @@ export function customBreakpoints(): Map<string, ICustomBreakpoint> {
 					return {
 						short: l10n.t(
 							'CSP violation "{0}"',
-							data["directiveText"]
+							data["directiveText"],
 						),
 						long: l10n.t(
 							'Paused on Content Security Policy violation instrumentation breakpoint, directive "{0}"',
-							data["directiveText"]
+							data["directiveText"],
 						),
 					};
 				}
@@ -71,7 +71,7 @@ export function customBreakpoints(): Map<string, ICustomBreakpoint> {
 					short: title,
 					long: l10n.t(
 						'Paused on instrumentation breakpoint "{0}"',
-						title
+						title,
 					),
 				};
 			},
@@ -81,12 +81,12 @@ export function customBreakpoints(): Map<string, ICustomBreakpoint> {
 				const ok1 = enabled
 					? await cdp.EventBreakpoints.setInstrumentationBreakpoint({
 							eventName: instrumentation,
-						})
+					  })
 					: await cdp.EventBreakpoints.removeInstrumentationBreakpoint(
 							{
 								eventName: instrumentation,
-							}
-						);
+							},
+					  );
 
 				if (ok1) {
 					return true;
@@ -95,10 +95,10 @@ export function customBreakpoints(): Map<string, ICustomBreakpoint> {
 				const ok2 = enabled
 					? await cdp.DOMDebugger.setInstrumentationBreakpoint({
 							eventName: instrumentation,
-						})
+					  })
 					: await cdp.DOMDebugger.removeInstrumentationBreakpoint({
 							eventName: instrumentation,
-						});
+					  });
 
 				return !!ok2;
 			},
@@ -108,14 +108,14 @@ export function customBreakpoints(): Map<string, ICustomBreakpoint> {
 	function e(
 		eventName: string,
 		target?: string | string[],
-		title?: string
+		title?: string,
 	): ICustomBreakpoint {
 		const eventTargets =
 			target === undefined
 				? "*"
 				: typeof target === "string"
-					? [target]
-					: target;
+				  ? [target]
+				  : target;
 		return {
 			id: "listener:" + eventName,
 			title: title || eventName,
@@ -129,7 +129,7 @@ export function customBreakpoints(): Map<string, ICustomBreakpoint> {
 					long: l10n.t(
 						'Paused on event listener breakpoint "{0}", triggered on "{1}"',
 						eventName,
-						eventTargetName
+						eventTargetName,
 					),
 				};
 			},
@@ -143,7 +143,7 @@ export function customBreakpoints(): Map<string, ICustomBreakpoint> {
 								{
 									eventName,
 									targetName: eventTarget,
-								}
+								},
 							));
 					else
 						result =
@@ -152,7 +152,7 @@ export function customBreakpoints(): Map<string, ICustomBreakpoint> {
 								{
 									eventName,
 									targetName: eventTarget,
-								}
+								},
 							));
 				}
 				return result;
@@ -163,19 +163,19 @@ export function customBreakpoints(): Map<string, ICustomBreakpoint> {
 	g(`Ad Auction Worklet`, [
 		i(
 			"beforeBidderWorkletBiddingStart",
-			l10n.t("Bidder Bidding Phase Start")
+			l10n.t("Bidder Bidding Phase Start"),
 		),
 		i(
 			"beforeBidderWorkletReportingStart",
-			l10n.t("Bidder Reporting Phase Start")
+			l10n.t("Bidder Reporting Phase Start"),
 		),
 		i(
 			"beforeSellerWorkletScoringStart",
-			l10n.t("Seller Scoring Phase Start")
+			l10n.t("Seller Scoring Phase Start"),
 		),
 		i(
 			"beforeSellerWorkletReportingStart",
-			l10n.t("Seller Reporting Phase Start")
+			l10n.t("Seller Reporting Phase Start"),
 		),
 	]);
 	g(`Animation`, [
@@ -323,7 +323,7 @@ export function customBreakpoints(): Map<string, ICustomBreakpoint> {
 		i("scriptFirstStatement", l10n.t("Script First Statement")),
 		i(
 			"scriptBlockedByCSP",
-			l10n.t("Script Blocked by Content Security Policy")
+			l10n.t("Script Blocked by Content Security Policy"),
 		),
 	]);
 	g(`Timer`, [

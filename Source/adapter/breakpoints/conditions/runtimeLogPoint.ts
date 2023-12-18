@@ -3,8 +3,8 @@
  *--------------------------------------------------------*/
 
 import { IBreakpointCondition } from ".";
-import { PreparedCallFrameExpr } from "../../evaluator";
 import Cdp from "../../../cdp/api";
+import { PreparedCallFrameExpr } from "../../evaluator";
 
 /**
  * A logpoint that requires being paused and running a custom expression to

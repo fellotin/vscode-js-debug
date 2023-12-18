@@ -35,7 +35,7 @@ export class CascadeTerminationTracker implements IExtensionContribution {
 						vscode.debug.stopDebugging(session);
 					}
 				}
-			})
+			}),
 		);
 	}
 }

@@ -19,7 +19,7 @@ export abstract class BaseProcessTree implements IProcessTree {
 	 * @inheritdoc
 	 */
 	public abstract getWorkingDirectory(
-		processId: number
+		processId: number,
 	): Promise<string | undefined>;
 
 	/**
@@ -27,7 +27,7 @@ export abstract class BaseProcessTree implements IProcessTree {
 	 */
 	public lookup<T>(
 		onEntry: (process: IProcess, accumulator: T) => T,
-		value: T
+		value: T,
 	): Promise<T> {
 		return new Promise((resolve, reject) => {
 			const proc = this.createProcess();
@@ -35,7 +35,7 @@ export abstract class BaseProcessTree implements IProcessTree {
 
 			proc.on("error", reject);
 			proc.stderr.on("error", (data) =>
-				reject(`Error finding processes: ${data.toString()}`)
+				reject(`Error finding processes: ${data.toString()}`),
 			);
 			proc.stdout.pipe(split2(/\r?\n/)).on("data", (line) => {
 				const process = parser(line);
@@ -49,11 +49,11 @@ export abstract class BaseProcessTree implements IProcessTree {
 					resolve(value);
 				} else if (signal) {
 					reject(
-						new Error(`process terminated with signal: ${signal}`)
+						new Error(`process terminated with signal: ${signal}`),
 					);
 				} else if (code) {
 					reject(
-						new Error(`process terminated with exit code: ${code}`)
+						new Error(`process terminated with exit code: ${code}`),
 					);
 				}
 			});

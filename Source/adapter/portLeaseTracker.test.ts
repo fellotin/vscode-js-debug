@@ -21,7 +21,7 @@ describe("PortLeaseTracker", () => {
 			await Promise.race([
 				l.isRegistered(1000),
 				delay(5).then(() => "error"),
-			])
+			]),
 		).to.be.false;
 	});
 

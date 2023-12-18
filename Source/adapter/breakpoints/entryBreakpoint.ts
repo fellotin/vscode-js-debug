@@ -22,7 +22,7 @@ export class EntryBreakpoint extends Breakpoint {
 	constructor(
 		manager: BreakpointManager,
 		source: Dap.Source,
-		private readonly mode: EntryBreakpointMode
+		private readonly mode: EntryBreakpointMode,
 	) {
 		super(manager, source, { lineNumber: 1, columnNumber: 1 });
 	}
@@ -38,14 +38,14 @@ export class EntryBreakpoint extends Breakpoint {
 
 		const key = EntryBreakpoint.getModeKeyForSource(
 			this.mode,
-			this.source.path
+			this.source.path,
 		);
 		return this.mode === EntryBreakpointMode.Greedy
 			? super._setByUrlRegexp(
 					thread,
 					escapeRegexSpecialChars(key),
-					lineColumn
-				)
+					lineColumn,
+			  )
 			: super._setByPath(thread, lineColumn);
 	}
 }

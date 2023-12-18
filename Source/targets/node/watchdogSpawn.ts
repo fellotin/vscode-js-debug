@@ -70,7 +70,7 @@ export type WatchdogTarget = Cdp.Target.TargetInfo & {
 	processInspectorPort: number;
 };
 
-const enum Method {
+enum Method {
 	AttachToTarget = "Target.attachToTarget",
 	DetachFromTarget = "Target.detachFromTarget",
 }
@@ -112,7 +112,7 @@ export class WatchDog implements IDisposable {
 	public static async attach(info: IWatchdogInfo) {
 		const pipe: net.Socket = await new Promise((resolve, reject) => {
 			const cnx: net.Socket = net.createConnection(info.ipcAddress, () =>
-				resolve(cnx)
+				resolve(cnx),
 			);
 			cnx.on("error", reject);
 		});
@@ -123,7 +123,7 @@ export class WatchDog implements IDisposable {
 
 	constructor(
 		private readonly info: IWatchdogInfo,
-		private readonly server: ITransport
+		private readonly server: ITransport,
 	) {
 		this.listenToServer();
 	}
@@ -138,7 +138,7 @@ export class WatchDog implements IDisposable {
 			JSON.stringify({
 				method: "Target.targetCreated",
 				params: { targetInfo },
-			})
+			}),
 		);
 		server.onMessage(async ([data]) => {
 			// Fast-path to check if we might need to parse it:
@@ -215,7 +215,7 @@ export class WatchDog implements IDisposable {
 		const target = await WebSocketTransport.create(
 			this.info.inspectorURL,
 			this.cts.token,
-			this.info.remoteHostHeader
+			this.info.remoteHostHeader,
 		);
 		target.onMessage(([data]) => this.server.send(data));
 		target.onEnd(() => {
@@ -228,7 +228,7 @@ export class WatchDog implements IDisposable {
 							targetId: this.targetInfo.targetId,
 							sessionId: this.targetInfo.targetId,
 						},
-					})
+					}),
 				);
 			}
 

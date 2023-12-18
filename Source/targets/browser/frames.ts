@@ -2,9 +2,9 @@
  * Copyright (C) Microsoft Corporation. All rights reserved.
  *--------------------------------------------------------*/
 
-import Cdp from "../../cdp/api";
-import { URL } from "url";
 import * as path from "path";
+import { URL } from "url";
+import Cdp from "../../cdp/api";
 import { EventEmitter } from "../../common/events";
 
 export class FrameModel {
@@ -25,7 +25,7 @@ export class FrameModel {
 			this._processCachedResources(
 				cdp,
 				result ? result.frameTree : undefined,
-				targetId
+				targetId,
 			);
 		});
 	}
@@ -37,21 +37,21 @@ export class FrameModel {
 	_processCachedResources(
 		cdp: Cdp.Api,
 		mainFramePayload: Cdp.Page.FrameResourceTree | undefined,
-		targetId: Cdp.Target.TargetID
+		targetId: Cdp.Target.TargetID,
 	) {
 		if (mainFramePayload)
 			this._addFramesRecursively(
 				cdp,
 				mainFramePayload,
 				mainFramePayload.frame.parentId,
-				targetId
+				targetId,
 			);
 		cdp.Page.on("frameAttached", (event) => {
 			this._frameAttached(
 				cdp,
 				targetId,
 				event.frameId,
-				event.parentFrameId
+				event.parentFrameId,
 			);
 		});
 		cdp.Page.on("frameNavigated", (event) => {
@@ -65,7 +65,7 @@ export class FrameModel {
 	_addFrame(
 		cdp: Cdp.Api,
 		frameId: Cdp.Page.FrameId,
-		parentFrameId?: Cdp.Page.FrameId
+		parentFrameId?: Cdp.Page.FrameId,
 	): Frame {
 		const frame = new Frame(this, cdp, frameId, parentFrameId);
 		this._frames.set(frame.id, frame);
@@ -78,7 +78,7 @@ export class FrameModel {
 		cdp: Cdp.Api,
 		targetId: Cdp.Target.TargetID,
 		frameId: Cdp.Page.FrameId,
-		parentFrameId: Cdp.Page.FrameId | undefined
+		parentFrameId: Cdp.Page.FrameId | undefined,
 	): Frame {
 		let frame = this._frames.get(frameId);
 		if (!frame) frame = this._addFrame(cdp, frameId, parentFrameId);
@@ -89,7 +89,7 @@ export class FrameModel {
 	_frameNavigated(
 		cdp: Cdp.Api,
 		targetId: Cdp.Target.TargetID,
-		framePayload: Cdp.Page.Frame
+		framePayload: Cdp.Page.Frame,
 	) {
 		let frame = this._frames.get(framePayload.id);
 		if (!frame) {
@@ -98,7 +98,7 @@ export class FrameModel {
 				cdp,
 				targetId,
 				framePayload.id,
-				framePayload.parentId
+				framePayload.parentId,
 			);
 		}
 		frame._navigate(framePayload, targetId);
@@ -108,7 +108,7 @@ export class FrameModel {
 	_frameDetached(
 		cdp: Cdp.Api,
 		targetId: Cdp.Target.TargetID,
-		frameId: Cdp.Page.FrameId
+		frameId: Cdp.Page.FrameId,
 	) {
 		const frame = this._frames.get(frameId);
 		if (!frame) return;
@@ -127,7 +127,7 @@ export class FrameModel {
 		cdp: Cdp.Api,
 		frameTreePayload: Cdp.Page.FrameResourceTree,
 		parentFrameId: Cdp.Page.FrameId | undefined,
-		targetId: Cdp.Target.TargetID
+		targetId: Cdp.Target.TargetID,
 	) {
 		const framePayload = frameTreePayload.frame;
 		let frame = this._frames.get(framePayload.id);
@@ -148,7 +148,7 @@ export class FrameModel {
 				cdp,
 				frameTreePayload.childFrames[i],
 				frame.id,
-				targetId
+				targetId,
 			);
 	}
 }
@@ -169,7 +169,7 @@ export class Frame {
 		model: FrameModel,
 		cdp: Cdp.Api,
 		frameId: Cdp.Page.FrameId,
-		parentFrameId?: Cdp.Page.FrameId
+		parentFrameId?: Cdp.Page.FrameId,
 	) {
 		this.cdp = cdp;
 		this.model = model;

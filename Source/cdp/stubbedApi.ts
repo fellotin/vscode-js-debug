@@ -37,10 +37,10 @@ export const stubbedCdpApi = (): StubCdpApi => {
 
 							return s;
 						},
-					}
+					},
 				);
 			},
-		}
+		},
 	) as StubCdpApi;
 
 	return proxy;

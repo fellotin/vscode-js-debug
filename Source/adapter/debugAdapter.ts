@@ -64,7 +64,7 @@ export class DebugAdapter implements IDisposable {
 		dap: Dap.Api,
 		private readonly asyncStackPolicy: IAsyncStackPolicy,
 		private readonly launchConfig: AnyLaunchConfiguration,
-		private readonly _services: Container
+		private readonly _services: Container,
 	) {
 		this._configurationDoneDeferred = getDeferred();
 
@@ -80,7 +80,7 @@ export class DebugAdapter implements IDisposable {
 		telemetry.onFlush(() => {
 			telemetry.report(
 				"breakpointStats",
-				this.breakpointManager.statisticsForTelemetry()
+				this.breakpointManager.statisticsForTelemetry(),
 			);
 			telemetry.report("statistics", this.sourceContainer.statistics());
 		});
@@ -88,20 +88,20 @@ export class DebugAdapter implements IDisposable {
 		this.dap = dap;
 		this.dap.on("initialize", (params) => this.onInitialize(params));
 		this.dap.on("setBreakpoints", (params) =>
-			this._onSetBreakpoints(params)
+			this._onSetBreakpoints(params),
 		);
 		this.dap.on("setExceptionBreakpoints", (params) =>
-			this.setExceptionBreakpoints(params)
+			this.setExceptionBreakpoints(params),
 		);
 		this.dap.on("configurationDone", () => this.configurationDone());
 		this.dap.on("loadedSources", () => this._onLoadedSources());
 		this.dap.on("disableSourcemap", (params) =>
-			this._onDisableSourcemap(params)
+			this._onDisableSourcemap(params),
 		);
 		this.dap.on("source", (params) => this._onSource(params));
 		this.dap.on("threads", () => this._onThreads());
 		this.dap.on("stackTrace", (params) =>
-			this._withThread((thread) => thread.stackTrace(params))
+			this._withThread((thread) => thread.stackTrace(params)),
 		);
 		this.dap.on("variables", (params) => this._onVariables(params));
 		this.dap.on("readMemory", (params) => this._onReadMemory(params));
@@ -109,94 +109,94 @@ export class DebugAdapter implements IDisposable {
 		this.dap.on("setVariable", (params) => this._onSetVariable(params));
 		this.dap.on("setExpression", (params) => this._onSetExpression(params));
 		this.dap.on("continue", () =>
-			this._withThread((thread) => thread.resume())
+			this._withThread((thread) => thread.resume()),
 		);
 		this.dap.on("pause", () =>
-			this._withThread((thread) => thread.pause())
+			this._withThread((thread) => thread.pause()),
 		);
 		this.dap.on("next", () =>
-			this._withThread((thread) => thread.stepOver())
+			this._withThread((thread) => thread.stepOver()),
 		);
 		this.dap.on("stepIn", (params) =>
-			this._withThread((thread) => thread.stepInto(params.targetId))
+			this._withThread((thread) => thread.stepInto(params.targetId)),
 		);
 		this.dap.on("stepOut", () =>
-			this._withThread((thread) => thread.stepOut())
+			this._withThread((thread) => thread.stepOut()),
 		);
 		this.dap.on("restartFrame", (params) =>
-			this._withThread((thread) => thread.restartFrame(params))
+			this._withThread((thread) => thread.restartFrame(params)),
 		);
 		this.dap.on("scopes", (params) =>
-			this._withThread((thread) => thread.scopes(params))
+			this._withThread((thread) => thread.scopes(params)),
 		);
 		this.dap.on("evaluate", (params) => this.onEvaluate(params));
 		this.dap.on("completions", (params) =>
-			this._withThread((thread) => thread.completions(params))
+			this._withThread((thread) => thread.completions(params)),
 		);
 		this.dap.on("exceptionInfo", () =>
-			this._withThread((thread) => thread.exceptionInfo())
+			this._withThread((thread) => thread.exceptionInfo()),
 		);
 		this.dap.on("setCustomBreakpoints", (params) =>
-			this.setCustomBreakpoints(params)
+			this.setCustomBreakpoints(params),
 		);
 		this.dap.on("toggleSkipFileStatus", (params) =>
-			this._toggleSkipFileStatus(params)
+			this._toggleSkipFileStatus(params),
 		);
 		this.dap.on("toggleSkipFileStatus", (params) =>
-			this._toggleSkipFileStatus(params)
+			this._toggleSkipFileStatus(params),
 		);
 		this.dap.on("prettyPrintSource", (params) =>
-			this._prettyPrintSource(params)
+			this._prettyPrintSource(params),
 		);
 		this.dap.on("revealPage", () =>
-			this._withThread((thread) => thread.revealPage())
+			this._withThread((thread) => thread.revealPage()),
 		);
 		this.dap.on("getPerformance", () =>
 			this._withThread((thread) =>
-				performanceProvider.retrieve(thread.cdp())
-			)
+				performanceProvider.retrieve(thread.cdp()),
+			),
 		);
 		this.dap.on("breakpointLocations", (params) =>
-			this._breakpointLocations(params)
+			this._breakpointLocations(params),
 		);
 		this.dap.on("createDiagnostics", (params) =>
-			this._dumpDiagnostics(params)
+			this._dumpDiagnostics(params),
 		);
 		this.dap.on("requestCDPProxy", () => this._requestCDPProxy());
 		this.dap.on("setExcludedCallers", (params) =>
-			this._onSetExcludedCallers(params)
+			this._onSetExcludedCallers(params),
 		);
 		this.dap.on("saveDiagnosticLogs", ({ toFile }) =>
-			this._saveDiagnosticLogs(toFile)
+			this._saveDiagnosticLogs(toFile),
 		);
 		this.dap.on("setSourceMapStepping", (params) =>
-			this._setSourceMapStepping(params)
+			this._setSourceMapStepping(params),
 		);
 		this.dap.on("stepInTargets", (params) => this._stepInTargets(params));
 		this.dap.on("setDebuggerProperty", (params) =>
-			this._setDebuggerProperty(params)
+			this._setDebuggerProperty(params),
 		);
 		this.dap.on("setSymbolOptions", (params) =>
-			this._setSymbolOptions(params)
+			this._setSymbolOptions(params),
 		);
 	}
 
 	private _setDebuggerProperty(
-		params: Dap.SetDebuggerPropertyParams
+		params: Dap.SetDebuggerPropertyParams,
 	): Promise<Dap.SetDebuggerPropertyResult> {
 		this._thread?.cdp().DotnetDebugger.setDebuggerProperty(params);
 		return Promise.resolve({});
 	}
 
 	private _setSymbolOptions(
-		params: Dap.SetSymbolOptionsParams
+		params: Dap.SetSymbolOptionsParams,
 	): Promise<Dap.SetSymbolOptionsResult> {
 		this._thread?.cdp().DotnetDebugger.setSymbolOptions(params);
 		return Promise.resolve({});
 	}
 
 	private _breakpointLocations(
-		params: Dap.BreakpointLocationsParams
+		params: Dap.BreakpointLocationsParams,
 	): Promise<Dap.BreakpointLocationsResult> {
 		return this._withThread(async (thread) => {
 			const source = this.sourceContainer.source(params.source);
@@ -211,14 +211,14 @@ export class DebugAdapter implements IDisposable {
 					new Base1Position(params.line, params.column || 1),
 					new Base1Position(
 						params.endLine || params.line + 1,
-						params.endColumn || params.column || 1
-					)
+						params.endColumn || params.column || 1,
+					),
 				);
 
 			return {
 				breakpoints: possibleBps
 					.map((bp) =>
-						bp.uiLocations.find((l) => l.source === source)
+						bp.uiLocations.find((l) => l.source === source),
 					)
 					.filter(truthy)
 					.map((bp) => ({
@@ -230,7 +230,7 @@ export class DebugAdapter implements IDisposable {
 	}
 
 	private _stepInTargets(
-		params: Dap.StepInTargetsParams
+		params: Dap.StepInTargetsParams,
 	): Promise<Dap.StepInTargetsResult> {
 		return this._withThread(async (thread) => ({
 			targets: await thread.getStepInTargets(params.frameId),
@@ -245,7 +245,7 @@ export class DebugAdapter implements IDisposable {
 	}
 
 	private async _saveDiagnosticLogs(
-		toFile: string
+		toFile: string,
 	): Promise<Dap.SaveDiagnosticLogsResult> {
 		const logs = this._services.get<ILogger>(ILogger).getRecentLogs();
 		await this._services
@@ -270,7 +270,7 @@ export class DebugAdapter implements IDisposable {
 	}
 
 	public async onInitialize(
-		params: Dap.InitializeParams
+		params: Dap.InitializeParams,
 	): Promise<Dap.InitializeResult | Dap.Error> {
 		console.assert(params.linesStartAt1);
 		console.assert(params.columnsStartAt1);
@@ -296,7 +296,7 @@ export class DebugAdapter implements IDisposable {
 					default: false,
 					supportsCondition: true,
 					description: l10n.t(
-						"Breaks on all throw errors, even if they're caught later."
+						"Breaks on all throw errors, even if they're caught later.",
 					),
 					conditionDescription: `error.name == "MyError"`,
 				},
@@ -306,7 +306,7 @@ export class DebugAdapter implements IDisposable {
 					default: false,
 					supportsCondition: true,
 					description: l10n.t(
-						"Breaks only on errors or promise rejections that are not handled."
+						"Breaks only on errors or promise rejections that are not handled.",
 					),
 					conditionDescription: `error.name == "MyError"`,
 				},
@@ -344,16 +344,16 @@ export class DebugAdapter implements IDisposable {
 	}
 
 	private async _onSetBreakpoints(
-		params: Dap.SetBreakpointsParams
+		params: Dap.SetBreakpointsParams,
 	): Promise<Dap.SetBreakpointsResult | Dap.Error> {
 		return this.breakpointManager.setBreakpoints(
 			params,
-			params.breakpoints?.map(() => this.breakpointIdCounter()) ?? []
+			params.breakpoints?.map(() => this.breakpointIdCounter()) ?? [],
 		);
 	}
 
 	async setExceptionBreakpoints(
-		params: Dap.SetExceptionBreakpointsParams
+		params: Dap.SetExceptionBreakpointsParams,
 	): Promise<Dap.SetExceptionBreakpointsResult> {
 		await this._services
 			.get<IExceptionPauseService>(IExceptionPauseService)
@@ -383,7 +383,7 @@ export class DebugAdapter implements IDisposable {
 		for (const compiled of source.compiledToSourceUrl.keys()) {
 			this.sourceContainer.disableSourceMapForSource(
 				compiled,
-				/* permanent= */ true
+				/* permanent= */ true,
 			);
 		}
 
@@ -393,14 +393,14 @@ export class DebugAdapter implements IDisposable {
 	}
 
 	async _onSource(
-		params: Dap.SourceParams
+		params: Dap.SourceParams,
 	): Promise<Dap.SourceResult | Dap.Error> {
 		if (!params.source) {
 			params.source = { sourceReference: params.sourceReference };
 		}
 
 		params.source.path = urlUtils.platformPathToPreferredCase(
-			params.source.path
+			params.source.path,
 		);
 		const source = this.sourceContainer.source(params.source);
 		if (!source) {
@@ -414,7 +414,7 @@ export class DebugAdapter implements IDisposable {
 			}
 
 			return errors.createSilentError(
-				l10n.t("Unable to retrieve source content")
+				l10n.t("Unable to retrieve source content"),
 			);
 		}
 
@@ -446,20 +446,20 @@ export class DebugAdapter implements IDisposable {
 	}
 
 	async _onVariables(
-		params: Dap.VariablesParams
+		params: Dap.VariablesParams,
 	): Promise<Dap.VariablesResult> {
 		const variableStore = this.findVariableStore((v) =>
-			v.hasVariable(params.variablesReference)
+			v.hasVariable(params.variablesReference),
 		);
 		return { variables: (await variableStore?.getVariables(params)) ?? [] };
 	}
 
 	async _onReadMemory(
-		params: Dap.ReadMemoryParams
+		params: Dap.ReadMemoryParams,
 	): Promise<Dap.ReadMemoryResult> {
 		const ref = params.memoryReference;
 		const memory = await this.findVariableStore((v) =>
-			v.hasMemory(ref)
+			v.hasMemory(ref),
 		)?.readMemory(ref, params.offset ?? 0, params.count);
 		if (!memory) {
 			return { address: "0", unreadableBytes: params.count };
@@ -473,21 +473,21 @@ export class DebugAdapter implements IDisposable {
 	}
 
 	async _onWriteMemory(
-		params: Dap.WriteMemoryParams
+		params: Dap.WriteMemoryParams,
 	): Promise<Dap.WriteMemoryResult> {
 		const ref = params.memoryReference;
 		const bytesWritten = await this.findVariableStore((v) =>
-			v.hasMemory(ref)
+			v.hasMemory(ref),
 		)?.writeMemory(
 			ref,
 			params.offset ?? 0,
-			Buffer.from(params.data, "base64")
+			Buffer.from(params.data, "base64"),
 		);
 		return { bytesWritten };
 	}
 
 	async _onSetExpression(
-		params: Dap.SetExpressionParams
+		params: Dap.SetExpressionParams,
 	): Promise<Dap.SetExpressionResult> {
 		if (!this._thread) {
 			throw new ProtocolError(errors.threadNotAvailable());
@@ -495,7 +495,7 @@ export class DebugAdapter implements IDisposable {
 
 		const r = await this._thread.evaluate({
 			expression: `${params.expression} = ${sourceUtils.wrapObjectLiteral(
-				params.value
+				params.value,
 			)}`,
 			context: "repl",
 			frameId: params.frameId,
@@ -512,10 +512,10 @@ export class DebugAdapter implements IDisposable {
 	}
 
 	async _onSetVariable(
-		params: Dap.SetVariableParams
+		params: Dap.SetVariableParams,
 	): Promise<Dap.SetVariableResult | Dap.Error> {
 		const variableStore = this.findVariableStore((v) =>
-			v.hasVariable(params.variablesReference)
+			v.hasVariable(params.variablesReference),
 		);
 		if (!variableStore)
 			return errors.createSilentError(l10n.t("Variable not found"));
@@ -552,7 +552,7 @@ export class DebugAdapter implements IDisposable {
 			this._services.get(IConsole),
 			this._services.get(IExceptionPauseService),
 			this._services.get(SmartStepper),
-			this._services.get(IShutdownParticipants)
+			this._services.get(IShutdownParticipants),
 		);
 
 		const profile =
@@ -569,7 +569,7 @@ export class DebugAdapter implements IDisposable {
 
 		this._thread.updateCustomBreakpoints(
 			this._xhrBreakpoints,
-			this._customBreakpoints
+			this._customBreakpoints,
 		);
 
 		this.asyncStackPolicy
@@ -578,7 +578,7 @@ export class DebugAdapter implements IDisposable {
 			.catch((err) =>
 				this._services
 					.get<ILogger>(ILogger)
-					.error(LogTag.Internal, "Error enabling async stacks", err)
+					.error(LogTag.Internal, "Error enabling async stacks", err),
 			);
 
 		this.breakpointManager.setThread(this._thread);
@@ -599,7 +599,7 @@ export class DebugAdapter implements IDisposable {
 	}
 
 	async _toggleSkipFileStatus(
-		params: Dap.ToggleSkipFileStatusParams
+		params: Dap.ToggleSkipFileStatusParams,
 	): Promise<Dap.ToggleSkipFileStatusResult | Dap.Error> {
 		await this._services
 			.get<ScriptSkipper>(IScriptSkipper)
@@ -609,14 +609,14 @@ export class DebugAdapter implements IDisposable {
 	}
 
 	async _prettyPrintSource(
-		params: Dap.PrettyPrintSourceParams
+		params: Dap.PrettyPrintSourceParams,
 	): Promise<Dap.PrettyPrintSourceResult | Dap.Error> {
 		if (!params.source || !this._thread) {
 			return { canPrettyPrint: false };
 		}
 
 		params.source.path = urlUtils.platformPathToPreferredCase(
-			params.source.path
+			params.source.path,
 		);
 		const source = this.sourceContainer.source(params.source);
 		if (!source) {
@@ -634,7 +634,7 @@ export class DebugAdapter implements IDisposable {
 			this._thread,
 			source,
 			sourceMap,
-			generated
+			generated,
 		);
 		this.sourceContainer.clearDisabledSourceMaps(source as ISourceWithMap);
 		await this._refreshStackTrace();

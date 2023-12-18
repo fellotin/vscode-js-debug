@@ -2,8 +2,8 @@
  * Copyright (C) Microsoft Corporation. All rights reserved.
  *--------------------------------------------------------*/
 
+import { WriteStream, createWriteStream } from "fs";
 import * as l10n from "@vscode/l10n";
-import { createWriteStream, WriteStream } from "fs";
 import { inject, injectable } from "inversify";
 import { IProfile, IProfiler, StartProfileParams } from ".";
 import Cdp from "../../cdp/api";
@@ -19,7 +19,7 @@ export class HeapDumpProfiler implements IProfiler<void> {
 	public static readonly extension = ".heapsnapshot";
 	public static readonly label = l10n.t("Heap Snapshot");
 	public static readonly description = l10n.t(
-		"Generates a .heapsnapshot file you can open in the Chrome devtools"
+		"Generates a .heapsnapshot file you can open in the Chrome devtools",
 	);
 	public static readonly instant = true;
 
@@ -44,7 +44,7 @@ export class HeapDumpProfiler implements IProfiler<void> {
 	 */
 	public async start(
 		_options: StartProfileParams<void>,
-		file: string
+		file: string,
 	): Promise<IProfile> {
 		return {
 			onStop: new EventEmitter<void>().event,

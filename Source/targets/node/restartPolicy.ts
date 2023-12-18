@@ -71,7 +71,7 @@ class StaticRestartPolicy implements IRestartPolicy {
 
 	constructor(
 		private readonly options: IStaticRestartOptions,
-		private readonly attempt = 0
+		private readonly attempt = 0,
 	) {}
 
 	public next() {

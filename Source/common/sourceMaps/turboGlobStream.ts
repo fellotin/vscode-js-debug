@@ -2,9 +2,9 @@
  * Copyright (C) Microsoft Corporation. All rights reserved.
  *--------------------------------------------------------*/
 
-import { Dirent, promises as fs, Stats } from "fs";
-import micromatch from "micromatch";
+import { Dirent, Stats, promises as fs } from "fs";
 import { isAbsolute, relative, sep } from "path";
+import micromatch from "micromatch";
 import toAbsGlob from "to-absolute-glob";
 import { EventEmitter } from "../events";
 import { memoize } from "../objUtils";
@@ -31,7 +31,7 @@ interface ITokensContext {
 
 export type FileProcessorFn<T> = (
 	path: string,
-	metadata: { siblings: readonly string[]; mtime: number }
+	metadata: { siblings: readonly string[]; mtime: number },
 ) => Promise<T>;
 
 export interface ITurboGlobStreamOptions<E> {
@@ -61,7 +61,7 @@ export class TurboGlobStream<E> {
 
 	private readonly stat = memoize((path: string) => fs.lstat(path));
 	private readonly readdir = memoize((path: string) =>
-		fs.readdir(path, { withFileTypes: true })
+		fs.readdir(path, { withFileTypes: true }),
 	);
 	private readonly alreadyProcessedFiles = new Set<
 		CacheTree<IGlobCached<E>>
@@ -85,8 +85,8 @@ export class TurboGlobStream<E> {
 		// ignore will get matched against the full file path, so ensure it's absolute
 		this.ignore = opts.ignore.map((i) =>
 			micromatch.matcher(
-				toAbsGlob(forceForwardSlashes(i), { cwd: opts.cwd })
-			)
+				toAbsGlob(forceForwardSlashes(i), { cwd: opts.cwd }),
+			),
 		);
 
 		// pattern is parsed and then built on the cwd, so ensure it's relative
@@ -128,8 +128,8 @@ export class TurboGlobStream<E> {
 										.slice(i, nextSlash)
 										.map((t) => t.output || t.value)
 										.join("") +
-									"$"
-							)
+									"$",
+							),
 						);
 					}
 
@@ -142,10 +142,10 @@ export class TurboGlobStream<E> {
 				const ctx = { elements: tokens, seen: new Set<string>() };
 				return Promise.all(
 					depths.map((d) =>
-						this.readSomething(ctx, d, opts.cwd, [], cacheEntry)
-					)
+						this.readSomething(ctx, d, opts.cwd, [], cacheEntry),
+					),
 				);
-			})
+			}),
 		).then(() => undefined);
 	}
 
@@ -158,7 +158,7 @@ export class TurboGlobStream<E> {
 		ti: number,
 		path: string,
 		siblings: readonly string[],
-		cache: CacheTree<IGlobCached<E>>
+		cache: CacheTree<IGlobCached<E>>,
 	) {
 		// Skip already processed files, since we might see them twice during glob stars.
 		if (this.alreadyProcessedFiles.has(cache)) {
@@ -208,8 +208,8 @@ export class TurboGlobStream<E> {
 									path,
 									{ name, type: child.data.type },
 									siblings,
-									cache
-								)
+									cache,
+							  )
 							: this.stat(path).then(
 									(stat) =>
 										this.handleDirectoryEntry(
@@ -223,10 +223,10 @@ export class TurboGlobStream<E> {
 													: CachedType.Directory,
 											},
 											siblings,
-											cache
+											cache,
 										),
-									() => undefined
-								)
+									() => undefined,
+							  ),
 					);
 				}
 				await Promise.all(todo);
@@ -249,7 +249,7 @@ export class TurboGlobStream<E> {
 	private applyFilterToFile(
 		name: string,
 		path: string,
-		parentCache: CacheTree<IGlobCached<E>>
+		parentCache: CacheTree<IGlobCached<E>>,
 	) {
 		const child = parentCache.children[name];
 		if (this.alreadyProcessedFiles.has(child)) {
@@ -280,7 +280,7 @@ export class TurboGlobStream<E> {
 		path: string,
 		dirent: { name: string; type: CachedType },
 		siblings: readonly string[],
-		cache: CacheTree<IGlobCached<E>>
+		cache: CacheTree<IGlobCached<E>>,
 	): unknown {
 		const nextPath = path + "/" + dirent.name;
 		const descends = this.getDirectoryReadDescends(ctx, ti, path, dirent);
@@ -304,7 +304,7 @@ export class TurboGlobStream<E> {
 				ti + descends,
 				nextPath,
 				siblings,
-				nextChild
+				nextChild,
 			);
 		} else {
 			return Promise.all(
@@ -314,9 +314,9 @@ export class TurboGlobStream<E> {
 						ti + d,
 						nextPath,
 						siblings,
-						nextChild
-					)
-				)
+						nextChild,
+					),
+				),
 			);
 		}
 	}
@@ -331,7 +331,7 @@ export class TurboGlobStream<E> {
 		ctx: ITokensContext,
 		ti: number,
 		path: string,
-		dirent: { name: string; type: CachedType }
+		dirent: { name: string; type: CachedType },
 	): undefined | number | number[] {
 		const nextPath = path + "/" + dirent.name;
 		if (this.ignore.some((i) => i(nextPath))) {
@@ -375,7 +375,7 @@ export class TurboGlobStream<E> {
 		mtime: number,
 		path: string,
 		siblings: readonly string[],
-		cache: CacheTree<IGlobCached<E>>
+		cache: CacheTree<IGlobCached<E>>,
 	) {
 		const platformPath =
 			sep === "/" ? path : path.replace(forwardSlashRe, sep);
@@ -396,7 +396,7 @@ export class TurboGlobStream<E> {
 		ti: number,
 		mtime: number,
 		path: string,
-		cache: CacheTree<IGlobCached<E>>
+		cache: CacheTree<IGlobCached<E>>,
 	) {
 		let files: Dirent[];
 		try {
@@ -429,8 +429,8 @@ export class TurboGlobStream<E> {
 					path,
 					{ name: file.name, type },
 					siblings,
-					cache
-				)
+					cache,
+				),
 			);
 		}
 
@@ -450,7 +450,7 @@ export type IGlobCached<TFileData> =
 			extracted: TFileData;
 	  };
 
-const enum CachedType {
-	Directory,
-	File,
+enum CachedType {
+	Directory = 0,
+	File = 1,
 }

@@ -14,7 +14,7 @@ export const fsModule = fs;
  */
 export async function canAccess(
 	{ access }: FsPromises,
-	file: string | undefined | null
+	file: string | undefined | null,
 ) {
 	if (!file) {
 		return false;
@@ -31,7 +31,7 @@ export async function canAccess(
 export async function copyFile(
 	fs: FsPromises,
 	fromPath: string,
-	toPath: string
+	toPath: string,
 ) {
 	// Beautiful try-catch's. First try to copy the file simply, if that fails see
 	// if it exists, and if so delete and re-copy it. This fixes a NixOS issue, #1057
@@ -56,7 +56,7 @@ export async function copyFile(
  */
 export async function existsInjected(
 	{ stat }: FsPromises,
-	file: string | undefined | null
+	file: string | undefined | null,
 ): Promise<fs.Stats | undefined> {
 	if (!file) {
 		return;
@@ -74,7 +74,7 @@ export async function existsInjected(
  */
 export async function existsWithoutDeref(
 	{ lstat }: FsPromises,
-	file: string | undefined | null
+	file: string | undefined | null,
 ): Promise<fs.Stats | undefined> {
 	if (!file) {
 		return;
@@ -93,7 +93,7 @@ export async function existsWithoutDeref(
 export async function moveFile(
 	{ copyFile, rename, unlink }: FsPromises,
 	src: string,
-	dest: string
+	dest: string,
 ) {
 	try {
 		await rename(src, dest);
@@ -210,20 +210,20 @@ export class LocalAndRemoteFsUtils implements IFsUtils {
 	private constructor(
 		private readonly remoteFilePrefix: string,
 		private readonly localFsUtils: IFsUtils,
-		private readonly remoteFsUtils: IFsUtils
+		private readonly remoteFsUtils: IFsUtils,
 	) {}
 
 	public static create(
 		remoteFilePrefix: string | undefined,
 		fsPromises: FsPromises,
-		dap: Dap.Api
+		dap: Dap.Api,
 	): IFsUtils {
 		const localFsUtils = new LocalFsUtils(fsPromises);
 		if (remoteFilePrefix !== undefined) {
 			return new this(
 				remoteFilePrefix.toLowerCase(),
 				localFsUtils,
-				new RemoteFsThroughDapUtils(dap)
+				new RemoteFsThroughDapUtils(dap),
 			);
 		} else {
 			return localFsUtils;

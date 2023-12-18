@@ -13,7 +13,7 @@ import { once } from "../common/objUtils";
 @injectable()
 export class SettingRequestOptionsProvider implements IRequestOptionsProvider {
 	private readonly read = once(() =>
-		readConfig(workspace, Configuration.ResourceRequestOptions)
+		readConfig(workspace, Configuration.ResourceRequestOptions),
 	);
 
 	/**
@@ -22,7 +22,7 @@ export class SettingRequestOptionsProvider implements IRequestOptionsProvider {
 	public provideOptions(obj: OptionsOfTextResponseBody) {
 		mergeOptions(
 			obj,
-			(this.read() || {}) as Partial<OptionsOfTextResponseBody>
+			(this.read() || {}) as Partial<OptionsOfTextResponseBody>,
 		);
 	}
 }

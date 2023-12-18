@@ -16,14 +16,14 @@ import { isSourceWithMap } from "./source";
 import { UnmappedReason } from "./sourceContainer";
 import { StackFrame } from "./stackTrace";
 
-export const enum StackFrameStepOverReason {
-	NotStepped,
-	SmartStep,
-	Blackboxed,
+export enum StackFrameStepOverReason {
+	NotStepped = 0,
+	SmartStep = 1,
+	Blackboxed = 2,
 }
 
 export async function shouldStepOverStackFrame(
-	stackFrame: StackFrame
+	stackFrame: StackFrame,
 ): Promise<StackFrameStepOverReason> {
 	const uiLocation = await stackFrame.uiLocation();
 	if (!uiLocation) {
@@ -74,7 +74,7 @@ export class SmartStepper {
 		if (this._smartStepCount > 0) {
 			this.logger.verbose(
 				LogTag.Internal,
-				`smartStep: skipped ${this._smartStepCount} steps`
+				`smartStep: skipped ${this._smartStepCount} steps`,
 			);
 			this._smartStepCount = 0;
 		}
@@ -86,7 +86,7 @@ export class SmartStepper {
 	 */
 	public async getSmartStepDirection(
 		pausedDetails: IPausedDetails,
-		reason?: ExpectedPauseReason
+		reason?: ExpectedPauseReason,
 	): Promise<StepDirection | undefined> {
 		if (!this.launchConfig.smartStep) {
 			return;
@@ -97,7 +97,7 @@ export class SmartStepper {
 		}
 
 		const frame = (await pausedDetails.stackTrace.loadFrames(1)).find(
-			isInstanceOf(StackFrame)
+			isInstanceOf(StackFrame),
 		);
 		const should = frame && (await shouldStepOverStackFrame(frame));
 		if (should === StackFrameStepOverReason.NotStepped) {

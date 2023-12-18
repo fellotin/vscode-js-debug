@@ -41,7 +41,7 @@ export interface IExceptionPauseService {
 
 export const IExceptionPauseService = Symbol("IExceptionPauseService");
 
-export const enum PauseOnExceptionsState {
+export enum PauseOnExceptionsState {
 	None = "none",
 	All = "all",
 	Uncaught = "uncaught",
@@ -131,11 +131,10 @@ export class ExceptionPauseService implements IExceptionPauseService {
 		// some internally-executed script not visible for the user. Never pause
 		// if this results in an exception: the caller should handle it.
 		if (
-			evt.callFrames.some(
-				(cf) =>
-					this.sourceContainer
-						.getSourceScriptById(cf.location.scriptId)
-						?.url.endsWith(SourceConstants.InternalExtension)
+			evt.callFrames.some((cf) =>
+				this.sourceContainer
+					.getSourceScriptById(cf.location.scriptId)
+					?.url.endsWith(SourceConstants.InternalExtension),
 			)
 		) {
 			return false;
@@ -180,11 +179,11 @@ export class ExceptionPauseService implements IExceptionPauseService {
 
 	private async evalCondition(
 		evt: Cdp.Debugger.PausedEvent,
-		method: PreparedCallFrameExpr
+		method: PreparedCallFrameExpr,
 	) {
 		const r = await method(
 			{ callFrameId: evt.callFrames[0].callFrameId },
-			{ error: evt.data }
+			{ error: evt.data },
 		);
 		return !!r?.result.value;
 	}
@@ -211,7 +210,7 @@ export class ExceptionPauseService implements IExceptionPauseService {
 		}
 
 		const script = this.sourceContainer.getScriptById(
-			evt.callFrames[0].location.scriptId
+			evt.callFrames[0].location.scriptId,
 		);
 		return !!script && this.scriptSkipper.isScriptSkipped(script.url);
 	}
@@ -221,10 +220,10 @@ export class ExceptionPauseService implements IExceptionPauseService {
 	 * handling internally.
 	 */
 	protected parseBreakpointRequest(
-		params: Dap.SetExceptionBreakpointsParams
+		params: Dap.SetExceptionBreakpointsParams,
 	): PauseOnExceptions {
 		const filters = (params.filterOptions ?? []).concat(
-			params.filters.map((filterId) => ({ filterId }))
+			params.filters.map((filterId) => ({ filterId })),
 		);
 
 		let cdp = PauseOnExceptionsState.None;
@@ -265,8 +264,8 @@ export class ExceptionPauseService implements IExceptionPauseService {
 				throw new ProtocolError(
 					invalidBreakPointCondition(
 						{ line: 0, condition: expr },
-						err.message
-					)
+						err.message,
+					),
 				);
 			}
 

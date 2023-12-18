@@ -92,18 +92,18 @@ class Reservation<T> {
 	public value: typeof unsettled | typeof rejected | T = unsettled;
 
 	constructor(rawValue: T | Promise<T>) {
-		if (!(rawValue instanceof Promise)) {
-			this.value = rawValue;
-			this.wait = Promise.resolve();
-		} else {
+		if (rawValue instanceof Promise) {
 			this.wait = rawValue.then(
 				(r) => {
 					this.value = r;
 				},
 				() => {
 					this.value = rejected;
-				}
+				},
 			);
+		} else {
+			this.value = rawValue;
+			this.wait = Promise.resolve();
 		}
 	}
 }

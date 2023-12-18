@@ -19,7 +19,7 @@ class VsCodeSessionLauncher implements ISessionLauncher<vscode.DebugSession> {
 	launch(
 		parentSession: Session<vscode.DebugSession>,
 		target: ITarget,
-		config: IPseudoAttachConfiguration
+		config: IPseudoAttachConfiguration,
 	) {
 		vscode.debug.startDebugging(
 			parentSession.debugSession.workspaceFolder,
@@ -38,7 +38,7 @@ class VsCodeSessionLauncher implements ISessionLauncher<vscode.DebugSession> {
 				lifecycleManagedByParent: target.independentLifeycle
 					? false
 					: true,
-			}
+			},
 		);
 	}
 }
@@ -55,7 +55,7 @@ export class VSCodeSessionManager
 	constructor(globalContainer: Container) {
 		this.sessionServerManager = new ServerSessionManager(
 			globalContainer,
-			new VsCodeSessionLauncher()
+			new VsCodeSessionLauncher(),
 		);
 	}
 
@@ -63,7 +63,7 @@ export class VSCodeSessionManager
 	 * @inheritdoc
 	 */
 	public async createDebugAdapterDescriptor(
-		debugSession: vscode.DebugSession
+		debugSession: vscode.DebugSession,
 	): Promise<vscode.DebugAdapterDescriptor> {
 		const useLocal = process.env.JS_DEBUG_USE_LOCAL_DAP_PORT;
 		if (useLocal) {
@@ -73,7 +73,7 @@ export class VSCodeSessionManager
 		const result =
 			await this.sessionServerManager.createDebugServer(debugSession);
 		return new vscode.DebugAdapterNamedPipeServer(
-			result.server.address() as string
+			result.server.address() as string,
 		);
 	}
 

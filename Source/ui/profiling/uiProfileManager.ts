@@ -2,10 +2,10 @@
  * Copyright (C) Microsoft Corporation. All rights reserved.
  *--------------------------------------------------------*/
 
-import * as l10n from "@vscode/l10n";
-import { inject, injectable, multiInject } from "inversify";
 import { homedir } from "os";
 import { basename, join } from "path";
+import * as l10n from "@vscode/l10n";
+import { inject, injectable, multiInject } from "inversify";
 import * as vscode from "vscode";
 import {
 	ProfilerFactory,
@@ -130,7 +130,7 @@ export class UiProfileManager implements IDisposable {
 	public async start(args: IStartProfileArguments) {
 		let maybeSession: vscode.DebugSession | undefined;
 		const candidates = [...this.tracker.getConcreteSessions()].filter(
-			isProfileCandidate
+			isProfileCandidate,
 		);
 		if (args.sessionId) {
 			maybeSession = candidates.find((s) => s.id === args.sessionId);
@@ -185,7 +185,7 @@ export class UiProfileManager implements IDisposable {
 			uiSession = this.activeSessions.get(sessionId);
 		} else {
 			const session = await this.pickSession(
-				[...this.activeSessions.values()].map((s) => s.session)
+				[...this.activeSessions.values()].map((s) => s.session),
 			);
 			uiSession = session && this.activeSessions.get(session.id);
 		}
@@ -215,7 +215,7 @@ export class UiProfileManager implements IDisposable {
 	 */
 	private registerSession(
 		uiSession: UiProfileSession,
-		onCompleteCommand?: string
+		onCompleteCommand?: string,
 	) {
 		this.activeSessions.set(uiSession.session.id, uiSession);
 		this.sessionStates.add(uiSession.session.id, l10n.t("Profiling"));
@@ -226,7 +226,7 @@ export class UiProfileManager implements IDisposable {
 					uiSession,
 					onCompleteCommand,
 					uiSession.session,
-					file
+					file,
 				);
 			}
 
@@ -245,7 +245,7 @@ export class UiProfileManager implements IDisposable {
 		uiSession: UiProfileSession,
 		onCompleteCommand: string | undefined,
 		session: vscode.DebugSession,
-		sourceFile: string
+		sourceFile: string,
 	) {
 		if (onCompleteCommand) {
 			return Promise.all([
@@ -269,7 +269,7 @@ export class UiProfileManager implements IDisposable {
 
 		await vscode.commands.executeCommand(
 			uiSession.impl.editable ? "vscode.open" : "revealInExplorer",
-			fileUri
+			fileUri,
 		);
 	}
 
@@ -286,7 +286,7 @@ export class UiProfileManager implements IDisposable {
 		if (!this.statusBarItem) {
 			this.statusBarItem = vscode.window.createStatusBarItem(
 				vscode.StatusBarAlignment.Right,
-				500
+				500,
 			);
 			this.statusBarItem.command = Commands.StopProfile;
 		}
@@ -299,14 +299,14 @@ export class UiProfileManager implements IDisposable {
 				? l10n.t(
 						"{0} Click to Stop Profiling ({1})",
 						"$(loading~spin)",
-						session.status
-					)
+						session.status,
+				  )
 				: l10n.t("{0} Click to Stop Profiling", "$(loading~spin)");
 		} else {
 			this.statusBarItem.text = l10n.t(
 				"{0} Click to Stop Profiling ({1} sessions)",
 				"$(loading~spin)",
-				this.activeSessions.size
+				this.activeSessions.size,
 			);
 		}
 
@@ -322,10 +322,10 @@ export class UiProfileManager implements IDisposable {
 		const no = l10n.t("No");
 		const stopExisting = await vscode.window.showErrorMessage(
 			l10n.t(
-				"A profiling session is already running, would you like to stop it and start a new session?"
+				"A profiling session is already running, would you like to stop it and start a new session?",
 			),
 			yes,
-			no
+			no,
 		);
 
 		if (stopExisting !== yes) {
@@ -349,7 +349,7 @@ export class UiProfileManager implements IDisposable {
 		}
 
 		const chosen = await vscode.window.showQuickPick(
-			candidates.map((c) => ({ label: c.name, id: c.id }))
+			candidates.map((c) => ({ label: c.name, id: c.id })),
 		);
 		return chosen && candidates.find((c) => c.id === chosen.id);
 	}
@@ -359,19 +359,19 @@ export class UiProfileManager implements IDisposable {
 	 */
 	private async pickType(
 		session: vscode.DebugSession,
-		suggestedType?: string
+		suggestedType?: string,
 	) {
 		const params = session.configuration as AnyLaunchConfiguration;
 		if (suggestedType) {
 			return ProfilerFactory.ctors.find(
-				(t) => t.type === suggestedType && t.canApplyTo(params)
+				(t) => t.type === suggestedType && t.canApplyTo(params),
 			);
 		}
 
 		const chosen = await this.pickWithLastDefault(
 			l10n.t("Type of profile:"),
 			ProfilerFactory.ctors.filter((ctor) => ctor.canApplyTo(params)),
-			this.lastChosenType
+			this.lastChosenType,
 		);
 		if (chosen) {
 			this.lastChosenType = chosen.label;
@@ -385,7 +385,7 @@ export class UiProfileManager implements IDisposable {
 	 */
 	private async pickTermination(
 		session: vscode.DebugSession,
-		suggested: IStartProfileArguments["termination"]
+		suggested: IStartProfileArguments["termination"],
 	) {
 		if (suggested) {
 			const s =
@@ -398,7 +398,7 @@ export class UiProfileManager implements IDisposable {
 		const chosen = await this.pickWithLastDefault(
 			l10n.t("How long to run the profile:"),
 			this.terminationConditions,
-			this.lastChosenTermination
+			this.lastChosenTermination,
 		);
 		if (chosen) {
 			this.lastChosenTermination = chosen.label;
@@ -412,7 +412,7 @@ export class UiProfileManager implements IDisposable {
 	>(
 		title: string,
 		items: ReadonlyArray<T>,
-		lastLabel?: string
+		lastLabel?: string,
 	): Promise<T | undefined> {
 		if (items.length <= 1) {
 			return items[0]; // first T or undefined
@@ -437,7 +437,7 @@ export class UiProfileManager implements IDisposable {
 
 		const chosen = await new Promise<string | undefined>((resolve) => {
 			quickpick.onDidAccept(() =>
-				resolve(quickpick.selectedItems[0]?.label)
+				resolve(quickpick.selectedItems[0]?.label),
 			);
 			quickpick.onDidHide(() => resolve(undefined));
 			quickpick.show();

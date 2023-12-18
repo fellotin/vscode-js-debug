@@ -10,16 +10,16 @@ import Dap from "../../dap/api";
 import { IDisposable } from "../disposable";
 import { FileLogSink } from "./fileLogSink";
 
-export const enum LogLevel {
+export enum LogLevel {
 	Verbose = 0,
-	Info,
-	Warn,
-	Error,
-	Fatal,
-	Never,
+	Info = 1,
+	Warn = 2,
+	Error = 3,
+	Fatal = 4,
+	Never = 5,
 }
 
-export const enum LogTag {
+export enum LogTag {
 	Runtime = "runtime",
 	RuntimeSourceCreate = "runtime.sourcecreate",
 	RuntimeAssertion = "runtime.assertion",
@@ -97,7 +97,7 @@ export interface ILogger extends IDisposable {
 	 */
 	assert<T>(
 		assertion: T | false | undefined | null,
-		message: string
+		message: string,
 	): assertion is T;
 
 	/**
@@ -134,7 +134,7 @@ export interface ILoggerSetupOptions {
  */
 export function fulfillLoggerOptions(
 	config?: boolean | Partial<ILoggingConfiguration>,
-	logDir = tmpdir()
+	logDir = tmpdir(),
 ): ILoggingConfiguration {
 	if (config === false) {
 		return { stdio: false, logFile: null };
@@ -144,7 +144,7 @@ export function fulfillLoggerOptions(
 		stdio: true,
 		logFile: path.join(
 			logDir,
-			`vscode-debugadapter-${randomBytes(4).toString("hex")}.json.gz`
+			`vscode-debugadapter-${randomBytes(4).toString("hex")}.json.gz`,
 		),
 	};
 
@@ -160,7 +160,7 @@ export function fulfillLoggerOptions(
  */
 export function resolveLoggerOptions(
 	dap: Dap.Api,
-	config: boolean | Partial<ILoggingConfiguration>
+	config: boolean | Partial<ILoggingConfiguration>,
 ): ILoggerSetupOptions {
 	const fulfilled = fulfillLoggerOptions(config);
 	const options = {

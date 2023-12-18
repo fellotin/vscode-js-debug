@@ -59,7 +59,7 @@ export class RemoteBrowserLauncher extends BrowserLauncher<AnyChromiumLaunchConf
 		params: AnyChromiumLaunchConfiguration,
 		dap: Dap.Api,
 		cancellationToken: CancellationToken,
-		telemetryReporter: ITelemetryReporter
+		telemetryReporter: ITelemetryReporter,
 	): Promise<ILaunchResult> {
 		const transport = await this.helper.launch(dap, cancellationToken, {
 			type: params.type === DebugType.Chrome ? "chrome" : "edge",
@@ -68,7 +68,7 @@ export class RemoteBrowserLauncher extends BrowserLauncher<AnyChromiumLaunchConf
 				{
 					hasUserNavigation: !!params.url,
 					ignoreDefaultArgs: !params.includeDefaultArgs,
-				}
+				},
 			)
 				.setConnection(params.port || "pipe")
 				.toArray(),
@@ -79,7 +79,7 @@ export class RemoteBrowserLauncher extends BrowserLauncher<AnyChromiumLaunchConf
 			canReconnect: false,
 			createConnection: () =>
 				Promise.resolve(
-					new Connection(transport, this.logger, telemetryReporter)
+					new Connection(transport, this.logger, telemetryReporter),
 				),
 			process: {
 				onExit: new EventEmitter<number>().event,

@@ -26,7 +26,7 @@ import { launchVirtualTerminalParent } from "./debugTerminalUI";
 export function registerAutoAttach(
 	context: vscode.ExtensionContext,
 	delegate: DelegateLauncherFactory,
-	services: Container
+	services: Container,
 ) {
 	const launchers = new Map<
 		vscode.WorkspaceFolder | undefined,
@@ -35,7 +35,7 @@ export function registerAutoAttach(
 	let disposeTimeout: NodeJS.Timeout | undefined;
 
 	const acquireLauncher = (
-		workspaceFolder: vscode.WorkspaceFolder | undefined
+		workspaceFolder: vscode.WorkspaceFolder | undefined,
 	) => {
 		const prev = launchers.get(workspaceFolder);
 		if (prev) {
@@ -49,18 +49,18 @@ export function registerAutoAttach(
 				new NodeBinaryProvider(
 					logger,
 					services.get(FS),
-					noPackageJsonProvider
+					noPackageJsonProvider,
 				),
 				logger,
 				context,
 				services.get(FS),
 				services.get(NodeOnlyPathResolverFactory),
-				services.get(IPortLeaseTracker)
+				services.get(IPortLeaseTracker),
 			);
 
 			let config = readConfig(
 				vscode.workspace,
-				Configuration.TerminalDebugConfig
+				Configuration.TerminalDebugConfig,
 			);
 			if (workspaceFolder) {
 				const fsPath = workspaceFolder?.uri.fsPath;
@@ -76,7 +76,7 @@ export function registerAutoAttach(
 							launchers.delete(workspaceFolder);
 							inst.terminate();
 						},
-						5 * 60 * 1000
+						5 * 60 * 1000,
 					);
 				} else if (disposeTimeout) {
 					clearTimeout(disposeTimeout);
@@ -99,7 +99,7 @@ export function registerAutoAttach(
 			async () => {
 				try {
 					const launcher = await acquireLauncher(
-						vscode.workspace.workspaceFolders?.[0]
+						vscode.workspace.workspaceFolders?.[0],
 					);
 					return {
 						ipcAddress: launcher.deferredSocketName as string,
@@ -113,18 +113,18 @@ export function registerAutoAttach(
 						if (
 							(await vscode.window.showErrorMessage(
 								e.message,
-								details
+								details,
 							)) === details
 						) {
 							vscode.env.openExternal(
-								vscode.Uri.parse(e.helpLink)
+								vscode.Uri.parse(e.helpLink),
 							);
 						}
 					} else {
 						await vscode.window.showErrorMessage(e.message);
 					}
 				}
-			}
+			},
 		),
 		registerCommand(
 			vscode.commands,
@@ -134,19 +134,19 @@ export function registerAutoAttach(
 					const wf =
 						info.scriptName &&
 						vscode.workspace.getWorkspaceFolder(
-							vscode.Uri.file(info.scriptName)
+							vscode.Uri.file(info.scriptName),
 						);
 					const launcher = await acquireLauncher(
-						wf || vscode.workspace.workspaceFolders?.[0]
+						wf || vscode.workspace.workspaceFolders?.[0],
 					);
 					launcher.spawnForChild(info);
 				} catch (err) {
 					console.error(err);
 					vscode.window.showErrorMessage(
-						`Error activating auto attach: ${err.stack || err}`
+						`Error activating auto attach: ${err.stack || err}`,
 					);
 				}
-			}
+			},
 		),
 		registerCommand(
 			vscode.commands,
@@ -158,7 +158,7 @@ export function registerAutoAttach(
 					launchers.delete(key);
 					value.then((v) => v.terminate());
 				}
-			}
-		)
+			},
+		),
 	);
 }

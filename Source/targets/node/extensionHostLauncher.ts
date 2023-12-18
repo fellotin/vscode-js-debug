@@ -25,7 +25,7 @@ export class ExtensionHostLauncher extends NodeLauncherBase<IExtensionHostLaunch
 	 * @inheritdoc
 	 */
 	protected resolveParams(
-		params: AnyLaunchConfiguration
+		params: AnyLaunchConfiguration,
 	): IExtensionHostLaunchConfiguration | undefined {
 		return params.type === DebugType.ExtensionHost &&
 			params.request === "launch"
@@ -37,7 +37,7 @@ export class ExtensionHostLauncher extends NodeLauncherBase<IExtensionHostLaunch
 	 * @inheritdoc
 	 */
 	protected async launchProgram(
-		runData: IRunData<IExtensionHostLaunchConfiguration>
+		runData: IRunData<IExtensionHostLaunchConfiguration>,
 	): Promise<void> {
 		const port = runData.params.port || (await findOpenPort());
 		const result = await runData.context.dap.launchVSCodeRequest({
@@ -51,7 +51,7 @@ export class ExtensionHostLauncher extends NodeLauncherBase<IExtensionHostLaunch
 		if (result.rendererDebugPort) {
 			VSCodeRendererAttacher.debugIdToRendererDebugPort.set(
 				runData.params.__sessionId,
-				result.rendererDebugPort
+				result.rendererDebugPort,
 			);
 		}
 
@@ -62,7 +62,7 @@ export class ExtensionHostLauncher extends NodeLauncherBase<IExtensionHostLaunch
 
 const resolveCodeLaunchArgs = (
 	launchArgs: IExtensionHostLaunchConfiguration,
-	port: number
+	port: number,
 ) => {
 	// Separate all "paths" from an arguments into separate attributes.
 	const args = launchArgs.args.map<Dap.LaunchVSCodeArgument>((arg) => {

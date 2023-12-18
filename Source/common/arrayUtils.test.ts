@@ -25,7 +25,7 @@ describe("arrayUtils", () => {
 		it("should return index of key in array with custom comparator", () => {
 			const arr = [{ id: 1 }, { id: 2 }, { id: 3 }];
 			expect(
-				binarySearch(arr, { id: 2 }, (a, b) => a.id - b.id)
+				binarySearch(arr, { id: 2 }, (a, b) => a.id - b.id),
 			).to.equal(1);
 		});
 	});

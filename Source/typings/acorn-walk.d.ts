@@ -26,28 +26,28 @@ declare module "acorn-walk" {
 		node: EstreeNode,
 		visitors: Visitors,
 		base?: BaseVisitor<State>,
-		state?: State
+		state?: State,
 	): void;
 
 	export function ancestor<State = void>(
 		node: EstreeNode,
 		visitors: Visitors<[Node[]]>,
 		base?: BaseVisitor<State>,
-		state?: State
+		state?: State,
 	): void;
 
 	export function recursive<State = void>(
 		node: EstreeNode,
 		state: State,
 		visitors: Visitors<[Node[], State, (node: Node, state: State) => void]>,
-		base?: BaseVisitor<State>
+		base?: BaseVisitor<State>,
 	): void;
 
 	export function full<State = void>(
 		node: EstreeNode,
 		callback: (node: Node, state: State, type: Node["type"]) => void,
 		base?: BaseVisitor<State>,
-		state?: State
+		state?: State,
 	): void;
 
 	export function fullAncestor<State = void>(
@@ -56,9 +56,9 @@ declare module "acorn-walk" {
 			node: Node,
 			state: State,
 			ancestors: Node[],
-			type: Node["type"]
+			type: Node["type"],
 		) => void,
 		base?: BaseVisitor<State>,
-		state?: State
+		state?: State,
 	): void;
 }

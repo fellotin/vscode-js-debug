@@ -53,11 +53,11 @@ export default class Connection {
 	constructor(
 		transport: ITransport,
 		private readonly logger: ILogger,
-		private readonly telemetryReporter: ITelemetryReporter
+		private readonly telemetryReporter: ITelemetryReporter,
 	) {
 		this._transport = transport;
 		this._transport.onMessage(([message, time]) =>
-			this._onMessage(message, time)
+			this._onMessage(message, time),
 		);
 		this._transport.onEnd(() => this._onTransportClose());
 		this._sessions = new Map();
@@ -73,7 +73,7 @@ export default class Connection {
 	public _send(
 		method: string,
 		params: object | undefined = {},
-		sessionId: string
+		sessionId: string,
 	): number {
 		const id = ++this._lastId;
 		const message: CdpProtocol.ICommand = { id, method, params };
@@ -119,19 +119,19 @@ export default class Connection {
 		const session = this._sessions.get(object.sessionId || "");
 		if (!session) {
 			const disposedDate = this._disposedSessions.get(object.sessionId);
-			if (!disposedDate) {
-				throw new Error(
-					`Unknown session id: ${object.sessionId} while processing: ${object.method}`
-				);
-			} else {
+			if (disposedDate) {
 				const secondsAgo =
 					(Date.now() - disposedDate.getTime()) / 1000.0;
 				this.logger.warn(
 					LogTag.Internal,
 					`Got message for a session disposed ${secondsAgo} seconds ago`,
-					{ sessionId: object.sessionId, disposeOn: disposedDate }
+					{ sessionId: object.sessionId, disposeOn: disposedDate },
 				);
 				return; // We just ignore messages for disposed sessions
+			} else {
+				throw new Error(
+					`Unknown session id: ${object.sessionId} while processing: ${object.method}`,
+				);
 			}
 		}
 
@@ -149,7 +149,7 @@ export default class Connection {
 				"cdpOperation",
 				eventName,
 				receivedTime.elapsed().ms,
-				error
+				error,
 			);
 		}
 	}
@@ -206,7 +206,7 @@ export class CDPSession {
 	constructor(
 		connection: Connection,
 		sessionId: string,
-		private readonly logger: ILogger
+		private readonly logger: ILogger,
 	) {
 		this._callbacks = new Map();
 		this._connection = connection;
@@ -259,22 +259,22 @@ export class CDPSession {
 								if (methodName === "on")
 									return (
 										eventName: string,
-										listener: (params: object) => void
+										listener: (params: object) => void,
 									) =>
 										this.on(
 											`${agentName}.${eventName}`,
-											listener
+											listener,
 										);
 								return (params: object | undefined) =>
 									this.send(
 										`${agentName}.${methodName}`,
-										params
+										params,
 									);
 							},
-						}
+						},
 					);
 				},
-			}
+			},
 		) as Cdp.Api;
 	}
 
@@ -290,7 +290,7 @@ export class CDPSession {
 	 */
 	public onPrefix(
 		method: string,
-		listener: (params: CdpProtocol.ICommand) => void
+		listener: (params: CdpProtocol.ICommand) => void,
 	): IDisposable {
 		return this._prefixListeners.listen(method, listener);
 	}
@@ -300,7 +300,7 @@ export class CDPSession {
 	 */
 	public send(
 		method: string,
-		params: object | undefined = {}
+		params: object | undefined = {},
 	): Promise<object | undefined> {
 		return this.sendOrDie(method, params).catch(() => undefined);
 	}
@@ -311,11 +311,11 @@ export class CDPSession {
 	 */
 	public sendOrDie(
 		method: string,
-		params: object | undefined = {}
+		params: object | undefined = {},
 	): Promise<object> {
 		if (!this._connection) {
 			return Promise.reject(
-				new ProtocolError(method).setCause(0, "Connection is closed")
+				new ProtocolError(method).setCause(0, "Connection is closed"),
 			);
 		}
 
@@ -403,7 +403,7 @@ export class CDPSession {
 		this._callbacks.delete(object.id);
 		if ("error" in object) {
 			callback.reject(
-				callback.from.setCause(object.error.code, object.error.message)
+				callback.from.setCause(object.error.code, object.error.message),
 			);
 		} else if ("result" in object) {
 			callback.resolve(object.result);
@@ -413,7 +413,7 @@ export class CDPSession {
 	public async detach() {
 		if (!this._connection) {
 			throw new Error(
-				`Session already detached. Most likely the target has been closed.`
+				`Session already detached. Most likely the target has been closed.`,
 			);
 		}
 

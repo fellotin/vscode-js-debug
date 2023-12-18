@@ -2,11 +2,11 @@
  * Copyright (C) Microsoft Corporation. All rights reserved.
  *--------------------------------------------------------*/
 
-import { injectable, inject } from "inversify";
-import { ISearchStrategy } from "../common/sourceMaps/sourceMapRepository";
-import { VueComponentPaths, FileGlobList } from "../common/fileGlobList";
-import { once } from "../common/objUtils";
 import { basename } from "path";
+import { inject, injectable } from "inversify";
+import { FileGlobList, VueComponentPaths } from "../common/fileGlobList";
+import { once } from "../common/objUtils";
+import { ISearchStrategy } from "../common/sourceMaps/sourceMapRepository";
 
 /**
  * Regex for Vue sources. The input is something like `webpack:///foo.vue?asdf.
@@ -29,21 +29,21 @@ export const IVueFileMapper = Symbol("IVueFileMapper");
 /**
  * @see IVueFileMapper#getVueHandling
  */
-export const enum VueHandling {
+export enum VueHandling {
 	/**
 	 * Not a Vue path, probably
 	 */
-	Unhandled,
+	Unhandled = 0,
 
 	/**
 	 * Lookup the base name on disk.
 	 */
-	Lookup,
+	Lookup = 1,
 
 	/**
 	 * Omit it from disk mapping -- it's an unrelated generated file.
 	 */
-	Omit,
+	Omit = 2,
 }
 
 export interface IVueFileMapper {
@@ -78,7 +78,7 @@ export class VueFileMapper implements IVueFileMapper {
 	private readonly getMapping = once(async () => {
 		const basenameToPath = new Map<string, string>();
 		await this.search.streamAllChildren(this.files, (file) =>
-			basenameToPath.set(basename(file), file)
+			basenameToPath.set(basename(file), file),
 		);
 
 		return basenameToPath;
@@ -108,7 +108,7 @@ export class VueFileMapper implements IVueFileMapper {
 		return vueSourceUrlRe.test(sourceUrl)
 			? VueHandling.Lookup
 			: vueGeneratedRe.test(sourceUrl)
-				? VueHandling.Omit
-				: VueHandling.Unhandled;
+			  ? VueHandling.Omit
+			  : VueHandling.Unhandled;
 	}
 }

@@ -2,13 +2,13 @@
  * Copyright (C) Microsoft Corporation. All rights reserved.
  *--------------------------------------------------------*/
 
-import { injectable } from "inversify";
 import * as os from "os";
+import { injectable } from "inversify";
 import {
-	ILogger,
-	ILoggerSetupOptions,
 	ILogItem,
 	ILogSink,
+	ILogger,
+	ILoggerSetupOptions,
 	LogLevel,
 	LogTag,
 } from ".";
@@ -140,7 +140,7 @@ export class Logger implements ILogger, IDisposable {
 	 */
 	public assert<T>(
 		assertion: T | false | undefined | null,
-		message: string
+		message: string,
 	): assertion is T {
 		if (
 			assertion === false ||

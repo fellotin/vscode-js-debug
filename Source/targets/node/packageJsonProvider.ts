@@ -2,8 +2,8 @@
  * Copyright (C) Microsoft Corporation. All rights reserved.
  *--------------------------------------------------------*/
 
-import { inject, injectable } from "inversify";
 import { join } from "path";
+import { inject, injectable } from "inversify";
 import { DebugType } from "../../common/contributionUtils";
 import { IFsUtils } from "../../common/fsUtils";
 import { once } from "../../common/objUtils";
@@ -66,7 +66,7 @@ export class PackageJsonProvider implements IPackageJsonProvider {
 		const dir = await nearestDirectoryContaining(
 			this.fs,
 			this.config.cwd,
-			"package.json"
+			"package.json",
 		);
 		return dir ? join(dir, "package.json") : undefined;
 	});

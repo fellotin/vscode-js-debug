@@ -34,7 +34,7 @@ export class LinkedBreakpointLocationUI implements ILinkedBreakpointLocation {
 		const r = await this.vscode.window.showWarningMessage(
 			"It looks like you have symlinked files. You might need to update your configuration to make this work as expected.",
 			ignore,
-			readMore
+			readMore,
 		);
 
 		if (r === ignore) {

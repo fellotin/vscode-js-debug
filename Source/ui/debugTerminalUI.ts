@@ -2,9 +2,9 @@
  * Copyright (C) Microsoft Corporation. All rights reserved.
  *--------------------------------------------------------*/
 
+import { homedir } from "os";
 import * as l10n from "@vscode/l10n";
 import { Container } from "inversify";
-import { homedir } from "os";
 import * as vscode from "vscode";
 import { IPortLeaseTracker } from "../adapter/portLeaseTracker";
 import { NeverCancelled } from "../common/cancellation";
@@ -18,8 +18,8 @@ import {
 import { EventEmitter } from "../common/events";
 import { ProxyLogger } from "../common/logging/proxyLogger";
 import {
-	applyDefaults,
 	ITerminalLaunchConfiguration,
+	applyDefaults,
 	terminalBaseDefaults,
 } from "../configuration";
 import { createPendingDapApi } from "../dap/pending-api";
@@ -41,7 +41,7 @@ export const launchVirtualTerminalParent = (
 	delegate: DelegateLauncherFactory,
 	launcher: ITerminalLauncherLike,
 	options: Partial<ITerminalLaunchConfiguration> = {},
-	filterTarget: (target: ITarget) => boolean = () => true
+	filterTarget: (target: ITarget) => boolean = () => true,
 ) => {
 	const telemetry = new DapTelemetryReporter();
 	const baseDebugOptions: Partial<ITerminalLaunchConfiguration> = {
@@ -96,7 +96,7 @@ export const launchVirtualTerminalParent = (
 			const delegateId = delegate.addDelegate(
 				target,
 				dap,
-				target.parent()
+				target.parent(),
 			);
 
 			// Skip targets the consumer asked to filter out.
@@ -129,7 +129,7 @@ export const launchVirtualTerminalParent = (
 						delegateId,
 						cwd: cwd?.fsPath,
 						__workspaceFolder: cwd,
-					}
+					},
 				);
 			}
 		}
@@ -160,7 +160,7 @@ export const launchVirtualTerminalParent = (
 				// own apparent debug session.
 				return new MutableTargetOrigin("<unset>");
 			},
-		}
+		},
 	);
 };
 
@@ -186,9 +186,9 @@ async function getWorkspaceFolder() {
 		})),
 		{
 			placeHolder: l10n.t(
-				"Select current working directory for new terminal"
+				"Select current working directory for new terminal",
 			),
-		}
+		},
 	);
 
 	return picked?.folder ?? Abort;
@@ -217,7 +217,7 @@ export function registerDebugTerminalUI(
 	context: vscode.ExtensionContext,
 	delegateFactory: DelegateLauncherFactory,
 	linkHandler: TerminalLinkHandler,
-	services: Container
+	services: Container,
 ) {
 	const terminals = new Map<
 		vscode.Terminal,
@@ -234,7 +234,7 @@ export function registerDebugTerminalUI(
 			logger,
 			services.get(FS),
 			services.get(NodeOnlyPathResolverFactory),
-			services.get(IPortLeaseTracker)
+			services.get(IPortLeaseTracker),
 		);
 
 	/**
@@ -246,7 +246,7 @@ export function registerDebugTerminalUI(
 		command?: string,
 		workspaceFolder?: vscode.WorkspaceFolder,
 		defaultConfig?: Partial<ITerminalLaunchConfiguration>,
-		createLauncherFn = createLauncher
+		createLauncherFn = createLauncher,
 	) {
 		if (!workspaceFolder) {
 			const picked = await getWorkspaceFolder();
@@ -278,8 +278,8 @@ export function registerDebugTerminalUI(
 			new NodeBinaryProvider(
 				logger,
 				services.get(FS),
-				noPackageJsonProvider
-			)
+				noPackageJsonProvider,
+			),
 		);
 
 		launcher.onTerminalCreated((terminal) => {
@@ -310,7 +310,7 @@ export function registerDebugTerminalUI(
 						}
 					}
 					return false;
-				}
+				},
 			);
 		} catch (e) {
 			vscode.window.showErrorMessage(e.message);
@@ -325,7 +325,7 @@ export function registerDebugTerminalUI(
 			vscode.commands,
 			Commands.CreateDebuggerTerminal,
 			(command, folder, config) =>
-				launchTerminal(delegateFactory, command, folder, config)
+				launchTerminal(delegateFactory, command, folder, config),
 		),
 		vscode.window.registerTerminalProfileProvider(
 			"extension.js-debug.debugTerminal",
@@ -343,19 +343,21 @@ export function registerDebugTerminalUI(
 									logger,
 									services.get(FS),
 									services.get(NodeOnlyPathResolverFactory),
-									services.get(IPortLeaseTracker)
+									services.get(IPortLeaseTracker),
 								);
 
 								launcher.onOptionsReady((options) =>
-									resolve(new vscode.TerminalProfile(options))
+									resolve(
+										new vscode.TerminalProfile(options),
+									),
 								);
 
 								return launcher;
-							}
-						)
+							},
+						),
 					),
-			}
+			},
 		),
-		vscode.window.registerTerminalLinkProvider?.(linkHandler)
+		vscode.window.registerTerminalLinkProvider?.(linkHandler),
 	);
 }

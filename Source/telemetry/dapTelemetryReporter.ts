@@ -7,7 +7,7 @@ import { EventEmitter } from "../common/events";
 import { mapValues } from "../common/objUtils";
 import Dap from "../dap/api";
 import { IsVSCode } from "../ioc-extras";
-import { createLoggers, LogFunctions } from "./classification";
+import { LogFunctions, createLoggers } from "./classification";
 import { ReporterBatcher } from "./opsReportBatch";
 import { Batchable, ITelemetryReporter } from "./telemetryReporter";
 
@@ -17,7 +17,7 @@ import { Batchable, ITelemetryReporter } from "./telemetryReporter";
  */
 @injectable()
 export class DapTelemetryReporter implements ITelemetryReporter {
-	constructor(@inject(IsVSCode) private readonly isVsCode: boolean = true) {}
+	constructor(@inject(IsVSCode) private readonly isVsCode = true) {}
 
 	/**
 	 * How often to flush telemetry batches.
@@ -31,7 +31,7 @@ export class DapTelemetryReporter implements ITelemetryReporter {
 
 	private readonly flushEmitter = new EventEmitter<void>();
 	private readonly loggers = createLoggers((params) =>
-		this.pushOutput(params)
+		this.pushOutput(params),
 	);
 	private readonly batchFlushTimeout: { [K in Batchable]?: NodeJS.Timeout } =
 		{};
@@ -68,7 +68,7 @@ export class DapTelemetryReporter implements ITelemetryReporter {
 		key: Batchable,
 		method: string,
 		duration: number,
-		error?: Error
+		error?: Error,
 	) {
 		this.batchers[key].add(method, duration, error);
 

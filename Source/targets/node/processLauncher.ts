@@ -25,12 +25,12 @@ export interface IProgramLauncher {
 	launchProgram(
 		binary: string,
 		args: INodeLaunchConfiguration,
-		context: ILaunchContext
+		context: ILaunchContext,
 	): Promise<IProgram>;
 }
 
 export const getNodeLaunchArgs = (
-	config: INodeLaunchConfiguration
+	config: INodeLaunchConfiguration,
 ): string[] => {
 	let program = config.program;
 	if (program && path.isAbsolute(program)) {

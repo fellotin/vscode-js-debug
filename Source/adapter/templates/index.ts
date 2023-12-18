@@ -2,8 +2,8 @@
  * Copyright (C) Microsoft Corporation. All rights reserved.
  *--------------------------------------------------------*/
 
-import { Node, parseExpressionAt } from "acorn";
 import { randomBytes } from "crypto";
+import { Node, parseExpressionAt } from "acorn";
 import { Expression } from "estree";
 import Cdp from "../../cdp/api";
 import { SourceConstants } from "../../common/sourceUtils";
@@ -51,25 +51,25 @@ export type TemplateFunction<A extends unknown[]> = {
  * ```
  */
 export function templateFunction<A>(
-	fn: (a: A) => void
+	fn: (a: A) => void,
 ): TemplateFunction<[string]>;
 export function templateFunction<A, B>(
-	fn: (a: A, b: B) => void
+	fn: (a: A, b: B) => void,
 ): TemplateFunction<[string, string]>;
 export function templateFunction<A, B, C>(
-	fn: (a: A, b: B, c: C) => void
+	fn: (a: A, b: B, c: C) => void,
 ): TemplateFunction<[string, string, string]>;
 export function templateFunction<Args extends unknown[]>(
-	fn: string
+	fn: string,
 ): TemplateFunction<Args>;
 export function templateFunction<Args extends unknown[]>(
-	fn: string | ((...args: Args) => void)
+	fn: string | ((...args: Args) => void),
 ): TemplateFunction<string[]> {
 	return templateFunctionStr("" + fn);
 }
 
 function templateFunctionStr<Args extends string[]>(
-	stringified: string
+	stringified: string,
 ): TemplateFunction<Args> {
 	const decl = parseExpressionAt(stringified, 0, {
 		ecmaVersion: "latest",
@@ -78,7 +78,7 @@ function templateFunctionStr<Args extends string[]>(
 
 	if (decl.type !== "FunctionExpression") {
 		throw new Error(
-			`Could not find function declaration for:\n\n${stringified}`
+			`Could not find function declaration for:\n\n${stringified}`,
 		);
 	}
 
@@ -129,7 +129,7 @@ export class RemoteObjectId {
  * arguments should be simple objects.
  */
 export function remoteFunction<Args extends unknown[], R>(
-	fn: string | ((...args: Args) => R)
+	fn: string | ((...args: Args) => R),
 ) {
 	const stringified = ("" + fn).replace("}", getSourceSuffix() + "}");
 
@@ -153,7 +153,7 @@ export function remoteFunction<Args extends unknown[], R>(
 			arguments: args.map((value) =>
 				value instanceof RemoteObjectId
 					? { objectId: value.objectId }
-					: { value }
+					: { value },
 			),
 			...options,
 		});

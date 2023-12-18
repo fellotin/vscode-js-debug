@@ -37,7 +37,7 @@ export function formatMillisForLog(millis: number): string {
 	const d = new Date(millis);
 	return `${pad(d.getHours(), 2)}:${pad(d.getMinutes(), 2)}:${pad(
 		d.getSeconds(),
-		2
+		2,
 	)}.${pad(d.getMilliseconds(), 3)}`;
 }
 

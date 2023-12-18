@@ -41,7 +41,7 @@ describe("sourceCodeManipulations", () => {
 			{
 				in: "function(x) { return x }",
 				out: wrapped(
-					"return (function (x) { return x; }).call(this, a);"
+					"return (function (x) { return x; }).call(this, a);",
 				),
 			},
 		];
@@ -57,7 +57,7 @@ describe("sourceCodeManipulations", () => {
 
 	it("functionToFunctionCall", () => {
 		const parsed = parseSource(
-			"function(x) { return x }"
+			"function(x) { return x }",
 		) as FunctionDeclaration[];
 		const transformed = functionToFunctionCall(["x"], {
 			type: "FunctionExpression",
@@ -67,7 +67,7 @@ describe("sourceCodeManipulations", () => {
 		});
 
 		expect(generate(transformed)).to.equal(
-			["(function (x) {", "  return x;", "})(x)"].join("\n")
+			["(function (x) {", "  return x;", "})(x)"].join("\n"),
 		);
 	});
 });

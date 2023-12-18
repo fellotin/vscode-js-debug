@@ -2,7 +2,7 @@
  * Copyright (C) Microsoft Corporation. All rights reserved.
  *--------------------------------------------------------*/
 
-import { Node as AcornNode, parseExpressionAt, Parser } from "acorn";
+import { Node as AcornNode, Parser, parseExpressionAt } from "acorn";
 import { generate } from "astring";
 import {
 	Expression,
@@ -21,15 +21,15 @@ import {
 } from "source-map";
 import { LineColumn } from "../adapter/breakpoints/breakpointBase";
 import {
+	VisitorOption,
 	acornOptions,
 	parseProgram,
 	replace,
 	traverse,
-	VisitorOption,
 } from "./sourceCodeManipulations";
 import { SourceMap } from "./sourceMaps/sourceMap";
 
-export const enum SourceConstants {
+export enum SourceConstants {
 	/**
 	 * Extension of evaluated sources internal to the debugger. Sources with
 	 * this suffix will be ignored when displaying sources or stacktracees.
@@ -48,7 +48,7 @@ export async function prettyPrintAsSourceMap(
 	fileName: string,
 	minified: string,
 	compiledPath: string,
-	sourceMapUrl: string
+	sourceMapUrl: string,
 ): Promise<SourceMap | undefined> {
 	const ast = Parser.parse(minified, {
 		locations: true,
@@ -89,7 +89,7 @@ export async function prettyPrintAsSourceMap(
 		},
 		"",
 		[fileName],
-		false
+		false,
 	);
 }
 
@@ -104,7 +104,7 @@ export function rewriteTopLevelAwait(code: string): string | undefined {
 
 	const makeAssignment = (
 		id: Identifier,
-		rhs: Expression
+		rhs: Expression,
 	): ExpressionStatement => ({
 		type: "ExpressionStatement",
 		expression: {
@@ -128,7 +128,7 @@ export function rewriteTopLevelAwait(code: string): string | undefined {
 							{
 								...node,
 								type: "ClassExpression",
-							}
+							},
 						),
 					};
 				case "FunctionDeclaration":
@@ -138,7 +138,7 @@ export function rewriteTopLevelAwait(code: string): string | undefined {
 							{
 								...node,
 								type: "FunctionExpression",
-							}
+							},
 						),
 					};
 				case "FunctionExpression":
@@ -183,7 +183,7 @@ export function rewriteTopLevelAwait(code: string): string | undefined {
 									},
 								},
 							},
-						})
+						}),
 					);
 
 					stmts.splice(stmts.indexOf(node), 1, ...spliced);
@@ -296,7 +296,7 @@ interface INotNullRange {
 export function getOptimalCompiledPosition(
 	sourceUrl: string,
 	uiLocation: LineColumn,
-	map: SourceMapConsumer
+	map: SourceMapConsumer,
 ): NullablePosition {
 	const prevLocation = map.generatedPositionFor({
 		source: sourceUrl,
@@ -328,10 +328,10 @@ export function getOptimalCompiledPosition(
 		})
 		.filter(
 			(loc): loc is INotNullRange =>
-				loc.line !== null && loc.column !== null
+				loc.line !== null && loc.column !== null,
 		)
 		.sort((a, b) =>
-			a.line !== b.line ? a.line - b.line : a.column - b.column
+			a.line !== b.line ? a.line - b.line : a.column - b.column,
 		)
 		.map((position): [INotNullRange, number] => [
 			position,
@@ -344,7 +344,7 @@ export function getOptimalCompiledPosition(
 	// so we get the first location that has the least variance, or if the variance is the same, the one that appears earliest.
 	allLocations.sort(
 		([a, varA], [b, varB]) =>
-			varA - varB || a.line - b.line || a.column - b.column
+			varA - varB || a.line - b.line || a.column - b.column,
 	);
 
 	return allLocations[0][0];
@@ -356,7 +356,7 @@ export function getOptimalCompiledPosition(
  */
 export const isInPatternSlot = (
 	node: Pattern,
-	parent: Node | null | undefined
+	parent: Node | null | undefined,
 ): boolean =>
 	!!parent &&
 	(((parent.type === "FunctionExpression" ||

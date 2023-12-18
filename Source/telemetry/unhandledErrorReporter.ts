@@ -3,11 +3,11 @@
  *--------------------------------------------------------*/
 
 import * as path from "path";
-import { ITelemetryReporter } from "./telemetryReporter";
-import { LogTag, ILogger } from "../common/logging";
 import { IDisposable } from "../common/disposable";
+import { ILogger, LogTag } from "../common/logging";
+import { ITelemetryReporter } from "./telemetryReporter";
 
-export const enum ErrorType {
+export enum ErrorType {
 	Exception = "uncaughtException",
 	Rejection = "unhandledRejection",
 }
@@ -15,19 +15,19 @@ export const enum ErrorType {
 export function installUnhandledErrorReporter(
 	logger: ILogger,
 	telemetryReporter: ITelemetryReporter,
-	isVsCode?: boolean
+	isVsCode?: boolean,
 ): IDisposable {
 	const exceptionListener = onUncaughtError(
 		logger,
 		telemetryReporter,
 		ErrorType.Exception,
-		isVsCode
+		isVsCode,
 	);
 	const rejectionListener = onUncaughtError(
 		logger,
 		telemetryReporter,
 		ErrorType.Rejection,
-		isVsCode
+		isVsCode,
 	);
 
 	process.addListener("uncaughtException", exceptionListener);
@@ -46,7 +46,7 @@ export const onUncaughtError =
 		logger: ILogger,
 		telemetryReporter: ITelemetryReporter,
 		src: ErrorType,
-		isVsCode = true
+		isVsCode = true,
 	) =>
 	(error: unknown) => {
 		if (!shouldReportThisError(error)) {
@@ -61,7 +61,7 @@ export const onUncaughtError =
 		logger.error(
 			LogTag.RuntimeException,
 			"Unhandled error in debug adapter",
-			error
+			error,
 		);
 	};
 

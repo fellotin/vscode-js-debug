@@ -2,8 +2,8 @@
  * Copyright (C) Microsoft Corporation. All rights reserved.
  *--------------------------------------------------------*/
 
-import { Session } from "inspector";
 import { promises as fs } from "fs";
+import { Session } from "inspector";
 
 /**
  * Small class used to profile the extension itself. Used for collecting
@@ -34,7 +34,7 @@ export class SelfProfile {
 	 */
 	public async stop() {
 		const { profile } = await this.post<{ profile: object }>(
-			"Profiler.stop"
+			"Profiler.stop",
 		);
 		await fs.writeFile(this.file, JSON.stringify(profile));
 	}
@@ -51,7 +51,7 @@ export class SelfProfile {
 				} else {
 					resolve(result as unknown as R);
 				}
-			})
+			}),
 		);
 	}
 }

@@ -2,13 +2,13 @@
  * Copyright (C) Microsoft Corporation. All rights reserved.
  *--------------------------------------------------------*/
 
-import * as l10n from "@vscode/l10n";
 import { tmpdir } from "os";
+import * as l10n from "@vscode/l10n";
 import * as vscode from "vscode";
 import {
-	allDebugTypes,
 	Commands,
 	DebugType,
+	allDebugTypes,
 	preferredDebugTypes,
 	registerCommand,
 } from "./common/contributionUtils";
@@ -58,36 +58,42 @@ export function activate(context: vscode.ExtensionContext) {
 		registerCommand(
 			vscode.commands,
 			Commands.DebugNpmScript,
-			debugNpmScript
+			debugNpmScript,
 		),
 		registerCommand(vscode.commands, Commands.PickProcess, pickProcess),
 		registerCommand(vscode.commands, Commands.AttachProcess, attachProcess),
 		registerCommand(
 			vscode.commands,
 			Commands.ToggleSkipping,
-			toggleSkippingFile
-		)
+			toggleSkippingFile,
+		),
 	);
 
 	const debugResolvers = services.getAll<IDebugConfigurationResolver>(
-		IDebugConfigurationResolver
+		IDebugConfigurationResolver,
 	);
 	for (const resolver of debugResolvers) {
 		const cast = resolver as vscode.DebugConfigurationProvider;
 		context.subscriptions.push(
-			vscode.debug.registerDebugConfigurationProvider(resolver.type, cast)
+			vscode.debug.registerDebugConfigurationProvider(
+				resolver.type,
+				cast,
+			),
 		);
 
 		const preferred = preferredDebugTypes.get(resolver.type as DebugType);
 		if (preferred) {
 			context.subscriptions.push(
-				vscode.debug.registerDebugConfigurationProvider(preferred, cast)
+				vscode.debug.registerDebugConfigurationProvider(
+					preferred,
+					cast,
+				),
 			);
 		}
 	}
 
 	const debugProviders = services.getAll<IDebugConfigurationProvider>(
-		IDebugConfigurationProvider
+		IDebugConfigurationProvider,
 	);
 	for (const provider of debugProviders) {
 		vscode.debug.registerDebugConfigurationProvider(
@@ -95,7 +101,7 @@ export function activate(context: vscode.ExtensionContext) {
 			provider as vscode.DebugConfigurationProvider,
 			vscode.DebugConfigurationProviderTriggerKind !== undefined
 				? provider.triggerKind
-				: undefined
+				: undefined,
 		);
 	}
 
@@ -104,14 +110,14 @@ export function activate(context: vscode.ExtensionContext) {
 		...[...allDebugTypes].map((type) =>
 			vscode.debug.registerDebugAdapterDescriptorFactory(
 				type,
-				sessionManager
-			)
-		)
+				sessionManager,
+			),
+		),
 	);
 	context.subscriptions.push(
 		vscode.debug.onDidTerminateDebugSession((s) =>
-			sessionManager.terminate(s)
-		)
+			sessionManager.terminate(s),
+		),
 	);
 	context.subscriptions.push(sessionManager);
 
@@ -124,13 +130,13 @@ export function activate(context: vscode.ExtensionContext) {
 		context,
 		services.get(DelegateLauncherFactory),
 		services.get(TerminalLinkHandler),
-		services
+		services,
 	);
 	registerProfilingCommand(context, services);
 	registerAutoAttach(
 		context,
 		services.get(DelegateLauncherFactory),
-		services
+		services,
 	);
 	registerRevealPage(context, debugSessionTracker);
 	registerRequestCDPProxy(context, debugSessionTracker);

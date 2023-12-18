@@ -52,7 +52,7 @@ describe("sourceUtils", () => {
 			multi: [
 				"{greet} {name}!",
 				`console.log("%O %O!", ${wrapped("return greet;")}, ${wrapped(
-					"return name;"
+					"return name;",
 				)})`,
 			],
 			unreturned: [
@@ -62,7 +62,7 @@ describe("sourceUtils", () => {
 			escaping: [
 				"greet%:o%\"' {greet} name:%\"'  {name} %",
 				`console.log("greet%%:o%%\\"' %O name:%%\\"'  %O %%", ${wrapped(
-					"return greet;"
+					"return greet;",
 				)}, ${wrapped("return name;")})`,
 			],
 			"complex expression": [
@@ -71,7 +71,7 @@ describe("sourceUtils", () => {
 					"n++;",
 					"return v = () => {",
 					"  return true;",
-					"};"
+					"};",
 				)})`,
 			],
 			"invalid empty": ["hello {}!", 'console.log("hello {}!")'],
@@ -89,7 +89,7 @@ describe("sourceUtils", () => {
 				const compiled = compiler.compile({ line: 0 }, input)
 					.breakCondition as string;
 				expect(compiled.slice(0, compiled.lastIndexOf("\n"))).to.equal(
-					`${expected}, false`
+					`${expected}, false`,
 				);
 			});
 		}

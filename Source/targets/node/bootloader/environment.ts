@@ -17,7 +17,7 @@ import type { IWatchdogInfo } from "../watchdogSpawn";
  *
  * Asynchonrous mode is used for the passive terminal environment variables
  */
-export const enum BootloaderAttachMode {
+export enum BootloaderAttachMode {
 	Synchronous = "sync",
 	Asynchronous = "async",
 }
@@ -164,7 +164,7 @@ export class BootloaderEnvironment {
 	 */
 	public updateInspectorOption<K extends keyof IBootloaderInfo>(
 		key: K,
-		value: IBootloaderInfo[K]
+		value: IBootloaderInfo[K],
 	) {
 		const options = this.inspectorOptions;
 		if (options) {

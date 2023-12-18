@@ -3,11 +3,11 @@
  *--------------------------------------------------------*/
 
 import { createWriteStream, mkdirSync } from "fs";
-import { ILogSink, ILogItem } from ".";
-import Dap from "../../dap/api";
 import { dirname } from "path";
-import { createGzip, Gzip, constants } from "zlib";
 import { Writable } from "stream";
+import { constants, Gzip, createGzip } from "zlib";
+import { ILogItem, ILogSink } from ".";
+import Dap from "../../dap/api";
 
 const replacer = (_key: string, value: unknown): unknown => {
 	if (value instanceof Error) {
@@ -30,10 +30,7 @@ const replacer = (_key: string, value: unknown): unknown => {
 export class FileLogSink implements ILogSink {
 	private stream?: Writable;
 
-	constructor(
-		private readonly file: string,
-		private readonly dap?: Dap.Api
-	) {
+	constructor(private readonly file: string, private readonly dap?: Dap.Api) {
 		try {
 			mkdirSync(dirname(file), { recursive: true });
 		} catch {

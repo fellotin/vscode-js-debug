@@ -66,14 +66,14 @@ export interface IStackFrameElement extends IFrameElement {
 	 */
 	getStepSkipList(
 		direction: StepDirection,
-		position: IPosition
+		position: IPosition,
 	): Promise<Range[] | undefined>;
 }
 
 type FrameElement = StackFrame | InlinedFrame | AsyncSeparator;
 
 export const isStackFrameElement = (
-	element: IFrameElement
+	element: IFrameElement,
 ): element is IStackFrameElement =>
 	typeof (element as IStackFrameElement).uiLocation === "function";
 
@@ -90,13 +90,13 @@ export class StackTrace {
 
 	public static fromRuntime(
 		thread: Thread,
-		stack: Cdp.Runtime.StackTrace
+		stack: Cdp.Runtime.StackTrace,
 	): StackTrace {
 		const result = new StackTrace(thread);
 		for (const frame of stack.callFrames) {
 			if (!frame.url.endsWith(SourceConstants.InternalExtension)) {
 				result.frames.push(
-					StackFrame.fromRuntime(thread, frame, false)
+					StackFrame.fromRuntime(thread, frame, false),
 				);
 			}
 		}
@@ -115,7 +115,7 @@ export class StackTrace {
 		thread: Thread,
 		frames: Cdp.Debugger.CallFrame[],
 		parent?: Cdp.Runtime.StackTrace,
-		parentId?: Cdp.Runtime.StackTraceId
+		parentId?: Cdp.Runtime.StackTraceId,
 	): StackTrace {
 		const result = new StackTrace(thread);
 		for (const callFrame of frames)
@@ -135,7 +135,7 @@ export class StackTrace {
 
 	public async loadFrames(
 		limit: number,
-		noFuncEval?: boolean
+		noFuncEval?: boolean,
 	): Promise<FrameElement[]> {
 		await this.expandAsyncStack(limit, noFuncEval);
 		await this.expandWasmFrames();
@@ -146,7 +146,7 @@ export class StackTrace {
 		while (this.frames.length < limit && this._asyncStackTraceId) {
 			if (this._asyncStackTraceId.debuggerId) {
 				this._lastFrameThread = Thread.threadForDebuggerId(
-					this._asyncStackTraceId.debuggerId
+					this._asyncStackTraceId.debuggerId,
 				);
 			}
 
@@ -173,7 +173,7 @@ export class StackTrace {
 			if (response) {
 				this._appendStackTrace(
 					this._lastFrameThread,
-					response.stackTrace
+					response.stackTrace,
 				);
 			}
 		}
@@ -199,7 +199,7 @@ export class StackTrace {
 					}
 
 					const stack = await symbols.getFunctionStack(
-						frame.rawPosition
+						frame.rawPosition,
 					);
 					if (stack.length === 0) {
 						continue;
@@ -232,7 +232,7 @@ export class StackTrace {
 
 	private _appendStackTrace(
 		thread: Thread,
-		stackTrace: Cdp.Runtime.StackTrace | undefined
+		stackTrace: Cdp.Runtime.StackTrace | undefined,
 	) {
 		console.assert(!stackTrace || !this._asyncStackTraceId);
 
@@ -245,11 +245,11 @@ export class StackTrace {
 
 			if (stackTrace.callFrames.length) {
 				this._appendFrame(
-					new AsyncSeparator(stackTrace.description || "async")
+					new AsyncSeparator(stackTrace.description || "async"),
 				);
 				for (const callFrame of stackTrace.callFrames) {
 					this._appendFrame(
-						StackFrame.fromRuntime(thread, callFrame, true)
+						StackFrame.fromRuntime(thread, callFrame, true),
 					);
 				}
 			}
@@ -289,7 +289,7 @@ export class StackTrace {
 	}
 
 	private async formatWithMapper(
-		mapper: (frame: FrameElement) => Promise<string>
+		mapper: (frame: FrameElement) => Promise<string>,
 	): Promise<string> {
 		let stackFrames = await this.loadFrames(50);
 		// REPL may call back into itself; slice at the highest REPL eval in the call chain.
@@ -305,7 +305,7 @@ export class StackTrace {
 	}
 
 	public async toDap(
-		params: Dap.StackTraceParamsExtended
+		params: Dap.StackTraceParamsExtended,
 	): Promise<Dap.StackTraceResult> {
 		const from = params.startFrame || 0;
 		let to = (params.levels || 50) + from;
@@ -364,7 +364,7 @@ const CLASS_CTOR_RE = /^class\s+(.+) {($|\n)/;
 async function getEnhancedName(
 	thread: Thread,
 	callFrame: Cdp.Debugger.CallFrame,
-	useCustomName: boolean
+	useCustomName: boolean,
 ) {
 	if (!callFrame.functionName) {
 		// 1. if there's no function name, this cannot be a method. Top-level code in
@@ -416,7 +416,7 @@ async function getEnhancedName(
 }
 
 function getDefaultName(
-	callFrame: Cdp.Debugger.CallFrame | Cdp.Runtime.CallFrame
+	callFrame: Cdp.Debugger.CallFrame | Cdp.Runtime.CallFrame,
 ) {
 	return callFrame.functionName || fallbackName;
 }
@@ -443,31 +443,31 @@ export class StackFrame implements IStackFrameElement {
 		// todo: move RawLocation to use Positions, then just return that.
 		return new Base1Position(
 			this._rawLocation.lineNumber,
-			this._rawLocation.columnNumber
+			this._rawLocation.columnNumber,
 		);
 	}
 
 	static fromRuntime(
 		thread: Thread,
 		callFrame: Cdp.Runtime.CallFrame,
-		isAsync: boolean
+		isAsync: boolean,
 	): StackFrame {
 		return new StackFrame(
 			thread,
 			callFrame,
 			thread.rawLocation(callFrame),
-			isAsync
+			isAsync,
 		);
 	}
 
 	static fromDebugger(
 		thread: Thread,
-		callFrame: Cdp.Debugger.CallFrame
+		callFrame: Cdp.Debugger.CallFrame,
 	): StackFrame {
 		const result = new StackFrame(
 			thread,
 			callFrame,
-			thread.rawLocation(callFrame)
+			thread.rawLocation(callFrame),
 		);
 		result._scope = {
 			chain: callFrame.scopeChain,
@@ -486,11 +486,11 @@ export class StackFrame implements IStackFrameElement {
 			| Cdp.Debugger.CallFrame
 			| Cdp.Runtime.CallFrame,
 		rawLocation: RawLocation,
-		private readonly isAsync = false
+		private readonly isAsync = false,
 	) {
 		this._rawLocation = rawLocation;
 		this.uiLocation = once(() =>
-			thread.rawLocationToUiLocation(rawLocation)
+			thread.rawLocationToUiLocation(rawLocation),
 		);
 		this._thread = thread;
 		const script = rawLocation.scriptId
@@ -617,11 +617,11 @@ export class StackFrame implements IStackFrameElement {
 				};
 				if (scope.startLocation) {
 					const startRawLocation = this._thread.rawLocation(
-						scope.startLocation
+						scope.startLocation,
 					);
 					const startUiLocation =
 						await this._thread.rawLocationToUiLocation(
-							startRawLocation
+							startRawLocation,
 						);
 					dap.line = (startUiLocation || startRawLocation).lineNumber;
 					dap.column = (
@@ -631,11 +631,11 @@ export class StackFrame implements IStackFrameElement {
 						dap.source = await startUiLocation.source.toDap();
 					if (scope.endLocation) {
 						const endRawLocation = this._thread.rawLocation(
-							scope.endLocation
+							scope.endLocation,
 						);
 						const endUiLocation =
 							await this._thread.rawLocationToUiLocation(
-								endRawLocation
+								endRawLocation,
 							);
 						dap.endLine = (
 							endUiLocation || endRawLocation
@@ -646,7 +646,7 @@ export class StackFrame implements IStackFrameElement {
 					}
 				}
 				return dap;
-			})
+			}),
 		);
 
 		return { scopes: scopes.filter(truthy) };
@@ -654,7 +654,7 @@ export class StackFrame implements IStackFrameElement {
 
 	/** @inheritdoc */
 	public getStepSkipList(
-		_direction: StepDirection
+		_direction: StepDirection,
 	): Promise<Range[] | undefined> {
 		// Normal JS never has any skip lists -- only web assembly does
 		return Promise.resolve(undefined);
@@ -671,8 +671,8 @@ export class StackFrame implements IStackFrameElement {
 				? await getEnhancedName(
 						this._thread,
 						this.callFrame,
-						isSmartStepped === StackFrameStepOverReason.NotStepped
-					)
+						isSmartStepped === StackFrameStepOverReason.NotStepped,
+				  )
 				: getDefaultName(this.callFrame));
 
 		return { isSmartStepped, name, uiLocation: await uiLocation };
@@ -747,7 +747,7 @@ export class StackFrame implements IStackFrameElement {
 	/** Gets the variable container for a scope. Returns undefined if the thread is not longer paused. */
 	private _scopeVariable(
 		scopeNumber: number,
-		scope: IScope
+		scope: IScope,
 	): IVariableContainer | undefined {
 		const existing = scope.variables[scopeNumber];
 		if (existing) {
@@ -779,7 +779,7 @@ export class StackFrame implements IStackFrameElement {
 		const variable = paused.createScope(
 			scope.chain[scopeNumber].object,
 			scopeRef,
-			extraProperties
+			extraProperties,
 		);
 		return (scope.variables[scopeNumber] = variable);
 	}
@@ -800,7 +800,7 @@ export class StackFrame implements IStackFrameElement {
 			) {
 				const scopeVariable = this._scopeVariable(
 					scopeNumber,
-					this._scope
+					this._scope,
 				);
 				if (!scopeVariable) {
 					continue;
@@ -815,13 +815,13 @@ export class StackFrame implements IStackFrameElement {
 							variables.map((label) => ({
 								label,
 								type: "property",
-							}))
-						)
+							})),
+						),
 				);
 			}
 			const completions = await Promise.all(promises);
 			return ([] as Dap.CompletionItem[]).concat(...completions);
-		}
+		},
 	);
 }
 
@@ -862,14 +862,14 @@ export class InlinedFrame implements IStackFrameElement {
 		this.inlineFrameIndex = opts.inlineFrameIndex;
 		this.wasmPosition = new Base0Position(
 			this.inlineFrameIndex,
-			this.root.rawPosition.base0.columnNumber
+			this.root.rawPosition.base0.columnNumber,
 		);
 		this.uiLocation = once(() =>
 			opts.thread._sourceContainer.preferredUiLocation({
 				columnNumber: opts.root.rawPosition.base1.columnNumber,
 				lineNumber: opts.inlineFrameIndex + 1,
 				source: opts.source,
-			})
+			}),
 		);
 	}
 
@@ -900,7 +900,7 @@ export class InlinedFrame implements IStackFrameElement {
 
 	/** @inheritdoc */
 	public async getStepSkipList(
-		direction: StepDirection
+		direction: StepDirection,
 	): Promise<Range[] | undefined> {
 		const sm = this.source.sourceMap.value.settledValue;
 		if (!sm?.getStepSkipList) {
@@ -913,12 +913,12 @@ export class InlinedFrame implements IStackFrameElement {
 				direction,
 				this.wasmPosition,
 				(uiLocation.source as SourceFromMap).compiledToSourceUrl.get(
-					this.source
+					this.source,
 				),
 				new Base1Position(
 					uiLocation.lineNumber,
-					uiLocation.columnNumber
-				)
+					uiLocation.columnNumber,
+				),
 			);
 		} else {
 			return sm.getStepSkipList(direction, this.root.rawPosition);
@@ -935,7 +935,7 @@ export class InlinedFrame implements IStackFrameElement {
 
 		const variables = await v.getVariablesInScope?.(
 			callFrameId,
-			this.wasmPosition
+			this.wasmPosition,
 		);
 		if (!variables) {
 			return EMPTY_SCOPES;
@@ -962,8 +962,8 @@ export class InlinedFrame implements IStackFrameElement {
 							name: v.name,
 							variablesReference: v.variablesReference,
 							expensive: key !== WasmScope.Local,
-						}))
-				)
+						})),
+				),
 			),
 		};
 	}

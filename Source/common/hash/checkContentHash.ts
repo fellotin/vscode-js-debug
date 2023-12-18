@@ -2,17 +2,17 @@
  * Copyright (C) Microsoft Corporation. All rights reserved.
  *--------------------------------------------------------*/
 
+import { promises as fsPromises } from "fs";
 import { Hasher } from ".";
 import { LocalFsUtils } from "../fsUtils";
 import { isWithinAsar } from "../pathUtils";
-import { promises as fsPromises } from "fs";
 
 const hasher = new Hasher();
 
 export async function checkContentHash(
 	absolutePath: string,
 	contentHash?: string,
-	contentOverride?: string
+	contentOverride?: string,
 ): Promise<string | undefined> {
 	if (!absolutePath) {
 		return undefined;

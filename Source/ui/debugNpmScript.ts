@@ -2,9 +2,9 @@
  * Copyright (C) Microsoft Corporation. All rights reserved.
  *--------------------------------------------------------*/
 
-import * as l10n from "@vscode/l10n";
 import * as fs from "fs";
 import * as path from "path";
+import * as l10n from "@vscode/l10n";
 import * as vscode from "vscode";
 import { Commands, runCommand } from "../common/contributionUtils";
 import { readfile } from "../common/fsUtils";
@@ -23,7 +23,7 @@ type ScriptPickItem = vscode.QuickPickItem & { script?: IScript };
  * @param inFolder - Optionally scopes lookups to the given workspace folder
  */
 export async function debugNpmScript(
-	inFolder?: vscode.WorkspaceFolder | string
+	inFolder?: vscode.WorkspaceFolder | string,
 ) {
 	const scripts = await findScripts(inFolder ? [inFolder] : undefined);
 	if (!scripts) {
@@ -32,14 +32,14 @@ export async function debugNpmScript(
 
 	const runScript = async (script: IScript) => {
 		const workspaceFolder = vscode.workspace.getWorkspaceFolder(
-			vscode.Uri.file(script.directory)
+			vscode.Uri.file(script.directory),
 		);
 		runCommand(
 			vscode.commands,
 			Commands.CreateDebuggerTerminal,
 			await getRunScriptCommand(script.name, workspaceFolder),
 			workspaceFolder,
-			{ cwd: script.directory }
+			{ cwd: script.directory },
 		);
 	};
 
@@ -87,7 +87,7 @@ interface IEditCandidate {
 
 const updateEditCandidate = (
 	existing: IEditCandidate,
-	updated: IEditCandidate
+	updated: IEditCandidate,
 ) => (existing.score > updated.score ? existing : updated);
 
 /**
@@ -95,7 +95,7 @@ const updateEditCandidate = (
  */
 export async function findScripts(
 	inFolders: (vscode.WorkspaceFolder | string)[] | undefined,
-	silent = false
+	silent = false,
 ): Promise<IScript[] | undefined> {
 	const folders = inFolders ?? vscode.workspace.workspaceFolders ?? [];
 
@@ -104,8 +104,8 @@ export async function findScripts(
 		if (!silent) {
 			vscode.window.showErrorMessage(
 				l10n.t(
-					"You need to open a workspace folder to debug npm scripts."
-				)
+					"You need to open a workspace folder to debug npm scripts.",
+				),
 			);
 		}
 		return;
@@ -118,16 +118,16 @@ export async function findScripts(
 				vscode.workspace.findFiles(
 					new vscode.RelativePattern(f, "**/package.json"),
 					// matches https://github.com/microsoft/vscode/blob/18f743d534ef3f528c5e81e82e695b87c60d2ebf/extensions/npm/src/tasks.ts#L189
-					"**/{node_modules,.vscode-test}/**"
-				)
-			)
+					"**/{node_modules,.vscode-test}/**",
+				),
+			),
 		)
 	).flat();
 
 	if (candidates.length === 0) {
 		if (!silent) {
 			vscode.window.showErrorMessage(
-				l10n.t("No package.json files found in your workspace.")
+				l10n.t("No package.json files found in your workspace."),
 			);
 		}
 		return;
@@ -156,7 +156,7 @@ export async function findScripts(
 				promptToOpen(
 					"showWarningMessage",
 					l10n.t("Could not read {0}: {1}", fsPath, e.message),
-					fsPath
+					fsPath,
 				);
 			}
 			// set the candidate to 'undefined', since we already displayed an error
@@ -192,14 +192,14 @@ export async function findScripts(
 			promptToOpen(
 				"showErrorMessage",
 				l10n.t("No npm scripts found in your package.json"),
-				editCandidate.path
+				editCandidate.path,
 			);
 		}
 		return;
 	}
 
 	scripts.sort(
-		(a, b) => (a.name === "start" ? -1 : 0) + (b.name === "start" ? 1 : 0)
+		(a, b) => (a.name === "start" ? -1 : 0) + (b.name === "start" ? 1 : 0),
 	);
 
 	return scripts;
@@ -210,7 +210,7 @@ const defaultPackageJsonContents = `{\n  "scripts": {\n    \n  }\n}\n`;
 async function promptToOpen(
 	method: "showWarningMessage" | "showErrorMessage",
 	message: string,
-	file: string
+	file: string,
 ) {
 	const openAction = l10n.t("Edit package.json");
 	if ((await vscode.window[method](message, openAction)) !== openAction) {
@@ -226,11 +226,11 @@ async function promptToOpen(
 	}
 
 	const document = await vscode.workspace.openTextDocument(
-		vscode.Uri.file(file).with({ scheme: "untitled" })
+		vscode.Uri.file(file).with({ scheme: "untitled" }),
 	);
 	const editor = await vscode.window.showTextDocument(document);
 	await editor.edit((e) =>
-		e.insert(new vscode.Position(0, 0), defaultPackageJsonContents)
+		e.insert(new vscode.Position(0, 0), defaultPackageJsonContents),
 	);
 	const pos = new vscode.Position(2, 5);
 	editor.selection = new vscode.Selection(pos, pos);

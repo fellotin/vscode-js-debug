@@ -2,9 +2,9 @@
  * Copyright (C) Microsoft Corporation. All rights reserved.
  *--------------------------------------------------------*/
 
+import { isAbsolute, join } from "path";
 import * as l10n from "@vscode/l10n";
 import { inject, injectable } from "inversify";
-import { isAbsolute, join } from "path";
 import { IProfile, IProfiler, StartProfileParams } from ".";
 import Cdp from "../../cdp/api";
 import { ICdpApi } from "../../cdp/connection";
@@ -30,7 +30,7 @@ export class BasicCpuProfiler implements IProfiler<IBasicProfileParams> {
 	public static readonly extension = ".cpuprofile";
 	public static readonly label = l10n.t("CPU Profile");
 	public static readonly description = l10n.t(
-		"Generates a .cpuprofile file you can open in the Chrome devtools"
+		"Generates a .cpuprofile file you can open in the Chrome devtools",
 	);
 	public static readonly editable = true;
 
@@ -51,7 +51,7 @@ export class BasicCpuProfiler implements IProfiler<IBasicProfileParams> {
 	 */
 	public async start(
 		_options: StartProfileParams<IBasicProfileParams>,
-		file: string
+		file: string,
 	) {
 		if (!(await this.cdp.Profiler.start({}))) {
 			throw new ProtocolError(profileCaptureError());
@@ -62,7 +62,7 @@ export class BasicCpuProfiler implements IProfiler<IBasicProfileParams> {
 			this.fs,
 			this.sources,
 			this.launchConfig.__workspaceFolder,
-			file
+			file,
 		);
 	}
 
@@ -74,7 +74,7 @@ export class BasicCpuProfiler implements IProfiler<IBasicProfileParams> {
 		const annotated = await annotateSources(
 			profile,
 			this.sources,
-			this.launchConfig.__workspaceFolder
+			this.launchConfig.__workspaceFolder,
 		);
 		if (!isAbsolute(file)) {
 			file = join(this.launchConfig.__workspaceFolder, file);
@@ -103,7 +103,7 @@ class BasicProfile implements IProfile {
 		private readonly fs: FsPromises,
 		private readonly sources: SourceContainer,
 		private readonly workspaceFolder: string,
-		private readonly file: string
+		private readonly file: string,
 	) {}
 
 	/**
@@ -130,7 +130,7 @@ class BasicProfile implements IProfile {
 		const annotated = await annotateSources(
 			result.profile,
 			this.sources,
-			this.workspaceFolder
+			this.workspaceFolder,
 		);
 		await this.fs.writeFile(this.file, JSON.stringify(annotated));
 	}
@@ -142,7 +142,7 @@ class BasicProfile implements IProfile {
 async function annotateSources(
 	profile: Cdp.Profiler.Profile,
 	sources: SourceContainer,
-	workspaceFolder: string
+	workspaceFolder: string,
 ) {
 	const helper = new SourceAnnotationHelper(sources);
 	const nodes = profile.nodes.map((node) => ({

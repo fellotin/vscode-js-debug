@@ -2,8 +2,8 @@
  * Copyright (C) Microsoft Corporation. All rights reserved.
  *--------------------------------------------------------*/
 
-import type * as dwf from "@vscode/dwarf-debugging";
 import { promises as fsPromises } from "fs";
+import type * as dwf from "@vscode/dwarf-debugging";
 import { interfaces } from "inversify";
 import type * as vscode from "vscode";
 import { ObservableMap } from "./common/datastructure/observableMap";
@@ -110,10 +110,10 @@ export const trackDispose = <T>(ctx: interfaces.Context, service: T): T => {
 
 	const disposable = service as unknown as IDisposable;
 	const list = toDispose.get(ctx.container);
-	if (!list) {
-		toDispose.set(ctx.container, [disposable]);
-	} else {
+	if (list) {
 		list.push(disposable);
+	} else {
+		toDispose.set(ctx.container, [disposable]);
 	}
 
 	return service;

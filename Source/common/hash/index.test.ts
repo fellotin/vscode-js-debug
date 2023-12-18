@@ -2,11 +2,11 @@
  * Copyright (C) Microsoft Corporation. All rights reserved.
  *--------------------------------------------------------*/
 
+import { promises as fs } from "fs";
+import { join, resolve } from "path";
 import { expect } from "chai";
 import del from "del";
 import esbuild from "esbuild";
-import { promises as fs } from "fs";
-import { join, resolve } from "path";
 import { Worker } from "worker_threads";
 import { Hasher } from ".";
 import { createFileTree, getTestDir } from "../../test/createFileTree";
@@ -14,7 +14,7 @@ import { HashMode } from "./hash";
 
 const hashTestCaseDir = resolve(
 	__dirname,
-	"../../../testWorkspace/hashTestCases"
+	"../../../testWorkspace/hashTestCases",
 );
 
 describe("hash process", function () {
@@ -29,7 +29,7 @@ describe("hash process", function () {
 			await fs.readFile(join(__dirname, "hash.ts")),
 			{
 				loader: "ts",
-			}
+			},
 		);
 		fs.writeFile(hashScript, src.code);
 
@@ -100,19 +100,19 @@ describe("hash process", function () {
 		it("bytes", async () => {
 			const expected = "1d9f277f134f31935a286ff810acdf571af3498e";
 			expect(
-				await hasher.hashBytes(HashMode.Chromehash, utf8NoBOM)
+				await hasher.hashBytes(HashMode.Chromehash, utf8NoBOM),
 			).to.equal(expected);
 			expect(
-				await hasher.hashBytes(HashMode.Chromehash, utf8BOM)
+				await hasher.hashBytes(HashMode.Chromehash, utf8BOM),
 			).to.equal(expected);
 			expect(
-				await hasher.hashBytes(HashMode.Chromehash, utf16BigEndianBOM)
+				await hasher.hashBytes(HashMode.Chromehash, utf16BigEndianBOM),
 			).to.equal(expected);
 			expect(
 				await hasher.hashBytes(
 					HashMode.Chromehash,
-					utf16LittleEndianBOM
-				)
+					utf16LittleEndianBOM,
+				),
 			).to.equal(expected);
 		});
 
@@ -120,32 +120,32 @@ describe("hash process", function () {
 			expect(
 				await hasher.hashFile(
 					HashMode.Chromehash,
-					join(hashTestCaseDir, "blns.js")
-				)
+					join(hashTestCaseDir, "blns.js"),
+				),
 			).to.equal("3b33b447a9e19333659bb21c05ce7a0f414776b9");
 			expect(
 				await hasher.hashFile(
 					HashMode.Chromehash,
-					join(hashTestCaseDir, "simple.js")
-				)
+					join(hashTestCaseDir, "simple.js"),
+				),
 			).to.equal("1283dfddaa33715f0e953c443e071f361de1c9c5");
 			expect(
 				await hasher.hashFile(
 					HashMode.Chromehash,
-					join(hashTestCaseDir, "utf16be.js")
-				)
+					join(hashTestCaseDir, "utf16be.js"),
+				),
 			).to.equal("1283dfddaa33715f52d186d24885740d1de1c9c5");
 			expect(
 				await hasher.hashFile(
 					HashMode.Chromehash,
-					join(hashTestCaseDir, "utf16le.js")
-				)
+					join(hashTestCaseDir, "utf16le.js"),
+				),
 			).to.equal("1283dfddaa33715f52d186d24885740d1de1c9c5");
 			expect(
 				await hasher.hashFile(
 					HashMode.Chromehash,
-					join(hashTestCaseDir, "utf8-bom.js")
-				)
+					join(hashTestCaseDir, "utf8-bom.js"),
+				),
 			).to.equal("1283dfddaa33715f0e953c443e071f361de1c9c5");
 		});
 
@@ -157,7 +157,7 @@ describe("hash process", function () {
 			const result = await hasher.verifyFile(
 				join(testDir, "test.js"),
 				"1ac3c2bf96f77c71394f85ba44fd90055bb72820",
-				false
+				false,
 			);
 			expect(result).to.be.true;
 		});
@@ -168,42 +168,42 @@ describe("hash process", function () {
 			expect(
 				await hasher.hashFile(
 					HashMode.SHA256,
-					join(hashTestCaseDir, "blns.js")
-				)
+					join(hashTestCaseDir, "blns.js"),
+				),
 			).to.equal(
-				"bd2f90038c4ea269f2f610d3502de20f98eb2359eec6ed2da152c52cc861d596"
+				"bd2f90038c4ea269f2f610d3502de20f98eb2359eec6ed2da152c52cc861d596",
 			);
 			expect(
 				await hasher.hashFile(
 					HashMode.SHA256,
-					join(hashTestCaseDir, "simple.js")
-				)
+					join(hashTestCaseDir, "simple.js"),
+				),
 			).to.equal(
-				"a8217b64f8d6315a5e8fcdc751bff2069a118575d0d9327fc069fb4f060f04a2"
+				"a8217b64f8d6315a5e8fcdc751bff2069a118575d0d9327fc069fb4f060f04a2",
 			);
 			expect(
 				await hasher.hashFile(
 					HashMode.SHA256,
-					join(hashTestCaseDir, "utf16be.js")
-				)
+					join(hashTestCaseDir, "utf16be.js"),
+				),
 			).to.equal(
-				"f7bc3e22e6000869ab4a70052ee353336ac8ff9b63e8d2a343a4fe6e659def9a"
+				"f7bc3e22e6000869ab4a70052ee353336ac8ff9b63e8d2a343a4fe6e659def9a",
 			);
 			expect(
 				await hasher.hashFile(
 					HashMode.SHA256,
-					join(hashTestCaseDir, "utf16le.js")
-				)
+					join(hashTestCaseDir, "utf16le.js"),
+				),
 			).to.equal(
-				"f7bc3e22e6000869ab4a70052ee353336ac8ff9b63e8d2a343a4fe6e659def9a"
+				"f7bc3e22e6000869ab4a70052ee353336ac8ff9b63e8d2a343a4fe6e659def9a",
 			);
 			expect(
 				await hasher.hashFile(
 					HashMode.SHA256,
-					join(hashTestCaseDir, "utf8-bom.js")
-				)
+					join(hashTestCaseDir, "utf8-bom.js"),
+				),
 			).to.equal(
-				"a8217b64f8d6315a5e8fcdc751bff2069a118575d0d9327fc069fb4f060f04a2"
+				"a8217b64f8d6315a5e8fcdc751bff2069a118575d0d9327fc069fb4f060f04a2",
 			);
 		});
 
@@ -211,14 +211,14 @@ describe("hash process", function () {
 			const a = await hasher.verifyFile(
 				join(hashTestCaseDir, "simple.js"),
 				"a8217b64f8d6315a5e8fcdc751bff2069a118575d0d9327fc069fb4f060f04a2",
-				false
+				false,
 			);
 			expect(a).to.be.true;
 
 			const b = await hasher.verifyFile(
 				join(hashTestCaseDir, "simple.js"),
 				"b8217b64f8d6315a5e8fcdc751bff2069a118575d0d9327fc069fb4f060f04a2",
-				false
+				false,
 			);
 			expect(b).to.be.false;
 		});
@@ -232,7 +232,7 @@ describe("hash process", function () {
 		const result = await hasher.verifyFile(
 			join(testDir, "test.js"),
 			"070b3b0d4612ebf3602b8110696d56564a4f1e73",
-			true
+			true,
 		);
 		expect(result).to.be.true;
 	});
@@ -241,7 +241,7 @@ describe("hash process", function () {
 		const result = await hasher.verifyFile(
 			join(testDir, "test.js"),
 			"1ac3c2bf96f77c71394f85ba44fd90055bb72820",
-			false
+			false,
 		);
 		expect(result).to.be.false;
 	});
@@ -254,7 +254,7 @@ describe("hash process", function () {
 		const result = await hasher.verifyFile(
 			join(testDir, "test.js"),
 			"potato",
-			false
+			false,
 		);
 		expect(result).to.be.false;
 	});
@@ -297,7 +297,7 @@ describe("hash process", function () {
 		const result = await hasher.verifyFile(
 			join(testDir, "test.js"),
 			"04f6b56f40d4c63b243404afc8a7afba03d8e774",
-			true
+			true,
 		);
 		expect(result).to.be.true;
 	});
@@ -318,7 +318,7 @@ describe("hash process", function () {
 		}
 
 		await expect(
-			deadHasher.hashBytes(HashMode.Chromehash, "hello")
+			deadHasher.hashBytes(HashMode.Chromehash, "hello"),
 		).to.be.rejectedWith("unexpectedly exited");
 	});
 });

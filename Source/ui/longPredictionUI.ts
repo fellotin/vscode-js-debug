@@ -2,9 +2,9 @@
  * Copyright (C) Microsoft Corporation. All rights reserved.
  *--------------------------------------------------------*/
 
+import { join } from "path";
 import * as l10n from "@vscode/l10n";
 import { inject, injectable } from "inversify";
-import { join } from "path";
 import * as vscode from "vscode";
 import { ExtensionContext, IExtensionContribution } from "../ioc-extras";
 
@@ -26,25 +26,25 @@ export class LongPredictionUI implements IExtensionContribution {
 				if (event.event === "longPrediction") {
 					this.promptLongBreakpoint(event.session.workspaceFolder);
 				}
-			})
+			}),
 		);
 	}
 	private async promptLongBreakpoint(
-		workspaceFolder?: vscode.WorkspaceFolder
+		workspaceFolder?: vscode.WorkspaceFolder,
 	) {
 		if (this.context.workspaceState.get(omitLongPredictionKey)) {
 			return;
 		}
 
 		const message = l10n.t(
-			"It's taking a while to configure your breakpoints. You can speed this up by updating the 'outFiles' in your launch.json."
+			"It's taking a while to configure your breakpoints. You can speed this up by updating the 'outFiles' in your launch.json.",
 		);
 		const openLaunch = l10n.t("Open launch.json");
 		const dontShow = l10n.t("Don't show again");
 		const result = await vscode.window.showWarningMessage(
 			message,
 			dontShow,
-			openLaunch
+			openLaunch,
 		);
 
 		if (result === dontShow) {
@@ -62,13 +62,13 @@ export class LongPredictionUI implements IExtensionContribution {
 
 		if (!workspaceFolder) {
 			await vscode.window.showWarningMessage(
-				l10n.t("No workspace folder open.")
+				l10n.t("No workspace folder open."),
 			);
 			return;
 		}
 
 		const doc = await vscode.workspace.openTextDocument(
-			join(workspaceFolder.uri.fsPath, ".vscode", "launch.json")
+			join(workspaceFolder.uri.fsPath, ".vscode", "launch.json"),
 		);
 		await vscode.window.showTextDocument(doc);
 	}

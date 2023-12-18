@@ -2,8 +2,8 @@
  * Copyright (C) Microsoft Corporation. All rights reserved.
  *--------------------------------------------------------*/
 
-import * as l10n from "@vscode/l10n";
 import { URL } from "url";
+import * as l10n from "@vscode/l10n";
 import * as vscode from "vscode";
 import { Configuration, readConfig } from "../common/contributionUtils";
 import Dap from "../dap/api";
@@ -15,7 +15,7 @@ const isTunnelForPort = (port: number) => (tunnel: vscode.TunnelDescription) =>
 		: tunnel.localAddress.port === port;
 
 const tunnelRemoteServerIfNecessary = async (
-	args: Dap.LaunchBrowserInCompanionEventParams
+	args: Dap.LaunchBrowserInCompanionEventParams,
 ) => {
 	const urlStr = (args.params as { url?: string }).url;
 	if (!urlStr) {
@@ -52,14 +52,14 @@ const tunnelRemoteServerIfNecessary = async (
 const launchCompanionBrowser = async (
 	session: vscode.DebugSession,
 	sessionTunnels: DebugSessionTunnels,
-	args: Dap.LaunchBrowserInCompanionEventParams
+	args: Dap.LaunchBrowserInCompanionEventParams,
 ) => {
 	if (vscode.env.uiKind === vscode.UIKind.Web) {
 		vscode.debug.stopDebugging(session);
 		return vscode.window.showErrorMessage(
 			l10n.t(
-				"We can't launch a browser in debug mode from here. Open this workspace in VS Code on your desktop to enable debugging."
-			)
+				"We can't launch a browser in debug mode from here. Open this workspace in VS Code on your desktop to enable debugging.",
+			),
 		);
 	}
 
@@ -86,11 +86,11 @@ const launchCompanionBrowser = async (
 					user: process.env.USER,
 				},
 				...args,
-			}
+			},
 		);
 	} catch (e) {
 		vscode.window.showErrorMessage(
-			`Error launching browser: ${e.message || e.stack}`
+			`Error launching browser: ${e.message || e.stack}`,
 		);
 	}
 };
@@ -98,7 +98,7 @@ const launchCompanionBrowser = async (
 const killCompanionBrowser = async (
 	session: vscode.DebugSession,
 	tunnels: DebugSessionTunnels,
-	{ launchId }: Dap.KillCompanionBrowserEventParams
+	{ launchId }: Dap.KillCompanionBrowserEventParams,
 ) => {
 	await vscode.commands.executeCommand("js-debug-companion.kill", {
 		launchId,
@@ -107,7 +107,7 @@ const killCompanionBrowser = async (
 };
 
 export function registerCompanionBrowserLaunch(
-	context: vscode.ExtensionContext
+	context: vscode.ExtensionContext,
 ) {
 	const tunnels = new DebugSessionTunnels();
 
@@ -119,17 +119,17 @@ export function registerCompanionBrowserLaunch(
 					return launchCompanionBrowser(
 						event.session,
 						tunnels,
-						event.body
+						event.body,
 					);
 				case "killCompanionBrowser":
 					return killCompanionBrowser(
 						event.session,
 						tunnels,
-						event.body
+						event.body,
 					);
 				default:
 				// ignored
 			}
-		})
+		}),
 	);
 }

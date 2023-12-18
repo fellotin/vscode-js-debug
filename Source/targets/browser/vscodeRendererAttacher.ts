@@ -2,8 +2,8 @@
  * Copyright (C) Microsoft Corporation. All rights reserved.
  *--------------------------------------------------------*/
 
+import { Socket, createConnection } from "net";
 import { inject, injectable } from "inversify";
-import { createConnection, Socket } from "net";
 import type * as vscodeType from "vscode";
 import Connection from "../../cdp/connection";
 import { RawPipeTransport } from "../../cdp/rawPipeTransport";
@@ -14,8 +14,8 @@ import { ISourcePathResolver } from "../../common/sourcePathResolver";
 import { TargetFilter } from "../../common/urlUtils";
 import {
 	AnyLaunchConfiguration,
-	applyDefaults,
 	IChromeAttachConfiguration,
+	applyDefaults,
 } from "../../configuration";
 import { ITelemetryReporter } from "../../telemetry/telemetryReporter";
 import { ISourcePathResolverFactory } from "../sourcePathResolverFactory";
@@ -54,7 +54,7 @@ export class VSCodeRendererAttacher extends BrowserAttacher<IRendererAttachParam
 	 */
 	public async launch(
 		params: AnyLaunchConfiguration,
-		context: ILaunchContext
+		context: ILaunchContext,
 	) {
 		if (
 			params.type !== DebugType.ExtensionHost ||
@@ -65,7 +65,7 @@ export class VSCodeRendererAttacher extends BrowserAttacher<IRendererAttachParam
 
 		const rendererPort =
 			VSCodeRendererAttacher.debugIdToRendererDebugPort.get(
-				params.__sessionId
+				params.__sessionId,
 			);
 		if (!rendererPort) {
 			return { blockSessionTermination: false };
@@ -92,8 +92,8 @@ export class VSCodeRendererAttacher extends BrowserAttacher<IRendererAttachParam
 				this.logger.error(
 					LogTag.RuntimeException,
 					"Error in webview attach",
-					{ err }
-				)
+					{ err },
+				),
 			);
 
 		return { blockSessionTermination: false };
@@ -105,12 +105,12 @@ export class VSCodeRendererAttacher extends BrowserAttacher<IRendererAttachParam
 	protected async acquireConnectionInner(
 		telemetryReporter: ITelemetryReporter,
 		params: IRendererAttachParams,
-		cancellationToken: vscodeType.CancellationToken
+		cancellationToken: vscodeType.CancellationToken,
 	) {
 		const disposable = new DisposableList();
 		const pipe = await new Promise<Socket>((resolve, reject) => {
 			const p: Socket = createConnection({ port: params.port }, () =>
-				resolve(p)
+				resolve(p),
 			);
 			p.on("error", reject);
 
@@ -118,19 +118,19 @@ export class VSCodeRendererAttacher extends BrowserAttacher<IRendererAttachParam
 				cancellationToken.onCancellationRequested(() => {
 					p.destroy();
 					reject(new Error("connection timed out"));
-				})
+				}),
 			);
 		}).finally(() => disposable.dispose());
 
 		return new Connection(
 			new RawPipeTransport(this.logger, pipe),
 			this.logger,
-			telemetryReporter
+			telemetryReporter,
 		);
 	}
 
 	protected async getTargetFilter(
-		manager: VSCodeRendererTargetManager
+		manager: VSCodeRendererTargetManager,
 	): Promise<TargetFilter> {
 		return manager.filter;
 	}
@@ -141,7 +141,7 @@ export class VSCodeRendererAttacher extends BrowserAttacher<IRendererAttachParam
 	protected async createTargetManager(
 		connection: Connection,
 		params: IRendererAttachParams,
-		context: ILaunchContext
+		context: ILaunchContext,
 	) {
 		return new VSCodeRendererTargetManager(
 			connection,
@@ -151,7 +151,7 @@ export class VSCodeRendererAttacher extends BrowserAttacher<IRendererAttachParam
 			this.logger,
 			context.telemetryReporter,
 			params,
-			context.targetOrigin
+			context.targetOrigin,
 		);
 	}
 }

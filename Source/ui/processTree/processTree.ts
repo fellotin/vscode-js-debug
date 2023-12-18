@@ -46,7 +46,7 @@ export interface IProcessTree {
 	 */
 	lookup<T>(
 		onEntry: (process: IProcess, accumulator: T) => T,
-		initial: T
+		initial: T,
 	): Promise<T>;
 
 	/**
@@ -64,8 +64,8 @@ export const processTree: IProcessTree =
 	process.platform === "win32"
 		? new WindowsProcessTree()
 		: process.platform === "darwin"
-			? new DarwinProcessTree(fsUtils)
-			: new PosixProcessTree(fsUtils);
+		  ? new DarwinProcessTree(fsUtils)
+		  : new PosixProcessTree(fsUtils);
 
 /*
  * Analyse the given command line arguments and extract debug port and protocol from it.

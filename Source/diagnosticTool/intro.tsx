@@ -2,12 +2,12 @@
  * Copyright (C) Microsoft Corporation. All rights reserved.
  *--------------------------------------------------------*/
 
-import { FunctionComponent, h } from "preact";
+import { FunctionComponent } from "preact";
 
-export const enum Experience {
-	Intro,
-	BreakpointHelper,
-	SourceExplorer,
+export enum Experience {
+	Intro = 0,
+	BreakpointHelper = 1,
+	SourceExplorer = 2,
 }
 
 export const Intro: FunctionComponent<{
@@ -22,14 +22,16 @@ export const Intro: FunctionComponent<{
 					<li>
 						<a
 							role="button"
-							onClick={() => onPick(Experience.BreakpointHelper)}>
+							onClick={() => onPick(Experience.BreakpointHelper)}
+						>
 							Why my breakpoints don&apos;t bind
 						</a>
 					</li>
 					<li>
 						<a
 							role="button"
-							onClick={() => onPick(Experience.SourceExplorer)}>
+							onClick={() => onPick(Experience.SourceExplorer)}
+						>
 							What scripts and sourcemaps are loaded
 						</a>
 					</li>

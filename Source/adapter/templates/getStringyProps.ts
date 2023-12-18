@@ -4,7 +4,7 @@
 
 import { remoteFunction, templateFunction } from ".";
 
-const enum DescriptionSymbols {
+enum DescriptionSymbols {
 	// Our generic symbol
 	Generic = "debug.description",
 	// Node.js-specific symbol that is used for some Node types https://nodejs.org/api/util.html#utilinspectcustom
@@ -16,12 +16,10 @@ const enum DescriptionSymbols {
  * Symbol.for as having a "side effect" and would throw if we tried to first
  * use them inside the description functions.
  */
-export const getDescriptionSymbols = remoteFunction(function () {
-	return [
-		Symbol.for(DescriptionSymbols.Generic),
-		Symbol.for(DescriptionSymbols.Node),
-	];
-});
+export const getDescriptionSymbols = remoteFunction(() => [
+	Symbol.for(DescriptionSymbols.Generic),
+	Symbol.for(DescriptionSymbols.Node),
+]);
 
 declare const runtimeArgs: [symbol[]];
 
@@ -32,7 +30,7 @@ declare const runtimeArgs: [symbol[]];
 export const getStringyProps = templateFunction(function (
 	this: unknown,
 	maxLength: number,
-	customToString: (defaultRepr: string) => unknown
+	customToString: (defaultRepr: string) => unknown,
 ) {
 	const out: Record<string, string> = {};
 	const defaultPlaceholder = "<<default preview>>";
@@ -90,7 +88,7 @@ export const getStringyProps = templateFunction(function (
 export const getToStringIfCustom = templateFunction(function (
 	this: unknown,
 	maxLength: number,
-	customToString: (defaultRepr: string) => unknown
+	customToString: (defaultRepr: string) => unknown,
 ) {
 	if (customToString) {
 		try {

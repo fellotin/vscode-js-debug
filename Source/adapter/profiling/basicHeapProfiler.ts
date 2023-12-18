@@ -25,7 +25,7 @@ export class BasicHeapProfiler implements IProfiler<{}> {
 	public static readonly extension = ".heapprofile";
 	public static readonly label = l10n.t("Heap Profile");
 	public static readonly description = l10n.t(
-		"Generates a .heapprofile file you can open in the Chrome devtools"
+		"Generates a .heapprofile file you can open in the Chrome devtools",
 	);
 	public static readonly editable = true;
 
@@ -56,7 +56,7 @@ export class BasicHeapProfiler implements IProfiler<{}> {
 			this.fs,
 			this.sources,
 			this.launchConfig.__workspaceFolder,
-			file
+			file,
 		);
 	}
 }
@@ -80,7 +80,7 @@ class BasicProfile implements IProfile {
 		private readonly fs: FsPromises,
 		private readonly sources: SourceContainer,
 		private readonly workspaceFolder: string,
-		private readonly file: string
+		private readonly file: string,
 	) {}
 
 	/**
@@ -113,7 +113,7 @@ class BasicProfile implements IProfile {
 	 * Adds source locations
 	 */
 	private async annotateSources(
-		profile: Cdp.HeapProfiler.SamplingHeapProfile
+		profile: Cdp.HeapProfiler.SamplingHeapProfile,
 	) {
 		const helper = new SourceAnnotationHelper(this.sources);
 
@@ -121,7 +121,7 @@ class BasicProfile implements IProfile {
 			node: Cdp.HeapProfiler.SamplingHeapProfileNode,
 			destNode: Cdp.HeapProfiler.SamplingHeapProfileNode & {
 				locationId?: number;
-			}
+			},
 		) => {
 			destNode.locationId = helper.getLocationIdFor(node.callFrame);
 

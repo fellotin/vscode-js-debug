@@ -12,7 +12,7 @@ import { ITarget } from "../../targets/targets";
 import { signalReadyExpr } from "../node/extensionHostExtras";
 import { BrowserTargetManager } from "./browserTargetManager";
 
-export const enum BrowserTargetType {
+export enum BrowserTargetType {
 	Page = "page",
 	ServiceWorker = "service_worker",
 	Worker = "worker",
@@ -104,7 +104,7 @@ export class BrowserTarget implements ITarget {
 		public readonly launchConfig: AnyChromiumConfiguration,
 		public readonly sessionId: string,
 		public readonly logger: ILogger,
-		ondispose: (t: BrowserTarget) => void
+		ondispose: (t: BrowserTarget) => void,
 	) {
 		this._cdp = cdp;
 		cdp.pause();
@@ -223,7 +223,7 @@ export class BrowserTarget implements ITarget {
 	}
 
 	executionContextName(
-		description: Cdp.Runtime.ExecutionContextDescription
+		description: Cdp.Runtime.ExecutionContextDescription,
 	): string {
 		const auxData = description.auxData;
 		const contextName = description.name;
@@ -288,7 +288,7 @@ export class BrowserTarget implements ITarget {
 					(target) =>
 						target instanceof BrowserTarget &&
 						target !== this &&
-						target._targetInfo.title === this._targetInfo.title
+						target._targetInfo.title === this._targetInfo.title,
 				);
 
 		if (!isAmbiguous) {
@@ -302,7 +302,7 @@ export class BrowserTarget implements ITarget {
 			} else if (parsedURL) {
 				threadName += ` (${this._targetInfo.url.replace(
 					/^[a-z]+:\/\/|\/$/gi,
-					""
+					"",
 				)})`;
 			} else {
 				threadName += ` (${this._targetInfo.url})`;

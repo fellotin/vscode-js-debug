@@ -2,8 +2,8 @@
  * Copyright (C) Microsoft Corporation. All rights reserved.
  *--------------------------------------------------------*/
 
-import { dataUriToBuffer } from "data-uri-to-buffer";
 import { LookupAddress, promises as dns } from "dns";
+import { dataUriToBuffer } from "data-uri-to-buffer";
 import got, { Headers, OptionsOfTextResponseBody, RequestError } from "got";
 import { inject, injectable, optional } from "inversify";
 import { CancellationToken } from "vscode";
@@ -39,7 +39,7 @@ export class BasicResourceProvider implements IResourceProvider {
 	public async fetch(
 		url: string,
 		cancellationToken: CancellationToken = NeverCancelled,
-		headers?: { [key: string]: string }
+		headers?: { [key: string]: string },
 	): Promise<Response<string>> {
 		try {
 			const r = dataUriToBuffer(url);
@@ -75,7 +75,7 @@ export class BasicResourceProvider implements IResourceProvider {
 	public async fetchJson<T>(
 		url: string,
 		cancellationToken?: CancellationToken,
-		headers?: { [key: string]: string }
+		headers?: { [key: string]: string },
 	): Promise<Response<T>> {
 		const res = await this.fetch(url, cancellationToken, {
 			Accept: "application/json",
@@ -95,7 +95,7 @@ export class BasicResourceProvider implements IResourceProvider {
 	protected async fetchHttp(
 		url: string,
 		cancellationToken: CancellationToken,
-		headers?: Headers
+		headers?: Headers,
 	): Promise<Response<string>> {
 		const parsed = new URL(url);
 
@@ -117,7 +117,7 @@ export class BasicResourceProvider implements IResourceProvider {
 			const response = await this.requestHttp(
 				parsed.toString(),
 				options,
-				cancellationToken
+				cancellationToken,
 			);
 			if (response.statusCode !== 503) {
 				return response;
@@ -144,7 +144,7 @@ export class BasicResourceProvider implements IResourceProvider {
 			response = await this.requestHttp(
 				parsed.toString(),
 				options,
-				cancellationToken
+				cancellationToken,
 			);
 			if (response.statusCode !== 503) {
 				this.autoLocalhostPortFallbacks[port] = parsed.hostname;
@@ -157,7 +157,7 @@ export class BasicResourceProvider implements IResourceProvider {
 	private async requestHttp(
 		url: string,
 		options: OptionsOfTextResponseBody,
-		cancellationToken: CancellationToken
+		cancellationToken: CancellationToken,
 	): Promise<Response<string>> {
 		this.options?.provideOptions(options, url);
 
@@ -167,8 +167,8 @@ export class BasicResourceProvider implements IResourceProvider {
 			const request = got(url, options);
 			disposables.push(
 				cancellationToken.onCancellationRequested(() =>
-					request.cancel()
-				)
+					request.cancel(),
+				),
 			);
 
 			const response = await request;

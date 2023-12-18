@@ -57,7 +57,7 @@ export class NodeSourcePathResolver extends SourcePathResolverBase<IOptions> {
 		private readonly fsUtils: IFsUtils,
 		public readonly linkedBp: ILinkedBreakpointLocation | undefined,
 		protected readonly options: IOptions,
-		protected readonly logger: ILogger
+		protected readonly logger: ILogger,
 	) {
 		super(options, logger);
 	}
@@ -70,7 +70,7 @@ export class NodeSourcePathResolver extends SourcePathResolverBase<IOptions> {
 			this.fsUtils,
 			this.linkedBp,
 			{ ...this.options, ...newOptions },
-			this.logger
+			this.logger,
 		);
 	}
 
@@ -93,7 +93,7 @@ export class NodeSourcePathResolver extends SourcePathResolverBase<IOptions> {
 			url = path.join(
 				this.options.basePath,
 				"lib",
-				url.slice(localNodeInternalsPrefix.length)
+				url.slice(localNodeInternalsPrefix.length),
 			);
 			if (!url.endsWith(".js")) {
 				url += ".js";
@@ -121,12 +121,10 @@ export class NodeSourcePathResolver extends SourcePathResolverBase<IOptions> {
 		// Node internals are given us us as relative path, for example
 		// require('cluster') will import a file simply named "cluster". For these
 		// paths, prefix them as internal.
-		else if (!path.isAbsolute(url)) {
-			return `<node_internals>/${url}`;
-		}
-		// Otherwise, use default overrides.
-		else {
+		else if (path.isAbsolute(url)) {
 			url = this.sourceMapOverrides.apply(url);
+		} else {
+			return `<node_internals>/${url}`;
 		}
 
 		const withBase = properResolve(this.options.basePath ?? "", url);
@@ -135,7 +133,7 @@ export class NodeSourcePathResolver extends SourcePathResolverBase<IOptions> {
 
 	private absolutePathToUrl(absolutePath: string) {
 		return urlUtils.absolutePathToFileUrl(
-			this.rebaseLocalToRemote(path.normalize(absolutePath))
+			this.rebaseLocalToRemote(path.normalize(absolutePath)),
 		);
 	}
 
@@ -143,7 +141,7 @@ export class NodeSourcePathResolver extends SourcePathResolverBase<IOptions> {
 	 * @override
 	 */
 	public async absolutePathToUrlRegexp(
-		absolutePath: string
+		absolutePath: string,
 	): Promise<string | undefined> {
 		let realPath = absolutePath;
 		try {
@@ -185,19 +183,19 @@ export class NodeSourcePathResolver extends SourcePathResolverBase<IOptions> {
 			return properResolve(
 				await getComputedSourceRoot(
 					this.options.remoteRoot &&
-						urlUtils.isAbsolute(map.sourceRoot)
+					urlUtils.isAbsolute(map.sourceRoot)
 						? this.rebaseRemoteToLocal(map.sourceRoot) ||
-								map.sourceRoot
+						  map.sourceRoot
 						: map.sourceRoot,
 					map.metadata.compiledPath,
 					{ "/": this.options.basePath },
 					moduleAwarePathMappingResolver(
 						this.fsUtils,
-						map.metadata.compiledPath
+						map.metadata.compiledPath,
 					),
-					this.logger
+					this.logger,
 				),
-				url
+				url,
 			);
 		}
 

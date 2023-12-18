@@ -29,16 +29,16 @@ export class DisableSourceMapUI implements IExtensionContribution {
 
 				const body = evt.body as Dap.SuggestDisableSourcemapEventParams;
 				this.unmap(evt.session, body.source).catch((err) =>
-					vscode.window.showErrorMessage(err.message)
+					vscode.window.showErrorMessage(err.message),
 				);
-			})
+			}),
 		);
 	}
 
 	private async unmap(session: vscode.DebugSession, source: Dap.Source) {
 		const autoUnmap = readConfig(
 			vscode.workspace,
-			Configuration.UnmapMissingSources
+			Configuration.UnmapMissingSources,
 		);
 		if (autoUnmap || (await this.prompt())) {
 			await session.customRequest("disableSourcemap", { source });
@@ -52,12 +52,12 @@ export class DisableSourceMapUI implements IExtensionContribution {
 
 		const result = await vscode.window.showInformationMessage(
 			l10n.t(
-				"This is a missing file path referenced by a sourcemap. Would you like to debug the compiled version instead?"
+				"This is a missing file path referenced by a sourcemap. Would you like to debug the compiled version instead?",
 			),
 			always,
 			alwayInWorkspace,
 			l10n.t("No"),
-			yes
+			yes,
 		);
 
 		switch (result) {
@@ -66,7 +66,7 @@ export class DisableSourceMapUI implements IExtensionContribution {
 					vscode.workspace,
 					Configuration.UnmapMissingSources,
 					true,
-					vscode.ConfigurationTarget.Global
+					vscode.ConfigurationTarget.Global,
 				);
 				return true;
 			case alwayInWorkspace:
@@ -74,7 +74,7 @@ export class DisableSourceMapUI implements IExtensionContribution {
 					vscode.workspace,
 					Configuration.UnmapMissingSources,
 					true,
-					vscode.ConfigurationTarget.Workspace
+					vscode.ConfigurationTarget.Workspace,
 				);
 				return true;
 			case yes:

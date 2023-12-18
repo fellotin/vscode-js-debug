@@ -2,13 +2,13 @@
  * Copyright (C) Microsoft Corporation. All rights reserved.
  *--------------------------------------------------------*/
 
+import { promises as fsPromises } from "fs";
 import {
 	BrowserFinderCtor,
 	ChromeBrowserFinder,
 	EdgeBrowserFinder,
 } from "@vscode/js-debug-browsers";
 import execa from "execa";
-import { promises as fsPromises } from "fs";
 import { Container, interfaces } from "inversify";
 import "reflect-metadata";
 import * as vscode from "vscode";
@@ -186,7 +186,7 @@ export const createTargetContainer = (
 	parent: Container,
 	target: ITarget,
 	dap: Dap.Api,
-	cdp: Cdp.Api
+	cdp: Cdp.Api,
 ) => {
 	const container = new Container();
 	container.parent = parent;
@@ -217,7 +217,7 @@ export const createTargetContainer = (
 	container
 		.bind(IPerformanceProvider)
 		.toDynamicValue((ctx) =>
-			ctx.container.get(PerformanceProviderFactory).create()
+			ctx.container.get(PerformanceProviderFactory).create(),
 		)
 		.inSingletonScope();
 
@@ -238,7 +238,7 @@ export const createTargetContainer = (
 		.to(
 			process.env.DA_TEST_DISABLE_TELEMETRY
 				? NullTelemetryReporter
-				: DapTelemetryReporter
+				: DapTelemetryReporter,
 		)
 		.inSingletonScope()
 		.onActivation(trackDispose);
@@ -309,7 +309,7 @@ export const createTopLevelSessionContainer = (parent: Container) => {
 		.to(
 			process.env.DA_TEST_DISABLE_TELEMETRY
 				? NullTelemetryReporter
-				: DapTelemetryReporter
+				: DapTelemetryReporter,
 		)
 		.inSingletonScope()
 		.onActivation(trackDispose);
@@ -385,7 +385,7 @@ export const createTopLevelSessionContainer = (parent: Container) => {
 		.toDynamicValue(() =>
 			parent
 				.get(DelegateLauncherFactory)
-				.createLauncher(container.get(ILogger))
+				.createLauncher(container.get(ILogger)),
 		)
 		.inSingletonScope();
 
@@ -406,7 +406,7 @@ export const createTopLevelSessionContainer = (parent: Container) => {
 			new ctor(
 				ctx.container.get(ProcessEnv),
 				ctx.container.get(FS),
-				ctx.container.get(Execa)
+				ctx.container.get(Execa),
 			);
 
 	container
@@ -468,7 +468,7 @@ export const createGlobalContainer = (options: {
 export const provideLaunchParams = (
 	container: Container,
 	params: AnyLaunchConfiguration,
-	dap: Dap.Api
+	dap: Dap.Api,
 ) => {
 	container
 		.bind(MutableLaunchConfig)
@@ -485,7 +485,7 @@ export const provideLaunchParams = (
 		.toDynamicValue((ctx) =>
 			ctx.container
 				.get<ISourcePathResolverFactory>(ISourcePathResolverFactory)
-				.create(params, ctx.container.get<ILogger>(ILogger))
+				.create(params, ctx.container.get<ILogger>(ILogger)),
 		)
 		.inSingletonScope();
 
@@ -495,8 +495,8 @@ export const provideLaunchParams = (
 			LocalAndRemoteFsUtils.create(
 				params.__remoteFilePrefix,
 				fsPromises,
-				dap
-			)
+				dap,
+			),
 		);
 
 	// Source handling:

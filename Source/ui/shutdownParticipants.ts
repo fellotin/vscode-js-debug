@@ -6,7 +6,7 @@ import { injectable } from "inversify";
 import { IDisposable, noOpDisposable } from "../common/disposable";
 
 /** Order of shutdown participants. */
-export const enum ShutdownOrder {
+export enum ShutdownOrder {
 	// Participant is awaited before loaded scripts are cleared.
 	BeforeScripts = 0,
 	// Participant is run after everything else.
@@ -53,7 +53,7 @@ export class ShutdownParticipants implements IShutdownParticipants {
 			this.shutdownStage++
 		) {
 			await Promise.all(
-				[...this.participants[this.shutdownStage]].map((p) => p())
+				[...this.participants[this.shutdownStage]].map((p) => p()),
 			);
 		}
 	}

@@ -33,7 +33,7 @@ export class RemoteBrowserAttacher extends BrowserAttacher<AnyChromiumAttachConf
 	 * @override
 	 */
 	protected resolveParams(
-		params: AnyLaunchConfiguration
+		params: AnyLaunchConfiguration,
 	): params is AnyChromiumAttachConfiguration {
 		return (
 			params.request === "attach" &&
@@ -48,7 +48,7 @@ export class RemoteBrowserAttacher extends BrowserAttacher<AnyChromiumAttachConf
 	 */
 	protected async acquireConnectionForBrowser(
 		context: ILaunchContext,
-		params: AnyChromiumAttachConfiguration
+		params: AnyChromiumAttachConfiguration,
 	): Promise<Connection> {
 		const transport = await this.helper.launch(
 			context.dap,
@@ -60,13 +60,13 @@ export class RemoteBrowserAttacher extends BrowserAttacher<AnyChromiumAttachConf
 					host: params.address,
 					port: params.port,
 				},
-			}
+			},
 		);
 
 		return new Connection(
 			transport,
 			this.logger,
-			context.telemetryReporter
+			context.telemetryReporter,
 		);
 	}
 }

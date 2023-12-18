@@ -40,8 +40,8 @@ export class JsDebugPortAttributesProvider
 							DefaultJsDebugPorts.Max,
 						],
 					},
-					this
-				)
+					this,
+				),
 			);
 		}
 	}

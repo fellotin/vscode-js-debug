@@ -47,7 +47,7 @@ export interface ISearchStrategy {
 	 * Takes and can return a `state` value to make subsequent searches faster.
 	 */
 	streamChildrenWithSourcemaps<T, R>(
-		opts: ISourcemapStreamOptions<T, R>
+		opts: ISourcemapStreamOptions<T, R>,
 	): Promise<{ values: R[]; state: unknown }>;
 
 	/**
@@ -56,7 +56,7 @@ export interface ISearchStrategy {
 	 */
 	streamAllChildren<T>(
 		files: FileGlobList,
-		onChild: (child: string) => T | Promise<T>
+		onChild: (child: string) => T | Promise<T>,
 	): Promise<T[]>;
 }
 
@@ -68,7 +68,7 @@ export interface ISearchStrategy {
 export const createMetadataForFile = async (
 	compiledPath: string,
 	metadata: { siblings: readonly string[]; mtime: number },
-	fileContents?: string
+	fileContents?: string,
 ): Promise<Required<ISourceMapMetadata> | undefined> => {
 	let sourceMapUrl;
 	const compiledFileName = basename(compiledPath);
@@ -90,7 +90,7 @@ export const createMetadataForFile = async (
 	if (!smIsDataUri) {
 		sourceMapUrl = completeUrl(
 			absolutePathToFileUrl(compiledPath),
-			sourceMapUrl
+			sourceMapUrl,
 		);
 	}
 

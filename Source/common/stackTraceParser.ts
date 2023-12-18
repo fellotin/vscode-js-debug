@@ -38,7 +38,7 @@ export class StackTraceParser {
 
 			yield new StackTraceLocation(
 				url,
-				new Base1Position(Number(lineNo), Number(columnNo))
+				new Base1Position(Number(lineNo), Number(columnNo)),
 			);
 
 			if (suffix) {
@@ -53,7 +53,7 @@ export class StackTraceParser {
 export class StackTraceLocation {
 	constructor(
 		public readonly path: string,
-		public readonly position: Base1Position
+		public readonly position: Base1Position,
 	) {}
 
 	public toString() {

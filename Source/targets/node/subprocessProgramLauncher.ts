@@ -3,16 +3,16 @@
  *--------------------------------------------------------*/
 
 import { ChildProcessWithoutNullStreams, spawn } from "child_process";
+import { Transform } from "stream";
 import { inject, injectable } from "inversify";
 import split from "split2";
-import { Transform } from "stream";
 import { EnvironmentVars } from "../../common/environmentVars";
 import { ILogger } from "../../common/logging";
 import * as urlUtils from "../../common/urlUtils";
 import { INodeLaunchConfiguration, OutputSource } from "../../configuration";
 import Dap from "../../dap/api";
 import { ILaunchContext } from "../targets";
-import { getNodeLaunchArgs, IProgramLauncher } from "./processLauncher";
+import { IProgramLauncher, getNodeLaunchArgs } from "./processLauncher";
 import { SubprocessProgram } from "./program";
 
 /**
@@ -29,12 +29,12 @@ export class SubprocessProgramLauncher implements IProgramLauncher {
 	public async launchProgram(
 		binary: string,
 		config: INodeLaunchConfiguration,
-		context: ILaunchContext
+		context: ILaunchContext,
 	) {
 		const { executable, args, shell, cwd } = formatArguments(
 			binary,
 			getNodeLaunchArgs(config),
-			config.cwd
+			config.cwd,
 		);
 
 		// Send an appoximation of the command we're running to
@@ -49,7 +49,7 @@ export class SubprocessProgramLauncher implements IProgramLauncher {
 			cwd: cwd,
 			env: EnvironmentVars.merge(
 				EnvironmentVars.processEnv(),
-				config.env
+				config.env,
 			).defined(),
 		});
 
@@ -134,7 +134,7 @@ export class SubprocessProgramLauncher implements IProgramLauncher {
 const formatArguments = (
 	executable: string,
 	args: ReadonlyArray<string>,
-	cwd: string
+	cwd: string,
 ) => {
 	if (process.platform === "win32") {
 		executable = urlUtils.platformPathToPreferredCase(executable);
@@ -175,7 +175,7 @@ const formatArguments = (
 	return { executable, args, shell: false, cwd };
 };
 
-const enum Char {
+enum Char {
 	ETX = "\u0003",
 }
 

@@ -30,12 +30,12 @@ export class TurboSearchStrategy implements ISearchStrategy {
 	 */
 	public async streamAllChildren<T>(
 		files: FileGlobList,
-		onChild: (child: string) => T | Promise<T>
+		onChild: (child: string) => T | Promise<T>,
 	): Promise<T[]> {
 		const todo: (T | Promise<T>)[] = [];
 
 		await this.globForFiles(files, (value) =>
-			todo.push(onChild(fixDriveLetterAndSlashes(value.path)))
+			todo.push(onChild(fixDriveLetterAndSlashes(value.path))),
 		);
 
 		// Type annotation is necessary for https://github.com/microsoft/TypeScript/issues/47144
@@ -47,7 +47,7 @@ export class TurboSearchStrategy implements ISearchStrategy {
 	 * @inheritdoc
 	 */
 	public async streamChildrenWithSourcemaps<T, R>(
-		opts: ISourcemapStreamOptions<T, R>
+		opts: ISourcemapStreamOptions<T, R>,
 	) {
 		const todo: (Promise<R | undefined> | R)[] = [];
 
@@ -62,19 +62,19 @@ export class TurboSearchStrategy implements ISearchStrategy {
 					searchState,
 					opts,
 					todo,
-					glob
+					glob,
 				);
 
 				const pruned = CacheTree.prune(searchState);
 				if (pruned) {
 					nextState[key] = pruned;
 				}
-			})
+			}),
 		);
 
 		this.logger.info(
 			LogTag.SourceMapParsing,
-			`turboGlobStream search found ${todo.length} files`
+			`turboGlobStream search found ${todo.length} files`,
 		);
 
 		const done = await Promise.all(todo);
@@ -85,7 +85,7 @@ export class TurboSearchStrategy implements ISearchStrategy {
 		cache: CachedType<T>,
 		opts: ISourcemapStreamOptions<T, R>,
 		results: (Promise<R> | R)[],
-		glob: IExplodedGlob
+		glob: IExplodedGlob,
 	) {
 		const tgs = new TurboGlobStream<T | undefined>({
 			pattern: glob.pattern,
@@ -95,7 +95,7 @@ export class TurboSearchStrategy implements ISearchStrategy {
 			filter: opts.filter,
 			fileProcessor: (file, metadata) =>
 				createMetadataForFile(file, metadata).then(
-					(m) => m && opts.processMap(m)
+					(m) => m && opts.processMap(m),
 				),
 		});
 
@@ -106,7 +106,7 @@ export class TurboSearchStrategy implements ISearchStrategy {
 				{
 					error,
 					path,
-				}
+				},
 			);
 		});
 
@@ -117,7 +117,7 @@ export class TurboSearchStrategy implements ISearchStrategy {
 
 	protected async globForFiles(
 		files: FileGlobList,
-		onFile: (file: globStream.Entry) => void
+		onFile: (file: globStream.Entry) => void,
 	) {
 		await Promise.all(
 			[...files.explode()].map(
@@ -135,13 +135,13 @@ export class TurboSearchStrategy implements ISearchStrategy {
 								ignore: glob.negations,
 								matchBase: true,
 								cwd: glob.cwd,
-							}
+							},
 						)
 							.on("data", onFile)
 							.on("finish", resolve)
-							.on("error", reject)
-					)
-			)
+							.on("error", reject),
+					),
+			),
 		);
 	}
 }

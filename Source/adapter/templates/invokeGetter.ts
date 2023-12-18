@@ -9,7 +9,7 @@ import { remoteFunction } from ".";
  */
 export const invokeGetter = remoteFunction(function (
 	this: unknown,
-	getterFn: (this: unknown) => unknown
+	getterFn: (this: unknown) => unknown,
 ) {
 	return getterFn.call(this);
 });

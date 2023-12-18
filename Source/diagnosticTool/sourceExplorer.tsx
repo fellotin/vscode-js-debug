@@ -2,7 +2,7 @@
  * Copyright (C) Microsoft Corporation. All rights reserved.
  *--------------------------------------------------------*/
 
-import { Fragment, FunctionComponent, h } from "preact";
+import { Fragment, FunctionComponent } from "preact";
 import { useCallback, useMemo } from "preact/hooks";
 import { IDiagnosticSource } from "../adapter/diagnosics";
 import { truthy } from "../common/objUtils";
@@ -31,10 +31,10 @@ export const SourceExplorer: FunctionComponent = () => {
 								.join(" ")
 								.toLowerCase(),
 							source,
-						] as [string, IDiagnosticSource]
+						] as [string, IDiagnosticSource],
 				)
 				.sort((a, b) => sortScore(a[1]) - sortScore(b[1])),
-		[dump.sources]
+		[dump.sources],
 	);
 
 	const [filter, setFilter] = usePersistedState("filter", "");
@@ -45,11 +45,11 @@ export const SourceExplorer: FunctionComponent = () => {
 						.filter(([str]) => str.includes(filter.toLowerCase()))
 						.map(([, src]) => src)
 				: indexed.map((i) => i[1]),
-		[indexed, filter]
+		[indexed, filter],
 	);
 	const onChange = useCallback(
 		(evt: Event) => setFilter((evt.target as HTMLInputElement).value),
-		[]
+		[],
 	);
 
 	return (
@@ -81,15 +81,15 @@ export const Source: FunctionComponent<{
 }> = ({ source, allSources }) => {
 	const [rawBreadcrumbs, setBreadcrumbs] = usePersistedState(
 		`sourceBreadCrumbs${source.uniqueId}`,
-		[source.uniqueId]
+		[source.uniqueId],
 	);
 	const breadcrumbs = useMemo(
 		() => rawBreadcrumbs.map((b) => allSources.get(b)).filter(truthy),
-		[allSources, rawBreadcrumbs]
+		[allSources, rawBreadcrumbs],
 	);
 	const [expanded, setExpanded] = usePersistedState(
 		`sourceExpanded${source.uniqueId}`,
-		false
+		false,
 	);
 	const dump = useDump();
 	const toggleExpand = useCallback(() => setExpanded(!expanded), [expanded]);
@@ -109,11 +109,11 @@ export const Source: FunctionComponent<{
 						source={breadcrumbs[breadcrumbs.length - 1]}
 						open={(sourceReference) => {
 							const src = dump.sources.find(
-								(s) => s.sourceReference === sourceReference
+								(s) => s.sourceReference === sourceReference,
 							);
 							if (src) {
 								setBreadcrumbs(
-									rawBreadcrumbs.concat(src.uniqueId)
+									rawBreadcrumbs.concat(src.uniqueId),
 								);
 							}
 						}}
@@ -141,9 +141,10 @@ const Breadcrumbs: FunctionComponent<{
 						key={i}
 						onClick={() =>
 							update(
-								sources.slice(0, i + 1).map((s) => s.uniqueId)
+								sources.slice(0, i + 1).map((s) => s.uniqueId),
 							)
-						}>
+						}
+					>
 						{label}
 					</a>{" "}
 					&raquo;{" "}
@@ -175,8 +176,8 @@ const SourceData: FunctionComponent<{
 			{source.compiledSourceRefToUrl
 				? "✅ From sourcemap, assumed correct"
 				: source.actualAbsolutePath
-					? "✅ Verified on disk"
-					: "❌ Disk verification failed (does not exist or different content)"}
+				  ? "✅ Verified on disk"
+				  : "❌ Disk verification failed (does not exist or different content)"}
 		</dd>
 		<dt>sourcemap children:</dt>
 		<dd>
@@ -191,7 +192,7 @@ const SourceData: FunctionComponent<{
 									pick={open}
 								/>
 							</li>
-						)
+						),
 					)}
 				</ul>
 			) : (

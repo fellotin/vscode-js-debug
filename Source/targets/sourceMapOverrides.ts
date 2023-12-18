@@ -10,12 +10,12 @@ import { escapeRegexSpecialChars } from "../common/stringUtils";
 const capturingGroup = "*";
 const capturingGroupRe = new RegExp(
 	escapeRegexSpecialChars(capturingGroup),
-	"g"
+	"g",
 );
 const nonCapturingGroup = "?:" + capturingGroup;
 const nonCapturingGroupRe = new RegExp(
 	escapeRegexSpecialChars(nonCapturingGroup),
-	"g"
+	"g",
 );
 
 const occurencesInString = (re: RegExp, str: string) => {
@@ -26,9 +26,9 @@ const occurencesInString = (re: RegExp, str: string) => {
 
 const anyGroupRe = new RegExp(
 	`${escapeRegexSpecialChars(nonCapturingGroup)}|${escapeRegexSpecialChars(
-		capturingGroup
+		capturingGroup,
 	)}`,
-	"g"
+	"g",
 );
 
 /**
@@ -44,13 +44,13 @@ export class SourceMapOverrides {
 
 	constructor(
 		sourceMapOverrides: { [from: string]: string },
-		private readonly logger: ILogger
+		private readonly logger: ILogger,
 	) {
 		// Sort the overrides by length, large to small
 		const sortedOverrideKeys = Object.keys(sourceMapOverrides).sort(
 			(a, b) =>
 				b.replace(nonCapturingGroup, "*").length -
-				a.replace(nonCapturingGroup, "*").length
+				a.replace(nonCapturingGroup, "*").length,
 		);
 
 		// Iterate the key/vals, only apply the first one that matches.
@@ -76,7 +76,7 @@ export class SourceMapOverrides {
 			if (capturedGroups > 1) {
 				logger.warn(
 					LogTag.RuntimeSourceMap,
-					`Warning: only one asterisk allowed in a sourceMapPathOverrides entry - ${entryStr}`
+					`Warning: only one asterisk allowed in a sourceMapPathOverrides entry - ${entryStr}`,
 				);
 				continue;
 			}
@@ -87,7 +87,7 @@ export class SourceMapOverrides {
 			) {
 				logger.warn(
 					LogTag.RuntimeSourceMap,
-					`The right side of a sourceMapPathOverrides entry must have 0 or 1 asterisks - ${entryStr}}`
+					`The right side of a sourceMapPathOverrides entry must have 0 or 1 asterisks - ${entryStr}}`,
 				);
 				continue;
 			}
@@ -100,7 +100,7 @@ export class SourceMapOverrides {
 				const next = anyGroupRe.exec(leftPattern);
 				reSource += escapeRegexSpecialChars(
 					leftPattern.slice(leftIndex, next?.index),
-					"/"
+					"/",
 				);
 
 				if (!next) {
@@ -123,7 +123,9 @@ export class SourceMapOverrides {
 
 			this.replacers.push([
 				new RegExp(reSource + "$", "i"),
-				rightPattern.replace(/\$/g, "$$$$").replace(/\*/, "$1"), // CodeQL [SM02383] intentional behavior, bad detection
+				rightPattern
+					.replace(/\$/g, "$$$$")
+					.replace(/\*/, "$1"), // CodeQL [SM02383] intentional behavior, bad detection
 			]);
 		}
 	}
@@ -137,12 +139,12 @@ export class SourceMapOverrides {
 		for (const [re, replacement] of this.replacers) {
 			const mappedPath = sourcePathWithForwardSlashes.replace(
 				re,
-				replacement
+				replacement,
 			);
 			if (mappedPath !== sourcePathWithForwardSlashes) {
 				this.logger.verbose(
 					LogTag.RuntimeSourceMap,
-					`SourceMap: mapping ${sourcePath} => ${mappedPath}, via sourceMapPathOverrides entry - ${re.toString()}`
+					`SourceMap: mapping ${sourcePath} => ${mappedPath}, via sourceMapPathOverrides entry - ${re.toString()}`,
 				);
 
 				return properJoin(mappedPath); // normalization, see #401

@@ -45,7 +45,7 @@ export class NodeAttacher extends NodeAttacherBase<INodeAttachConfiguration> {
 		@inject(ISourcePathResolverFactory)
 		pathResolverFactory: ISourcePathResolverFactory,
 		@inject(IPortLeaseTracker) portLeaseTracker: IPortLeaseTracker,
-		private readonly restarters = new RestartPolicyFactory()
+		private readonly restarters = new RestartPolicyFactory(),
 	) {
 		super(pathProvider, logger, portLeaseTracker, pathResolverFactory);
 	}
@@ -54,7 +54,7 @@ export class NodeAttacher extends NodeAttacherBase<INodeAttachConfiguration> {
 	 * @inheritdoc
 	 */
 	protected resolveParams(
-		params: AnyLaunchConfiguration
+		params: AnyLaunchConfiguration,
 	): INodeAttachConfiguration | undefined {
 		return params.type === DebugType.Node && params.request === "attach"
 			? params
@@ -65,11 +65,11 @@ export class NodeAttacher extends NodeAttacherBase<INodeAttachConfiguration> {
 	 * @inheritdoc
 	 */
 	protected async launchProgram(
-		runData: IRunData<INodeAttachConfiguration>
+		runData: IRunData<INodeAttachConfiguration>,
 	): Promise<void> {
 		const doLaunch = async (
 			restartPolicy: IRestartPolicy,
-			restarting?: IProgram
+			restarting?: IProgram,
 		): Promise<void> => {
 			const prevProgram = this.program;
 
@@ -82,10 +82,10 @@ export class NodeAttacher extends NodeAttacherBase<INodeAttachConfiguration> {
 						`http://${runData.params.address}:${runData.params.port}`,
 						restarting && runData.params.timeout > 0
 							? CancellationTokenSource.withTimeout(
-									runData.params.timeout
-								).token
+									runData.params.timeout,
+							  ).token
 							: runData.context.cancellationToken,
-						this.logger
+						this.logger,
 					);
 				}
 			} catch (e) {
@@ -113,14 +113,14 @@ export class NodeAttacher extends NodeAttacherBase<INodeAttachConfiguration> {
 
 			const program = (this.program = new WatchDogProgram(watchdog));
 			program.stopped.then((r) =>
-				restart(restartPolicy.reset(), program, r)
+				restart(restartPolicy.reset(), program, r),
 			);
 		};
 
 		const restart = async (
 			restartPolicy: IRestartPolicy,
 			program: IProgram,
-			result: IStopMetadata
+			result: IStopMetadata,
 		) => {
 			if (this.program !== program) {
 				return;
@@ -140,7 +140,7 @@ export class NodeAttacher extends NodeAttacherBase<INodeAttachConfiguration> {
 			runData.context.dap.output({
 				output: l10n.t(
 					"Lost connection to debugee, reconnecting in {0}ms\r\n",
-					nextRestart.delay
+					nextRestart.delay,
 				),
 			});
 
@@ -166,7 +166,7 @@ export class NodeAttacher extends NodeAttacherBase<INodeAttachConfiguration> {
 	}
 
 	public override async terminate(
-		terminateDebuggee?: boolean
+		terminateDebuggee?: boolean,
 	): Promise<void> {
 		await super.terminate();
 
@@ -181,7 +181,7 @@ export class NodeAttacher extends NodeAttacherBase<INodeAttachConfiguration> {
 	protected override createLifecycle(
 		cdp: Cdp.Api,
 		run: IRunData<INodeAttachConfiguration>,
-		target: Cdp.Target.TargetInfo
+		target: Cdp.Target.TargetInfo,
 	) {
 		if (target.openerId) {
 			return {};
@@ -207,7 +207,7 @@ export class NodeAttacher extends NodeAttacherBase<INodeAttachConfiguration> {
 	protected async onFirstInitialize(
 		cdp: Cdp.Api,
 		run: IRunData<INodeAttachConfiguration>,
-		parentInfo: Cdp.Target.TargetInfo
+		parentInfo: Cdp.Target.TargetInfo,
 	) {
 		// We use a lease file to indicate to the process that the debugger is
 		// still running. This is needed because once we attach, we set the
@@ -231,7 +231,7 @@ export class NodeAttacher extends NodeAttacherBase<INodeAttachConfiguration> {
 				run,
 				leaseFile.path,
 				parentInfo.targetId,
-				binary
+				binary,
 			),
 		]);
 
@@ -246,13 +246,13 @@ export class NodeAttacher extends NodeAttacherBase<INodeAttachConfiguration> {
 					ipcAddress: run.serverAddress,
 				},
 				parentInfo.targetId,
-				this.logger
+				this.logger,
 			).catch((err) =>
 				this.logger.warn(
 					LogTag.Internal,
 					"Error watching child processes",
-					{ err }
-				)
+					{ err },
+				),
 			);
 		}
 
@@ -264,7 +264,7 @@ export class NodeAttacher extends NodeAttacherBase<INodeAttachConfiguration> {
 		run: IRunData<INodeAttachConfiguration>,
 		leasePath: string,
 		openerId: string,
-		binary: NodeBinary
+		binary: NodeBinary,
 	) {
 		if (!run.params.autoAttachChildProcesses) {
 			return;
@@ -273,7 +273,7 @@ export class NodeAttacher extends NodeAttacherBase<INodeAttachConfiguration> {
 		if (!(await isLoopback(run.params.address))) {
 			this.logger.warn(
 				LogTag.RuntimeTarget,
-				"Cannot attach to children of remote process"
+				"Cannot attach to children of remote process",
 			);
 			return;
 		}

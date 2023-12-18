@@ -2,8 +2,8 @@
  * Copyright (C) Microsoft Corporation. All rights reserved.
  *--------------------------------------------------------*/
 
-import { inject, injectable } from "inversify";
 import * as path from "path";
+import { inject, injectable } from "inversify";
 import { AnyLaunchConfiguration } from "../configuration";
 import { forceForwardSlashes } from "./pathUtils";
 
@@ -103,7 +103,7 @@ export class FileGlobList {
 					// otherwise just resolve relative to this cwd
 					const rel = path.relative(
 						cwd,
-						path.resolve(this.rootPath, pattern)
+						path.resolve(this.rootPath, pattern),
 					);
 					if (!rel.startsWith("..")) {
 						negations.push(forceForwardSlashes(rel));

@@ -2,10 +2,10 @@
  * Copyright (C) Microsoft Corporation. All rights reserved.
  *--------------------------------------------------------*/
 
-import * as l10n from "@vscode/l10n";
 import { execSync } from "child_process";
 import { promises as fsPromises } from "fs";
 import { basename } from "path";
+import * as l10n from "@vscode/l10n";
 import * as vscode from "vscode";
 import { Configuration, readConfig } from "../common/contributionUtils";
 import { LocalFsUtils } from "../common/fsUtils";
@@ -13,8 +13,8 @@ import { isSubdirectoryOf } from "../common/pathUtils";
 import { nearestDirectoryContaining } from "../common/urlUtils";
 import {
 	INodeAttachConfiguration,
-	nodeAttachConfigDefaults,
 	ResolvingNodeAttachConfiguration,
+	nodeAttachConfigDefaults,
 } from "../configuration";
 import { analyseArguments, processTree } from "./processTree/processTree";
 
@@ -38,7 +38,7 @@ export async function attachProcess() {
 
 	const userDefaults = readConfig(
 		vscode.workspace,
-		Configuration.PickAndAttachDebugOptions
+		Configuration.PickAndAttachDebugOptions,
 	);
 
 	const config: INodeAttachConfiguration = {
@@ -54,7 +54,7 @@ export async function attachProcess() {
 		config.cwd
 			? vscode.workspace.getWorkspaceFolder(vscode.Uri.file(config.cwd))
 			: undefined,
-		config
+		config,
 	);
 }
 
@@ -66,7 +66,7 @@ export async function attachProcess() {
 export async function resolveProcessId(
 	fsUtils: LocalFsUtils,
 	config: ResolvingNodeAttachConfiguration,
-	setCwd = false
+	setCwd = false,
 ) {
 	// we resolve Process Picker early (before VS Code) so that we can probe the process for its protocol
 	const processId = config.processId?.trim();
@@ -75,8 +75,8 @@ export async function resolveProcessId(
 		throw new Error(
 			l10n.t(
 				"Attach to process: '{0}' doesn't look like a process id.",
-				processId || "<unknown>"
-			)
+				processId || "<unknown>",
+			),
 		);
 	}
 
@@ -97,7 +97,7 @@ export async function resolveProcessId(
 
 async function inferWorkingDirectory(
 	fsUtils: LocalFsUtils,
-	processId?: number
+	processId?: number,
 ) {
 	const inferredWd =
 		processId && (await processTree.getWorkingDirectory(processId));
@@ -110,7 +110,7 @@ async function inferWorkingDirectory(
 	const packageRoot = await nearestDirectoryContaining(
 		fsUtils,
 		inferredWd,
-		"package.json"
+		"package.json",
 	);
 	if (!packageRoot) {
 		return inferredWd;
@@ -119,7 +119,7 @@ async function inferWorkingDirectory(
 	// Find the working directory package root. If the original inferred working
 	// directory was inside a workspace folder, don't go past that.
 	const parentWorkspaceFolder = vscode.workspace.getWorkspaceFolder(
-		vscode.Uri.file(inferredWd)
+		vscode.Uri.file(inferredWd),
 	);
 	return !parentWorkspaceFolder ||
 		isSubdirectoryOf(parentWorkspaceFolder.uri.fsPath, packageRoot)
@@ -140,7 +140,7 @@ export async function pickProcess(): Promise<string | null> {
 			l10n.t("Process picker failed ({0})", err.message),
 			{
 				modal: true,
-			}
+			},
 		);
 		return null;
 	}
@@ -202,13 +202,13 @@ async function listProcesses(): Promise<IProcessItem | undefined> {
 							"process id: {0}, debug port: {1} ({2})",
 							leaf.pid,
 							port,
-							"SIGUSR1"
-						)
+							"SIGUSR1",
+					  )
 					: l10n.t("process id: {0} ({1})", leaf.pid, "SIGUSR1"),
 			};
 
 			const index = acc.findIndex(
-				(item) => item.sortKey < newItem.sortKey
+				(item) => item.sortKey < newItem.sortKey,
 			);
 			acc.splice(index === -1 ? acc.length : index, 0, newItem);
 			quickPick.items = acc;
@@ -217,7 +217,7 @@ async function listProcesses(): Promise<IProcessItem | undefined> {
 		.then(() => (quickPick.busy = false))
 		.catch((err) => {
 			vscode.window.showErrorMessage(
-				`Error listing processes: ${err.message}`
+				`Error listing processes: ${err.message}`,
 			);
 			quickPick.dispose();
 		});
@@ -245,8 +245,8 @@ function putPidInDebugMode(pid: number): void {
 			l10n.t(
 				"Attach to process: cannot enable debug mode for process '{0}' ({1}).",
 				pid,
-				e
-			)
+				e,
+			),
 		);
 	}
 }

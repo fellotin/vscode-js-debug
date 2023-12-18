@@ -2380,7 +2380,7 @@ export namespace Dap {
 		__restart?: any[] | boolean | integer | null | number | object | string;
 	}
 
-	export interface AttachResult {}
+	export type AttachResult = {};
 
 	export interface BreakpointEventParams {
 		/**
@@ -2442,7 +2442,7 @@ export namespace Dap {
 		progressId?: string;
 	}
 
-	export interface CancelResult {}
+	export type CancelResult = {};
 
 	export interface CapabilitiesEventParams {
 		/**
@@ -2455,7 +2455,7 @@ export namespace Dap {
 		params: CapabilitiesExtended;
 	}
 
-	export interface CapabilitiesExtendedResult {}
+	export type CapabilitiesExtendedResult = {};
 
 	export interface CompletionsParams {
 		/**
@@ -2486,9 +2486,9 @@ export namespace Dap {
 		targets: CompletionItem[];
 	}
 
-	export interface ConfigurationDoneParams {}
+	export type ConfigurationDoneParams = {};
 
-	export interface ConfigurationDoneResult {}
+	export type ConfigurationDoneResult = {};
 
 	export interface ContinueParams {
 		/**
@@ -2589,7 +2589,7 @@ export namespace Dap {
 		source: Source;
 	}
 
-	export interface DisableSourcemapResult {}
+	export type DisableSourcemapResult = {};
 
 	export interface DisassembleParams {
 		/**
@@ -2647,7 +2647,7 @@ export namespace Dap {
 		suspendDebuggee?: boolean;
 	}
 
-	export interface DisconnectResult {}
+	export type DisconnectResult = {};
 
 	export interface EvaluateParams {
 		/**
@@ -2724,7 +2724,7 @@ export namespace Dap {
 		stackTraceParams?: StackTraceParamsExtended;
 	}
 
-	export interface EvaluationOptionsResult {}
+	export type EvaluationOptionsResult = {};
 
 	export interface ExceptionInfoParams {
 		/**
@@ -2762,7 +2762,7 @@ export namespace Dap {
 		exitCode: integer;
 	}
 
-	export interface GetPerformanceParams {}
+	export type GetPerformanceParams = {};
 
 	export interface GetPerformanceResult {
 		/**
@@ -2788,7 +2788,7 @@ export namespace Dap {
 		targetId: integer;
 	}
 
-	export interface GotoResult {}
+	export type GotoResult = {};
 
 	export interface GotoTargetsParams {
 		/**
@@ -3093,7 +3093,7 @@ export namespace Dap {
 		supportsSingleThreadExecutionRequests?: boolean;
 	}
 
-	export interface InitializedEventParams {}
+	export type InitializedEventParams = {};
 
 	export interface InvalidatedEventParams {
 		/**
@@ -3164,7 +3164,7 @@ export namespace Dap {
 		__restart?: any[] | boolean | integer | null | number | object | string;
 	}
 
-	export interface LaunchResult {}
+	export type LaunchResult = {};
 
 	export interface LaunchUnelevatedParams {
 		process?: string;
@@ -3172,7 +3172,7 @@ export namespace Dap {
 		args?: string[];
 	}
 
-	export interface LaunchUnelevatedResult {}
+	export type LaunchUnelevatedResult = {};
 
 	export interface LaunchVSCodeParams {
 		args: LaunchVSCodeArgument[];
@@ -3198,7 +3198,7 @@ export namespace Dap {
 		source: Source;
 	}
 
-	export interface LoadedSourcesParams {}
+	export type LoadedSourcesParams = {};
 
 	export interface LoadedSourcesResult {
 		/**
@@ -3207,7 +3207,7 @@ export namespace Dap {
 		sources: Source[];
 	}
 
-	export interface LongPredictionEventParams {}
+	export type LongPredictionEventParams = {};
 
 	export interface MemoryEventParams {
 		/**
@@ -3279,7 +3279,7 @@ export namespace Dap {
 		granularity?: SteppingGranularity;
 	}
 
-	export interface NextResult {}
+	export type NextResult = {};
 
 	export interface OpenDiagnosticToolEventParams {
 		/**
@@ -3337,7 +3337,7 @@ export namespace Dap {
 		threadId: integer;
 	}
 
-	export interface PauseResult {}
+	export type PauseResult = {};
 
 	export interface PrettyPrintSourceParams {
 		/**
@@ -3356,7 +3356,7 @@ export namespace Dap {
 		column?: integer;
 	}
 
-	export interface PrettyPrintSourceResult {}
+	export type PrettyPrintSourceResult = {};
 
 	export interface ProcessEventParams {
 		/**
@@ -3521,7 +3521,7 @@ export namespace Dap {
 		doesExists: boolean;
 	}
 
-	export interface RequestCDPProxyParams {}
+	export type RequestCDPProxyParams = {};
 
 	export interface RequestCDPProxyResult {
 		/**
@@ -3547,7 +3547,7 @@ export namespace Dap {
 		frameId: integer;
 	}
 
-	export interface RestartFrameResult {}
+	export type RestartFrameResult = {};
 
 	export interface RestartParams {
 		/**
@@ -3556,7 +3556,7 @@ export namespace Dap {
 		arguments?: LaunchRequestArguments | AttachRequestArguments;
 	}
 
-	export interface RestartResult {}
+	export type RestartResult = {};
 
 	export interface RevealLocationRequestedEventParams {
 		/**
@@ -3575,9 +3575,9 @@ export namespace Dap {
 		column?: integer;
 	}
 
-	export interface RevealPageParams {}
+	export type RevealPageParams = {};
 
-	export interface RevealPageResult {}
+	export type RevealPageResult = {};
 
 	export interface ReverseContinueParams {
 		/**
@@ -3591,7 +3591,7 @@ export namespace Dap {
 		singleThread?: boolean;
 	}
 
-	export interface ReverseContinueResult {}
+	export type ReverseContinueResult = {};
 
 	export interface RunInTerminalParams {
 		/**
@@ -3644,7 +3644,7 @@ export namespace Dap {
 		toFile: string;
 	}
 
-	export interface SaveDiagnosticLogsResult {}
+	export type SaveDiagnosticLogsResult = {};
 
 	export interface ScopesParams {
 		/**
@@ -3702,7 +3702,7 @@ export namespace Dap {
 		xhr: string[];
 	}
 
-	export interface SetCustomBreakpointsResult {}
+	export type SetCustomBreakpointsResult = {};
 
 	export interface SetDataBreakpointsParams {
 		/**
@@ -3722,7 +3722,7 @@ export namespace Dap {
 		params: SetDebuggerPropertyParams;
 	}
 
-	export interface SetDebuggerPropertyResult {}
+	export type SetDebuggerPropertyResult = {};
 
 	export interface SetExceptionBreakpointsParams {
 		/**
@@ -3754,7 +3754,7 @@ export namespace Dap {
 		callers: ExcludedCaller[];
 	}
 
-	export interface SetExcludedCallersResult {}
+	export type SetExcludedCallersResult = {};
 
 	export interface SetExpressionParams {
 		/**
@@ -3854,11 +3854,11 @@ export namespace Dap {
 		enabled: boolean;
 	}
 
-	export interface SetSourceMapSteppingResult {}
+	export type SetSourceMapSteppingResult = {};
 
-	export interface SetSymbolOptionsParams {}
+	export type SetSymbolOptionsParams = {};
 
-	export interface SetSymbolOptionsResult {}
+	export type SetSymbolOptionsResult = {};
 
 	export interface SetVariableParams {
 		/**
@@ -3993,7 +3993,7 @@ export namespace Dap {
 		request: string;
 	}
 
-	export interface StartDebuggingResult {}
+	export type StartDebuggingResult = {};
 
 	export interface StartProfileParams {
 		/**
@@ -4012,7 +4012,7 @@ export namespace Dap {
 		params?: object;
 	}
 
-	export interface StartProfileResult {}
+	export type StartProfileResult = {};
 
 	export interface StartSelfProfileParams {
 		/**
@@ -4021,7 +4021,7 @@ export namespace Dap {
 		file: string;
 	}
 
-	export interface StartSelfProfileResult {}
+	export type StartSelfProfileResult = {};
 
 	export interface StepBackParams {
 		/**
@@ -4040,7 +4040,7 @@ export namespace Dap {
 		granularity?: SteppingGranularity;
 	}
 
-	export interface StepBackResult {}
+	export type StepBackResult = {};
 
 	export interface StepInParams {
 		/**
@@ -4064,7 +4064,7 @@ export namespace Dap {
 		granularity?: SteppingGranularity;
 	}
 
-	export interface StepInResult {}
+	export type StepInResult = {};
 
 	export interface StepInTargetsParams {
 		/**
@@ -4097,15 +4097,15 @@ export namespace Dap {
 		granularity?: SteppingGranularity;
 	}
 
-	export interface StepOutResult {}
+	export type StepOutResult = {};
 
-	export interface StopProfileParams {}
+	export type StopProfileParams = {};
 
-	export interface StopProfileResult {}
+	export type StopProfileResult = {};
 
-	export interface StopSelfProfileParams {}
+	export type StopSelfProfileParams = {};
 
-	export interface StopSelfProfileResult {}
+	export type StopSelfProfileResult = {};
 
 	export interface StoppedEventParams {
 		/**
@@ -4159,7 +4159,7 @@ export namespace Dap {
 		hitBreakpointIds?: integer[];
 	}
 
-	export interface SuggestDiagnosticToolEventParams {}
+	export type SuggestDiagnosticToolEventParams = {};
 
 	export interface SuggestDisableSourcemapEventParams {
 		/**
@@ -4175,7 +4175,7 @@ export namespace Dap {
 		restart?: boolean;
 	}
 
-	export interface TerminateResult {}
+	export type TerminateResult = {};
 
 	export interface TerminateThreadsParams {
 		/**
@@ -4184,7 +4184,7 @@ export namespace Dap {
 		threadIds?: integer[];
 	}
 
-	export interface TerminateThreadsResult {}
+	export type TerminateThreadsResult = {};
 
 	export interface TerminatedEventParams {
 		/**
@@ -4206,7 +4206,7 @@ export namespace Dap {
 		threadId: integer;
 	}
 
-	export interface ThreadsParams {}
+	export type ThreadsParams = {};
 
 	export interface ThreadsResult {
 		/**
@@ -4227,7 +4227,7 @@ export namespace Dap {
 		sourceReference?: number;
 	}
 
-	export interface ToggleSkipFileStatusResult {}
+	export type ToggleSkipFileStatusResult = {};
 
 	export interface VariablesParams {
 		/**
@@ -4635,7 +4635,7 @@ export namespace Dap {
 	/**
 	 * Arguments for "setDebuggerProperty" request. Properties are determined by debugger.
 	 */
-	export interface SetDebuggerPropertyParams {}
+	export type SetDebuggerPropertyParams = {};
 
 	/**
 	 * Properties of a data breakpoint passed to the `setDataBreakpoints` request.

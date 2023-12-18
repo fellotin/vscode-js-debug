@@ -10,7 +10,7 @@ import { DebugSessionTunnels } from "./debugSessionTunnels";
 
 export const registerRequestCDPProxy = (
 	context: vscode.ExtensionContext,
-	tracker: DebugSessionTracker
+	tracker: DebugSessionTracker,
 ) => {
 	const tunnels = new DebugSessionTunnels();
 
@@ -49,7 +49,7 @@ export const registerRequestCDPProxy = (
 				}
 
 				return proxied;
-			}
-		)
+			},
+		),
 	);
 };

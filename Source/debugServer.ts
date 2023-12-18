@@ -2,11 +2,11 @@
  * Copyright (C) Microsoft Corporation. All rights reserved.
  *--------------------------------------------------------*/
 
-import * as l10n from "@vscode/l10n";
 import * as fs from "fs";
 import * as net from "net";
 import * as os from "os";
 import * as path from "path";
+import * as l10n from "@vscode/l10n";
 import { DebugAdapter } from "./adapter/debugAdapter";
 import { Binder, IBinderDelegate } from "./binder";
 import { IDisposable } from "./common/disposable";
@@ -74,7 +74,7 @@ class Configurator {
 	async configure(adapter: DebugAdapter) {
 		if (this._setExceptionBreakpointsParams)
 			await adapter.setExceptionBreakpoints(
-				this._setExceptionBreakpointsParams
+				this._setExceptionBreakpointsParams,
 			);
 		for (const { params, ids } of this._setBreakpointsParams)
 			await adapter.breakpointManager.setBreakpoints(params, ids);
@@ -88,13 +88,13 @@ class Configurator {
 
 export function startDebugServer(
 	port: number,
-	host?: string
+	host?: string,
 ): Promise<IDisposable> {
 	return new Promise((resolve, reject) => {
 		const server = net
 			.createServer(async (socket) => {
 				const services = createTopLevelSessionContainer(
-					createGlobalContainer({ storagePath, isVsCode: false })
+					createGlobalContainer({ storagePath, isVsCode: false }),
 				);
 				const binderDelegate: IBinderDelegate = {
 					async acquireDap(): Promise<DapConnection> {
@@ -106,7 +106,7 @@ export function startDebugServer(
 					},
 
 					async initAdapter(
-						debugAdapter: DebugAdapter
+						debugAdapter: DebugAdapter,
 					): Promise<boolean> {
 						await configurator.configure(debugAdapter);
 						return true;
@@ -120,17 +120,17 @@ export function startDebugServer(
 				const transport = new StreamDapTransport(
 					socket,
 					socket,
-					services.get(ILogger)
+					services.get(ILogger),
 				);
 				const connection = new DapConnection(
 					transport,
-					services.get(ILogger)
+					services.get(ILogger),
 				);
 				new Binder(
 					binderDelegate,
 					connection,
 					services,
-					new TargetOrigin("targetOrigin")
+					new TargetOrigin("targetOrigin"),
 				);
 				const configurator = new Configurator(connection.dap());
 			})
@@ -139,7 +139,7 @@ export function startDebugServer(
 				console.log(
 					`Debug server listening at ${
 						(server.address() as net.AddressInfo).port
-					}`
+					}`,
 				);
 				resolve({
 					dispose: () => {

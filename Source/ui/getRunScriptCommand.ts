@@ -2,13 +2,13 @@
  * Copyright (C) Microsoft Corporation. All rights reserved.
  *--------------------------------------------------------*/
 
-import { commands, WorkspaceFolder } from "vscode";
+import { WorkspaceFolder, commands } from "vscode";
 
 /**
  * Gets the package manager the user configured in the folder.
  */
 export const getPackageManager = async (
-	folder: WorkspaceFolder | undefined
+	folder: WorkspaceFolder | undefined,
 ) => {
 	try {
 		return await commands.executeCommand("npm.packageManager", folder?.uri);
@@ -22,5 +22,5 @@ export const getPackageManager = async (
  */
 export const getRunScriptCommand = async (
 	name: string,
-	folder?: WorkspaceFolder
+	folder?: WorkspaceFolder,
 ) => `${await getPackageManager(folder)} run ${name}`;

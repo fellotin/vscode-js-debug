@@ -32,7 +32,7 @@ export class UserDefinedBreakpoint extends Breakpoint {
 		public readonly dapId: number,
 		source: Dap.Source,
 		private readonly dapParams: Dap.SourceBreakpoint,
-		private readonly condition: IBreakpointCondition
+		private readonly condition: IBreakpointCondition,
 	) {
 		super(manager, source, {
 			lineNumber: dapParams.line,
@@ -121,8 +121,8 @@ export class UserDefinedBreakpoint extends Breakpoint {
 	 */
 	protected updateCdpRefs(
 		mutator: (
-			l: ReadonlyArray<BreakpointCdpReference>
-		) => ReadonlyArray<BreakpointCdpReference>
+			l: ReadonlyArray<BreakpointCdpReference>,
+		) => ReadonlyArray<BreakpointCdpReference>,
 	) {
 		const previousLocation = this.getResolvedUiLocation();
 		super.updateCdpRefs(mutator);
@@ -155,7 +155,7 @@ export class UserDefinedBreakpoint extends Breakpoint {
 	private async notifyResolved(): Promise<void> {
 		await this._manager.notifyBreakpointChange(
 			this,
-			this.completedSet.hasSettled()
+			this.completedSet.hasSettled(),
 		);
 	}
 }

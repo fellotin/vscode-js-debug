@@ -8,10 +8,10 @@ import * as vscode from "vscode";
 import { DebugType } from "../../common/contributionUtils";
 import {
 	AnyEdgeConfiguration,
-	edgeAttachConfigDefaults,
-	edgeLaunchConfigDefaults,
 	IEdgeLaunchConfiguration,
 	ResolvingEdgeConfiguration,
+	edgeAttachConfigDefaults,
+	edgeLaunchConfigDefaults,
 } from "../../configuration";
 import {
 	ChromiumDebugConfigurationProvider,
@@ -31,7 +31,7 @@ export class EdgeDebugConfigurationResolver
 	 */
 	protected async resolveDebugConfigurationAsync(
 		folder: vscode.WorkspaceFolder | undefined,
-		config: ResolvingEdgeConfiguration
+		config: ResolvingEdgeConfiguration,
 	): Promise<AnyEdgeConfiguration | undefined> {
 		if (!config.name && !config.type && !config.request) {
 			const fromContext =

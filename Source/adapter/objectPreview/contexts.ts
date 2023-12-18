@@ -22,7 +22,7 @@ export interface IPreviewContext {
 /**
  * Known REPL preview types.
  */
-export const enum PreviewContextType {
+export enum PreviewContextType {
 	Repl = "repl",
 	Hover = "hover",
 	Watch = "watch",
@@ -53,7 +53,7 @@ const watch: IPreviewContext = {
 const fallback: IPreviewContext = { budget: 100_000, quoted: true };
 
 export const getContextForType = (
-	type: PreviewContextType | string | undefined
+	type: PreviewContextType | string | undefined,
 ) => {
 	switch (type) {
 		case PreviewContextType.Repl:

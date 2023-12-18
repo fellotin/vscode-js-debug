@@ -22,7 +22,7 @@ export class Semver {
 	constructor(
 		public readonly major: number,
 		public readonly minor: number,
-		public readonly patch: number
+		public readonly patch: number,
 	) {}
 
 	/**

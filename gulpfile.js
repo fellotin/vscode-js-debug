@@ -63,8 +63,8 @@ async function runBuildScript(name) {
 				} catch {
 					resolve(outstr);
 				}
-			}
-		)
+			},
+		),
 	);
 }
 
@@ -79,7 +79,7 @@ async function readJson(file) {
 gulp.task("clean-assertions", () => del(["src/test/**/*.txt.actual"]));
 
 gulp.task("clean", () =>
-	del(["dist/**", "src/*/package.nls.*.json", "packages/**", "*.vsix"])
+	del(["dist/**", "src/*/package.nls.*.json", "packages/**", "*.vsix"]),
 );
 
 async function fixNightlyReadme() {
@@ -96,7 +96,7 @@ const getVersionNumber = () => {
 	}
 
 	const date = new Date(
-		new Date().toLocaleString("en-US", { timeZone: "America/Los_Angeles" })
+		new Date().toLocaleString("en-US", { timeZone: "America/Los_Angeles" }),
 	);
 	const monthMinutes =
 		(date.getDate() - 1) * 24 * 60 +
@@ -115,7 +115,7 @@ const getVersionNumber = () => {
 
 const cachedBuilds = new Map();
 const incrementalEsbuild = async (
-	/** @type {esbuild.BuildOptions} */ options
+	/** @type {esbuild.BuildOptions} */ options,
 ) => {
 	const key = JSON.stringify(options);
 	if (cachedBuilds.has(key)) {
@@ -146,7 +146,7 @@ gulp.task("compile:build-scripts", async () =>
 		define: await getConstantDefines(),
 		bundle: true,
 		platform: "node",
-	})
+	}),
 );
 
 gulp.task("compile:dynamic", async () => {
@@ -183,15 +183,15 @@ gulp.task("compile:static", () =>
 			],
 			{
 				base: ".",
-			}
+			},
 		),
 		gulp
 			.src([
 				"node_modules/source-map/lib/*.wasm",
 				"node_modules/@c4312/chromehash/pkg/*.wasm",
 			])
-			.pipe(rename({ dirname: "src" }))
-	).pipe(gulp.dest(buildDir))
+			.pipe(rename({ dirname: "src" })),
+	).pipe(gulp.dest(buildDir)),
 );
 
 const resolveDefaultExts = [".tsx", ".ts", ".jsx", ".js", ".css", ".json"];
@@ -201,7 +201,7 @@ async function getConstantDefines() {
 	return {
 		EXTENSION_NAME: JSON.stringify(extensionName),
 		EXTENSION_VERSION: JSON.stringify(
-			isNightly ? getVersionNumber() : packageJson.version
+			isNightly ? getVersionNumber() : packageJson.version,
 		),
 		EXTENSION_PUBLISHER: JSON.stringify(packageJson.publisher),
 	};
@@ -233,7 +233,7 @@ async function compileTs({
 					...compileVendorLibrary("acorn-loose"),
 					plugins: [
 						esbuildPlugins.hackyVendorBundle(
-							new Map([["acorn", "./acorn"]])
+							new Map([["acorn", "./acorn"]]),
 						),
 					],
 				},
@@ -250,8 +250,8 @@ async function compileTs({
 				});
 
 				return [name, `./${vendorPrefix}/${name}.js`];
-			})
-		)
+			}),
+		),
 	);
 
 	// add the entrypoints common to both vscode and vs here
@@ -282,7 +282,7 @@ async function compileTs({
 
 	const define = await getConstantDefines();
 
-	let todo = [];
+	const todo = [];
 	for (const {
 		entry,
 		platform = "node",
@@ -317,7 +317,7 @@ async function compileTs({
 					esbuildPlugins.hackyVendorBundle(vendors),
 				],
 				format: library ? "cjs" : "iife",
-			})
+			}),
 		);
 	}
 
@@ -325,7 +325,7 @@ async function compileTs({
 
 	await fs.promises.appendFile(
 		path.resolve(buildSrcDir, "bootloader.js"),
-		"\n//# sourceURL=bootloader.bundle.cdp"
+		"\n//# sourceURL=bootloader.bundle.cdp",
 	);
 }
 
@@ -349,8 +349,8 @@ gulp.task(
 		"compile:static",
 		"compile:build-scripts",
 		"compile:dynamic",
-		"compile:extension"
-	)
+		"compile:extension",
+	),
 );
 
 /** Run webpack to bundle into the flat session launcher (for VS or standalone debug server)  */
@@ -385,30 +385,30 @@ gulp.task("package:createVSIX", () =>
 		cwd: buildDir,
 		useYarn: true,
 		packagePath: path.join(buildDir, `${extensionName}.vsix`),
-	})
+	}),
 );
 
 gulp.task("l10n:bundle-download", async () => {
 	const res = await got(
-		"https://github.com/microsoft/vscode-loc/archive/main.zip"
+		"https://github.com/microsoft/vscode-loc/archive/main.zip",
 	).buffer();
 	const content = await jszip.loadAsync(res);
 
 	for (const fileName of Object.keys(content.files)) {
 		const match =
 			/vscode-language-pack-(.*?)\/.+ms-vscode\.js-debug.*?\.i18n\.json$/.exec(
-				fileName
+				fileName,
 			);
 		if (match) {
 			const locale = match[1];
 			const file = content.files[fileName];
 			const extractPath = path.join(
 				buildDir,
-				`nls.bundle.${locale}.json`
+				`nls.bundle.${locale}.json`,
 			);
 			await pipelineAsync(
 				file.nodeStream(),
-				fs.createWriteStream(extractPath)
+				fs.createWriteStream(extractPath),
 			);
 		}
 	}
@@ -423,8 +423,8 @@ gulp.task(
 		"compile:build-scripts",
 		"compile:dynamic",
 		"compile:extension",
-		"package:createVSIX"
-	)
+		"package:createVSIX",
+	),
 );
 
 /** Prepares the package and then hoists it to the root directory. Destructive. */
@@ -444,26 +444,26 @@ gulp.task(
 			});
 			await fs.promises.rename(
 				path.join(buildDir, file),
-				path.join(__dirname, file)
+				path.join(__dirname, file),
 			);
 		}
 		await fs.promises.appendFile(
 			path.join(__dirname, ".vscodeignore"),
-			[...ignoredFiles].join("\n")
+			[...ignoredFiles].join("\n"),
 		);
-	})
+	}),
 );
 
 gulp.task("package", gulp.series("package:prepare", "package:createVSIX"));
 
 gulp.task(
 	"flatSessionBundle",
-	gulp.series("clean", "compile", "flatSessionBundle:webpack-bundle")
+	gulp.series("clean", "compile", "flatSessionBundle:webpack-bundle"),
 );
 
 gulp.task(
 	"dapDebugServer",
-	gulp.series("clean", "compile:static", "dapDebugServer:webpack-bundle")
+	gulp.series("clean", "compile:static", "dapDebugServer:webpack-bundle"),
 );
 
 gulp.task(
@@ -472,8 +472,8 @@ gulp.task(
 		"clean",
 		"compile",
 		"vsDebugServerBundle:webpack-bundle",
-		"l10n:bundle-download"
-	)
+		"l10n:bundle-download",
+	),
 );
 
 /** Publishes the build extension to the marketplace */
@@ -484,7 +484,7 @@ gulp.task("publish:vsce", () =>
 		pat: process.env.MARKETPLACE_TOKEN,
 		useYarn: true,
 		cwd: buildDir,
-	})
+	}),
 );
 
 gulp.task("publish", gulp.series("package", "publish:vsce"));
@@ -495,7 +495,7 @@ gulp.task(
 	gulp.series("clean", "compile", (done) => {
 		gulp.watch([...sources, "*.json"], gulp.series("compile"));
 		done();
-	})
+	}),
 );
 
 const runPrettier = (onlyStaged, fix, callback) => {
@@ -507,11 +507,11 @@ const runPrettier = (onlyStaged, fix, callback) => {
 			"!src/**/*.d.ts",
 			"*.md",
 		],
-		{ stdio: "inherit" }
+		{ stdio: "inherit" },
 	);
 
 	child.on("exit", (code) =>
-		code ? callback(`Prettier exited with code ${code}`) : callback()
+		code ? callback(`Prettier exited with code ${code}`) : callback(),
 	);
 };
 
@@ -519,11 +519,11 @@ const runEslint = (fix, callback) => {
 	const child = cp.fork(
 		"./node_modules/eslint/bin/eslint.js",
 		["--color", "src/**/*.ts", fix ? "--fix" : ["--max-warnings=0"]],
-		{ stdio: "inherit" }
+		{ stdio: "inherit" },
 	);
 
 	child.on("exit", (code) =>
-		code ? callback(`Eslint exited with code ${code}`) : callback()
+		code ? callback(`Eslint exited with code ${code}`) : callback(),
 	);
 };
 
@@ -542,7 +542,7 @@ gulp.task("lint", gulp.parallel("lint:prettier", "lint:eslint"));
  */
 function runCommand(cmd, options) {
 	return new Promise((resolve, reject) => {
-		let execError = undefined;
+		const execError = undefined;
 		try {
 			execSync(cmd, { stdio: "inherit", ...options });
 		} catch (err) {

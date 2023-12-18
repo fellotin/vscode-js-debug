@@ -118,22 +118,22 @@ export interface IPreferredUiLocation extends IUiLocation {
 
 export enum UnmappedReason {
 	/** The map has been disabled temporarily, due to setting a breakpoint in a compiled script */
-	MapDisabled,
+	MapDisabled = 0,
 
 	/** The source in the UI location has no map */
-	HasNoMap,
+	HasNoMap = 1,
 
 	/** The location cannot be source mapped due to an error loading the map */
-	MapLoadingFailed,
+	MapLoadingFailed = 2,
 
 	/** The location cannot be source mapped due to its position not being present in the map */
-	MapPositionMissing,
+	MapPositionMissing = 3,
 
 	/**
 	 * The location cannot be sourcemapped, due to not having a sourcemap,
 	 * failing to load the sourcemap, not having a mapping in the sourcemap, etc
 	 */
-	CannotMap,
+	CannotMap = 4,
 }
 
 const maxInt32 = 2 ** 31 - 1;
@@ -157,7 +157,7 @@ export class SourceContainer {
 	private onScriptEmitter = new EventEmitter<Script>();
 	private _dap: Dap.Api;
 	private _sourceByOriginalUrl: Map<string, Source> = new MapUsingProjection(
-		(s) => s.toLowerCase()
+		(s) => s.toLowerCase(),
 	);
 	private _sourceByReference: Map<number, Source> = new Map();
 	private _sourceMapSourcesByUrl: Map<string, SourceFromMap> = new Map();
@@ -369,7 +369,7 @@ export class SourceContainer {
 
 		this.logger.assert(
 			false,
-			"Max iterations exceeding for source reference assignment"
+			"Max iterations exceeding for source reference assignment",
 		);
 		return id; // conflicts, but it's better than nothing, maybe?
 	}
@@ -383,7 +383,7 @@ export class SourceContainer {
 	 * single preferred location.
 	 */
 	public async preferredUiLocation(
-		uiLocation: IUiLocation
+		uiLocation: IUiLocation,
 	): Promise<IPreferredUiLocation> {
 		let isMapped = false;
 		let unmappedReason: UnmappedReason | undefined =
@@ -411,7 +411,7 @@ export class SourceContainer {
 	 */
 	public async currentSiblingUiLocations(
 		uiLocation: IUiLocation,
-		inSource?: Source
+		inSource?: Source,
 	): Promise<IUiLocation[]> {
 		const locations = await this._uiLocations(uiLocation);
 		return inSource
@@ -440,7 +440,7 @@ export class SourceContainer {
 	 * taking into account source maps.
 	 */
 	private async _uiLocations(
-		uiLocation: IUiLocation
+		uiLocation: IUiLocation,
 	): Promise<IUiLocation[]> {
 		const [original, source] = await Promise.all([
 			this.getSourceMapUiLocations(uiLocation),
@@ -457,7 +457,7 @@ export class SourceContainer {
 	 * not just one.
 	 */
 	private async getSourceMapUiLocations(
-		uiLocation: IUiLocation
+		uiLocation: IUiLocation,
 	): Promise<IUiLocation[]> {
 		const sourceMapUiLocation = await this._originalPositionFor(uiLocation);
 		if (!isUiLocation(sourceMapUiLocation)) {
@@ -480,7 +480,7 @@ export class SourceContainer {
 
 		const map = await SourceLocationProvider.waitForValueWithTimeout(
 			uiLocation.source.sourceMap,
-			this._sourceMapTimeouts.resolveLocation
+			this._sourceMapTimeouts.resolveLocation,
 		);
 		if (!map) {
 			return UnmappedReason.MapLoadingFailed;
@@ -494,8 +494,8 @@ export class SourceContainer {
 			const l = await map.disassembledPositionFor(
 				new Base1Position(
 					uiLocation.lineNumber,
-					uiLocation.columnNumber
-				)
+					uiLocation.columnNumber,
+				),
 			);
 			const mapped =
 				l && uiLocation.source.sourceMap.sourceByUrl.get(l.url);
@@ -505,7 +505,7 @@ export class SourceContainer {
 							columnNumber: l.position.base1.lineNumber,
 							lineNumber: l.position.base1.lineNumber,
 							source: mapped,
-						}
+					  }
 					: UnmappedReason.MapPositionMissing;
 			}
 		}
@@ -518,7 +518,7 @@ export class SourceContainer {
 	 */
 	private async _originalPositionForMap(
 		uiLocation: IUiLocation,
-		map: SourceMap | IWasmSymbols
+		map: SourceMap | IWasmSymbols,
 	): Promise<IUiLocation | UnmappedReason> {
 		const compiled = uiLocation.source;
 		if (!isSourceWithMap(compiled)) {
@@ -534,7 +534,7 @@ export class SourceContainer {
 
 		const entry = await this.getOptiminalOriginalPosition(
 			map,
-			rawToUiOffset(uiLocation, compiled.inlineScriptOffset)
+			rawToUiOffset(uiLocation, compiled.inlineScriptOffset),
 		);
 
 		if (!entry) {
@@ -555,7 +555,7 @@ export class SourceContainer {
 	}
 
 	private async getCompiledLocations(
-		uiLocation: IUiLocation
+		uiLocation: IUiLocation,
 	): Promise<IUiLocation[]> {
 		if (!(uiLocation.source instanceof SourceFromMap)) {
 			return [];
@@ -566,7 +566,7 @@ export class SourceContainer {
 			.compiledToSourceUrl) {
 			const value = await SourceLocationProvider.waitForValueWithTimeout(
 				compiled.sourceMap,
-				this._sourceMapTimeouts.resolveLocation
+				this._sourceMapTimeouts.resolveLocation,
 			);
 
 			if (!value) {
@@ -579,8 +579,8 @@ export class SourceContainer {
 					sourceUrl,
 					new Base1Position(
 						uiLocation.lineNumber,
-						uiLocation.columnNumber
-					)
+						uiLocation.columnNumber,
+					),
 				);
 				if (!entry) {
 					continue;
@@ -597,9 +597,9 @@ export class SourceContainer {
 						sourceUtils.getOptimalCompiledPosition(
 							sourceUrl,
 							uiLocation,
-							value
+							value,
 						),
-					getFallbackPosition
+					getFallbackPosition,
 				);
 
 				if (!entry) {
@@ -611,7 +611,7 @@ export class SourceContainer {
 						lineNumber: entry.line || 1,
 						columnNumber: (entry.column || 0) + 1, // correct for 0 index
 					},
-					compiled.inlineScriptOffset
+					compiled.inlineScriptOffset,
 				);
 
 				// recurse for nested sourcemaps:
@@ -633,14 +633,14 @@ export class SourceContainer {
 	 */
 	public async getOptiminalOriginalPosition(
 		sourceMap: SourceMap | IWasmSymbols,
-		uiLocation: LineColumn
+		uiLocation: LineColumn,
 	): Promise<{ url: string; position: IPosition } | undefined> {
 		if (isWasmSymbols(sourceMap)) {
 			return await sourceMap.originalPositionFor(
 				new Base1Position(
 					uiLocation.lineNumber,
-					uiLocation.columnNumber
-				)
+					uiLocation.columnNumber,
+				),
 			);
 		}
 		const value =
@@ -663,7 +663,7 @@ export class SourceContainer {
 						bias: SourceMapConsumer.LEAST_UPPER_BOUND,
 					});
 				},
-				getFallbackPosition
+				getFallbackPosition,
 			);
 
 		if (
@@ -689,7 +689,7 @@ export class SourceContainer {
 		sourceMapUrl?: string,
 		inlineSourceRange?: InlineScriptOffset,
 		runtimeScriptOffset?: InlineScriptOffset,
-		contentHash?: string
+		contentHash?: string,
 	): Promise<Source> {
 		const absolutePath = await this.sourcePathResolver.urlToAbsolutePath({
 			url: event.url,
@@ -701,7 +701,7 @@ export class SourceContainer {
 			{
 				inputUrl: event.url,
 				absolutePath,
-			}
+			},
 		);
 
 		let source: Source;
@@ -722,11 +722,11 @@ export class SourceContainer {
 							sourceMapUrl,
 							compiledPath: absolutePath || event.url,
 							cacheKey: event.hash,
-						}
+					  }
 					: undefined,
 				inlineSourceRange,
 				runtimeScriptOffset,
-				contentHash
+				contentHash,
 			);
 		}
 
@@ -755,7 +755,7 @@ export class SourceContainer {
 		// of internal prefixes. If we see a duplicate entries for an absolute path,
 		// take the shorter of them.
 		const existingByPath = this._sourceByAbsolutePath.get(
-			source.absolutePath
+			source.absolutePath,
 		);
 		if (
 			existingByPath === undefined ||
@@ -769,7 +769,7 @@ export class SourceContainer {
 		source
 			.toDap()
 			.then((dap) =>
-				this._dap.loadedSource({ reason: "new", source: dap })
+				this._dap.loadedSource({ reason: "new", source: dap }),
 			);
 
 		if (isSourceWithSourceMap(source)) {
@@ -797,7 +797,7 @@ export class SourceContainer {
 					inputUrl: url,
 					absolutePath,
 					resolvedUrl,
-				}
+				},
 			);
 
 			const fileUrl =
@@ -816,7 +816,7 @@ export class SourceContainer {
 				this,
 				resolvedUrl,
 				absolutePath,
-				contentGetter
+				contentGetter,
 			);
 			source.compiledToSourceUrl.set(compiled, url);
 			compiled.sourceMap.sourceByUrl.set(url, source);
@@ -829,7 +829,7 @@ export class SourceContainer {
 	}
 
 	private async _finishAddSourceWithSourceMap(
-		source: ISourceWithMap<ISourceMapLocationProvider>
+		source: ISourceWithMap<ISourceMapLocationProvider>,
 	) {
 		const deferred = source.sourceMap.value;
 		let value: SourceMap | undefined;
@@ -852,7 +852,7 @@ export class SourceContainer {
 					}
 
 					value = await this.sourceMapFactory.load(
-						source.sourceMap.metadata
+						source.sourceMap.metadata,
 					);
 					this._statistics.fallbackSourceMapCount++;
 
@@ -865,7 +865,7 @@ export class SourceContainer {
 							originalSourceMapUrl,
 							originalSourceMapError:
 								extractErrorDetails(urlError),
-						}
+						},
 					);
 				} catch {}
 			}
@@ -893,7 +893,7 @@ export class SourceContainer {
 			{
 				sourceMapId: value.id,
 				metadata: value.metadata,
-			}
+			},
 		);
 
 		try {
@@ -916,7 +916,7 @@ export class SourceContainer {
 
 		this.logger.assert(
 			source === existing,
-			"Expected source to be the same as the existing reference"
+			"Expected source to be the same as the existing reference",
 		);
 		this._sourceByReference.delete(source.sourceReference);
 
@@ -942,7 +942,7 @@ export class SourceContainer {
 			source
 				.toDap()
 				.then((dap) =>
-					this._dap.loadedSource({ reason: "removed", source: dap })
+					this._dap.loadedSource({ reason: "removed", source: dap }),
 				);
 		}
 
@@ -994,7 +994,7 @@ export class SourceContainer {
 					sourceMapId: map.id,
 					absolutePath,
 					resolvedUrl,
-				}
+				},
 			);
 
 			const fileUrl =
@@ -1002,7 +1002,7 @@ export class SourceContainer {
 			const smContent = this.sourceMapFactory.guardSourceMapFn(
 				map,
 				() => map.sourceContentFor(url, true),
-				() => null
+				() => null,
 			);
 
 			let sourceMapUrl: string | undefined;
@@ -1015,7 +1015,7 @@ export class SourceContainer {
 							absolutePath
 								? utils.absolutePathToFileUrl(absolutePath)
 								: url,
-							rawSmUri
+							rawSmUri,
 						);
 					} else {
 						sourceMapUrl = rawSmUri;
@@ -1030,7 +1030,7 @@ export class SourceContainer {
 
 					if (
 						!this.sourcePathResolver.shouldResolveSourceMap(
-							smMetadata
+							smMetadata,
 						)
 					) {
 						sourceMapUrl = undefined;
@@ -1045,11 +1045,11 @@ export class SourceContainer {
 				smContent !== null
 					? () => Promise.resolve(smContent)
 					: fileUrl
-						? () =>
+					  ? () =>
 								this.resourceProvider
 									.fetch(fileUrl)
 									.then((r) => r.body)
-						: () => compiled.content(),
+					  : () => compiled.content(),
 				// Support recursive source maps if the source includes the source content.
 				// This obviates the need for the `source-map-loader` in webpack for most cases.
 				sourceMapUrl
@@ -1057,10 +1057,10 @@ export class SourceContainer {
 							compiledPath: absolutePath || resolvedUrl,
 							sourceMapUrl,
 							cacheKey: map.metadata.cacheKey,
-						}
+					  }
 					: undefined,
 				undefined,
-				compiled.runtimeScriptOffset
+				compiled.runtimeScriptOffset,
 			);
 			source.compiledToSourceUrl.set(compiled, url);
 			compiled.sourceMap.sourceByUrl.set(url, source);
@@ -1094,7 +1094,7 @@ export class SourceContainer {
 		}
 
 		const sourcesByUrl = await SourceLocationProvider.waitForSources(
-			source.sourceMap
+			source.sourceMap,
 		);
 		return [...sourcesByUrl.values()];
 	}
@@ -1116,7 +1116,7 @@ export class SourceContainer {
 	 */
 	public disableSourceMapForSource(
 		source: ISourceWithMap,
-		permanent = false
+		permanent = false,
 	) {
 		if (permanent) {
 			this._permanentlyDisabledSourceMaps.add(source);

@@ -89,7 +89,7 @@ export namespace Cdp {
 		 * Disables the accessibility domain.
 		 */
 		disable(
-			params: Accessibility.DisableParams
+			params: Accessibility.DisableParams,
 		): Promise<Accessibility.DisableResult | undefined>;
 
 		/**
@@ -97,21 +97,21 @@ export namespace Cdp {
 		 * This turns on accessibility for the page, which can impact performance until accessibility is disabled.
 		 */
 		enable(
-			params: Accessibility.EnableParams
+			params: Accessibility.EnableParams,
 		): Promise<Accessibility.EnableResult | undefined>;
 
 		/**
 		 * Fetches the accessibility node and partial accessibility tree for this DOM node, if it exists.
 		 */
 		getPartialAXTree(
-			params: Accessibility.GetPartialAXTreeParams
+			params: Accessibility.GetPartialAXTreeParams,
 		): Promise<Accessibility.GetPartialAXTreeResult | undefined>;
 
 		/**
 		 * Fetches the entire accessibility tree for the root Document
 		 */
 		getFullAXTree(
-			params: Accessibility.GetFullAXTreeParams
+			params: Accessibility.GetFullAXTreeParams,
 		): Promise<Accessibility.GetFullAXTreeResult | undefined>;
 
 		/**
@@ -119,7 +119,7 @@ export namespace Cdp {
 		 * Requires `enable()` to have been called previously.
 		 */
 		getRootAXNode(
-			params: Accessibility.GetRootAXNodeParams
+			params: Accessibility.GetRootAXNodeParams,
 		): Promise<Accessibility.GetRootAXNodeResult | undefined>;
 
 		/**
@@ -127,7 +127,7 @@ export namespace Cdp {
 		 * Requires `enable()` to have been called previously.
 		 */
 		getAXNodeAndAncestors(
-			params: Accessibility.GetAXNodeAndAncestorsParams
+			params: Accessibility.GetAXNodeAndAncestorsParams,
 		): Promise<Accessibility.GetAXNodeAndAncestorsResult | undefined>;
 
 		/**
@@ -135,7 +135,7 @@ export namespace Cdp {
 		 * Requires `enable()` to have been called previously.
 		 */
 		getChildAXNodes(
-			params: Accessibility.GetChildAXNodesParams
+			params: Accessibility.GetChildAXNodesParams,
 		): Promise<Accessibility.GetChildAXNodesResult | undefined>;
 
 		/**
@@ -146,7 +146,7 @@ export namespace Cdp {
 		 * `accessibleName` or `role` is specified, it returns all the accessibility nodes in the subtree.
 		 */
 		queryAXTree(
-			params: Accessibility.QueryAXTreeParams
+			params: Accessibility.QueryAXTreeParams,
 		): Promise<Accessibility.QueryAXTreeResult | undefined>;
 
 		/**
@@ -155,7 +155,7 @@ export namespace Cdp {
 		 */
 		on(
 			event: "loadComplete",
-			listener: (event: Accessibility.LoadCompleteEvent) => void
+			listener: (event: Accessibility.LoadCompleteEvent) => void,
 		): IDisposable;
 
 		/**
@@ -163,7 +163,7 @@ export namespace Cdp {
 		 */
 		on(
 			event: "nodesUpdated",
-			listener: (event: Accessibility.NodesUpdatedEvent) => void
+			listener: (event: Accessibility.NodesUpdatedEvent) => void,
 		): IDisposable;
 	}
 
@@ -174,22 +174,22 @@ export namespace Cdp {
 		/**
 		 * Parameters of the 'Accessibility.disable' method.
 		 */
-		export interface DisableParams {}
+		export type DisableParams = {};
 
 		/**
 		 * Return value of the 'Accessibility.disable' method.
 		 */
-		export interface DisableResult {}
+		export type DisableResult = {};
 
 		/**
 		 * Parameters of the 'Accessibility.enable' method.
 		 */
-		export interface EnableParams {}
+		export type EnableParams = {};
 
 		/**
 		 * Return value of the 'Accessibility.enable' method.
 		 */
-		export interface EnableResult {}
+		export type EnableResult = {};
 
 		/**
 		 * Parameters of the 'Accessibility.getPartialAXTree' method.
@@ -662,70 +662,70 @@ export namespace Cdp {
 		 * Disables animation domain notifications.
 		 */
 		disable(
-			params: Animation.DisableParams
+			params: Animation.DisableParams,
 		): Promise<Animation.DisableResult | undefined>;
 
 		/**
 		 * Enables animation domain notifications.
 		 */
 		enable(
-			params: Animation.EnableParams
+			params: Animation.EnableParams,
 		): Promise<Animation.EnableResult | undefined>;
 
 		/**
 		 * Returns the current time of the an animation.
 		 */
 		getCurrentTime(
-			params: Animation.GetCurrentTimeParams
+			params: Animation.GetCurrentTimeParams,
 		): Promise<Animation.GetCurrentTimeResult | undefined>;
 
 		/**
 		 * Gets the playback rate of the document timeline.
 		 */
 		getPlaybackRate(
-			params: Animation.GetPlaybackRateParams
+			params: Animation.GetPlaybackRateParams,
 		): Promise<Animation.GetPlaybackRateResult | undefined>;
 
 		/**
 		 * Releases a set of animations to no longer be manipulated.
 		 */
 		releaseAnimations(
-			params: Animation.ReleaseAnimationsParams
+			params: Animation.ReleaseAnimationsParams,
 		): Promise<Animation.ReleaseAnimationsResult | undefined>;
 
 		/**
 		 * Gets the remote object of the Animation.
 		 */
 		resolveAnimation(
-			params: Animation.ResolveAnimationParams
+			params: Animation.ResolveAnimationParams,
 		): Promise<Animation.ResolveAnimationResult | undefined>;
 
 		/**
 		 * Seek a set of animations to a particular time within each animation.
 		 */
 		seekAnimations(
-			params: Animation.SeekAnimationsParams
+			params: Animation.SeekAnimationsParams,
 		): Promise<Animation.SeekAnimationsResult | undefined>;
 
 		/**
 		 * Sets the paused state of a set of animations.
 		 */
 		setPaused(
-			params: Animation.SetPausedParams
+			params: Animation.SetPausedParams,
 		): Promise<Animation.SetPausedResult | undefined>;
 
 		/**
 		 * Sets the playback rate of the document timeline.
 		 */
 		setPlaybackRate(
-			params: Animation.SetPlaybackRateParams
+			params: Animation.SetPlaybackRateParams,
 		): Promise<Animation.SetPlaybackRateResult | undefined>;
 
 		/**
 		 * Sets the timing of an animation node.
 		 */
 		setTiming(
-			params: Animation.SetTimingParams
+			params: Animation.SetTimingParams,
 		): Promise<Animation.SetTimingResult | undefined>;
 
 		/**
@@ -733,7 +733,7 @@ export namespace Cdp {
 		 */
 		on(
 			event: "animationCanceled",
-			listener: (event: Animation.AnimationCanceledEvent) => void
+			listener: (event: Animation.AnimationCanceledEvent) => void,
 		): IDisposable;
 
 		/**
@@ -741,7 +741,7 @@ export namespace Cdp {
 		 */
 		on(
 			event: "animationCreated",
-			listener: (event: Animation.AnimationCreatedEvent) => void
+			listener: (event: Animation.AnimationCreatedEvent) => void,
 		): IDisposable;
 
 		/**
@@ -749,7 +749,7 @@ export namespace Cdp {
 		 */
 		on(
 			event: "animationStarted",
-			listener: (event: Animation.AnimationStartedEvent) => void
+			listener: (event: Animation.AnimationStartedEvent) => void,
 		): IDisposable;
 	}
 
@@ -760,22 +760,22 @@ export namespace Cdp {
 		/**
 		 * Parameters of the 'Animation.disable' method.
 		 */
-		export interface DisableParams {}
+		export type DisableParams = {};
 
 		/**
 		 * Return value of the 'Animation.disable' method.
 		 */
-		export interface DisableResult {}
+		export type DisableResult = {};
 
 		/**
 		 * Parameters of the 'Animation.enable' method.
 		 */
-		export interface EnableParams {}
+		export type EnableParams = {};
 
 		/**
 		 * Return value of the 'Animation.enable' method.
 		 */
-		export interface EnableResult {}
+		export type EnableResult = {};
 
 		/**
 		 * Parameters of the 'Animation.getCurrentTime' method.
@@ -800,7 +800,7 @@ export namespace Cdp {
 		/**
 		 * Parameters of the 'Animation.getPlaybackRate' method.
 		 */
-		export interface GetPlaybackRateParams {}
+		export type GetPlaybackRateParams = {};
 
 		/**
 		 * Return value of the 'Animation.getPlaybackRate' method.
@@ -825,7 +825,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Animation.releaseAnimations' method.
 		 */
-		export interface ReleaseAnimationsResult {}
+		export type ReleaseAnimationsResult = {};
 
 		/**
 		 * Parameters of the 'Animation.resolveAnimation' method.
@@ -865,7 +865,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Animation.seekAnimations' method.
 		 */
-		export interface SeekAnimationsResult {}
+		export type SeekAnimationsResult = {};
 
 		/**
 		 * Parameters of the 'Animation.setPaused' method.
@@ -885,7 +885,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Animation.setPaused' method.
 		 */
-		export interface SetPausedResult {}
+		export type SetPausedResult = {};
 
 		/**
 		 * Parameters of the 'Animation.setPlaybackRate' method.
@@ -900,7 +900,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Animation.setPlaybackRate' method.
 		 */
-		export interface SetPlaybackRateResult {}
+		export type SetPlaybackRateResult = {};
 
 		/**
 		 * Parameters of the 'Animation.setTiming' method.
@@ -925,7 +925,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Animation.setTiming' method.
 		 */
-		export interface SetTimingResult {}
+		export type SetTimingResult = {};
 
 		/**
 		 * Parameters of the 'Animation.animationCanceled' event.
@@ -1108,14 +1108,14 @@ export namespace Cdp {
 		 * applies to images.
 		 */
 		getEncodedResponse(
-			params: Audits.GetEncodedResponseParams
+			params: Audits.GetEncodedResponseParams,
 		): Promise<Audits.GetEncodedResponseResult | undefined>;
 
 		/**
 		 * Disables issues domain, prevents further issues from being reported to the client.
 		 */
 		disable(
-			params: Audits.DisableParams
+			params: Audits.DisableParams,
 		): Promise<Audits.DisableResult | undefined>;
 
 		/**
@@ -1123,7 +1123,7 @@ export namespace Cdp {
 		 * `issueAdded` event.
 		 */
 		enable(
-			params: Audits.EnableParams
+			params: Audits.EnableParams,
 		): Promise<Audits.EnableResult | undefined>;
 
 		/**
@@ -1131,7 +1131,7 @@ export namespace Cdp {
 		 * using Audits.issueAdded event.
 		 */
 		checkContrast(
-			params: Audits.CheckContrastParams
+			params: Audits.CheckContrastParams,
 		): Promise<Audits.CheckContrastResult | undefined>;
 
 		/**
@@ -1139,12 +1139,12 @@ export namespace Cdp {
 		 * using Audits.issueAdded event.
 		 */
 		checkFormsIssues(
-			params: Audits.CheckFormsIssuesParams
+			params: Audits.CheckFormsIssuesParams,
 		): Promise<Audits.CheckFormsIssuesResult | undefined>;
 
 		on(
 			event: "issueAdded",
-			listener: (event: Audits.IssueAddedEvent) => void
+			listener: (event: Audits.IssueAddedEvent) => void,
 		): IDisposable;
 	}
 
@@ -1200,22 +1200,22 @@ export namespace Cdp {
 		/**
 		 * Parameters of the 'Audits.disable' method.
 		 */
-		export interface DisableParams {}
+		export type DisableParams = {};
 
 		/**
 		 * Return value of the 'Audits.disable' method.
 		 */
-		export interface DisableResult {}
+		export type DisableResult = {};
 
 		/**
 		 * Parameters of the 'Audits.enable' method.
 		 */
-		export interface EnableParams {}
+		export type EnableParams = {};
 
 		/**
 		 * Return value of the 'Audits.enable' method.
 		 */
-		export interface EnableResult {}
+		export type EnableResult = {};
 
 		/**
 		 * Parameters of the 'Audits.checkContrast' method.
@@ -1230,12 +1230,12 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Audits.checkContrast' method.
 		 */
-		export interface CheckContrastResult {}
+		export type CheckContrastResult = {};
 
 		/**
 		 * Parameters of the 'Audits.checkFormsIssues' method.
 		 */
-		export interface CheckFormsIssuesParams {}
+		export type CheckFormsIssuesParams = {};
 
 		/**
 		 * Return value of the 'Audits.checkFormsIssues' method.
@@ -1946,28 +1946,28 @@ export namespace Cdp {
 		 * If the field and related form cannot be autofilled, returns an error.
 		 */
 		trigger(
-			params: Autofill.TriggerParams
+			params: Autofill.TriggerParams,
 		): Promise<Autofill.TriggerResult | undefined>;
 
 		/**
 		 * Set addresses so that developers can verify their forms implementation.
 		 */
 		setAddresses(
-			params: Autofill.SetAddressesParams
+			params: Autofill.SetAddressesParams,
 		): Promise<Autofill.SetAddressesResult | undefined>;
 
 		/**
 		 * Disables autofill domain notifications.
 		 */
 		disable(
-			params: Autofill.DisableParams
+			params: Autofill.DisableParams,
 		): Promise<Autofill.DisableResult | undefined>;
 
 		/**
 		 * Enables autofill domain notifications.
 		 */
 		enable(
-			params: Autofill.EnableParams
+			params: Autofill.EnableParams,
 		): Promise<Autofill.EnableResult | undefined>;
 
 		/**
@@ -1975,7 +1975,7 @@ export namespace Cdp {
 		 */
 		on(
 			event: "addressFormFilled",
-			listener: (event: Autofill.AddressFormFilledEvent) => void
+			listener: (event: Autofill.AddressFormFilledEvent) => void,
 		): IDisposable;
 	}
 
@@ -2006,7 +2006,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Autofill.trigger' method.
 		 */
-		export interface TriggerResult {}
+		export type TriggerResult = {};
 
 		/**
 		 * Parameters of the 'Autofill.setAddresses' method.
@@ -2018,27 +2018,27 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Autofill.setAddresses' method.
 		 */
-		export interface SetAddressesResult {}
+		export type SetAddressesResult = {};
 
 		/**
 		 * Parameters of the 'Autofill.disable' method.
 		 */
-		export interface DisableParams {}
+		export type DisableParams = {};
 
 		/**
 		 * Return value of the 'Autofill.disable' method.
 		 */
-		export interface DisableResult {}
+		export type DisableResult = {};
 
 		/**
 		 * Parameters of the 'Autofill.enable' method.
 		 */
-		export interface EnableParams {}
+		export type EnableParams = {};
 
 		/**
 		 * Return value of the 'Autofill.enable' method.
 		 */
-		export interface EnableResult {}
+		export type EnableResult = {};
 
 		/**
 		 * Parameters of the 'Autofill.addressFormFilled' event.
@@ -2173,28 +2173,28 @@ export namespace Cdp {
 		 * Enables event updates for the service.
 		 */
 		startObserving(
-			params: BackgroundService.StartObservingParams
+			params: BackgroundService.StartObservingParams,
 		): Promise<BackgroundService.StartObservingResult | undefined>;
 
 		/**
 		 * Disables event updates for the service.
 		 */
 		stopObserving(
-			params: BackgroundService.StopObservingParams
+			params: BackgroundService.StopObservingParams,
 		): Promise<BackgroundService.StopObservingResult | undefined>;
 
 		/**
 		 * Set the recording state for the service.
 		 */
 		setRecording(
-			params: BackgroundService.SetRecordingParams
+			params: BackgroundService.SetRecordingParams,
 		): Promise<BackgroundService.SetRecordingResult | undefined>;
 
 		/**
 		 * Clears all stored data for the service.
 		 */
 		clearEvents(
-			params: BackgroundService.ClearEventsParams
+			params: BackgroundService.ClearEventsParams,
 		): Promise<BackgroundService.ClearEventsResult | undefined>;
 
 		/**
@@ -2203,8 +2203,8 @@ export namespace Cdp {
 		on(
 			event: "recordingStateChanged",
 			listener: (
-				event: BackgroundService.RecordingStateChangedEvent
-			) => void
+				event: BackgroundService.RecordingStateChangedEvent,
+			) => void,
 		): IDisposable;
 
 		/**
@@ -2214,8 +2214,8 @@ export namespace Cdp {
 		on(
 			event: "backgroundServiceEventReceived",
 			listener: (
-				event: BackgroundService.BackgroundServiceEventReceivedEvent
-			) => void
+				event: BackgroundService.BackgroundServiceEventReceivedEvent,
+			) => void,
 		): IDisposable;
 	}
 
@@ -2233,7 +2233,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'BackgroundService.startObserving' method.
 		 */
-		export interface StartObservingResult {}
+		export type StartObservingResult = {};
 
 		/**
 		 * Parameters of the 'BackgroundService.stopObserving' method.
@@ -2245,7 +2245,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'BackgroundService.stopObserving' method.
 		 */
-		export interface StopObservingResult {}
+		export type StopObservingResult = {};
 
 		/**
 		 * Parameters of the 'BackgroundService.setRecording' method.
@@ -2259,7 +2259,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'BackgroundService.setRecording' method.
 		 */
-		export interface SetRecordingResult {}
+		export type SetRecordingResult = {};
 
 		/**
 		 * Parameters of the 'BackgroundService.clearEvents' method.
@@ -2271,7 +2271,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'BackgroundService.clearEvents' method.
 		 */
-		export interface ClearEventsResult {}
+		export type ClearEventsResult = {};
 
 		/**
 		 * Parameters of the 'BackgroundService.recordingStateChanged' event.
@@ -2362,63 +2362,63 @@ export namespace Cdp {
 		 * Set permission settings for given origin.
 		 */
 		setPermission(
-			params: Browser.SetPermissionParams
+			params: Browser.SetPermissionParams,
 		): Promise<Browser.SetPermissionResult | undefined>;
 
 		/**
 		 * Grant specific permissions to the given origin and reject all others.
 		 */
 		grantPermissions(
-			params: Browser.GrantPermissionsParams
+			params: Browser.GrantPermissionsParams,
 		): Promise<Browser.GrantPermissionsResult | undefined>;
 
 		/**
 		 * Reset all permission management for all origins.
 		 */
 		resetPermissions(
-			params: Browser.ResetPermissionsParams
+			params: Browser.ResetPermissionsParams,
 		): Promise<Browser.ResetPermissionsResult | undefined>;
 
 		/**
 		 * Set the behavior when downloading a file.
 		 */
 		setDownloadBehavior(
-			params: Browser.SetDownloadBehaviorParams
+			params: Browser.SetDownloadBehaviorParams,
 		): Promise<Browser.SetDownloadBehaviorResult | undefined>;
 
 		/**
 		 * Cancel a download if in progress
 		 */
 		cancelDownload(
-			params: Browser.CancelDownloadParams
+			params: Browser.CancelDownloadParams,
 		): Promise<Browser.CancelDownloadResult | undefined>;
 
 		/**
 		 * Close browser gracefully.
 		 */
 		close(
-			params: Browser.CloseParams
+			params: Browser.CloseParams,
 		): Promise<Browser.CloseResult | undefined>;
 
 		/**
 		 * Crashes browser on the main thread.
 		 */
 		crash(
-			params: Browser.CrashParams
+			params: Browser.CrashParams,
 		): Promise<Browser.CrashResult | undefined>;
 
 		/**
 		 * Crashes GPU process.
 		 */
 		crashGpuProcess(
-			params: Browser.CrashGpuProcessParams
+			params: Browser.CrashGpuProcessParams,
 		): Promise<Browser.CrashGpuProcessResult | undefined>;
 
 		/**
 		 * Returns version information.
 		 */
 		getVersion(
-			params: Browser.GetVersionParams
+			params: Browser.GetVersionParams,
 		): Promise<Browser.GetVersionResult | undefined>;
 
 		/**
@@ -2426,56 +2426,56 @@ export namespace Cdp {
 		 * --enable-automation is on the commandline.
 		 */
 		getBrowserCommandLine(
-			params: Browser.GetBrowserCommandLineParams
+			params: Browser.GetBrowserCommandLineParams,
 		): Promise<Browser.GetBrowserCommandLineResult | undefined>;
 
 		/**
 		 * Get Chrome histograms.
 		 */
 		getHistograms(
-			params: Browser.GetHistogramsParams
+			params: Browser.GetHistogramsParams,
 		): Promise<Browser.GetHistogramsResult | undefined>;
 
 		/**
 		 * Get a Chrome histogram by name.
 		 */
 		getHistogram(
-			params: Browser.GetHistogramParams
+			params: Browser.GetHistogramParams,
 		): Promise<Browser.GetHistogramResult | undefined>;
 
 		/**
 		 * Get position and size of the browser window.
 		 */
 		getWindowBounds(
-			params: Browser.GetWindowBoundsParams
+			params: Browser.GetWindowBoundsParams,
 		): Promise<Browser.GetWindowBoundsResult | undefined>;
 
 		/**
 		 * Get the browser window that contains the devtools target.
 		 */
 		getWindowForTarget(
-			params: Browser.GetWindowForTargetParams
+			params: Browser.GetWindowForTargetParams,
 		): Promise<Browser.GetWindowForTargetResult | undefined>;
 
 		/**
 		 * Set position and/or size of the browser window.
 		 */
 		setWindowBounds(
-			params: Browser.SetWindowBoundsParams
+			params: Browser.SetWindowBoundsParams,
 		): Promise<Browser.SetWindowBoundsResult | undefined>;
 
 		/**
 		 * Set dock tile details, platform-specific.
 		 */
 		setDockTile(
-			params: Browser.SetDockTileParams
+			params: Browser.SetDockTileParams,
 		): Promise<Browser.SetDockTileResult | undefined>;
 
 		/**
 		 * Invoke custom browser commands used by telemetry.
 		 */
 		executeBrowserCommand(
-			params: Browser.ExecuteBrowserCommandParams
+			params: Browser.ExecuteBrowserCommandParams,
 		): Promise<Browser.ExecuteBrowserCommandResult | undefined>;
 
 		/**
@@ -2483,7 +2483,7 @@ export namespace Cdp {
 		 * without the site actually being enrolled. Only supported on page targets.
 		 */
 		addPrivacySandboxEnrollmentOverride(
-			params: Browser.AddPrivacySandboxEnrollmentOverrideParams
+			params: Browser.AddPrivacySandboxEnrollmentOverrideParams,
 		): Promise<
 			Browser.AddPrivacySandboxEnrollmentOverrideResult | undefined
 		>;
@@ -2493,7 +2493,7 @@ export namespace Cdp {
 		 */
 		on(
 			event: "downloadWillBegin",
-			listener: (event: Browser.DownloadWillBeginEvent) => void
+			listener: (event: Browser.DownloadWillBeginEvent) => void,
 		): IDisposable;
 
 		/**
@@ -2501,7 +2501,7 @@ export namespace Cdp {
 		 */
 		on(
 			event: "downloadProgress",
-			listener: (event: Browser.DownloadProgressEvent) => void
+			listener: (event: Browser.DownloadProgressEvent) => void,
 		): IDisposable;
 	}
 
@@ -2537,7 +2537,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Browser.setPermission' method.
 		 */
-		export interface SetPermissionResult {}
+		export type SetPermissionResult = {};
 
 		/**
 		 * Parameters of the 'Browser.grantPermissions' method.
@@ -2559,7 +2559,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Browser.grantPermissions' method.
 		 */
-		export interface GrantPermissionsResult {}
+		export type GrantPermissionsResult = {};
 
 		/**
 		 * Parameters of the 'Browser.resetPermissions' method.
@@ -2574,7 +2574,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Browser.resetPermissions' method.
 		 */
-		export interface ResetPermissionsResult {}
+		export type ResetPermissionsResult = {};
 
 		/**
 		 * Parameters of the 'Browser.setDownloadBehavior' method.
@@ -2607,7 +2607,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Browser.setDownloadBehavior' method.
 		 */
-		export interface SetDownloadBehaviorResult {}
+		export type SetDownloadBehaviorResult = {};
 
 		/**
 		 * Parameters of the 'Browser.cancelDownload' method.
@@ -2627,42 +2627,42 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Browser.cancelDownload' method.
 		 */
-		export interface CancelDownloadResult {}
+		export type CancelDownloadResult = {};
 
 		/**
 		 * Parameters of the 'Browser.close' method.
 		 */
-		export interface CloseParams {}
+		export type CloseParams = {};
 
 		/**
 		 * Return value of the 'Browser.close' method.
 		 */
-		export interface CloseResult {}
+		export type CloseResult = {};
 
 		/**
 		 * Parameters of the 'Browser.crash' method.
 		 */
-		export interface CrashParams {}
+		export type CrashParams = {};
 
 		/**
 		 * Return value of the 'Browser.crash' method.
 		 */
-		export interface CrashResult {}
+		export type CrashResult = {};
 
 		/**
 		 * Parameters of the 'Browser.crashGpuProcess' method.
 		 */
-		export interface CrashGpuProcessParams {}
+		export type CrashGpuProcessParams = {};
 
 		/**
 		 * Return value of the 'Browser.crashGpuProcess' method.
 		 */
-		export interface CrashGpuProcessResult {}
+		export type CrashGpuProcessResult = {};
 
 		/**
 		 * Parameters of the 'Browser.getVersion' method.
 		 */
-		export interface GetVersionParams {}
+		export type GetVersionParams = {};
 
 		/**
 		 * Return value of the 'Browser.getVersion' method.
@@ -2697,7 +2697,7 @@ export namespace Cdp {
 		/**
 		 * Parameters of the 'Browser.getBrowserCommandLine' method.
 		 */
-		export interface GetBrowserCommandLineParams {}
+		export type GetBrowserCommandLineParams = {};
 
 		/**
 		 * Return value of the 'Browser.getBrowserCommandLine' method.
@@ -2827,7 +2827,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Browser.setWindowBounds' method.
 		 */
-		export interface SetWindowBoundsResult {}
+		export type SetWindowBoundsResult = {};
 
 		/**
 		 * Parameters of the 'Browser.setDockTile' method.
@@ -2844,7 +2844,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Browser.setDockTile' method.
 		 */
-		export interface SetDockTileResult {}
+		export type SetDockTileResult = {};
 
 		/**
 		 * Parameters of the 'Browser.executeBrowserCommand' method.
@@ -2856,7 +2856,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Browser.executeBrowserCommand' method.
 		 */
-		export interface ExecuteBrowserCommandResult {}
+		export type ExecuteBrowserCommandResult = {};
 
 		/**
 		 * Parameters of the 'Browser.addPrivacySandboxEnrollmentOverride' method.
@@ -2868,7 +2868,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Browser.addPrivacySandboxEnrollmentOverride' method.
 		 */
-		export interface AddPrivacySandboxEnrollmentOverrideResult {}
+		export type AddPrivacySandboxEnrollmentOverrideResult = {};
 
 		/**
 		 * Parameters of the 'Browser.downloadWillBegin' event.
@@ -3086,35 +3086,35 @@ export namespace Cdp {
 		 * Deletes a cache.
 		 */
 		deleteCache(
-			params: CacheStorage.DeleteCacheParams
+			params: CacheStorage.DeleteCacheParams,
 		): Promise<CacheStorage.DeleteCacheResult | undefined>;
 
 		/**
 		 * Deletes a cache entry.
 		 */
 		deleteEntry(
-			params: CacheStorage.DeleteEntryParams
+			params: CacheStorage.DeleteEntryParams,
 		): Promise<CacheStorage.DeleteEntryResult | undefined>;
 
 		/**
 		 * Requests cache names.
 		 */
 		requestCacheNames(
-			params: CacheStorage.RequestCacheNamesParams
+			params: CacheStorage.RequestCacheNamesParams,
 		): Promise<CacheStorage.RequestCacheNamesResult | undefined>;
 
 		/**
 		 * Fetches cache entry.
 		 */
 		requestCachedResponse(
-			params: CacheStorage.RequestCachedResponseParams
+			params: CacheStorage.RequestCachedResponseParams,
 		): Promise<CacheStorage.RequestCachedResponseResult | undefined>;
 
 		/**
 		 * Requests data from cache.
 		 */
 		requestEntries(
-			params: CacheStorage.RequestEntriesParams
+			params: CacheStorage.RequestEntriesParams,
 		): Promise<CacheStorage.RequestEntriesResult | undefined>;
 	}
 
@@ -3135,7 +3135,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'CacheStorage.deleteCache' method.
 		 */
-		export interface DeleteCacheResult {}
+		export type DeleteCacheResult = {};
 
 		/**
 		 * Parameters of the 'CacheStorage.deleteEntry' method.
@@ -3155,7 +3155,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'CacheStorage.deleteEntry' method.
 		 */
-		export interface DeleteEntryResult {}
+		export type DeleteEntryResult = {};
 
 		/**
 		 * Parameters of the 'CacheStorage.requestCacheNames' method.
@@ -3379,14 +3379,14 @@ export namespace Cdp {
 		 * an |issueUpdated| event is fired.
 		 */
 		enable(
-			params: Cast.EnableParams
+			params: Cast.EnableParams,
 		): Promise<Cast.EnableResult | undefined>;
 
 		/**
 		 * Stops observing for sinks and issues.
 		 */
 		disable(
-			params: Cast.DisableParams
+			params: Cast.DisableParams,
 		): Promise<Cast.DisableResult | undefined>;
 
 		/**
@@ -3394,28 +3394,28 @@ export namespace Cdp {
 		 * sink via Presentation API, Remote Playback API, or Cast SDK.
 		 */
 		setSinkToUse(
-			params: Cast.SetSinkToUseParams
+			params: Cast.SetSinkToUseParams,
 		): Promise<Cast.SetSinkToUseResult | undefined>;
 
 		/**
 		 * Starts mirroring the desktop to the sink.
 		 */
 		startDesktopMirroring(
-			params: Cast.StartDesktopMirroringParams
+			params: Cast.StartDesktopMirroringParams,
 		): Promise<Cast.StartDesktopMirroringResult | undefined>;
 
 		/**
 		 * Starts mirroring the tab to the sink.
 		 */
 		startTabMirroring(
-			params: Cast.StartTabMirroringParams
+			params: Cast.StartTabMirroringParams,
 		): Promise<Cast.StartTabMirroringResult | undefined>;
 
 		/**
 		 * Stops the active Cast session on the sink.
 		 */
 		stopCasting(
-			params: Cast.StopCastingParams
+			params: Cast.StopCastingParams,
 		): Promise<Cast.StopCastingResult | undefined>;
 
 		/**
@@ -3424,7 +3424,7 @@ export namespace Cdp {
 		 */
 		on(
 			event: "sinksUpdated",
-			listener: (event: Cast.SinksUpdatedEvent) => void
+			listener: (event: Cast.SinksUpdatedEvent) => void,
 		): IDisposable;
 
 		/**
@@ -3433,7 +3433,7 @@ export namespace Cdp {
 		 */
 		on(
 			event: "issueUpdated",
-			listener: (event: Cast.IssueUpdatedEvent) => void
+			listener: (event: Cast.IssueUpdatedEvent) => void,
 		): IDisposable;
 	}
 
@@ -3451,17 +3451,17 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Cast.enable' method.
 		 */
-		export interface EnableResult {}
+		export type EnableResult = {};
 
 		/**
 		 * Parameters of the 'Cast.disable' method.
 		 */
-		export interface DisableParams {}
+		export type DisableParams = {};
 
 		/**
 		 * Return value of the 'Cast.disable' method.
 		 */
-		export interface DisableResult {}
+		export type DisableResult = {};
 
 		/**
 		 * Parameters of the 'Cast.setSinkToUse' method.
@@ -3473,7 +3473,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Cast.setSinkToUse' method.
 		 */
-		export interface SetSinkToUseResult {}
+		export type SetSinkToUseResult = {};
 
 		/**
 		 * Parameters of the 'Cast.startDesktopMirroring' method.
@@ -3485,7 +3485,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Cast.startDesktopMirroring' method.
 		 */
-		export interface StartDesktopMirroringResult {}
+		export type StartDesktopMirroringResult = {};
 
 		/**
 		 * Parameters of the 'Cast.startTabMirroring' method.
@@ -3497,7 +3497,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Cast.startTabMirroring' method.
 		 */
-		export interface StartTabMirroringResult {}
+		export type StartTabMirroringResult = {};
 
 		/**
 		 * Parameters of the 'Cast.stopCasting' method.
@@ -3509,7 +3509,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Cast.stopCasting' method.
 		 */
-		export interface StopCastingResult {}
+		export type StopCastingResult = {};
 
 		/**
 		 * Parameters of the 'Cast.sinksUpdated' event.
@@ -3546,14 +3546,14 @@ export namespace Cdp {
 		 * Does nothing.
 		 */
 		clearMessages(
-			params: Console.ClearMessagesParams
+			params: Console.ClearMessagesParams,
 		): Promise<Console.ClearMessagesResult | undefined>;
 
 		/**
 		 * Disables console domain, prevents further console messages from being reported to the client.
 		 */
 		disable(
-			params: Console.DisableParams
+			params: Console.DisableParams,
 		): Promise<Console.DisableResult | undefined>;
 
 		/**
@@ -3561,7 +3561,7 @@ export namespace Cdp {
 		 * `messageAdded` notification.
 		 */
 		enable(
-			params: Console.EnableParams
+			params: Console.EnableParams,
 		): Promise<Console.EnableResult | undefined>;
 
 		/**
@@ -3569,7 +3569,7 @@ export namespace Cdp {
 		 */
 		on(
 			event: "messageAdded",
-			listener: (event: Console.MessageAddedEvent) => void
+			listener: (event: Console.MessageAddedEvent) => void,
 		): IDisposable;
 	}
 
@@ -3580,32 +3580,32 @@ export namespace Cdp {
 		/**
 		 * Parameters of the 'Console.clearMessages' method.
 		 */
-		export interface ClearMessagesParams {}
+		export type ClearMessagesParams = {};
 
 		/**
 		 * Return value of the 'Console.clearMessages' method.
 		 */
-		export interface ClearMessagesResult {}
+		export type ClearMessagesResult = {};
 
 		/**
 		 * Parameters of the 'Console.disable' method.
 		 */
-		export interface DisableParams {}
+		export type DisableParams = {};
 
 		/**
 		 * Return value of the 'Console.disable' method.
 		 */
-		export interface DisableResult {}
+		export type DisableResult = {};
 
 		/**
 		 * Parameters of the 'Console.enable' method.
 		 */
-		export interface EnableParams {}
+		export type EnableParams = {};
 
 		/**
 		 * Return value of the 'Console.enable' method.
 		 */
-		export interface EnableResult {}
+		export type EnableResult = {};
 
 		/**
 		 * Parameters of the 'Console.messageAdded' event.
@@ -3673,28 +3673,28 @@ export namespace Cdp {
 		 * position specified by `location`.
 		 */
 		addRule(
-			params: CSS.AddRuleParams
+			params: CSS.AddRuleParams,
 		): Promise<CSS.AddRuleResult | undefined>;
 
 		/**
 		 * Returns all class names from specified stylesheet.
 		 */
 		collectClassNames(
-			params: CSS.CollectClassNamesParams
+			params: CSS.CollectClassNamesParams,
 		): Promise<CSS.CollectClassNamesResult | undefined>;
 
 		/**
 		 * Creates a new special "via-inspector" stylesheet in the frame with given `frameId`.
 		 */
 		createStyleSheet(
-			params: CSS.CreateStyleSheetParams
+			params: CSS.CreateStyleSheetParams,
 		): Promise<CSS.CreateStyleSheetResult | undefined>;
 
 		/**
 		 * Disables the CSS agent for the given page.
 		 */
 		disable(
-			params: CSS.DisableParams
+			params: CSS.DisableParams,
 		): Promise<CSS.DisableResult | undefined>;
 
 		/**
@@ -3708,18 +3708,18 @@ export namespace Cdp {
 		 * the browser.
 		 */
 		forcePseudoState(
-			params: CSS.ForcePseudoStateParams
+			params: CSS.ForcePseudoStateParams,
 		): Promise<CSS.ForcePseudoStateResult | undefined>;
 
 		getBackgroundColors(
-			params: CSS.GetBackgroundColorsParams
+			params: CSS.GetBackgroundColorsParams,
 		): Promise<CSS.GetBackgroundColorsResult | undefined>;
 
 		/**
 		 * Returns the computed style for a DOM node identified by `nodeId`.
 		 */
 		getComputedStyleForNode(
-			params: CSS.GetComputedStyleForNodeParams
+			params: CSS.GetComputedStyleForNodeParams,
 		): Promise<CSS.GetComputedStyleForNodeResult | undefined>;
 
 		/**
@@ -3727,21 +3727,21 @@ export namespace Cdp {
 		 * attributes) for a DOM node identified by `nodeId`.
 		 */
 		getInlineStylesForNode(
-			params: CSS.GetInlineStylesForNodeParams
+			params: CSS.GetInlineStylesForNodeParams,
 		): Promise<CSS.GetInlineStylesForNodeResult | undefined>;
 
 		/**
 		 * Returns requested styles for a DOM node identified by `nodeId`.
 		 */
 		getMatchedStylesForNode(
-			params: CSS.GetMatchedStylesForNodeParams
+			params: CSS.GetMatchedStylesForNodeParams,
 		): Promise<CSS.GetMatchedStylesForNodeResult | undefined>;
 
 		/**
 		 * Returns all media queries parsed by the rendering engine.
 		 */
 		getMediaQueries(
-			params: CSS.GetMediaQueriesParams
+			params: CSS.GetMediaQueriesParams,
 		): Promise<CSS.GetMediaQueriesResult | undefined>;
 
 		/**
@@ -3749,14 +3749,14 @@ export namespace Cdp {
 		 * node.
 		 */
 		getPlatformFontsForNode(
-			params: CSS.GetPlatformFontsForNodeParams
+			params: CSS.GetPlatformFontsForNodeParams,
 		): Promise<CSS.GetPlatformFontsForNodeResult | undefined>;
 
 		/**
 		 * Returns the current textual content for a stylesheet.
 		 */
 		getStyleSheetText(
-			params: CSS.GetStyleSheetTextParams
+			params: CSS.GetStyleSheetTextParams,
 		): Promise<CSS.GetStyleSheetTextResult | undefined>;
 
 		/**
@@ -3766,7 +3766,7 @@ export namespace Cdp {
 		 * the full layer tree for the tree scope and their ordering.
 		 */
 		getLayersForNode(
-			params: CSS.GetLayersForNodeParams
+			params: CSS.GetLayersForNodeParams,
 		): Promise<CSS.GetLayersForNodeResult | undefined>;
 
 		/**
@@ -3778,14 +3778,14 @@ export namespace Cdp {
 		 * to the front-end, no updates will be issued for the node.
 		 */
 		trackComputedStyleUpdates(
-			params: CSS.TrackComputedStyleUpdatesParams
+			params: CSS.TrackComputedStyleUpdatesParams,
 		): Promise<CSS.TrackComputedStyleUpdatesResult | undefined>;
 
 		/**
 		 * Polls the next batch of computed style updates.
 		 */
 		takeComputedStyleUpdates(
-			params: CSS.TakeComputedStyleUpdatesParams
+			params: CSS.TakeComputedStyleUpdatesParams,
 		): Promise<CSS.TakeComputedStyleUpdatesResult | undefined>;
 
 		/**
@@ -3793,77 +3793,77 @@ export namespace Cdp {
 		 * property
 		 */
 		setEffectivePropertyValueForNode(
-			params: CSS.SetEffectivePropertyValueForNodeParams
+			params: CSS.SetEffectivePropertyValueForNodeParams,
 		): Promise<CSS.SetEffectivePropertyValueForNodeResult | undefined>;
 
 		/**
 		 * Modifies the property rule property name.
 		 */
 		setPropertyRulePropertyName(
-			params: CSS.SetPropertyRulePropertyNameParams
+			params: CSS.SetPropertyRulePropertyNameParams,
 		): Promise<CSS.SetPropertyRulePropertyNameResult | undefined>;
 
 		/**
 		 * Modifies the keyframe rule key text.
 		 */
 		setKeyframeKey(
-			params: CSS.SetKeyframeKeyParams
+			params: CSS.SetKeyframeKeyParams,
 		): Promise<CSS.SetKeyframeKeyResult | undefined>;
 
 		/**
 		 * Modifies the rule selector.
 		 */
 		setMediaText(
-			params: CSS.SetMediaTextParams
+			params: CSS.SetMediaTextParams,
 		): Promise<CSS.SetMediaTextResult | undefined>;
 
 		/**
 		 * Modifies the expression of a container query.
 		 */
 		setContainerQueryText(
-			params: CSS.SetContainerQueryTextParams
+			params: CSS.SetContainerQueryTextParams,
 		): Promise<CSS.SetContainerQueryTextResult | undefined>;
 
 		/**
 		 * Modifies the expression of a supports at-rule.
 		 */
 		setSupportsText(
-			params: CSS.SetSupportsTextParams
+			params: CSS.SetSupportsTextParams,
 		): Promise<CSS.SetSupportsTextResult | undefined>;
 
 		/**
 		 * Modifies the expression of a scope at-rule.
 		 */
 		setScopeText(
-			params: CSS.SetScopeTextParams
+			params: CSS.SetScopeTextParams,
 		): Promise<CSS.SetScopeTextResult | undefined>;
 
 		/**
 		 * Modifies the rule selector.
 		 */
 		setRuleSelector(
-			params: CSS.SetRuleSelectorParams
+			params: CSS.SetRuleSelectorParams,
 		): Promise<CSS.SetRuleSelectorResult | undefined>;
 
 		/**
 		 * Sets the new stylesheet text.
 		 */
 		setStyleSheetText(
-			params: CSS.SetStyleSheetTextParams
+			params: CSS.SetStyleSheetTextParams,
 		): Promise<CSS.SetStyleSheetTextResult | undefined>;
 
 		/**
 		 * Applies specified style edits one after another in the given order.
 		 */
 		setStyleTexts(
-			params: CSS.SetStyleTextsParams
+			params: CSS.SetStyleTextsParams,
 		): Promise<CSS.SetStyleTextsResult | undefined>;
 
 		/**
 		 * Enables the selector recording.
 		 */
 		startRuleUsageTracking(
-			params: CSS.StartRuleUsageTrackingParams
+			params: CSS.StartRuleUsageTrackingParams,
 		): Promise<CSS.StartRuleUsageTrackingResult | undefined>;
 
 		/**
@@ -3871,7 +3871,7 @@ export namespace Cdp {
 		 * `takeCoverageDelta` (or since start of coverage instrumentation).
 		 */
 		stopRuleUsageTracking(
-			params: CSS.StopRuleUsageTrackingParams
+			params: CSS.StopRuleUsageTrackingParams,
 		): Promise<CSS.StopRuleUsageTrackingResult | undefined>;
 
 		/**
@@ -3879,14 +3879,14 @@ export namespace Cdp {
 		 * instrumentation).
 		 */
 		takeCoverageDelta(
-			params: CSS.TakeCoverageDeltaParams
+			params: CSS.TakeCoverageDeltaParams,
 		): Promise<CSS.TakeCoverageDeltaResult | undefined>;
 
 		/**
 		 * Enables/disables rendering of local CSS fonts (enabled by default).
 		 */
 		setLocalFontsEnabled(
-			params: CSS.SetLocalFontsEnabledParams
+			params: CSS.SetLocalFontsEnabledParams,
 		): Promise<CSS.SetLocalFontsEnabledResult | undefined>;
 
 		/**
@@ -3895,7 +3895,7 @@ export namespace Cdp {
 		 */
 		on(
 			event: "fontsUpdated",
-			listener: (event: CSS.FontsUpdatedEvent) => void
+			listener: (event: CSS.FontsUpdatedEvent) => void,
 		): IDisposable;
 
 		/**
@@ -3904,7 +3904,7 @@ export namespace Cdp {
 		 */
 		on(
 			event: "mediaQueryResultChanged",
-			listener: (event: CSS.MediaQueryResultChangedEvent) => void
+			listener: (event: CSS.MediaQueryResultChangedEvent) => void,
 		): IDisposable;
 
 		/**
@@ -3912,7 +3912,7 @@ export namespace Cdp {
 		 */
 		on(
 			event: "styleSheetAdded",
-			listener: (event: CSS.StyleSheetAddedEvent) => void
+			listener: (event: CSS.StyleSheetAddedEvent) => void,
 		): IDisposable;
 
 		/**
@@ -3920,7 +3920,7 @@ export namespace Cdp {
 		 */
 		on(
 			event: "styleSheetChanged",
-			listener: (event: CSS.StyleSheetChangedEvent) => void
+			listener: (event: CSS.StyleSheetChangedEvent) => void,
 		): IDisposable;
 
 		/**
@@ -3928,7 +3928,7 @@ export namespace Cdp {
 		 */
 		on(
 			event: "styleSheetRemoved",
-			listener: (event: CSS.StyleSheetRemovedEvent) => void
+			listener: (event: CSS.StyleSheetRemovedEvent) => void,
 		): IDisposable;
 	}
 
@@ -4006,22 +4006,22 @@ export namespace Cdp {
 		/**
 		 * Parameters of the 'CSS.disable' method.
 		 */
-		export interface DisableParams {}
+		export type DisableParams = {};
 
 		/**
 		 * Return value of the 'CSS.disable' method.
 		 */
-		export interface DisableResult {}
+		export type DisableResult = {};
 
 		/**
 		 * Parameters of the 'CSS.enable' method.
 		 */
-		export interface EnableParams {}
+		export type EnableParams = {};
 
 		/**
 		 * Return value of the 'CSS.enable' method.
 		 */
-		export interface EnableResult {}
+		export type EnableResult = {};
 
 		/**
 		 * Parameters of the 'CSS.forcePseudoState' method.
@@ -4041,7 +4041,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'CSS.forcePseudoState' method.
 		 */
-		export interface ForcePseudoStateResult {}
+		export type ForcePseudoStateResult = {};
 
 		/**
 		 * Parameters of the 'CSS.getBackgroundColors' method.
@@ -4187,7 +4187,7 @@ export namespace Cdp {
 		/**
 		 * Parameters of the 'CSS.getMediaQueries' method.
 		 */
-		export interface GetMediaQueriesParams {}
+		export type GetMediaQueriesParams = {};
 
 		/**
 		 * Return value of the 'CSS.getMediaQueries' method.
@@ -4254,12 +4254,12 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'CSS.trackComputedStyleUpdates' method.
 		 */
-		export interface TrackComputedStyleUpdatesResult {}
+		export type TrackComputedStyleUpdatesResult = {};
 
 		/**
 		 * Parameters of the 'CSS.takeComputedStyleUpdates' method.
 		 */
-		export interface TakeComputedStyleUpdatesParams {}
+		export type TakeComputedStyleUpdatesParams = {};
 
 		/**
 		 * Return value of the 'CSS.takeComputedStyleUpdates' method.
@@ -4288,7 +4288,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'CSS.setEffectivePropertyValueForNode' method.
 		 */
-		export interface SetEffectivePropertyValueForNodeResult {}
+		export type SetEffectivePropertyValueForNodeResult = {};
 
 		/**
 		 * Parameters of the 'CSS.setPropertyRulePropertyName' method.
@@ -4476,17 +4476,17 @@ export namespace Cdp {
 		/**
 		 * Parameters of the 'CSS.startRuleUsageTracking' method.
 		 */
-		export interface StartRuleUsageTrackingParams {}
+		export type StartRuleUsageTrackingParams = {};
 
 		/**
 		 * Return value of the 'CSS.startRuleUsageTracking' method.
 		 */
-		export interface StartRuleUsageTrackingResult {}
+		export type StartRuleUsageTrackingResult = {};
 
 		/**
 		 * Parameters of the 'CSS.stopRuleUsageTracking' method.
 		 */
-		export interface StopRuleUsageTrackingParams {}
+		export type StopRuleUsageTrackingParams = {};
 
 		/**
 		 * Return value of the 'CSS.stopRuleUsageTracking' method.
@@ -4498,7 +4498,7 @@ export namespace Cdp {
 		/**
 		 * Parameters of the 'CSS.takeCoverageDelta' method.
 		 */
-		export interface TakeCoverageDeltaParams {}
+		export type TakeCoverageDeltaParams = {};
 
 		/**
 		 * Return value of the 'CSS.takeCoverageDelta' method.
@@ -4525,7 +4525,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'CSS.setLocalFontsEnabled' method.
 		 */
-		export interface SetLocalFontsEnabledResult {}
+		export type SetLocalFontsEnabledResult = {};
 
 		/**
 		 * Parameters of the 'CSS.fontsUpdated' event.
@@ -4540,7 +4540,7 @@ export namespace Cdp {
 		/**
 		 * Parameters of the 'CSS.mediaQueryResultChanged' event.
 		 */
-		export interface MediaQueryResultChangedEvent {}
+		export type MediaQueryResultChangedEvent = {};
 
 		/**
 		 * Parameters of the 'CSS.styleSheetAdded' event.
@@ -5498,27 +5498,27 @@ export namespace Cdp {
 		 * Disables database tracking, prevents database events from being sent to the client.
 		 */
 		disable(
-			params: Database.DisableParams
+			params: Database.DisableParams,
 		): Promise<Database.DisableResult | undefined>;
 
 		/**
 		 * Enables database tracking, database events will now be delivered to the client.
 		 */
 		enable(
-			params: Database.EnableParams
+			params: Database.EnableParams,
 		): Promise<Database.EnableResult | undefined>;
 
 		executeSQL(
-			params: Database.ExecuteSQLParams
+			params: Database.ExecuteSQLParams,
 		): Promise<Database.ExecuteSQLResult | undefined>;
 
 		getDatabaseTableNames(
-			params: Database.GetDatabaseTableNamesParams
+			params: Database.GetDatabaseTableNamesParams,
 		): Promise<Database.GetDatabaseTableNamesResult | undefined>;
 
 		on(
 			event: "addDatabase",
-			listener: (event: Database.AddDatabaseEvent) => void
+			listener: (event: Database.AddDatabaseEvent) => void,
 		): IDisposable;
 	}
 
@@ -5529,22 +5529,22 @@ export namespace Cdp {
 		/**
 		 * Parameters of the 'Database.disable' method.
 		 */
-		export interface DisableParams {}
+		export type DisableParams = {};
 
 		/**
 		 * Return value of the 'Database.disable' method.
 		 */
-		export interface DisableResult {}
+		export type DisableResult = {};
 
 		/**
 		 * Parameters of the 'Database.enable' method.
 		 */
-		export interface EnableParams {}
+		export type EnableParams = {};
 
 		/**
 		 * Return value of the 'Database.enable' method.
 		 */
-		export interface EnableResult {}
+		export type EnableResult = {};
 
 		/**
 		 * Parameters of the 'Database.executeSQL' method.
@@ -5641,14 +5641,14 @@ export namespace Cdp {
 		 * Continues execution until specific location is reached.
 		 */
 		continueToLocation(
-			params: Debugger.ContinueToLocationParams
+			params: Debugger.ContinueToLocationParams,
 		): Promise<Debugger.ContinueToLocationResult | undefined>;
 
 		/**
 		 * Disables debugger for given page.
 		 */
 		disable(
-			params: Debugger.DisableParams
+			params: Debugger.DisableParams,
 		): Promise<Debugger.DisableResult | undefined>;
 
 		/**
@@ -5656,14 +5656,14 @@ export namespace Cdp {
 		 * enabled until the result for this command is received.
 		 */
 		enable(
-			params: Debugger.EnableParams
+			params: Debugger.EnableParams,
 		): Promise<Debugger.EnableResult | undefined>;
 
 		/**
 		 * Evaluates expression on a given call frame.
 		 */
 		evaluateOnCallFrame(
-			params: Debugger.EvaluateOnCallFrameParams
+			params: Debugger.EvaluateOnCallFrameParams,
 		): Promise<Debugger.EvaluateOnCallFrameResult | undefined>;
 
 		/**
@@ -5671,18 +5671,18 @@ export namespace Cdp {
 		 * the same.
 		 */
 		getPossibleBreakpoints(
-			params: Debugger.GetPossibleBreakpointsParams
+			params: Debugger.GetPossibleBreakpointsParams,
 		): Promise<Debugger.GetPossibleBreakpointsResult | undefined>;
 
 		/**
 		 * Returns source for the script with given id.
 		 */
 		getScriptSource(
-			params: Debugger.GetScriptSourceParams
+			params: Debugger.GetScriptSourceParams,
 		): Promise<Debugger.GetScriptSourceResult | undefined>;
 
 		disassembleWasmModule(
-			params: Debugger.DisassembleWasmModuleParams
+			params: Debugger.DisassembleWasmModuleParams,
 		): Promise<Debugger.DisassembleWasmModuleResult | undefined>;
 
 		/**
@@ -5692,7 +5692,7 @@ export namespace Cdp {
 		 * will return errors.
 		 */
 		nextWasmDisassemblyChunk(
-			params: Debugger.NextWasmDisassemblyChunkParams
+			params: Debugger.NextWasmDisassemblyChunkParams,
 		): Promise<Debugger.NextWasmDisassemblyChunkResult | undefined>;
 
 		/**
@@ -5700,21 +5700,21 @@ export namespace Cdp {
 		 * @deprecated
 		 */
 		getWasmBytecode(
-			params: Debugger.GetWasmBytecodeParams
+			params: Debugger.GetWasmBytecodeParams,
 		): Promise<Debugger.GetWasmBytecodeResult | undefined>;
 
 		/**
 		 * Returns stack trace with given `stackTraceId`.
 		 */
 		getStackTrace(
-			params: Debugger.GetStackTraceParams
+			params: Debugger.GetStackTraceParams,
 		): Promise<Debugger.GetStackTraceResult | undefined>;
 
 		/**
 		 * Stops on the next JavaScript statement.
 		 */
 		pause(
-			params: Debugger.PauseParams
+			params: Debugger.PauseParams,
 		): Promise<Debugger.PauseResult | undefined>;
 
 		/**
@@ -5722,14 +5722,14 @@ export namespace Cdp {
 		 * @deprecated
 		 */
 		pauseOnAsyncCall(
-			params: Debugger.PauseOnAsyncCallParams
+			params: Debugger.PauseOnAsyncCallParams,
 		): Promise<Debugger.PauseOnAsyncCallResult | undefined>;
 
 		/**
 		 * Removes JavaScript breakpoint.
 		 */
 		removeBreakpoint(
-			params: Debugger.RemoveBreakpointParams
+			params: Debugger.RemoveBreakpointParams,
 		): Promise<Debugger.RemoveBreakpointResult | undefined>;
 
 		/**
@@ -5748,28 +5748,28 @@ export namespace Cdp {
 		 * once V8 pauses at the beginning of the restarted function.
 		 */
 		restartFrame(
-			params: Debugger.RestartFrameParams
+			params: Debugger.RestartFrameParams,
 		): Promise<Debugger.RestartFrameResult | undefined>;
 
 		/**
 		 * Resumes JavaScript execution.
 		 */
 		resume(
-			params: Debugger.ResumeParams
+			params: Debugger.ResumeParams,
 		): Promise<Debugger.ResumeResult | undefined>;
 
 		/**
 		 * Searches for given string in script content.
 		 */
 		searchInContent(
-			params: Debugger.SearchInContentParams
+			params: Debugger.SearchInContentParams,
 		): Promise<Debugger.SearchInContentResult | undefined>;
 
 		/**
 		 * Enables or disables async call stacks tracking.
 		 */
 		setAsyncCallStackDepth(
-			params: Debugger.SetAsyncCallStackDepthParams
+			params: Debugger.SetAsyncCallStackDepthParams,
 		): Promise<Debugger.SetAsyncCallStackDepthResult | undefined>;
 
 		/**
@@ -5778,7 +5778,7 @@ export namespace Cdp {
 		 * performing 'step in' several times, finally resorting to 'step out' if unsuccessful.
 		 */
 		setBlackboxPatterns(
-			params: Debugger.SetBlackboxPatternsParams
+			params: Debugger.SetBlackboxPatternsParams,
 		): Promise<Debugger.SetBlackboxPatternsResult | undefined>;
 
 		/**
@@ -5788,21 +5788,21 @@ export namespace Cdp {
 		 * blackboxed. Array should be sorted.
 		 */
 		setBlackboxedRanges(
-			params: Debugger.SetBlackboxedRangesParams
+			params: Debugger.SetBlackboxedRangesParams,
 		): Promise<Debugger.SetBlackboxedRangesResult | undefined>;
 
 		/**
 		 * Sets JavaScript breakpoint at a given location.
 		 */
 		setBreakpoint(
-			params: Debugger.SetBreakpointParams
+			params: Debugger.SetBreakpointParams,
 		): Promise<Debugger.SetBreakpointResult | undefined>;
 
 		/**
 		 * Sets instrumentation breakpoint.
 		 */
 		setInstrumentationBreakpoint(
-			params: Debugger.SetInstrumentationBreakpointParams
+			params: Debugger.SetInstrumentationBreakpointParams,
 		): Promise<Debugger.SetInstrumentationBreakpointResult | undefined>;
 
 		/**
@@ -5812,7 +5812,7 @@ export namespace Cdp {
 		 * `breakpointResolved` events issued. This logical breakpoint will survive page reloads.
 		 */
 		setBreakpointByUrl(
-			params: Debugger.SetBreakpointByUrlParams
+			params: Debugger.SetBreakpointByUrlParams,
 		): Promise<Debugger.SetBreakpointByUrlResult | undefined>;
 
 		/**
@@ -5821,14 +5821,14 @@ export namespace Cdp {
 		 * calling it will also trigger the breakpoint.
 		 */
 		setBreakpointOnFunctionCall(
-			params: Debugger.SetBreakpointOnFunctionCallParams
+			params: Debugger.SetBreakpointOnFunctionCallParams,
 		): Promise<Debugger.SetBreakpointOnFunctionCallResult | undefined>;
 
 		/**
 		 * Activates / deactivates all breakpoints on the page.
 		 */
 		setBreakpointsActive(
-			params: Debugger.SetBreakpointsActiveParams
+			params: Debugger.SetBreakpointsActiveParams,
 		): Promise<Debugger.SetBreakpointsActiveResult | undefined>;
 
 		/**
@@ -5836,14 +5836,14 @@ export namespace Cdp {
 		 * or caught exceptions, no exceptions. Initial pause on exceptions state is `none`.
 		 */
 		setPauseOnExceptions(
-			params: Debugger.SetPauseOnExceptionsParams
+			params: Debugger.SetPauseOnExceptionsParams,
 		): Promise<Debugger.SetPauseOnExceptionsResult | undefined>;
 
 		/**
 		 * Changes return value in top frame. Available only at return break position.
 		 */
 		setReturnValue(
-			params: Debugger.SetReturnValueParams
+			params: Debugger.SetReturnValueParams,
 		): Promise<Debugger.SetReturnValueResult | undefined>;
 
 		/**
@@ -5856,14 +5856,14 @@ export namespace Cdp {
 		 * top-most function is automatically triggered.
 		 */
 		setScriptSource(
-			params: Debugger.SetScriptSourceParams
+			params: Debugger.SetScriptSourceParams,
 		): Promise<Debugger.SetScriptSourceResult | undefined>;
 
 		/**
 		 * Makes page not interrupt on any pauses (breakpoint, exception, dom exception etc).
 		 */
 		setSkipAllPauses(
-			params: Debugger.SetSkipAllPausesParams
+			params: Debugger.SetSkipAllPausesParams,
 		): Promise<Debugger.SetSkipAllPausesResult | undefined>;
 
 		/**
@@ -5871,28 +5871,28 @@ export namespace Cdp {
 		 * mutated manually.
 		 */
 		setVariableValue(
-			params: Debugger.SetVariableValueParams
+			params: Debugger.SetVariableValueParams,
 		): Promise<Debugger.SetVariableValueResult | undefined>;
 
 		/**
 		 * Steps into the function call.
 		 */
 		stepInto(
-			params: Debugger.StepIntoParams
+			params: Debugger.StepIntoParams,
 		): Promise<Debugger.StepIntoResult | undefined>;
 
 		/**
 		 * Steps out of the function call.
 		 */
 		stepOut(
-			params: Debugger.StepOutParams
+			params: Debugger.StepOutParams,
 		): Promise<Debugger.StepOutResult | undefined>;
 
 		/**
 		 * Steps over the statement.
 		 */
 		stepOver(
-			params: Debugger.StepOverParams
+			params: Debugger.StepOverParams,
 		): Promise<Debugger.StepOverResult | undefined>;
 
 		/**
@@ -5900,7 +5900,7 @@ export namespace Cdp {
 		 */
 		on(
 			event: "breakpointResolved",
-			listener: (event: Debugger.BreakpointResolvedEvent) => void
+			listener: (event: Debugger.BreakpointResolvedEvent) => void,
 		): IDisposable;
 
 		/**
@@ -5908,7 +5908,7 @@ export namespace Cdp {
 		 */
 		on(
 			event: "paused",
-			listener: (event: Debugger.PausedEvent) => void
+			listener: (event: Debugger.PausedEvent) => void,
 		): IDisposable;
 
 		/**
@@ -5916,7 +5916,7 @@ export namespace Cdp {
 		 */
 		on(
 			event: "resumed",
-			listener: (event: Debugger.ResumedEvent) => void
+			listener: (event: Debugger.ResumedEvent) => void,
 		): IDisposable;
 
 		/**
@@ -5924,7 +5924,7 @@ export namespace Cdp {
 		 */
 		on(
 			event: "scriptFailedToParse",
-			listener: (event: Debugger.ScriptFailedToParseEvent) => void
+			listener: (event: Debugger.ScriptFailedToParseEvent) => void,
 		): IDisposable;
 
 		/**
@@ -5933,7 +5933,7 @@ export namespace Cdp {
 		 */
 		on(
 			event: "scriptParsed",
-			listener: (event: Debugger.ScriptParsedEvent) => void
+			listener: (event: Debugger.ScriptParsedEvent) => void,
 		): IDisposable;
 	}
 
@@ -5956,17 +5956,17 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Debugger.continueToLocation' method.
 		 */
-		export interface ContinueToLocationResult {}
+		export type ContinueToLocationResult = {};
 
 		/**
 		 * Parameters of the 'Debugger.disable' method.
 		 */
-		export interface DisableParams {}
+		export type DisableParams = {};
 
 		/**
 		 * Return value of the 'Debugger.disable' method.
 		 */
-		export interface DisableResult {}
+		export type DisableResult = {};
 
 		/**
 		 * Parameters of the 'Debugger.enable' method.
@@ -6204,12 +6204,12 @@ export namespace Cdp {
 		/**
 		 * Parameters of the 'Debugger.pause' method.
 		 */
-		export interface PauseParams {}
+		export type PauseParams = {};
 
 		/**
 		 * Return value of the 'Debugger.pause' method.
 		 */
-		export interface PauseResult {}
+		export type PauseResult = {};
 
 		/**
 		 * Parameters of the 'Debugger.pauseOnAsyncCall' method.
@@ -6224,7 +6224,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Debugger.pauseOnAsyncCall' method.
 		 */
-		export interface PauseOnAsyncCallResult {}
+		export type PauseOnAsyncCallResult = {};
 
 		/**
 		 * Parameters of the 'Debugger.removeBreakpoint' method.
@@ -6236,7 +6236,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Debugger.removeBreakpoint' method.
 		 */
-		export interface RemoveBreakpointResult {}
+		export type RemoveBreakpointResult = {};
 
 		/**
 		 * Parameters of the 'Debugger.restartFrame' method.
@@ -6294,7 +6294,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Debugger.resume' method.
 		 */
-		export interface ResumeResult {}
+		export type ResumeResult = {};
 
 		/**
 		 * Parameters of the 'Debugger.searchInContent' method.
@@ -6345,7 +6345,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Debugger.setAsyncCallStackDepth' method.
 		 */
-		export interface SetAsyncCallStackDepthResult {}
+		export type SetAsyncCallStackDepthResult = {};
 
 		/**
 		 * Parameters of the 'Debugger.setBlackboxPatterns' method.
@@ -6360,7 +6360,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Debugger.setBlackboxPatterns' method.
 		 */
-		export interface SetBlackboxPatternsResult {}
+		export type SetBlackboxPatternsResult = {};
 
 		/**
 		 * Parameters of the 'Debugger.setBlackboxedRanges' method.
@@ -6377,7 +6377,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Debugger.setBlackboxedRanges' method.
 		 */
-		export interface SetBlackboxedRangesResult {}
+		export type SetBlackboxedRangesResult = {};
 
 		/**
 		 * Parameters of the 'Debugger.setBreakpoint' method.
@@ -6523,7 +6523,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Debugger.setBreakpointsActive' method.
 		 */
-		export interface SetBreakpointsActiveResult {}
+		export type SetBreakpointsActiveResult = {};
 
 		/**
 		 * Parameters of the 'Debugger.setPauseOnExceptions' method.
@@ -6538,7 +6538,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Debugger.setPauseOnExceptions' method.
 		 */
-		export interface SetPauseOnExceptionsResult {}
+		export type SetPauseOnExceptionsResult = {};
 
 		/**
 		 * Parameters of the 'Debugger.setReturnValue' method.
@@ -6553,7 +6553,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Debugger.setReturnValue' method.
 		 */
-		export interface SetReturnValueResult {}
+		export type SetReturnValueResult = {};
 
 		/**
 		 * Parameters of the 'Debugger.setScriptSource' method.
@@ -6641,7 +6641,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Debugger.setSkipAllPauses' method.
 		 */
-		export interface SetSkipAllPausesResult {}
+		export type SetSkipAllPausesResult = {};
 
 		/**
 		 * Parameters of the 'Debugger.setVariableValue' method.
@@ -6672,7 +6672,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Debugger.setVariableValue' method.
 		 */
-		export interface SetVariableValueResult {}
+		export type SetVariableValueResult = {};
 
 		/**
 		 * Parameters of the 'Debugger.stepInto' method.
@@ -6693,17 +6693,17 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Debugger.stepInto' method.
 		 */
-		export interface StepIntoResult {}
+		export type StepIntoResult = {};
 
 		/**
 		 * Parameters of the 'Debugger.stepOut' method.
 		 */
-		export interface StepOutParams {}
+		export type StepOutParams = {};
 
 		/**
 		 * Return value of the 'Debugger.stepOut' method.
 		 */
-		export interface StepOutResult {}
+		export type StepOutResult = {};
 
 		/**
 		 * Parameters of the 'Debugger.stepOver' method.
@@ -6718,7 +6718,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Debugger.stepOver' method.
 		 */
-		export interface StepOverResult {}
+		export type StepOverResult = {};
 
 		/**
 		 * Parameters of the 'Debugger.breakpointResolved' event.
@@ -6792,7 +6792,7 @@ export namespace Cdp {
 		/**
 		 * Parameters of the 'Debugger.resumed' event.
 		 */
-		export interface ResumedEvent {}
+		export type ResumedEvent = {};
 
 		/**
 		 * Parameters of the 'Debugger.scriptFailedToParse' event.
@@ -7204,28 +7204,28 @@ export namespace Cdp {
 		 * Enable events in this domain.
 		 */
 		enable(
-			params: DeviceAccess.EnableParams
+			params: DeviceAccess.EnableParams,
 		): Promise<DeviceAccess.EnableResult | undefined>;
 
 		/**
 		 * Disable events in this domain.
 		 */
 		disable(
-			params: DeviceAccess.DisableParams
+			params: DeviceAccess.DisableParams,
 		): Promise<DeviceAccess.DisableResult | undefined>;
 
 		/**
 		 * Select a device in response to a DeviceAccess.deviceRequestPrompted event.
 		 */
 		selectPrompt(
-			params: DeviceAccess.SelectPromptParams
+			params: DeviceAccess.SelectPromptParams,
 		): Promise<DeviceAccess.SelectPromptResult | undefined>;
 
 		/**
 		 * Cancel a prompt in response to a DeviceAccess.deviceRequestPrompted event.
 		 */
 		cancelPrompt(
-			params: DeviceAccess.CancelPromptParams
+			params: DeviceAccess.CancelPromptParams,
 		): Promise<DeviceAccess.CancelPromptResult | undefined>;
 
 		/**
@@ -7234,7 +7234,7 @@ export namespace Cdp {
 		 */
 		on(
 			event: "deviceRequestPrompted",
-			listener: (event: DeviceAccess.DeviceRequestPromptedEvent) => void
+			listener: (event: DeviceAccess.DeviceRequestPromptedEvent) => void,
 		): IDisposable;
 	}
 
@@ -7245,22 +7245,22 @@ export namespace Cdp {
 		/**
 		 * Parameters of the 'DeviceAccess.enable' method.
 		 */
-		export interface EnableParams {}
+		export type EnableParams = {};
 
 		/**
 		 * Return value of the 'DeviceAccess.enable' method.
 		 */
-		export interface EnableResult {}
+		export type EnableResult = {};
 
 		/**
 		 * Parameters of the 'DeviceAccess.disable' method.
 		 */
-		export interface DisableParams {}
+		export type DisableParams = {};
 
 		/**
 		 * Return value of the 'DeviceAccess.disable' method.
 		 */
-		export interface DisableResult {}
+		export type DisableResult = {};
 
 		/**
 		 * Parameters of the 'DeviceAccess.selectPrompt' method.
@@ -7274,7 +7274,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'DeviceAccess.selectPrompt' method.
 		 */
-		export interface SelectPromptResult {}
+		export type SelectPromptResult = {};
 
 		/**
 		 * Parameters of the 'DeviceAccess.cancelPrompt' method.
@@ -7286,7 +7286,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'DeviceAccess.cancelPrompt' method.
 		 */
-		export interface CancelPromptResult {}
+		export type CancelPromptResult = {};
 
 		/**
 		 * Parameters of the 'DeviceAccess.deviceRequestPrompted' event.
@@ -7328,7 +7328,7 @@ export namespace Cdp {
 		 * Clears the overridden Device Orientation.
 		 */
 		clearDeviceOrientationOverride(
-			params: DeviceOrientation.ClearDeviceOrientationOverrideParams
+			params: DeviceOrientation.ClearDeviceOrientationOverrideParams,
 		): Promise<
 			DeviceOrientation.ClearDeviceOrientationOverrideResult | undefined
 		>;
@@ -7337,7 +7337,7 @@ export namespace Cdp {
 		 * Overrides the Device Orientation.
 		 */
 		setDeviceOrientationOverride(
-			params: DeviceOrientation.SetDeviceOrientationOverrideParams
+			params: DeviceOrientation.SetDeviceOrientationOverrideParams,
 		): Promise<
 			DeviceOrientation.SetDeviceOrientationOverrideResult | undefined
 		>;
@@ -7350,12 +7350,12 @@ export namespace Cdp {
 		/**
 		 * Parameters of the 'DeviceOrientation.clearDeviceOrientationOverride' method.
 		 */
-		export interface ClearDeviceOrientationOverrideParams {}
+		export type ClearDeviceOrientationOverrideParams = {};
 
 		/**
 		 * Return value of the 'DeviceOrientation.clearDeviceOrientationOverride' method.
 		 */
-		export interface ClearDeviceOrientationOverrideResult {}
+		export type ClearDeviceOrientationOverrideResult = {};
 
 		/**
 		 * Parameters of the 'DeviceOrientation.setDeviceOrientationOverride' method.
@@ -7380,7 +7380,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'DeviceOrientation.setDeviceOrientationOverride' method.
 		 */
-		export interface SetDeviceOrientationOverrideResult {}
+		export type SetDeviceOrientationOverrideResult = {};
 	}
 
 	/**
@@ -7391,7 +7391,7 @@ export namespace Cdp {
 		 * Collects class names for the node with given id and all of it's child nodes.
 		 */
 		collectClassNamesFromSubtree(
-			params: DOM.CollectClassNamesFromSubtreeParams
+			params: DOM.CollectClassNamesFromSubtreeParams,
 		): Promise<DOM.CollectClassNamesFromSubtreeResult | undefined>;
 
 		/**
@@ -7405,7 +7405,7 @@ export namespace Cdp {
 		 * objects, can be used for automation.
 		 */
 		describeNode(
-			params: DOM.DescribeNodeParams
+			params: DOM.DescribeNodeParams,
 		): Promise<DOM.DescribeNodeResult | undefined>;
 
 		/**
@@ -7414,14 +7414,14 @@ export namespace Cdp {
 		 * to identify the node.
 		 */
 		scrollIntoViewIfNeeded(
-			params: DOM.ScrollIntoViewIfNeededParams
+			params: DOM.ScrollIntoViewIfNeededParams,
 		): Promise<DOM.ScrollIntoViewIfNeededResult | undefined>;
 
 		/**
 		 * Disables DOM agent for the given page.
 		 */
 		disable(
-			params: DOM.DisableParams
+			params: DOM.DisableParams,
 		): Promise<DOM.DisableResult | undefined>;
 
 		/**
@@ -7429,7 +7429,7 @@ export namespace Cdp {
 		 * be called for that search.
 		 */
 		discardSearchResults(
-			params: DOM.DiscardSearchResultsParams
+			params: DOM.DiscardSearchResultsParams,
 		): Promise<DOM.DiscardSearchResultsResult | undefined>;
 
 		/**
@@ -7446,14 +7446,14 @@ export namespace Cdp {
 		 * Returns attributes for the specified node.
 		 */
 		getAttributes(
-			params: DOM.GetAttributesParams
+			params: DOM.GetAttributesParams,
 		): Promise<DOM.GetAttributesResult | undefined>;
 
 		/**
 		 * Returns boxes for the given node.
 		 */
 		getBoxModel(
-			params: DOM.GetBoxModelParams
+			params: DOM.GetBoxModelParams,
 		): Promise<DOM.GetBoxModelResult | undefined>;
 
 		/**
@@ -7461,7 +7461,7 @@ export namespace Cdp {
 		 * might return multiple quads for inline nodes.
 		 */
 		getContentQuads(
-			params: DOM.GetContentQuadsParams
+			params: DOM.GetContentQuadsParams,
 		): Promise<DOM.GetContentQuadsResult | undefined>;
 
 		/**
@@ -7469,7 +7469,7 @@ export namespace Cdp {
 		 * Implicitly enables the DOM domain events for the current target.
 		 */
 		getDocument(
-			params: DOM.GetDocumentParams
+			params: DOM.GetDocumentParams,
 		): Promise<DOM.GetDocumentResult | undefined>;
 
 		/**
@@ -7479,14 +7479,14 @@ export namespace Cdp {
 		 * @deprecated
 		 */
 		getFlattenedDocument(
-			params: DOM.GetFlattenedDocumentParams
+			params: DOM.GetFlattenedDocumentParams,
 		): Promise<DOM.GetFlattenedDocumentResult | undefined>;
 
 		/**
 		 * Finds nodes with a given computed style in a subtree.
 		 */
 		getNodesForSubtreeByStyle(
-			params: DOM.GetNodesForSubtreeByStyleParams
+			params: DOM.GetNodesForSubtreeByStyleParams,
 		): Promise<DOM.GetNodesForSubtreeByStyleResult | undefined>;
 
 		/**
@@ -7494,21 +7494,21 @@ export namespace Cdp {
 		 * either returned or not.
 		 */
 		getNodeForLocation(
-			params: DOM.GetNodeForLocationParams
+			params: DOM.GetNodeForLocationParams,
 		): Promise<DOM.GetNodeForLocationResult | undefined>;
 
 		/**
 		 * Returns node's HTML markup.
 		 */
 		getOuterHTML(
-			params: DOM.GetOuterHTMLParams
+			params: DOM.GetOuterHTMLParams,
 		): Promise<DOM.GetOuterHTMLResult | undefined>;
 
 		/**
 		 * Returns the id of the nearest ancestor that is a relayout boundary.
 		 */
 		getRelayoutBoundary(
-			params: DOM.GetRelayoutBoundaryParams
+			params: DOM.GetRelayoutBoundaryParams,
 		): Promise<DOM.GetRelayoutBoundaryResult | undefined>;
 
 		/**
@@ -7516,35 +7516,35 @@ export namespace Cdp {
 		 * identifier.
 		 */
 		getSearchResults(
-			params: DOM.GetSearchResultsParams
+			params: DOM.GetSearchResultsParams,
 		): Promise<DOM.GetSearchResultsResult | undefined>;
 
 		/**
 		 * Hides any highlight.
 		 */
 		hideHighlight(
-			params: DOM.HideHighlightParams
+			params: DOM.HideHighlightParams,
 		): Promise<DOM.HideHighlightResult | undefined>;
 
 		/**
 		 * Highlights DOM node.
 		 */
 		highlightNode(
-			params: DOM.HighlightNodeParams
+			params: DOM.HighlightNodeParams,
 		): Promise<DOM.HighlightNodeResult | undefined>;
 
 		/**
 		 * Highlights given rectangle.
 		 */
 		highlightRect(
-			params: DOM.HighlightRectParams
+			params: DOM.HighlightRectParams,
 		): Promise<DOM.HighlightRectResult | undefined>;
 
 		/**
 		 * Marks last undoable state.
 		 */
 		markUndoableState(
-			params: DOM.MarkUndoableStateParams
+			params: DOM.MarkUndoableStateParams,
 		): Promise<DOM.MarkUndoableStateResult | undefined>;
 
 		/**
@@ -7557,35 +7557,35 @@ export namespace Cdp {
 		 * `cancelSearch` to end this search session.
 		 */
 		performSearch(
-			params: DOM.PerformSearchParams
+			params: DOM.PerformSearchParams,
 		): Promise<DOM.PerformSearchResult | undefined>;
 
 		/**
 		 * Requests that the node is sent to the caller given its path. // FIXME, use XPath
 		 */
 		pushNodeByPathToFrontend(
-			params: DOM.PushNodeByPathToFrontendParams
+			params: DOM.PushNodeByPathToFrontendParams,
 		): Promise<DOM.PushNodeByPathToFrontendResult | undefined>;
 
 		/**
 		 * Requests that a batch of nodes is sent to the caller given their backend node ids.
 		 */
 		pushNodesByBackendIdsToFrontend(
-			params: DOM.PushNodesByBackendIdsToFrontendParams
+			params: DOM.PushNodesByBackendIdsToFrontendParams,
 		): Promise<DOM.PushNodesByBackendIdsToFrontendResult | undefined>;
 
 		/**
 		 * Executes `querySelector` on a given node.
 		 */
 		querySelector(
-			params: DOM.QuerySelectorParams
+			params: DOM.QuerySelectorParams,
 		): Promise<DOM.QuerySelectorResult | undefined>;
 
 		/**
 		 * Executes `querySelectorAll` on a given node.
 		 */
 		querySelectorAll(
-			params: DOM.QuerySelectorAllParams
+			params: DOM.QuerySelectorAllParams,
 		): Promise<DOM.QuerySelectorAllResult | undefined>;
 
 		/**
@@ -7594,7 +7594,7 @@ export namespace Cdp {
 		 * appear on top of all other content.
 		 */
 		getTopLayerElements(
-			params: DOM.GetTopLayerElementsParams
+			params: DOM.GetTopLayerElementsParams,
 		): Promise<DOM.GetTopLayerElementsResult | undefined>;
 
 		/**
@@ -7606,14 +7606,14 @@ export namespace Cdp {
 		 * Removes attribute with given name from an element with given id.
 		 */
 		removeAttribute(
-			params: DOM.RemoveAttributeParams
+			params: DOM.RemoveAttributeParams,
 		): Promise<DOM.RemoveAttributeResult | undefined>;
 
 		/**
 		 * Removes node with given id.
 		 */
 		removeNode(
-			params: DOM.RemoveNodeParams
+			params: DOM.RemoveNodeParams,
 		): Promise<DOM.RemoveNodeResult | undefined>;
 
 		/**
@@ -7622,7 +7622,7 @@ export namespace Cdp {
 		 * the specified depth.
 		 */
 		requestChildNodes(
-			params: DOM.RequestChildNodesParams
+			params: DOM.RequestChildNodesParams,
 		): Promise<DOM.RequestChildNodesResult | undefined>;
 
 		/**
@@ -7631,21 +7631,21 @@ export namespace Cdp {
 		 * `setChildNodes` notifications.
 		 */
 		requestNode(
-			params: DOM.RequestNodeParams
+			params: DOM.RequestNodeParams,
 		): Promise<DOM.RequestNodeResult | undefined>;
 
 		/**
 		 * Resolves the JavaScript node object for a given NodeId or BackendNodeId.
 		 */
 		resolveNode(
-			params: DOM.ResolveNodeParams
+			params: DOM.ResolveNodeParams,
 		): Promise<DOM.ResolveNodeResult | undefined>;
 
 		/**
 		 * Sets attribute for an element with given id.
 		 */
 		setAttributeValue(
-			params: DOM.SetAttributeValueParams
+			params: DOM.SetAttributeValueParams,
 		): Promise<DOM.SetAttributeValueResult | undefined>;
 
 		/**
@@ -7653,28 +7653,28 @@ export namespace Cdp {
 		 * attribute value and types in several attribute name/value pairs.
 		 */
 		setAttributesAsText(
-			params: DOM.SetAttributesAsTextParams
+			params: DOM.SetAttributesAsTextParams,
 		): Promise<DOM.SetAttributesAsTextResult | undefined>;
 
 		/**
 		 * Sets files for the given file input element.
 		 */
 		setFileInputFiles(
-			params: DOM.SetFileInputFilesParams
+			params: DOM.SetFileInputFilesParams,
 		): Promise<DOM.SetFileInputFilesResult | undefined>;
 
 		/**
 		 * Sets if stack traces should be captured for Nodes. See `Node.getNodeStackTraces`. Default is disabled.
 		 */
 		setNodeStackTracesEnabled(
-			params: DOM.SetNodeStackTracesEnabledParams
+			params: DOM.SetNodeStackTracesEnabledParams,
 		): Promise<DOM.SetNodeStackTracesEnabledResult | undefined>;
 
 		/**
 		 * Gets stack traces associated with a Node. As of now, only provides stack trace for Node creation.
 		 */
 		getNodeStackTraces(
-			params: DOM.GetNodeStackTracesParams
+			params: DOM.GetNodeStackTracesParams,
 		): Promise<DOM.GetNodeStackTracesResult | undefined>;
 
 		/**
@@ -7682,7 +7682,7 @@ export namespace Cdp {
 		 * File wrapper.
 		 */
 		getFileInfo(
-			params: DOM.GetFileInfoParams
+			params: DOM.GetFileInfoParams,
 		): Promise<DOM.GetFileInfoResult | undefined>;
 
 		/**
@@ -7690,28 +7690,28 @@ export namespace Cdp {
 		 * $x functions).
 		 */
 		setInspectedNode(
-			params: DOM.SetInspectedNodeParams
+			params: DOM.SetInspectedNodeParams,
 		): Promise<DOM.SetInspectedNodeResult | undefined>;
 
 		/**
 		 * Sets node name for a node with given id.
 		 */
 		setNodeName(
-			params: DOM.SetNodeNameParams
+			params: DOM.SetNodeNameParams,
 		): Promise<DOM.SetNodeNameResult | undefined>;
 
 		/**
 		 * Sets node value for a node with given id.
 		 */
 		setNodeValue(
-			params: DOM.SetNodeValueParams
+			params: DOM.SetNodeValueParams,
 		): Promise<DOM.SetNodeValueResult | undefined>;
 
 		/**
 		 * Sets node HTML markup, returns new node id.
 		 */
 		setOuterHTML(
-			params: DOM.SetOuterHTMLParams
+			params: DOM.SetOuterHTMLParams,
 		): Promise<DOM.SetOuterHTMLResult | undefined>;
 
 		/**
@@ -7723,7 +7723,7 @@ export namespace Cdp {
 		 * Returns iframe node that owns iframe with the given domain.
 		 */
 		getFrameOwner(
-			params: DOM.GetFrameOwnerParams
+			params: DOM.GetFrameOwnerParams,
 		): Promise<DOM.GetFrameOwnerResult | undefined>;
 
 		/**
@@ -7733,7 +7733,7 @@ export namespace Cdp {
 		 * closest element with a matching container-name.
 		 */
 		getContainerForNode(
-			params: DOM.GetContainerForNodeParams
+			params: DOM.GetContainerForNodeParams,
 		): Promise<DOM.GetContainerForNodeResult | undefined>;
 
 		/**
@@ -7741,7 +7741,7 @@ export namespace Cdp {
 		 * container queries against this container.
 		 */
 		getQueryingDescendantsForContainer(
-			params: DOM.GetQueryingDescendantsForContainerParams
+			params: DOM.GetQueryingDescendantsForContainerParams,
 		): Promise<DOM.GetQueryingDescendantsForContainerResult | undefined>;
 
 		/**
@@ -7749,7 +7749,7 @@ export namespace Cdp {
 		 */
 		on(
 			event: "attributeModified",
-			listener: (event: DOM.AttributeModifiedEvent) => void
+			listener: (event: DOM.AttributeModifiedEvent) => void,
 		): IDisposable;
 
 		/**
@@ -7757,7 +7757,7 @@ export namespace Cdp {
 		 */
 		on(
 			event: "attributeRemoved",
-			listener: (event: DOM.AttributeRemovedEvent) => void
+			listener: (event: DOM.AttributeRemovedEvent) => void,
 		): IDisposable;
 
 		/**
@@ -7765,7 +7765,7 @@ export namespace Cdp {
 		 */
 		on(
 			event: "characterDataModified",
-			listener: (event: DOM.CharacterDataModifiedEvent) => void
+			listener: (event: DOM.CharacterDataModifiedEvent) => void,
 		): IDisposable;
 
 		/**
@@ -7773,7 +7773,7 @@ export namespace Cdp {
 		 */
 		on(
 			event: "childNodeCountUpdated",
-			listener: (event: DOM.ChildNodeCountUpdatedEvent) => void
+			listener: (event: DOM.ChildNodeCountUpdatedEvent) => void,
 		): IDisposable;
 
 		/**
@@ -7781,7 +7781,7 @@ export namespace Cdp {
 		 */
 		on(
 			event: "childNodeInserted",
-			listener: (event: DOM.ChildNodeInsertedEvent) => void
+			listener: (event: DOM.ChildNodeInsertedEvent) => void,
 		): IDisposable;
 
 		/**
@@ -7789,7 +7789,7 @@ export namespace Cdp {
 		 */
 		on(
 			event: "childNodeRemoved",
-			listener: (event: DOM.ChildNodeRemovedEvent) => void
+			listener: (event: DOM.ChildNodeRemovedEvent) => void,
 		): IDisposable;
 
 		/**
@@ -7797,7 +7797,7 @@ export namespace Cdp {
 		 */
 		on(
 			event: "distributedNodesUpdated",
-			listener: (event: DOM.DistributedNodesUpdatedEvent) => void
+			listener: (event: DOM.DistributedNodesUpdatedEvent) => void,
 		): IDisposable;
 
 		/**
@@ -7805,7 +7805,7 @@ export namespace Cdp {
 		 */
 		on(
 			event: "documentUpdated",
-			listener: (event: DOM.DocumentUpdatedEvent) => void
+			listener: (event: DOM.DocumentUpdatedEvent) => void,
 		): IDisposable;
 
 		/**
@@ -7813,7 +7813,7 @@ export namespace Cdp {
 		 */
 		on(
 			event: "inlineStyleInvalidated",
-			listener: (event: DOM.InlineStyleInvalidatedEvent) => void
+			listener: (event: DOM.InlineStyleInvalidatedEvent) => void,
 		): IDisposable;
 
 		/**
@@ -7821,7 +7821,7 @@ export namespace Cdp {
 		 */
 		on(
 			event: "pseudoElementAdded",
-			listener: (event: DOM.PseudoElementAddedEvent) => void
+			listener: (event: DOM.PseudoElementAddedEvent) => void,
 		): IDisposable;
 
 		/**
@@ -7829,7 +7829,7 @@ export namespace Cdp {
 		 */
 		on(
 			event: "topLayerElementsUpdated",
-			listener: (event: DOM.TopLayerElementsUpdatedEvent) => void
+			listener: (event: DOM.TopLayerElementsUpdatedEvent) => void,
 		): IDisposable;
 
 		/**
@@ -7837,7 +7837,7 @@ export namespace Cdp {
 		 */
 		on(
 			event: "pseudoElementRemoved",
-			listener: (event: DOM.PseudoElementRemovedEvent) => void
+			listener: (event: DOM.PseudoElementRemovedEvent) => void,
 		): IDisposable;
 
 		/**
@@ -7846,7 +7846,7 @@ export namespace Cdp {
 		 */
 		on(
 			event: "setChildNodes",
-			listener: (event: DOM.SetChildNodesEvent) => void
+			listener: (event: DOM.SetChildNodesEvent) => void,
 		): IDisposable;
 
 		/**
@@ -7854,7 +7854,7 @@ export namespace Cdp {
 		 */
 		on(
 			event: "shadowRootPopped",
-			listener: (event: DOM.ShadowRootPoppedEvent) => void
+			listener: (event: DOM.ShadowRootPoppedEvent) => void,
 		): IDisposable;
 
 		/**
@@ -7862,7 +7862,7 @@ export namespace Cdp {
 		 */
 		on(
 			event: "shadowRootPushed",
-			listener: (event: DOM.ShadowRootPushedEvent) => void
+			listener: (event: DOM.ShadowRootPushedEvent) => void,
 		): IDisposable;
 	}
 
@@ -7992,17 +7992,17 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'DOM.scrollIntoViewIfNeeded' method.
 		 */
-		export interface ScrollIntoViewIfNeededResult {}
+		export type ScrollIntoViewIfNeededResult = {};
 
 		/**
 		 * Parameters of the 'DOM.disable' method.
 		 */
-		export interface DisableParams {}
+		export type DisableParams = {};
 
 		/**
 		 * Return value of the 'DOM.disable' method.
 		 */
-		export interface DisableResult {}
+		export type DisableResult = {};
 
 		/**
 		 * Parameters of the 'DOM.discardSearchResults' method.
@@ -8017,7 +8017,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'DOM.discardSearchResults' method.
 		 */
-		export interface DiscardSearchResultsResult {}
+		export type DiscardSearchResultsResult = {};
 
 		/**
 		 * Parameters of the 'DOM.enable' method.
@@ -8032,7 +8032,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'DOM.enable' method.
 		 */
-		export interface EnableResult {}
+		export type EnableResult = {};
 
 		/**
 		 * Parameters of the 'DOM.focus' method.
@@ -8057,7 +8057,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'DOM.focus' method.
 		 */
-		export interface FocusResult {}
+		export type FocusResult = {};
 
 		/**
 		 * Parameters of the 'DOM.getAttributes' method.
@@ -8352,42 +8352,42 @@ export namespace Cdp {
 		/**
 		 * Parameters of the 'DOM.hideHighlight' method.
 		 */
-		export interface HideHighlightParams {}
+		export type HideHighlightParams = {};
 
 		/**
 		 * Return value of the 'DOM.hideHighlight' method.
 		 */
-		export interface HideHighlightResult {}
+		export type HideHighlightResult = {};
 
 		/**
 		 * Parameters of the 'DOM.highlightNode' method.
 		 */
-		export interface HighlightNodeParams {}
+		export type HighlightNodeParams = {};
 
 		/**
 		 * Return value of the 'DOM.highlightNode' method.
 		 */
-		export interface HighlightNodeResult {}
+		export type HighlightNodeResult = {};
 
 		/**
 		 * Parameters of the 'DOM.highlightRect' method.
 		 */
-		export interface HighlightRectParams {}
+		export type HighlightRectParams = {};
 
 		/**
 		 * Return value of the 'DOM.highlightRect' method.
 		 */
-		export interface HighlightRectResult {}
+		export type HighlightRectResult = {};
 
 		/**
 		 * Parameters of the 'DOM.markUndoableState' method.
 		 */
-		export interface MarkUndoableStateParams {}
+		export type MarkUndoableStateParams = {};
 
 		/**
 		 * Return value of the 'DOM.markUndoableState' method.
 		 */
-		export interface MarkUndoableStateResult {}
+		export type MarkUndoableStateResult = {};
 
 		/**
 		 * Parameters of the 'DOM.moveTo' method.
@@ -8544,7 +8544,7 @@ export namespace Cdp {
 		/**
 		 * Parameters of the 'DOM.getTopLayerElements' method.
 		 */
-		export interface GetTopLayerElementsParams {}
+		export type GetTopLayerElementsParams = {};
 
 		/**
 		 * Return value of the 'DOM.getTopLayerElements' method.
@@ -8559,12 +8559,12 @@ export namespace Cdp {
 		/**
 		 * Parameters of the 'DOM.redo' method.
 		 */
-		export interface RedoParams {}
+		export type RedoParams = {};
 
 		/**
 		 * Return value of the 'DOM.redo' method.
 		 */
-		export interface RedoResult {}
+		export type RedoResult = {};
 
 		/**
 		 * Parameters of the 'DOM.removeAttribute' method.
@@ -8584,7 +8584,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'DOM.removeAttribute' method.
 		 */
-		export interface RemoveAttributeResult {}
+		export type RemoveAttributeResult = {};
 
 		/**
 		 * Parameters of the 'DOM.removeNode' method.
@@ -8599,7 +8599,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'DOM.removeNode' method.
 		 */
-		export interface RemoveNodeResult {}
+		export type RemoveNodeResult = {};
 
 		/**
 		 * Parameters of the 'DOM.requestChildNodes' method.
@@ -8626,7 +8626,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'DOM.requestChildNodes' method.
 		 */
-		export interface RequestChildNodesResult {}
+		export type RequestChildNodesResult = {};
 
 		/**
 		 * Parameters of the 'DOM.requestNode' method.
@@ -8706,7 +8706,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'DOM.setAttributeValue' method.
 		 */
-		export interface SetAttributeValueResult {}
+		export type SetAttributeValueResult = {};
 
 		/**
 		 * Parameters of the 'DOM.setAttributesAsText' method.
@@ -8732,7 +8732,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'DOM.setAttributesAsText' method.
 		 */
-		export interface SetAttributesAsTextResult {}
+		export type SetAttributesAsTextResult = {};
 
 		/**
 		 * Parameters of the 'DOM.setFileInputFiles' method.
@@ -8762,7 +8762,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'DOM.setFileInputFiles' method.
 		 */
-		export interface SetFileInputFilesResult {}
+		export type SetFileInputFilesResult = {};
 
 		/**
 		 * Parameters of the 'DOM.setNodeStackTracesEnabled' method.
@@ -8777,7 +8777,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'DOM.setNodeStackTracesEnabled' method.
 		 */
-		export interface SetNodeStackTracesEnabledResult {}
+		export type SetNodeStackTracesEnabledResult = {};
 
 		/**
 		 * Parameters of the 'DOM.getNodeStackTraces' method.
@@ -8829,7 +8829,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'DOM.setInspectedNode' method.
 		 */
-		export interface SetInspectedNodeResult {}
+		export type SetInspectedNodeResult = {};
 
 		/**
 		 * Parameters of the 'DOM.setNodeName' method.
@@ -8874,7 +8874,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'DOM.setNodeValue' method.
 		 */
-		export interface SetNodeValueResult {}
+		export type SetNodeValueResult = {};
 
 		/**
 		 * Parameters of the 'DOM.setOuterHTML' method.
@@ -8894,17 +8894,17 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'DOM.setOuterHTML' method.
 		 */
-		export interface SetOuterHTMLResult {}
+		export type SetOuterHTMLResult = {};
 
 		/**
 		 * Parameters of the 'DOM.undo' method.
 		 */
-		export interface UndoParams {}
+		export type UndoParams = {};
 
 		/**
 		 * Return value of the 'DOM.undo' method.
 		 */
-		export interface UndoResult {}
+		export type UndoResult = {};
 
 		/**
 		 * Parameters of the 'DOM.getFrameOwner' method.
@@ -9089,7 +9089,7 @@ export namespace Cdp {
 		/**
 		 * Parameters of the 'DOM.documentUpdated' event.
 		 */
-		export interface DocumentUpdatedEvent {}
+		export type DocumentUpdatedEvent = {};
 
 		/**
 		 * Parameters of the 'DOM.inlineStyleInvalidated' event.
@@ -9119,7 +9119,7 @@ export namespace Cdp {
 		/**
 		 * Parameters of the 'DOM.topLayerElementsUpdated' event.
 		 */
-		export interface TopLayerElementsUpdatedEvent {}
+		export type TopLayerElementsUpdatedEvent = {};
 
 		/**
 		 * Parameters of the 'DOM.pseudoElementRemoved' event.
@@ -9559,21 +9559,21 @@ export namespace Cdp {
 		 * Returns event listeners of the given object.
 		 */
 		getEventListeners(
-			params: DOMDebugger.GetEventListenersParams
+			params: DOMDebugger.GetEventListenersParams,
 		): Promise<DOMDebugger.GetEventListenersResult | undefined>;
 
 		/**
 		 * Removes DOM breakpoint that was set using `setDOMBreakpoint`.
 		 */
 		removeDOMBreakpoint(
-			params: DOMDebugger.RemoveDOMBreakpointParams
+			params: DOMDebugger.RemoveDOMBreakpointParams,
 		): Promise<DOMDebugger.RemoveDOMBreakpointResult | undefined>;
 
 		/**
 		 * Removes breakpoint on particular DOM event.
 		 */
 		removeEventListenerBreakpoint(
-			params: DOMDebugger.RemoveEventListenerBreakpointParams
+			params: DOMDebugger.RemoveEventListenerBreakpointParams,
 		): Promise<DOMDebugger.RemoveEventListenerBreakpointResult | undefined>;
 
 		/**
@@ -9581,7 +9581,7 @@ export namespace Cdp {
 		 * @deprecated
 		 */
 		removeInstrumentationBreakpoint(
-			params: DOMDebugger.RemoveInstrumentationBreakpointParams
+			params: DOMDebugger.RemoveInstrumentationBreakpointParams,
 		): Promise<
 			DOMDebugger.RemoveInstrumentationBreakpointResult | undefined
 		>;
@@ -9590,28 +9590,28 @@ export namespace Cdp {
 		 * Removes breakpoint from XMLHttpRequest.
 		 */
 		removeXHRBreakpoint(
-			params: DOMDebugger.RemoveXHRBreakpointParams
+			params: DOMDebugger.RemoveXHRBreakpointParams,
 		): Promise<DOMDebugger.RemoveXHRBreakpointResult | undefined>;
 
 		/**
 		 * Sets breakpoint on particular CSP violations.
 		 */
 		setBreakOnCSPViolation(
-			params: DOMDebugger.SetBreakOnCSPViolationParams
+			params: DOMDebugger.SetBreakOnCSPViolationParams,
 		): Promise<DOMDebugger.SetBreakOnCSPViolationResult | undefined>;
 
 		/**
 		 * Sets breakpoint on particular operation with DOM.
 		 */
 		setDOMBreakpoint(
-			params: DOMDebugger.SetDOMBreakpointParams
+			params: DOMDebugger.SetDOMBreakpointParams,
 		): Promise<DOMDebugger.SetDOMBreakpointResult | undefined>;
 
 		/**
 		 * Sets breakpoint on particular DOM event.
 		 */
 		setEventListenerBreakpoint(
-			params: DOMDebugger.SetEventListenerBreakpointParams
+			params: DOMDebugger.SetEventListenerBreakpointParams,
 		): Promise<DOMDebugger.SetEventListenerBreakpointResult | undefined>;
 
 		/**
@@ -9619,14 +9619,14 @@ export namespace Cdp {
 		 * @deprecated
 		 */
 		setInstrumentationBreakpoint(
-			params: DOMDebugger.SetInstrumentationBreakpointParams
+			params: DOMDebugger.SetInstrumentationBreakpointParams,
 		): Promise<DOMDebugger.SetInstrumentationBreakpointResult | undefined>;
 
 		/**
 		 * Sets breakpoint on XMLHttpRequest.
 		 */
 		setXHRBreakpoint(
-			params: DOMDebugger.SetXHRBreakpointParams
+			params: DOMDebugger.SetXHRBreakpointParams,
 		): Promise<DOMDebugger.SetXHRBreakpointResult | undefined>;
 	}
 
@@ -9684,7 +9684,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'DOMDebugger.removeDOMBreakpoint' method.
 		 */
-		export interface RemoveDOMBreakpointResult {}
+		export type RemoveDOMBreakpointResult = {};
 
 		/**
 		 * Parameters of the 'DOMDebugger.removeEventListenerBreakpoint' method.
@@ -9704,7 +9704,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'DOMDebugger.removeEventListenerBreakpoint' method.
 		 */
-		export interface RemoveEventListenerBreakpointResult {}
+		export type RemoveEventListenerBreakpointResult = {};
 
 		/**
 		 * Parameters of the 'DOMDebugger.removeInstrumentationBreakpoint' method.
@@ -9719,7 +9719,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'DOMDebugger.removeInstrumentationBreakpoint' method.
 		 */
-		export interface RemoveInstrumentationBreakpointResult {}
+		export type RemoveInstrumentationBreakpointResult = {};
 
 		/**
 		 * Parameters of the 'DOMDebugger.removeXHRBreakpoint' method.
@@ -9734,7 +9734,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'DOMDebugger.removeXHRBreakpoint' method.
 		 */
-		export interface RemoveXHRBreakpointResult {}
+		export type RemoveXHRBreakpointResult = {};
 
 		/**
 		 * Parameters of the 'DOMDebugger.setBreakOnCSPViolation' method.
@@ -9749,7 +9749,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'DOMDebugger.setBreakOnCSPViolation' method.
 		 */
-		export interface SetBreakOnCSPViolationResult {}
+		export type SetBreakOnCSPViolationResult = {};
 
 		/**
 		 * Parameters of the 'DOMDebugger.setDOMBreakpoint' method.
@@ -9769,7 +9769,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'DOMDebugger.setDOMBreakpoint' method.
 		 */
-		export interface SetDOMBreakpointResult {}
+		export type SetDOMBreakpointResult = {};
 
 		/**
 		 * Parameters of the 'DOMDebugger.setEventListenerBreakpoint' method.
@@ -9790,7 +9790,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'DOMDebugger.setEventListenerBreakpoint' method.
 		 */
-		export interface SetEventListenerBreakpointResult {}
+		export type SetEventListenerBreakpointResult = {};
 
 		/**
 		 * Parameters of the 'DOMDebugger.setInstrumentationBreakpoint' method.
@@ -9805,7 +9805,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'DOMDebugger.setInstrumentationBreakpoint' method.
 		 */
-		export interface SetInstrumentationBreakpointResult {}
+		export type SetInstrumentationBreakpointResult = {};
 
 		/**
 		 * Parameters of the 'DOMDebugger.setXHRBreakpoint' method.
@@ -9820,7 +9820,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'DOMDebugger.setXHRBreakpoint' method.
 		 */
-		export interface SetXHRBreakpointResult {}
+		export type SetXHRBreakpointResult = {};
 
 		/**
 		 * DOM breakpoint type.
@@ -9901,14 +9901,14 @@ export namespace Cdp {
 		 * Disables DOM snapshot agent for the given page.
 		 */
 		disable(
-			params: DOMSnapshot.DisableParams
+			params: DOMSnapshot.DisableParams,
 		): Promise<DOMSnapshot.DisableResult | undefined>;
 
 		/**
 		 * Enables DOM snapshot agent for the given page.
 		 */
 		enable(
-			params: DOMSnapshot.EnableParams
+			params: DOMSnapshot.EnableParams,
 		): Promise<DOMSnapshot.EnableResult | undefined>;
 
 		/**
@@ -9919,7 +9919,7 @@ export namespace Cdp {
 		 * @deprecated
 		 */
 		getSnapshot(
-			params: DOMSnapshot.GetSnapshotParams
+			params: DOMSnapshot.GetSnapshotParams,
 		): Promise<DOMSnapshot.GetSnapshotResult | undefined>;
 
 		/**
@@ -9929,7 +9929,7 @@ export namespace Cdp {
 		 * flattened.
 		 */
 		captureSnapshot(
-			params: DOMSnapshot.CaptureSnapshotParams
+			params: DOMSnapshot.CaptureSnapshotParams,
 		): Promise<DOMSnapshot.CaptureSnapshotResult | undefined>;
 	}
 
@@ -9940,22 +9940,22 @@ export namespace Cdp {
 		/**
 		 * Parameters of the 'DOMSnapshot.disable' method.
 		 */
-		export interface DisableParams {}
+		export type DisableParams = {};
 
 		/**
 		 * Return value of the 'DOMSnapshot.disable' method.
 		 */
-		export interface DisableResult {}
+		export type DisableResult = {};
 
 		/**
 		 * Parameters of the 'DOMSnapshot.enable' method.
 		 */
-		export interface EnableParams {}
+		export type EnableParams = {};
 
 		/**
 		 * Return value of the 'DOMSnapshot.enable' method.
 		 */
-		export interface EnableResult {}
+		export type EnableResult = {};
 
 		/**
 		 * Parameters of the 'DOMSnapshot.getSnapshot' method.
@@ -10589,53 +10589,53 @@ export namespace Cdp {
 	 */
 	export interface DOMStorageApi {
 		clear(
-			params: DOMStorage.ClearParams
+			params: DOMStorage.ClearParams,
 		): Promise<DOMStorage.ClearResult | undefined>;
 
 		/**
 		 * Disables storage tracking, prevents storage events from being sent to the client.
 		 */
 		disable(
-			params: DOMStorage.DisableParams
+			params: DOMStorage.DisableParams,
 		): Promise<DOMStorage.DisableResult | undefined>;
 
 		/**
 		 * Enables storage tracking, storage events will now be delivered to the client.
 		 */
 		enable(
-			params: DOMStorage.EnableParams
+			params: DOMStorage.EnableParams,
 		): Promise<DOMStorage.EnableResult | undefined>;
 
 		getDOMStorageItems(
-			params: DOMStorage.GetDOMStorageItemsParams
+			params: DOMStorage.GetDOMStorageItemsParams,
 		): Promise<DOMStorage.GetDOMStorageItemsResult | undefined>;
 
 		removeDOMStorageItem(
-			params: DOMStorage.RemoveDOMStorageItemParams
+			params: DOMStorage.RemoveDOMStorageItemParams,
 		): Promise<DOMStorage.RemoveDOMStorageItemResult | undefined>;
 
 		setDOMStorageItem(
-			params: DOMStorage.SetDOMStorageItemParams
+			params: DOMStorage.SetDOMStorageItemParams,
 		): Promise<DOMStorage.SetDOMStorageItemResult | undefined>;
 
 		on(
 			event: "domStorageItemAdded",
-			listener: (event: DOMStorage.DomStorageItemAddedEvent) => void
+			listener: (event: DOMStorage.DomStorageItemAddedEvent) => void,
 		): IDisposable;
 
 		on(
 			event: "domStorageItemRemoved",
-			listener: (event: DOMStorage.DomStorageItemRemovedEvent) => void
+			listener: (event: DOMStorage.DomStorageItemRemovedEvent) => void,
 		): IDisposable;
 
 		on(
 			event: "domStorageItemUpdated",
-			listener: (event: DOMStorage.DomStorageItemUpdatedEvent) => void
+			listener: (event: DOMStorage.DomStorageItemUpdatedEvent) => void,
 		): IDisposable;
 
 		on(
 			event: "domStorageItemsCleared",
-			listener: (event: DOMStorage.DomStorageItemsClearedEvent) => void
+			listener: (event: DOMStorage.DomStorageItemsClearedEvent) => void,
 		): IDisposable;
 	}
 
@@ -10653,27 +10653,27 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'DOMStorage.clear' method.
 		 */
-		export interface ClearResult {}
+		export type ClearResult = {};
 
 		/**
 		 * Parameters of the 'DOMStorage.disable' method.
 		 */
-		export interface DisableParams {}
+		export type DisableParams = {};
 
 		/**
 		 * Return value of the 'DOMStorage.disable' method.
 		 */
-		export interface DisableResult {}
+		export type DisableResult = {};
 
 		/**
 		 * Parameters of the 'DOMStorage.enable' method.
 		 */
-		export interface EnableParams {}
+		export type EnableParams = {};
 
 		/**
 		 * Return value of the 'DOMStorage.enable' method.
 		 */
-		export interface EnableResult {}
+		export type EnableResult = {};
 
 		/**
 		 * Parameters of the 'DOMStorage.getDOMStorageItems' method.
@@ -10701,7 +10701,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'DOMStorage.removeDOMStorageItem' method.
 		 */
-		export interface RemoveDOMStorageItemResult {}
+		export type RemoveDOMStorageItemResult = {};
 
 		/**
 		 * Parameters of the 'DOMStorage.setDOMStorageItem' method.
@@ -10717,7 +10717,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'DOMStorage.setDOMStorageItem' method.
 		 */
-		export interface SetDOMStorageItemResult {}
+		export type SetDOMStorageItemResult = {};
 
 		/**
 		 * Parameters of the 'DOMStorage.domStorageItemAdded' event.
@@ -10795,21 +10795,21 @@ export namespace Cdp {
 		 * Sets a debugger property.
 		 */
 		setDebuggerProperty(
-			params: DotnetDebugger.SetDebuggerPropertyParams
+			params: DotnetDebugger.SetDebuggerPropertyParams,
 		): Promise<DotnetDebugger.SetDebuggerPropertyResult | undefined>;
 
 		/**
 		 * Set options for evaluation
 		 */
 		setEvaluationOptions(
-			params: DotnetDebugger.SetEvaluationOptionsParams
+			params: DotnetDebugger.SetEvaluationOptionsParams,
 		): Promise<DotnetDebugger.SetEvaluationOptionsResult | undefined>;
 
 		/**
 		 * Sets options for locating symbols.
 		 */
 		setSymbolOptions(
-			params: DotnetDebugger.SetSymbolOptionsParams
+			params: DotnetDebugger.SetSymbolOptionsParams,
 		): Promise<DotnetDebugger.SetSymbolOptionsResult | undefined>;
 	}
 
@@ -10827,7 +10827,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'DotnetDebugger.setDebuggerProperty' method.
 		 */
-		export interface SetDebuggerPropertyResult {}
+		export type SetDebuggerPropertyResult = {};
 
 		/**
 		 * Parameters of the 'DotnetDebugger.setEvaluationOptions' method.
@@ -10841,17 +10841,17 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'DotnetDebugger.setEvaluationOptions' method.
 		 */
-		export interface SetEvaluationOptionsResult {}
+		export type SetEvaluationOptionsResult = {};
 
 		/**
 		 * Parameters of the 'DotnetDebugger.setSymbolOptions' method.
 		 */
-		export interface SetSymbolOptionsParams {}
+		export type SetSymbolOptionsParams = {};
 
 		/**
 		 * Return value of the 'DotnetDebugger.setSymbolOptions' method.
 		 */
-		export interface SetSymbolOptionsResult {}
+		export type SetSymbolOptionsResult = {};
 
 		/**
 		 * Arguments for "setDebuggerProperty" request. Properties are determined by debugger.
@@ -10883,49 +10883,49 @@ export namespace Cdp {
 		 * Tells whether emulation is supported.
 		 */
 		canEmulate(
-			params: Emulation.CanEmulateParams
+			params: Emulation.CanEmulateParams,
 		): Promise<Emulation.CanEmulateResult | undefined>;
 
 		/**
 		 * Clears the overridden device metrics.
 		 */
 		clearDeviceMetricsOverride(
-			params: Emulation.ClearDeviceMetricsOverrideParams
+			params: Emulation.ClearDeviceMetricsOverrideParams,
 		): Promise<Emulation.ClearDeviceMetricsOverrideResult | undefined>;
 
 		/**
 		 * Clears the overridden Geolocation Position and Error.
 		 */
 		clearGeolocationOverride(
-			params: Emulation.ClearGeolocationOverrideParams
+			params: Emulation.ClearGeolocationOverrideParams,
 		): Promise<Emulation.ClearGeolocationOverrideResult | undefined>;
 
 		/**
 		 * Requests that page scale factor is reset to initial values.
 		 */
 		resetPageScaleFactor(
-			params: Emulation.ResetPageScaleFactorParams
+			params: Emulation.ResetPageScaleFactorParams,
 		): Promise<Emulation.ResetPageScaleFactorResult | undefined>;
 
 		/**
 		 * Enables or disables simulating a focused and active page.
 		 */
 		setFocusEmulationEnabled(
-			params: Emulation.SetFocusEmulationEnabledParams
+			params: Emulation.SetFocusEmulationEnabledParams,
 		): Promise<Emulation.SetFocusEmulationEnabledResult | undefined>;
 
 		/**
 		 * Automatically render all web contents using a dark theme.
 		 */
 		setAutoDarkModeOverride(
-			params: Emulation.SetAutoDarkModeOverrideParams
+			params: Emulation.SetAutoDarkModeOverrideParams,
 		): Promise<Emulation.SetAutoDarkModeOverrideResult | undefined>;
 
 		/**
 		 * Enables CPU throttling to emulate slow CPUs.
 		 */
 		setCPUThrottlingRate(
-			params: Emulation.SetCPUThrottlingRateParams
+			params: Emulation.SetCPUThrottlingRateParams,
 		): Promise<Emulation.SetCPUThrottlingRateResult | undefined>;
 
 		/**
@@ -10933,7 +10933,7 @@ export namespace Cdp {
 		 * if the content does not specify one.
 		 */
 		setDefaultBackgroundColorOverride(
-			params: Emulation.SetDefaultBackgroundColorOverrideParams
+			params: Emulation.SetDefaultBackgroundColorOverrideParams,
 		): Promise<
 			Emulation.SetDefaultBackgroundColorOverrideResult | undefined
 		>;
@@ -10944,33 +10944,33 @@ export namespace Cdp {
 		 * query results).
 		 */
 		setDeviceMetricsOverride(
-			params: Emulation.SetDeviceMetricsOverrideParams
+			params: Emulation.SetDeviceMetricsOverrideParams,
 		): Promise<Emulation.SetDeviceMetricsOverrideResult | undefined>;
 
 		setScrollbarsHidden(
-			params: Emulation.SetScrollbarsHiddenParams
+			params: Emulation.SetScrollbarsHiddenParams,
 		): Promise<Emulation.SetScrollbarsHiddenResult | undefined>;
 
 		setDocumentCookieDisabled(
-			params: Emulation.SetDocumentCookieDisabledParams
+			params: Emulation.SetDocumentCookieDisabledParams,
 		): Promise<Emulation.SetDocumentCookieDisabledResult | undefined>;
 
 		setEmitTouchEventsForMouse(
-			params: Emulation.SetEmitTouchEventsForMouseParams
+			params: Emulation.SetEmitTouchEventsForMouseParams,
 		): Promise<Emulation.SetEmitTouchEventsForMouseResult | undefined>;
 
 		/**
 		 * Emulates the given media type or media feature for CSS media queries.
 		 */
 		setEmulatedMedia(
-			params: Emulation.SetEmulatedMediaParams
+			params: Emulation.SetEmulatedMediaParams,
 		): Promise<Emulation.SetEmulatedMediaResult | undefined>;
 
 		/**
 		 * Emulates the given vision deficiency.
 		 */
 		setEmulatedVisionDeficiency(
-			params: Emulation.SetEmulatedVisionDeficiencyParams
+			params: Emulation.SetEmulatedVisionDeficiencyParams,
 		): Promise<Emulation.SetEmulatedVisionDeficiencyResult | undefined>;
 
 		/**
@@ -10978,11 +10978,11 @@ export namespace Cdp {
 		 * unavailable.
 		 */
 		setGeolocationOverride(
-			params: Emulation.SetGeolocationOverrideParams
+			params: Emulation.SetGeolocationOverrideParams,
 		): Promise<Emulation.SetGeolocationOverrideResult | undefined>;
 
 		getOverriddenSensorInformation(
-			params: Emulation.GetOverriddenSensorInformationParams
+			params: Emulation.GetOverriddenSensorInformationParams,
 		): Promise<Emulation.GetOverriddenSensorInformationResult | undefined>;
 
 		/**
@@ -10993,7 +10993,7 @@ export namespace Cdp {
 		 * Sensor.start() will attempt to use a real sensor instead.
 		 */
 		setSensorOverrideEnabled(
-			params: Emulation.SetSensorOverrideEnabledParams
+			params: Emulation.SetSensorOverrideEnabledParams,
 		): Promise<Emulation.SetSensorOverrideEnabledResult | undefined>;
 
 		/**
@@ -11001,21 +11001,21 @@ export namespace Cdp {
 		 * by setSensorOverrideEnabled.
 		 */
 		setSensorOverrideReadings(
-			params: Emulation.SetSensorOverrideReadingsParams
+			params: Emulation.SetSensorOverrideReadingsParams,
 		): Promise<Emulation.SetSensorOverrideReadingsResult | undefined>;
 
 		/**
 		 * Overrides the Idle state.
 		 */
 		setIdleOverride(
-			params: Emulation.SetIdleOverrideParams
+			params: Emulation.SetIdleOverrideParams,
 		): Promise<Emulation.SetIdleOverrideResult | undefined>;
 
 		/**
 		 * Clears Idle state overrides.
 		 */
 		clearIdleOverride(
-			params: Emulation.ClearIdleOverrideParams
+			params: Emulation.ClearIdleOverrideParams,
 		): Promise<Emulation.ClearIdleOverrideResult | undefined>;
 
 		/**
@@ -11023,28 +11023,28 @@ export namespace Cdp {
 		 * @deprecated
 		 */
 		setNavigatorOverrides(
-			params: Emulation.SetNavigatorOverridesParams
+			params: Emulation.SetNavigatorOverridesParams,
 		): Promise<Emulation.SetNavigatorOverridesResult | undefined>;
 
 		/**
 		 * Sets a specified page scale factor.
 		 */
 		setPageScaleFactor(
-			params: Emulation.SetPageScaleFactorParams
+			params: Emulation.SetPageScaleFactorParams,
 		): Promise<Emulation.SetPageScaleFactorResult | undefined>;
 
 		/**
 		 * Switches script execution in the page.
 		 */
 		setScriptExecutionDisabled(
-			params: Emulation.SetScriptExecutionDisabledParams
+			params: Emulation.SetScriptExecutionDisabledParams,
 		): Promise<Emulation.SetScriptExecutionDisabledResult | undefined>;
 
 		/**
 		 * Enables touch on platforms which do not support them.
 		 */
 		setTouchEmulationEnabled(
-			params: Emulation.SetTouchEmulationEnabledParams
+			params: Emulation.SetTouchEmulationEnabledParams,
 		): Promise<Emulation.SetTouchEmulationEnabledResult | undefined>;
 
 		/**
@@ -11052,21 +11052,21 @@ export namespace Cdp {
 		 * the current virtual time policy.  Note this supersedes any previous time budget.
 		 */
 		setVirtualTimePolicy(
-			params: Emulation.SetVirtualTimePolicyParams
+			params: Emulation.SetVirtualTimePolicyParams,
 		): Promise<Emulation.SetVirtualTimePolicyResult | undefined>;
 
 		/**
 		 * Overrides default host system locale with the specified one.
 		 */
 		setLocaleOverride(
-			params: Emulation.SetLocaleOverrideParams
+			params: Emulation.SetLocaleOverrideParams,
 		): Promise<Emulation.SetLocaleOverrideResult | undefined>;
 
 		/**
 		 * Overrides default host system timezone with the specified one.
 		 */
 		setTimezoneOverride(
-			params: Emulation.SetTimezoneOverrideParams
+			params: Emulation.SetTimezoneOverrideParams,
 		): Promise<Emulation.SetTimezoneOverrideResult | undefined>;
 
 		/**
@@ -11076,29 +11076,29 @@ export namespace Cdp {
 		 * @deprecated
 		 */
 		setVisibleSize(
-			params: Emulation.SetVisibleSizeParams
+			params: Emulation.SetVisibleSizeParams,
 		): Promise<Emulation.SetVisibleSizeResult | undefined>;
 
 		setDisabledImageTypes(
-			params: Emulation.SetDisabledImageTypesParams
+			params: Emulation.SetDisabledImageTypesParams,
 		): Promise<Emulation.SetDisabledImageTypesResult | undefined>;
 
 		setHardwareConcurrencyOverride(
-			params: Emulation.SetHardwareConcurrencyOverrideParams
+			params: Emulation.SetHardwareConcurrencyOverrideParams,
 		): Promise<Emulation.SetHardwareConcurrencyOverrideResult | undefined>;
 
 		/**
 		 * Allows overriding user agent with the given string.
 		 */
 		setUserAgentOverride(
-			params: Emulation.SetUserAgentOverrideParams
+			params: Emulation.SetUserAgentOverrideParams,
 		): Promise<Emulation.SetUserAgentOverrideResult | undefined>;
 
 		/**
 		 * Allows overriding the automation flag.
 		 */
 		setAutomationOverride(
-			params: Emulation.SetAutomationOverrideParams
+			params: Emulation.SetAutomationOverrideParams,
 		): Promise<Emulation.SetAutomationOverrideResult | undefined>;
 
 		/**
@@ -11106,7 +11106,7 @@ export namespace Cdp {
 		 */
 		on(
 			event: "virtualTimeBudgetExpired",
-			listener: (event: Emulation.VirtualTimeBudgetExpiredEvent) => void
+			listener: (event: Emulation.VirtualTimeBudgetExpiredEvent) => void,
 		): IDisposable;
 	}
 
@@ -11117,7 +11117,7 @@ export namespace Cdp {
 		/**
 		 * Parameters of the 'Emulation.canEmulate' method.
 		 */
-		export interface CanEmulateParams {}
+		export type CanEmulateParams = {};
 
 		/**
 		 * Return value of the 'Emulation.canEmulate' method.
@@ -11132,32 +11132,32 @@ export namespace Cdp {
 		/**
 		 * Parameters of the 'Emulation.clearDeviceMetricsOverride' method.
 		 */
-		export interface ClearDeviceMetricsOverrideParams {}
+		export type ClearDeviceMetricsOverrideParams = {};
 
 		/**
 		 * Return value of the 'Emulation.clearDeviceMetricsOverride' method.
 		 */
-		export interface ClearDeviceMetricsOverrideResult {}
+		export type ClearDeviceMetricsOverrideResult = {};
 
 		/**
 		 * Parameters of the 'Emulation.clearGeolocationOverride' method.
 		 */
-		export interface ClearGeolocationOverrideParams {}
+		export type ClearGeolocationOverrideParams = {};
 
 		/**
 		 * Return value of the 'Emulation.clearGeolocationOverride' method.
 		 */
-		export interface ClearGeolocationOverrideResult {}
+		export type ClearGeolocationOverrideResult = {};
 
 		/**
 		 * Parameters of the 'Emulation.resetPageScaleFactor' method.
 		 */
-		export interface ResetPageScaleFactorParams {}
+		export type ResetPageScaleFactorParams = {};
 
 		/**
 		 * Return value of the 'Emulation.resetPageScaleFactor' method.
 		 */
-		export interface ResetPageScaleFactorResult {}
+		export type ResetPageScaleFactorResult = {};
 
 		/**
 		 * Parameters of the 'Emulation.setFocusEmulationEnabled' method.
@@ -11172,7 +11172,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Emulation.setFocusEmulationEnabled' method.
 		 */
-		export interface SetFocusEmulationEnabledResult {}
+		export type SetFocusEmulationEnabledResult = {};
 
 		/**
 		 * Parameters of the 'Emulation.setAutoDarkModeOverride' method.
@@ -11188,7 +11188,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Emulation.setAutoDarkModeOverride' method.
 		 */
-		export interface SetAutoDarkModeOverrideResult {}
+		export type SetAutoDarkModeOverrideResult = {};
 
 		/**
 		 * Parameters of the 'Emulation.setCPUThrottlingRate' method.
@@ -11203,7 +11203,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Emulation.setCPUThrottlingRate' method.
 		 */
-		export interface SetCPUThrottlingRateResult {}
+		export type SetCPUThrottlingRateResult = {};
 
 		/**
 		 * Parameters of the 'Emulation.setDefaultBackgroundColorOverride' method.
@@ -11219,7 +11219,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Emulation.setDefaultBackgroundColorOverride' method.
 		 */
-		export interface SetDefaultBackgroundColorOverrideResult {}
+		export type SetDefaultBackgroundColorOverrideResult = {};
 
 		/**
 		 * Parameters of the 'Emulation.setDeviceMetricsOverride' method.
@@ -11297,7 +11297,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Emulation.setDeviceMetricsOverride' method.
 		 */
-		export interface SetDeviceMetricsOverrideResult {}
+		export type SetDeviceMetricsOverrideResult = {};
 
 		/**
 		 * Parameters of the 'Emulation.setScrollbarsHidden' method.
@@ -11312,7 +11312,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Emulation.setScrollbarsHidden' method.
 		 */
-		export interface SetScrollbarsHiddenResult {}
+		export type SetScrollbarsHiddenResult = {};
 
 		/**
 		 * Parameters of the 'Emulation.setDocumentCookieDisabled' method.
@@ -11327,7 +11327,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Emulation.setDocumentCookieDisabled' method.
 		 */
-		export interface SetDocumentCookieDisabledResult {}
+		export type SetDocumentCookieDisabledResult = {};
 
 		/**
 		 * Parameters of the 'Emulation.setEmitTouchEventsForMouse' method.
@@ -11347,7 +11347,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Emulation.setEmitTouchEventsForMouse' method.
 		 */
-		export interface SetEmitTouchEventsForMouseResult {}
+		export type SetEmitTouchEventsForMouseResult = {};
 
 		/**
 		 * Parameters of the 'Emulation.setEmulatedMedia' method.
@@ -11367,7 +11367,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Emulation.setEmulatedMedia' method.
 		 */
-		export interface SetEmulatedMediaResult {}
+		export type SetEmulatedMediaResult = {};
 
 		/**
 		 * Parameters of the 'Emulation.setEmulatedVisionDeficiency' method.
@@ -11390,7 +11390,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Emulation.setEmulatedVisionDeficiency' method.
 		 */
-		export interface SetEmulatedVisionDeficiencyResult {}
+		export type SetEmulatedVisionDeficiencyResult = {};
 
 		/**
 		 * Parameters of the 'Emulation.setGeolocationOverride' method.
@@ -11415,7 +11415,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Emulation.setGeolocationOverride' method.
 		 */
-		export interface SetGeolocationOverrideResult {}
+		export type SetGeolocationOverrideResult = {};
 
 		/**
 		 * Parameters of the 'Emulation.getOverriddenSensorInformation' method.
@@ -11445,7 +11445,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Emulation.setSensorOverrideEnabled' method.
 		 */
-		export interface SetSensorOverrideEnabledResult {}
+		export type SetSensorOverrideEnabledResult = {};
 
 		/**
 		 * Parameters of the 'Emulation.setSensorOverrideReadings' method.
@@ -11459,7 +11459,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Emulation.setSensorOverrideReadings' method.
 		 */
-		export interface SetSensorOverrideReadingsResult {}
+		export type SetSensorOverrideReadingsResult = {};
 
 		/**
 		 * Parameters of the 'Emulation.setIdleOverride' method.
@@ -11479,17 +11479,17 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Emulation.setIdleOverride' method.
 		 */
-		export interface SetIdleOverrideResult {}
+		export type SetIdleOverrideResult = {};
 
 		/**
 		 * Parameters of the 'Emulation.clearIdleOverride' method.
 		 */
-		export interface ClearIdleOverrideParams {}
+		export type ClearIdleOverrideParams = {};
 
 		/**
 		 * Return value of the 'Emulation.clearIdleOverride' method.
 		 */
-		export interface ClearIdleOverrideResult {}
+		export type ClearIdleOverrideResult = {};
 
 		/**
 		 * Parameters of the 'Emulation.setNavigatorOverrides' method.
@@ -11504,7 +11504,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Emulation.setNavigatorOverrides' method.
 		 */
-		export interface SetNavigatorOverridesResult {}
+		export type SetNavigatorOverridesResult = {};
 
 		/**
 		 * Parameters of the 'Emulation.setPageScaleFactor' method.
@@ -11519,7 +11519,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Emulation.setPageScaleFactor' method.
 		 */
-		export interface SetPageScaleFactorResult {}
+		export type SetPageScaleFactorResult = {};
 
 		/**
 		 * Parameters of the 'Emulation.setScriptExecutionDisabled' method.
@@ -11534,7 +11534,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Emulation.setScriptExecutionDisabled' method.
 		 */
-		export interface SetScriptExecutionDisabledResult {}
+		export type SetScriptExecutionDisabledResult = {};
 
 		/**
 		 * Parameters of the 'Emulation.setTouchEmulationEnabled' method.
@@ -11554,7 +11554,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Emulation.setTouchEmulationEnabled' method.
 		 */
-		export interface SetTouchEmulationEnabledResult {}
+		export type SetTouchEmulationEnabledResult = {};
 
 		/**
 		 * Parameters of the 'Emulation.setVirtualTimePolicy' method.
@@ -11604,7 +11604,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Emulation.setLocaleOverride' method.
 		 */
-		export interface SetLocaleOverrideResult {}
+		export type SetLocaleOverrideResult = {};
 
 		/**
 		 * Parameters of the 'Emulation.setTimezoneOverride' method.
@@ -11620,7 +11620,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Emulation.setTimezoneOverride' method.
 		 */
-		export interface SetTimezoneOverrideResult {}
+		export type SetTimezoneOverrideResult = {};
 
 		/**
 		 * Parameters of the 'Emulation.setVisibleSize' method.
@@ -11640,7 +11640,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Emulation.setVisibleSize' method.
 		 */
-		export interface SetVisibleSizeResult {}
+		export type SetVisibleSizeResult = {};
 
 		/**
 		 * Parameters of the 'Emulation.setDisabledImageTypes' method.
@@ -11655,7 +11655,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Emulation.setDisabledImageTypes' method.
 		 */
-		export interface SetDisabledImageTypesResult {}
+		export type SetDisabledImageTypesResult = {};
 
 		/**
 		 * Parameters of the 'Emulation.setHardwareConcurrencyOverride' method.
@@ -11670,7 +11670,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Emulation.setHardwareConcurrencyOverride' method.
 		 */
-		export interface SetHardwareConcurrencyOverrideResult {}
+		export type SetHardwareConcurrencyOverrideResult = {};
 
 		/**
 		 * Parameters of the 'Emulation.setUserAgentOverride' method.
@@ -11700,7 +11700,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Emulation.setUserAgentOverride' method.
 		 */
-		export interface SetUserAgentOverrideResult {}
+		export type SetUserAgentOverrideResult = {};
 
 		/**
 		 * Parameters of the 'Emulation.setAutomationOverride' method.
@@ -11715,12 +11715,12 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Emulation.setAutomationOverride' method.
 		 */
-		export interface SetAutomationOverrideResult {}
+		export type SetAutomationOverrideResult = {};
 
 		/**
 		 * Parameters of the 'Emulation.virtualTimeBudgetExpired' event.
 		 */
-		export interface VirtualTimeBudgetExpiredEvent {}
+		export type VirtualTimeBudgetExpiredEvent = {};
 
 		/**
 		 * Screen orientation.
@@ -11890,7 +11890,7 @@ export namespace Cdp {
 		 * Sets breakpoint on particular native event.
 		 */
 		setInstrumentationBreakpoint(
-			params: EventBreakpoints.SetInstrumentationBreakpointParams
+			params: EventBreakpoints.SetInstrumentationBreakpointParams,
 		): Promise<
 			EventBreakpoints.SetInstrumentationBreakpointResult | undefined
 		>;
@@ -11899,7 +11899,7 @@ export namespace Cdp {
 		 * Removes breakpoint on particular native event.
 		 */
 		removeInstrumentationBreakpoint(
-			params: EventBreakpoints.RemoveInstrumentationBreakpointParams
+			params: EventBreakpoints.RemoveInstrumentationBreakpointParams,
 		): Promise<
 			EventBreakpoints.RemoveInstrumentationBreakpointResult | undefined
 		>;
@@ -11908,7 +11908,7 @@ export namespace Cdp {
 		 * Removes all breakpoints
 		 */
 		disable(
-			params: EventBreakpoints.DisableParams
+			params: EventBreakpoints.DisableParams,
 		): Promise<EventBreakpoints.DisableResult | undefined>;
 	}
 
@@ -11929,7 +11929,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'EventBreakpoints.setInstrumentationBreakpoint' method.
 		 */
-		export interface SetInstrumentationBreakpointResult {}
+		export type SetInstrumentationBreakpointResult = {};
 
 		/**
 		 * Parameters of the 'EventBreakpoints.removeInstrumentationBreakpoint' method.
@@ -11944,17 +11944,17 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'EventBreakpoints.removeInstrumentationBreakpoint' method.
 		 */
-		export interface RemoveInstrumentationBreakpointResult {}
+		export type RemoveInstrumentationBreakpointResult = {};
 
 		/**
 		 * Parameters of the 'EventBreakpoints.disable' method.
 		 */
-		export interface DisableParams {}
+		export type DisableParams = {};
 
 		/**
 		 * Return value of the 'EventBreakpoints.disable' method.
 		 */
-		export interface DisableResult {}
+		export type DisableResult = {};
 	}
 
 	/**
@@ -11962,15 +11962,15 @@ export namespace Cdp {
 	 */
 	export interface FedCmApi {
 		enable(
-			params: FedCm.EnableParams
+			params: FedCm.EnableParams,
 		): Promise<FedCm.EnableResult | undefined>;
 
 		disable(
-			params: FedCm.DisableParams
+			params: FedCm.DisableParams,
 		): Promise<FedCm.DisableResult | undefined>;
 
 		selectAccount(
-			params: FedCm.SelectAccountParams
+			params: FedCm.SelectAccountParams,
 		): Promise<FedCm.SelectAccountResult | undefined>;
 
 		/**
@@ -11978,11 +11978,11 @@ export namespace Cdp {
 		 * clicked the continue button.
 		 */
 		confirmIdpLogin(
-			params: FedCm.ConfirmIdpLoginParams
+			params: FedCm.ConfirmIdpLoginParams,
 		): Promise<FedCm.ConfirmIdpLoginResult | undefined>;
 
 		dismissDialog(
-			params: FedCm.DismissDialogParams
+			params: FedCm.DismissDialogParams,
 		): Promise<FedCm.DismissDialogResult | undefined>;
 
 		/**
@@ -11990,12 +11990,12 @@ export namespace Cdp {
 		 * a dialog even if one was recently dismissed by the user.
 		 */
 		resetCooldown(
-			params: FedCm.ResetCooldownParams
+			params: FedCm.ResetCooldownParams,
 		): Promise<FedCm.ResetCooldownResult | undefined>;
 
 		on(
 			event: "dialogShown",
-			listener: (event: FedCm.DialogShownEvent) => void
+			listener: (event: FedCm.DialogShownEvent) => void,
 		): IDisposable;
 	}
 
@@ -12018,17 +12018,17 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'FedCm.enable' method.
 		 */
-		export interface EnableResult {}
+		export type EnableResult = {};
 
 		/**
 		 * Parameters of the 'FedCm.disable' method.
 		 */
-		export interface DisableParams {}
+		export type DisableParams = {};
 
 		/**
 		 * Return value of the 'FedCm.disable' method.
 		 */
-		export interface DisableResult {}
+		export type DisableResult = {};
 
 		/**
 		 * Parameters of the 'FedCm.selectAccount' method.
@@ -12042,7 +12042,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'FedCm.selectAccount' method.
 		 */
-		export interface SelectAccountResult {}
+		export type SelectAccountResult = {};
 
 		/**
 		 * Parameters of the 'FedCm.confirmIdpLogin' method.
@@ -12054,7 +12054,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'FedCm.confirmIdpLogin' method.
 		 */
-		export interface ConfirmIdpLoginResult {}
+		export type ConfirmIdpLoginResult = {};
 
 		/**
 		 * Parameters of the 'FedCm.dismissDialog' method.
@@ -12068,17 +12068,17 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'FedCm.dismissDialog' method.
 		 */
-		export interface DismissDialogResult {}
+		export type DismissDialogResult = {};
 
 		/**
 		 * Parameters of the 'FedCm.resetCooldown' method.
 		 */
-		export interface ResetCooldownParams {}
+		export type ResetCooldownParams = {};
 
 		/**
 		 * Return value of the 'FedCm.resetCooldown' method.
 		 */
-		export interface ResetCooldownResult {}
+		export type ResetCooldownResult = {};
 
 		/**
 		 * Parameters of the 'FedCm.dialogShown' event.
@@ -12150,7 +12150,7 @@ export namespace Cdp {
 		 * Disables the fetch domain.
 		 */
 		disable(
-			params: Fetch.DisableParams
+			params: Fetch.DisableParams,
 		): Promise<Fetch.DisableResult | undefined>;
 
 		/**
@@ -12158,35 +12158,35 @@ export namespace Cdp {
 		 * calls one of failRequest, fulfillRequest or continueRequest/continueWithAuth.
 		 */
 		enable(
-			params: Fetch.EnableParams
+			params: Fetch.EnableParams,
 		): Promise<Fetch.EnableResult | undefined>;
 
 		/**
 		 * Causes the request to fail with specified reason.
 		 */
 		failRequest(
-			params: Fetch.FailRequestParams
+			params: Fetch.FailRequestParams,
 		): Promise<Fetch.FailRequestResult | undefined>;
 
 		/**
 		 * Provides response to the request.
 		 */
 		fulfillRequest(
-			params: Fetch.FulfillRequestParams
+			params: Fetch.FulfillRequestParams,
 		): Promise<Fetch.FulfillRequestResult | undefined>;
 
 		/**
 		 * Continues the request, optionally modifying some of its parameters.
 		 */
 		continueRequest(
-			params: Fetch.ContinueRequestParams
+			params: Fetch.ContinueRequestParams,
 		): Promise<Fetch.ContinueRequestResult | undefined>;
 
 		/**
 		 * Continues a request supplying authChallengeResponse following authRequired event.
 		 */
 		continueWithAuth(
-			params: Fetch.ContinueWithAuthParams
+			params: Fetch.ContinueWithAuthParams,
 		): Promise<Fetch.ContinueWithAuthResult | undefined>;
 
 		/**
@@ -12195,7 +12195,7 @@ export namespace Cdp {
 		 * must be present.
 		 */
 		continueResponse(
-			params: Fetch.ContinueResponseParams
+			params: Fetch.ContinueResponseParams,
 		): Promise<Fetch.ContinueResponseResult | undefined>;
 
 		/**
@@ -12211,7 +12211,7 @@ export namespace Cdp {
 		 * comments to `requestPaused` for details.
 		 */
 		getResponseBody(
-			params: Fetch.GetResponseBodyParams
+			params: Fetch.GetResponseBodyParams,
 		): Promise<Fetch.GetResponseBodyResult | undefined>;
 
 		/**
@@ -12227,7 +12227,7 @@ export namespace Cdp {
 		 * domain before body is received results in an undefined behavior.
 		 */
 		takeResponseBodyAsStream(
-			params: Fetch.TakeResponseBodyAsStreamParams
+			params: Fetch.TakeResponseBodyAsStreamParams,
 		): Promise<Fetch.TakeResponseBodyAsStreamResult | undefined>;
 
 		/**
@@ -12245,7 +12245,7 @@ export namespace Cdp {
 		 */
 		on(
 			event: "requestPaused",
-			listener: (event: Fetch.RequestPausedEvent) => void
+			listener: (event: Fetch.RequestPausedEvent) => void,
 		): IDisposable;
 
 		/**
@@ -12254,7 +12254,7 @@ export namespace Cdp {
 		 */
 		on(
 			event: "authRequired",
-			listener: (event: Fetch.AuthRequiredEvent) => void
+			listener: (event: Fetch.AuthRequiredEvent) => void,
 		): IDisposable;
 	}
 
@@ -12265,12 +12265,12 @@ export namespace Cdp {
 		/**
 		 * Parameters of the 'Fetch.disable' method.
 		 */
-		export interface DisableParams {}
+		export type DisableParams = {};
 
 		/**
 		 * Return value of the 'Fetch.disable' method.
 		 */
-		export interface DisableResult {}
+		export type DisableResult = {};
 
 		/**
 		 * Parameters of the 'Fetch.enable' method.
@@ -12293,7 +12293,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Fetch.enable' method.
 		 */
-		export interface EnableResult {}
+		export type EnableResult = {};
 
 		/**
 		 * Parameters of the 'Fetch.failRequest' method.
@@ -12313,7 +12313,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Fetch.failRequest' method.
 		 */
-		export interface FailRequestResult {}
+		export type FailRequestResult = {};
 
 		/**
 		 * Parameters of the 'Fetch.fulfillRequest' method.
@@ -12359,7 +12359,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Fetch.fulfillRequest' method.
 		 */
-		export interface FulfillRequestResult {}
+		export type FulfillRequestResult = {};
 
 		/**
 		 * Parameters of the 'Fetch.continueRequest' method.
@@ -12401,7 +12401,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Fetch.continueRequest' method.
 		 */
-		export interface ContinueRequestResult {}
+		export type ContinueRequestResult = {};
 
 		/**
 		 * Parameters of the 'Fetch.continueWithAuth' method.
@@ -12421,7 +12421,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Fetch.continueWithAuth' method.
 		 */
-		export interface ContinueWithAuthResult {}
+		export type ContinueWithAuthResult = {};
 
 		/**
 		 * Parameters of the 'Fetch.continueResponse' method.
@@ -12460,7 +12460,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Fetch.continueResponse' method.
 		 */
-		export interface ContinueResponseResult {}
+		export type ContinueResponseResult = {};
 
 		/**
 		 * Parameters of the 'Fetch.getResponseBody' method.
@@ -12690,7 +12690,7 @@ export namespace Cdp {
 		 * https://goo.gle/chrome-headless-rendering for more background.
 		 */
 		beginFrame(
-			params: HeadlessExperimental.BeginFrameParams
+			params: HeadlessExperimental.BeginFrameParams,
 		): Promise<HeadlessExperimental.BeginFrameResult | undefined>;
 
 		/**
@@ -12698,7 +12698,7 @@ export namespace Cdp {
 		 * @deprecated
 		 */
 		disable(
-			params: HeadlessExperimental.DisableParams
+			params: HeadlessExperimental.DisableParams,
 		): Promise<HeadlessExperimental.DisableResult | undefined>;
 
 		/**
@@ -12706,7 +12706,7 @@ export namespace Cdp {
 		 * @deprecated
 		 */
 		enable(
-			params: HeadlessExperimental.EnableParams
+			params: HeadlessExperimental.EnableParams,
 		): Promise<HeadlessExperimental.EnableResult | undefined>;
 	}
 
@@ -12764,22 +12764,22 @@ export namespace Cdp {
 		/**
 		 * Parameters of the 'HeadlessExperimental.disable' method.
 		 */
-		export interface DisableParams {}
+		export type DisableParams = {};
 
 		/**
 		 * Return value of the 'HeadlessExperimental.disable' method.
 		 */
-		export interface DisableResult {}
+		export type DisableResult = {};
 
 		/**
 		 * Parameters of the 'HeadlessExperimental.enable' method.
 		 */
-		export interface EnableParams {}
+		export type EnableParams = {};
 
 		/**
 		 * Return value of the 'HeadlessExperimental.enable' method.
 		 */
-		export interface EnableResult {}
+		export type EnableResult = {};
 
 		/**
 		 * Encoding options for a screenshot.
@@ -12811,56 +12811,56 @@ export namespace Cdp {
 		 * $x functions).
 		 */
 		addInspectedHeapObject(
-			params: HeapProfiler.AddInspectedHeapObjectParams
+			params: HeapProfiler.AddInspectedHeapObjectParams,
 		): Promise<HeapProfiler.AddInspectedHeapObjectResult | undefined>;
 
 		collectGarbage(
-			params: HeapProfiler.CollectGarbageParams
+			params: HeapProfiler.CollectGarbageParams,
 		): Promise<HeapProfiler.CollectGarbageResult | undefined>;
 
 		disable(
-			params: HeapProfiler.DisableParams
+			params: HeapProfiler.DisableParams,
 		): Promise<HeapProfiler.DisableResult | undefined>;
 
 		enable(
-			params: HeapProfiler.EnableParams
+			params: HeapProfiler.EnableParams,
 		): Promise<HeapProfiler.EnableResult | undefined>;
 
 		getHeapObjectId(
-			params: HeapProfiler.GetHeapObjectIdParams
+			params: HeapProfiler.GetHeapObjectIdParams,
 		): Promise<HeapProfiler.GetHeapObjectIdResult | undefined>;
 
 		getObjectByHeapObjectId(
-			params: HeapProfiler.GetObjectByHeapObjectIdParams
+			params: HeapProfiler.GetObjectByHeapObjectIdParams,
 		): Promise<HeapProfiler.GetObjectByHeapObjectIdResult | undefined>;
 
 		getSamplingProfile(
-			params: HeapProfiler.GetSamplingProfileParams
+			params: HeapProfiler.GetSamplingProfileParams,
 		): Promise<HeapProfiler.GetSamplingProfileResult | undefined>;
 
 		startSampling(
-			params: HeapProfiler.StartSamplingParams
+			params: HeapProfiler.StartSamplingParams,
 		): Promise<HeapProfiler.StartSamplingResult | undefined>;
 
 		startTrackingHeapObjects(
-			params: HeapProfiler.StartTrackingHeapObjectsParams
+			params: HeapProfiler.StartTrackingHeapObjectsParams,
 		): Promise<HeapProfiler.StartTrackingHeapObjectsResult | undefined>;
 
 		stopSampling(
-			params: HeapProfiler.StopSamplingParams
+			params: HeapProfiler.StopSamplingParams,
 		): Promise<HeapProfiler.StopSamplingResult | undefined>;
 
 		stopTrackingHeapObjects(
-			params: HeapProfiler.StopTrackingHeapObjectsParams
+			params: HeapProfiler.StopTrackingHeapObjectsParams,
 		): Promise<HeapProfiler.StopTrackingHeapObjectsResult | undefined>;
 
 		takeHeapSnapshot(
-			params: HeapProfiler.TakeHeapSnapshotParams
+			params: HeapProfiler.TakeHeapSnapshotParams,
 		): Promise<HeapProfiler.TakeHeapSnapshotResult | undefined>;
 
 		on(
 			event: "addHeapSnapshotChunk",
-			listener: (event: HeapProfiler.AddHeapSnapshotChunkEvent) => void
+			listener: (event: HeapProfiler.AddHeapSnapshotChunkEvent) => void,
 		): IDisposable;
 
 		/**
@@ -12868,7 +12868,7 @@ export namespace Cdp {
 		 */
 		on(
 			event: "heapStatsUpdate",
-			listener: (event: HeapProfiler.HeapStatsUpdateEvent) => void
+			listener: (event: HeapProfiler.HeapStatsUpdateEvent) => void,
 		): IDisposable;
 
 		/**
@@ -12878,19 +12878,19 @@ export namespace Cdp {
 		 */
 		on(
 			event: "lastSeenObjectId",
-			listener: (event: HeapProfiler.LastSeenObjectIdEvent) => void
+			listener: (event: HeapProfiler.LastSeenObjectIdEvent) => void,
 		): IDisposable;
 
 		on(
 			event: "reportHeapSnapshotProgress",
 			listener: (
-				event: HeapProfiler.ReportHeapSnapshotProgressEvent
-			) => void
+				event: HeapProfiler.ReportHeapSnapshotProgressEvent,
+			) => void,
 		): IDisposable;
 
 		on(
 			event: "resetProfiles",
-			listener: (event: HeapProfiler.ResetProfilesEvent) => void
+			listener: (event: HeapProfiler.ResetProfilesEvent) => void,
 		): IDisposable;
 	}
 
@@ -12911,37 +12911,37 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'HeapProfiler.addInspectedHeapObject' method.
 		 */
-		export interface AddInspectedHeapObjectResult {}
+		export type AddInspectedHeapObjectResult = {};
 
 		/**
 		 * Parameters of the 'HeapProfiler.collectGarbage' method.
 		 */
-		export interface CollectGarbageParams {}
+		export type CollectGarbageParams = {};
 
 		/**
 		 * Return value of the 'HeapProfiler.collectGarbage' method.
 		 */
-		export interface CollectGarbageResult {}
+		export type CollectGarbageResult = {};
 
 		/**
 		 * Parameters of the 'HeapProfiler.disable' method.
 		 */
-		export interface DisableParams {}
+		export type DisableParams = {};
 
 		/**
 		 * Return value of the 'HeapProfiler.disable' method.
 		 */
-		export interface DisableResult {}
+		export type DisableResult = {};
 
 		/**
 		 * Parameters of the 'HeapProfiler.enable' method.
 		 */
-		export interface EnableParams {}
+		export type EnableParams = {};
 
 		/**
 		 * Return value of the 'HeapProfiler.enable' method.
 		 */
-		export interface EnableResult {}
+		export type EnableResult = {};
 
 		/**
 		 * Parameters of the 'HeapProfiler.getHeapObjectId' method.
@@ -12988,7 +12988,7 @@ export namespace Cdp {
 		/**
 		 * Parameters of the 'HeapProfiler.getSamplingProfile' method.
 		 */
-		export interface GetSamplingProfileParams {}
+		export type GetSamplingProfileParams = {};
 
 		/**
 		 * Return value of the 'HeapProfiler.getSamplingProfile' method.
@@ -13036,7 +13036,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'HeapProfiler.startSampling' method.
 		 */
-		export interface StartSamplingResult {}
+		export type StartSamplingResult = {};
 
 		/**
 		 * Parameters of the 'HeapProfiler.startTrackingHeapObjects' method.
@@ -13048,12 +13048,12 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'HeapProfiler.startTrackingHeapObjects' method.
 		 */
-		export interface StartTrackingHeapObjectsResult {}
+		export type StartTrackingHeapObjectsResult = {};
 
 		/**
 		 * Parameters of the 'HeapProfiler.stopSampling' method.
 		 */
-		export interface StopSamplingParams {}
+		export type StopSamplingParams = {};
 
 		/**
 		 * Return value of the 'HeapProfiler.stopSampling' method.
@@ -13095,7 +13095,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'HeapProfiler.stopTrackingHeapObjects' method.
 		 */
-		export interface StopTrackingHeapObjectsResult {}
+		export type StopTrackingHeapObjectsResult = {};
 
 		/**
 		 * Parameters of the 'HeapProfiler.takeHeapSnapshot' method.
@@ -13127,7 +13127,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'HeapProfiler.takeHeapSnapshot' method.
 		 */
-		export interface TakeHeapSnapshotResult {}
+		export type TakeHeapSnapshotResult = {};
 
 		/**
 		 * Parameters of the 'HeapProfiler.addHeapSnapshotChunk' event.
@@ -13171,7 +13171,7 @@ export namespace Cdp {
 		/**
 		 * Parameters of the 'HeapProfiler.resetProfiles' event.
 		 */
-		export interface ResetProfilesEvent {}
+		export type ResetProfilesEvent = {};
 
 		/**
 		 * Heap snapshot object id.
@@ -13242,63 +13242,63 @@ export namespace Cdp {
 		 * Clears all entries from an object store.
 		 */
 		clearObjectStore(
-			params: IndexedDB.ClearObjectStoreParams
+			params: IndexedDB.ClearObjectStoreParams,
 		): Promise<IndexedDB.ClearObjectStoreResult | undefined>;
 
 		/**
 		 * Deletes a database.
 		 */
 		deleteDatabase(
-			params: IndexedDB.DeleteDatabaseParams
+			params: IndexedDB.DeleteDatabaseParams,
 		): Promise<IndexedDB.DeleteDatabaseResult | undefined>;
 
 		/**
 		 * Delete a range of entries from an object store
 		 */
 		deleteObjectStoreEntries(
-			params: IndexedDB.DeleteObjectStoreEntriesParams
+			params: IndexedDB.DeleteObjectStoreEntriesParams,
 		): Promise<IndexedDB.DeleteObjectStoreEntriesResult | undefined>;
 
 		/**
 		 * Disables events from backend.
 		 */
 		disable(
-			params: IndexedDB.DisableParams
+			params: IndexedDB.DisableParams,
 		): Promise<IndexedDB.DisableResult | undefined>;
 
 		/**
 		 * Enables events from backend.
 		 */
 		enable(
-			params: IndexedDB.EnableParams
+			params: IndexedDB.EnableParams,
 		): Promise<IndexedDB.EnableResult | undefined>;
 
 		/**
 		 * Requests data from object store or index.
 		 */
 		requestData(
-			params: IndexedDB.RequestDataParams
+			params: IndexedDB.RequestDataParams,
 		): Promise<IndexedDB.RequestDataResult | undefined>;
 
 		/**
 		 * Gets metadata of an object store.
 		 */
 		getMetadata(
-			params: IndexedDB.GetMetadataParams
+			params: IndexedDB.GetMetadataParams,
 		): Promise<IndexedDB.GetMetadataResult | undefined>;
 
 		/**
 		 * Requests database with given name in given frame.
 		 */
 		requestDatabase(
-			params: IndexedDB.RequestDatabaseParams
+			params: IndexedDB.RequestDatabaseParams,
 		): Promise<IndexedDB.RequestDatabaseResult | undefined>;
 
 		/**
 		 * Requests database names for given security origin.
 		 */
 		requestDatabaseNames(
-			params: IndexedDB.RequestDatabaseNamesParams
+			params: IndexedDB.RequestDatabaseNamesParams,
 		): Promise<IndexedDB.RequestDatabaseNamesResult | undefined>;
 	}
 
@@ -13340,7 +13340,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'IndexedDB.clearObjectStore' method.
 		 */
-		export interface ClearObjectStoreResult {}
+		export type ClearObjectStoreResult = {};
 
 		/**
 		 * Parameters of the 'IndexedDB.deleteDatabase' method.
@@ -13371,7 +13371,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'IndexedDB.deleteDatabase' method.
 		 */
-		export interface DeleteDatabaseResult {}
+		export type DeleteDatabaseResult = {};
 
 		/**
 		 * Parameters of the 'IndexedDB.deleteObjectStoreEntries' method.
@@ -13406,27 +13406,27 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'IndexedDB.deleteObjectStoreEntries' method.
 		 */
-		export interface DeleteObjectStoreEntriesResult {}
+		export type DeleteObjectStoreEntriesResult = {};
 
 		/**
 		 * Parameters of the 'IndexedDB.disable' method.
 		 */
-		export interface DisableParams {}
+		export type DisableParams = {};
 
 		/**
 		 * Return value of the 'IndexedDB.disable' method.
 		 */
-		export interface DisableResult {}
+		export type DisableResult = {};
 
 		/**
 		 * Parameters of the 'IndexedDB.enable' method.
 		 */
-		export interface EnableParams {}
+		export type EnableParams = {};
 
 		/**
 		 * Return value of the 'IndexedDB.enable' method.
 		 */
-		export interface EnableResult {}
+		export type EnableResult = {};
 
 		/**
 		 * Parameters of the 'IndexedDB.requestData' method.
@@ -13784,14 +13784,14 @@ export namespace Cdp {
 		 * Dispatches a drag event into the page.
 		 */
 		dispatchDragEvent(
-			params: Input.DispatchDragEventParams
+			params: Input.DispatchDragEventParams,
 		): Promise<Input.DispatchDragEventResult | undefined>;
 
 		/**
 		 * Dispatches a key event to the page.
 		 */
 		dispatchKeyEvent(
-			params: Input.DispatchKeyEventParams
+			params: Input.DispatchKeyEventParams,
 		): Promise<Input.DispatchKeyEventResult | undefined>;
 
 		/**
@@ -13799,7 +13799,7 @@ export namespace Cdp {
 		 * for example an emoji keyboard or an IME.
 		 */
 		insertText(
-			params: Input.InsertTextParams
+			params: Input.InsertTextParams,
 		): Promise<Input.InsertTextResult | undefined>;
 
 		/**
@@ -13808,42 +13808,42 @@ export namespace Cdp {
 		 * Use imeSetComposition with empty string as text to cancel composition.
 		 */
 		imeSetComposition(
-			params: Input.ImeSetCompositionParams
+			params: Input.ImeSetCompositionParams,
 		): Promise<Input.ImeSetCompositionResult | undefined>;
 
 		/**
 		 * Dispatches a mouse event to the page.
 		 */
 		dispatchMouseEvent(
-			params: Input.DispatchMouseEventParams
+			params: Input.DispatchMouseEventParams,
 		): Promise<Input.DispatchMouseEventResult | undefined>;
 
 		/**
 		 * Dispatches a touch event to the page.
 		 */
 		dispatchTouchEvent(
-			params: Input.DispatchTouchEventParams
+			params: Input.DispatchTouchEventParams,
 		): Promise<Input.DispatchTouchEventResult | undefined>;
 
 		/**
 		 * Cancels any active dragging in the page.
 		 */
 		cancelDragging(
-			params: Input.CancelDraggingParams
+			params: Input.CancelDraggingParams,
 		): Promise<Input.CancelDraggingResult | undefined>;
 
 		/**
 		 * Emulates touch event from the mouse event parameters.
 		 */
 		emulateTouchFromMouseEvent(
-			params: Input.EmulateTouchFromMouseEventParams
+			params: Input.EmulateTouchFromMouseEventParams,
 		): Promise<Input.EmulateTouchFromMouseEventResult | undefined>;
 
 		/**
 		 * Ignores input events (useful while auditing page).
 		 */
 		setIgnoreInputEvents(
-			params: Input.SetIgnoreInputEventsParams
+			params: Input.SetIgnoreInputEventsParams,
 		): Promise<Input.SetIgnoreInputEventsResult | undefined>;
 
 		/**
@@ -13851,28 +13851,28 @@ export namespace Cdp {
 		 * Drag and drop behavior can be directly controlled via `Input.dispatchDragEvent`.
 		 */
 		setInterceptDrags(
-			params: Input.SetInterceptDragsParams
+			params: Input.SetInterceptDragsParams,
 		): Promise<Input.SetInterceptDragsResult | undefined>;
 
 		/**
 		 * Synthesizes a pinch gesture over a time period by issuing appropriate touch events.
 		 */
 		synthesizePinchGesture(
-			params: Input.SynthesizePinchGestureParams
+			params: Input.SynthesizePinchGestureParams,
 		): Promise<Input.SynthesizePinchGestureResult | undefined>;
 
 		/**
 		 * Synthesizes a scroll gesture over a time period by issuing appropriate touch events.
 		 */
 		synthesizeScrollGesture(
-			params: Input.SynthesizeScrollGestureParams
+			params: Input.SynthesizeScrollGestureParams,
 		): Promise<Input.SynthesizeScrollGestureResult | undefined>;
 
 		/**
 		 * Synthesizes a tap gesture over a time period by issuing appropriate touch events.
 		 */
 		synthesizeTapGesture(
-			params: Input.SynthesizeTapGestureParams
+			params: Input.SynthesizeTapGestureParams,
 		): Promise<Input.SynthesizeTapGestureResult | undefined>;
 
 		/**
@@ -13881,7 +13881,7 @@ export namespace Cdp {
 		 */
 		on(
 			event: "dragIntercepted",
-			listener: (event: Input.DragInterceptedEvent) => void
+			listener: (event: Input.DragInterceptedEvent) => void,
 		): IDisposable;
 	}
 
@@ -13921,7 +13921,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Input.dispatchDragEvent' method.
 		 */
-		export interface DispatchDragEventResult {}
+		export type DispatchDragEventResult = {};
 
 		/**
 		 * Parameters of the 'Input.dispatchKeyEvent' method.
@@ -14013,7 +14013,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Input.dispatchKeyEvent' method.
 		 */
-		export interface DispatchKeyEventResult {}
+		export type DispatchKeyEventResult = {};
 
 		/**
 		 * Parameters of the 'Input.insertText' method.
@@ -14028,7 +14028,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Input.insertText' method.
 		 */
-		export interface InsertTextResult {}
+		export type InsertTextResult = {};
 
 		/**
 		 * Parameters of the 'Input.imeSetComposition' method.
@@ -14063,7 +14063,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Input.imeSetComposition' method.
 		 */
-		export interface ImeSetCompositionResult {}
+		export type ImeSetCompositionResult = {};
 
 		/**
 		 * Parameters of the 'Input.dispatchMouseEvent' method.
@@ -14160,7 +14160,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Input.dispatchMouseEvent' method.
 		 */
-		export interface DispatchMouseEventResult {}
+		export type DispatchMouseEventResult = {};
 
 		/**
 		 * Parameters of the 'Input.dispatchTouchEvent' method.
@@ -14194,17 +14194,17 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Input.dispatchTouchEvent' method.
 		 */
-		export interface DispatchTouchEventResult {}
+		export type DispatchTouchEventResult = {};
 
 		/**
 		 * Parameters of the 'Input.cancelDragging' method.
 		 */
-		export interface CancelDraggingParams {}
+		export type CancelDraggingParams = {};
 
 		/**
 		 * Return value of the 'Input.cancelDragging' method.
 		 */
-		export interface CancelDraggingResult {}
+		export type CancelDraggingResult = {};
 
 		/**
 		 * Parameters of the 'Input.emulateTouchFromMouseEvent' method.
@@ -14264,7 +14264,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Input.emulateTouchFromMouseEvent' method.
 		 */
-		export interface EmulateTouchFromMouseEventResult {}
+		export type EmulateTouchFromMouseEventResult = {};
 
 		/**
 		 * Parameters of the 'Input.setIgnoreInputEvents' method.
@@ -14279,7 +14279,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Input.setIgnoreInputEvents' method.
 		 */
-		export interface SetIgnoreInputEventsResult {}
+		export type SetIgnoreInputEventsResult = {};
 
 		/**
 		 * Parameters of the 'Input.setInterceptDrags' method.
@@ -14291,7 +14291,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Input.setInterceptDrags' method.
 		 */
-		export interface SetInterceptDragsResult {}
+		export type SetInterceptDragsResult = {};
 
 		/**
 		 * Parameters of the 'Input.synthesizePinchGesture' method.
@@ -14327,7 +14327,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Input.synthesizePinchGesture' method.
 		 */
-		export interface SynthesizePinchGestureResult {}
+		export type SynthesizePinchGestureResult = {};
 
 		/**
 		 * Parameters of the 'Input.synthesizeScrollGesture' method.
@@ -14400,7 +14400,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Input.synthesizeScrollGesture' method.
 		 */
-		export interface SynthesizeScrollGestureResult {}
+		export type SynthesizeScrollGestureResult = {};
 
 		/**
 		 * Parameters of the 'Input.synthesizeTapGesture' method.
@@ -14436,7 +14436,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Input.synthesizeTapGesture' method.
 		 */
-		export interface SynthesizeTapGestureResult {}
+		export type SynthesizeTapGestureResult = {};
 
 		/**
 		 * Parameters of the 'Input.dragIntercepted' event.
@@ -14565,14 +14565,14 @@ export namespace Cdp {
 		 * Disables inspector domain notifications.
 		 */
 		disable(
-			params: Inspector.DisableParams
+			params: Inspector.DisableParams,
 		): Promise<Inspector.DisableResult | undefined>;
 
 		/**
 		 * Enables inspector domain notifications.
 		 */
 		enable(
-			params: Inspector.EnableParams
+			params: Inspector.EnableParams,
 		): Promise<Inspector.EnableResult | undefined>;
 
 		/**
@@ -14580,7 +14580,7 @@ export namespace Cdp {
 		 */
 		on(
 			event: "detached",
-			listener: (event: Inspector.DetachedEvent) => void
+			listener: (event: Inspector.DetachedEvent) => void,
 		): IDisposable;
 
 		/**
@@ -14588,7 +14588,7 @@ export namespace Cdp {
 		 */
 		on(
 			event: "targetCrashed",
-			listener: (event: Inspector.TargetCrashedEvent) => void
+			listener: (event: Inspector.TargetCrashedEvent) => void,
 		): IDisposable;
 
 		/**
@@ -14596,7 +14596,7 @@ export namespace Cdp {
 		 */
 		on(
 			event: "targetReloadedAfterCrash",
-			listener: (event: Inspector.TargetReloadedAfterCrashEvent) => void
+			listener: (event: Inspector.TargetReloadedAfterCrashEvent) => void,
 		): IDisposable;
 	}
 
@@ -14607,22 +14607,22 @@ export namespace Cdp {
 		/**
 		 * Parameters of the 'Inspector.disable' method.
 		 */
-		export interface DisableParams {}
+		export type DisableParams = {};
 
 		/**
 		 * Return value of the 'Inspector.disable' method.
 		 */
-		export interface DisableResult {}
+		export type DisableResult = {};
 
 		/**
 		 * Parameters of the 'Inspector.enable' method.
 		 */
-		export interface EnableParams {}
+		export type EnableParams = {};
 
 		/**
 		 * Return value of the 'Inspector.enable' method.
 		 */
-		export interface EnableResult {}
+		export type EnableResult = {};
 
 		/**
 		 * Parameters of the 'Inspector.detached' event.
@@ -14637,12 +14637,12 @@ export namespace Cdp {
 		/**
 		 * Parameters of the 'Inspector.targetCrashed' event.
 		 */
-		export interface TargetCrashedEvent {}
+		export type TargetCrashedEvent = {};
 
 		/**
 		 * Parameters of the 'Inspector.targetReloadedAfterCrash' event.
 		 */
-		export interface TargetReloadedAfterCrashEvent {}
+		export type TargetReloadedAfterCrashEvent = {};
 	}
 
 	/**
@@ -14663,7 +14663,7 @@ export namespace Cdp {
 		 * Return UUID of Blob object specified by a remote object id.
 		 */
 		resolveBlob(
-			params: IO.ResolveBlobParams
+			params: IO.ResolveBlobParams,
 		): Promise<IO.ResolveBlobResult | undefined>;
 	}
 
@@ -14684,7 +14684,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'IO.close' method.
 		 */
-		export interface CloseResult {}
+		export type CloseResult = {};
 
 		/**
 		 * Parameters of the 'IO.read' method.
@@ -14763,7 +14763,7 @@ export namespace Cdp {
 		 * connection unless you subscribe to them
 		 */
 		subscribe(
-			params: JsDebug.SubscribeParams
+			params: JsDebug.SubscribeParams,
 		): Promise<JsDebug.SubscribeResult | undefined>;
 	}
 
@@ -14785,7 +14785,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'JsDebug.subscribe' method.
 		 */
-		export interface SubscribeResult {}
+		export type SubscribeResult = {};
 	}
 
 	/**
@@ -14796,70 +14796,70 @@ export namespace Cdp {
 		 * Provides the reasons why the given layer was composited.
 		 */
 		compositingReasons(
-			params: LayerTree.CompositingReasonsParams
+			params: LayerTree.CompositingReasonsParams,
 		): Promise<LayerTree.CompositingReasonsResult | undefined>;
 
 		/**
 		 * Disables compositing tree inspection.
 		 */
 		disable(
-			params: LayerTree.DisableParams
+			params: LayerTree.DisableParams,
 		): Promise<LayerTree.DisableResult | undefined>;
 
 		/**
 		 * Enables compositing tree inspection.
 		 */
 		enable(
-			params: LayerTree.EnableParams
+			params: LayerTree.EnableParams,
 		): Promise<LayerTree.EnableResult | undefined>;
 
 		/**
 		 * Returns the snapshot identifier.
 		 */
 		loadSnapshot(
-			params: LayerTree.LoadSnapshotParams
+			params: LayerTree.LoadSnapshotParams,
 		): Promise<LayerTree.LoadSnapshotResult | undefined>;
 
 		/**
 		 * Returns the layer snapshot identifier.
 		 */
 		makeSnapshot(
-			params: LayerTree.MakeSnapshotParams
+			params: LayerTree.MakeSnapshotParams,
 		): Promise<LayerTree.MakeSnapshotResult | undefined>;
 
 		profileSnapshot(
-			params: LayerTree.ProfileSnapshotParams
+			params: LayerTree.ProfileSnapshotParams,
 		): Promise<LayerTree.ProfileSnapshotResult | undefined>;
 
 		/**
 		 * Releases layer snapshot captured by the back-end.
 		 */
 		releaseSnapshot(
-			params: LayerTree.ReleaseSnapshotParams
+			params: LayerTree.ReleaseSnapshotParams,
 		): Promise<LayerTree.ReleaseSnapshotResult | undefined>;
 
 		/**
 		 * Replays the layer snapshot and returns the resulting bitmap.
 		 */
 		replaySnapshot(
-			params: LayerTree.ReplaySnapshotParams
+			params: LayerTree.ReplaySnapshotParams,
 		): Promise<LayerTree.ReplaySnapshotResult | undefined>;
 
 		/**
 		 * Replays the layer snapshot and returns canvas log.
 		 */
 		snapshotCommandLog(
-			params: LayerTree.SnapshotCommandLogParams
+			params: LayerTree.SnapshotCommandLogParams,
 		): Promise<LayerTree.SnapshotCommandLogResult | undefined>;
 
 		on(
 			event: "layerPainted",
-			listener: (event: LayerTree.LayerPaintedEvent) => void
+			listener: (event: LayerTree.LayerPaintedEvent) => void,
 		): IDisposable;
 
 		on(
 			event: "layerTreeDidChange",
-			listener: (event: LayerTree.LayerTreeDidChangeEvent) => void
+			listener: (event: LayerTree.LayerTreeDidChangeEvent) => void,
 		): IDisposable;
 	}
 
@@ -14895,22 +14895,22 @@ export namespace Cdp {
 		/**
 		 * Parameters of the 'LayerTree.disable' method.
 		 */
-		export interface DisableParams {}
+		export type DisableParams = {};
 
 		/**
 		 * Return value of the 'LayerTree.disable' method.
 		 */
-		export interface DisableResult {}
+		export type DisableResult = {};
 
 		/**
 		 * Parameters of the 'LayerTree.enable' method.
 		 */
-		export interface EnableParams {}
+		export type EnableParams = {};
 
 		/**
 		 * Return value of the 'LayerTree.enable' method.
 		 */
-		export interface EnableResult {}
+		export type EnableResult = {};
 
 		/**
 		 * Parameters of the 'LayerTree.loadSnapshot' method.
@@ -15000,7 +15000,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'LayerTree.releaseSnapshot' method.
 		 */
-		export interface ReleaseSnapshotResult {}
+		export type ReleaseSnapshotResult = {};
 
 		/**
 		 * Parameters of the 'LayerTree.replaySnapshot' method.
@@ -15260,7 +15260,7 @@ export namespace Cdp {
 		 * Disables log domain, prevents further log entries from being reported to the client.
 		 */
 		disable(
-			params: Log.DisableParams
+			params: Log.DisableParams,
 		): Promise<Log.DisableResult | undefined>;
 
 		/**
@@ -15273,14 +15273,14 @@ export namespace Cdp {
 		 * start violation reporting.
 		 */
 		startViolationsReport(
-			params: Log.StartViolationsReportParams
+			params: Log.StartViolationsReportParams,
 		): Promise<Log.StartViolationsReportResult | undefined>;
 
 		/**
 		 * Stop violation reporting.
 		 */
 		stopViolationsReport(
-			params: Log.StopViolationsReportParams
+			params: Log.StopViolationsReportParams,
 		): Promise<Log.StopViolationsReportResult | undefined>;
 
 		/**
@@ -15288,7 +15288,7 @@ export namespace Cdp {
 		 */
 		on(
 			event: "entryAdded",
-			listener: (event: Log.EntryAddedEvent) => void
+			listener: (event: Log.EntryAddedEvent) => void,
 		): IDisposable;
 	}
 
@@ -15299,32 +15299,32 @@ export namespace Cdp {
 		/**
 		 * Parameters of the 'Log.clear' method.
 		 */
-		export interface ClearParams {}
+		export type ClearParams = {};
 
 		/**
 		 * Return value of the 'Log.clear' method.
 		 */
-		export interface ClearResult {}
+		export type ClearResult = {};
 
 		/**
 		 * Parameters of the 'Log.disable' method.
 		 */
-		export interface DisableParams {}
+		export type DisableParams = {};
 
 		/**
 		 * Return value of the 'Log.disable' method.
 		 */
-		export interface DisableResult {}
+		export type DisableResult = {};
 
 		/**
 		 * Parameters of the 'Log.enable' method.
 		 */
-		export interface EnableParams {}
+		export type EnableParams = {};
 
 		/**
 		 * Return value of the 'Log.enable' method.
 		 */
-		export interface EnableResult {}
+		export type EnableResult = {};
 
 		/**
 		 * Parameters of the 'Log.startViolationsReport' method.
@@ -15339,17 +15339,17 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Log.startViolationsReport' method.
 		 */
-		export interface StartViolationsReportResult {}
+		export type StartViolationsReportResult = {};
 
 		/**
 		 * Parameters of the 'Log.stopViolationsReport' method.
 		 */
-		export interface StopViolationsReportParams {}
+		export type StopViolationsReportParams = {};
 
 		/**
 		 * Return value of the 'Log.stopViolationsReport' method.
 		 */
-		export interface StopViolationsReportResult {}
+		export type StopViolationsReportResult = {};
 
 		/**
 		 * Parameters of the 'Log.entryAdded' event.
@@ -15462,14 +15462,14 @@ export namespace Cdp {
 		 * Enables the Media domain
 		 */
 		enable(
-			params: Media.EnableParams
+			params: Media.EnableParams,
 		): Promise<Media.EnableResult | undefined>;
 
 		/**
 		 * Disables the Media domain.
 		 */
 		disable(
-			params: Media.DisableParams
+			params: Media.DisableParams,
 		): Promise<Media.DisableResult | undefined>;
 
 		/**
@@ -15478,7 +15478,7 @@ export namespace Cdp {
 		 */
 		on(
 			event: "playerPropertiesChanged",
-			listener: (event: Media.PlayerPropertiesChangedEvent) => void
+			listener: (event: Media.PlayerPropertiesChangedEvent) => void,
 		): IDisposable;
 
 		/**
@@ -15487,7 +15487,7 @@ export namespace Cdp {
 		 */
 		on(
 			event: "playerEventsAdded",
-			listener: (event: Media.PlayerEventsAddedEvent) => void
+			listener: (event: Media.PlayerEventsAddedEvent) => void,
 		): IDisposable;
 
 		/**
@@ -15495,7 +15495,7 @@ export namespace Cdp {
 		 */
 		on(
 			event: "playerMessagesLogged",
-			listener: (event: Media.PlayerMessagesLoggedEvent) => void
+			listener: (event: Media.PlayerMessagesLoggedEvent) => void,
 		): IDisposable;
 
 		/**
@@ -15503,7 +15503,7 @@ export namespace Cdp {
 		 */
 		on(
 			event: "playerErrorsRaised",
-			listener: (event: Media.PlayerErrorsRaisedEvent) => void
+			listener: (event: Media.PlayerErrorsRaisedEvent) => void,
 		): IDisposable;
 
 		/**
@@ -15513,7 +15513,7 @@ export namespace Cdp {
 		 */
 		on(
 			event: "playersCreated",
-			listener: (event: Media.PlayersCreatedEvent) => void
+			listener: (event: Media.PlayersCreatedEvent) => void,
 		): IDisposable;
 	}
 
@@ -15524,22 +15524,22 @@ export namespace Cdp {
 		/**
 		 * Parameters of the 'Media.enable' method.
 		 */
-		export interface EnableParams {}
+		export type EnableParams = {};
 
 		/**
 		 * Return value of the 'Media.enable' method.
 		 */
-		export interface EnableResult {}
+		export type EnableResult = {};
 
 		/**
 		 * Parameters of the 'Media.disable' method.
 		 */
-		export interface DisableParams {}
+		export type DisableParams = {};
 
 		/**
 		 * Return value of the 'Media.disable' method.
 		 */
-		export interface DisableResult {}
+		export type DisableResult = {};
 
 		/**
 		 * Parameters of the 'Media.playerPropertiesChanged' event.
@@ -15675,46 +15675,46 @@ export namespace Cdp {
 	 */
 	export interface MemoryApi {
 		getDOMCounters(
-			params: Memory.GetDOMCountersParams
+			params: Memory.GetDOMCountersParams,
 		): Promise<Memory.GetDOMCountersResult | undefined>;
 
 		prepareForLeakDetection(
-			params: Memory.PrepareForLeakDetectionParams
+			params: Memory.PrepareForLeakDetectionParams,
 		): Promise<Memory.PrepareForLeakDetectionResult | undefined>;
 
 		/**
 		 * Simulate OomIntervention by purging V8 memory.
 		 */
 		forciblyPurgeJavaScriptMemory(
-			params: Memory.ForciblyPurgeJavaScriptMemoryParams
+			params: Memory.ForciblyPurgeJavaScriptMemoryParams,
 		): Promise<Memory.ForciblyPurgeJavaScriptMemoryResult | undefined>;
 
 		/**
 		 * Enable/disable suppressing memory pressure notifications in all processes.
 		 */
 		setPressureNotificationsSuppressed(
-			params: Memory.SetPressureNotificationsSuppressedParams
+			params: Memory.SetPressureNotificationsSuppressedParams,
 		): Promise<Memory.SetPressureNotificationsSuppressedResult | undefined>;
 
 		/**
 		 * Simulate a memory pressure notification in all processes.
 		 */
 		simulatePressureNotification(
-			params: Memory.SimulatePressureNotificationParams
+			params: Memory.SimulatePressureNotificationParams,
 		): Promise<Memory.SimulatePressureNotificationResult | undefined>;
 
 		/**
 		 * Start collecting native memory profile.
 		 */
 		startSampling(
-			params: Memory.StartSamplingParams
+			params: Memory.StartSamplingParams,
 		): Promise<Memory.StartSamplingResult | undefined>;
 
 		/**
 		 * Stop collecting native memory profile.
 		 */
 		stopSampling(
-			params: Memory.StopSamplingParams
+			params: Memory.StopSamplingParams,
 		): Promise<Memory.StopSamplingResult | undefined>;
 
 		/**
@@ -15722,7 +15722,7 @@ export namespace Cdp {
 		 * collected since renderer process startup.
 		 */
 		getAllTimeSamplingProfile(
-			params: Memory.GetAllTimeSamplingProfileParams
+			params: Memory.GetAllTimeSamplingProfileParams,
 		): Promise<Memory.GetAllTimeSamplingProfileResult | undefined>;
 
 		/**
@@ -15730,7 +15730,7 @@ export namespace Cdp {
 		 * collected since browser process startup.
 		 */
 		getBrowserSamplingProfile(
-			params: Memory.GetBrowserSamplingProfileParams
+			params: Memory.GetBrowserSamplingProfileParams,
 		): Promise<Memory.GetBrowserSamplingProfileResult | undefined>;
 
 		/**
@@ -15738,7 +15738,7 @@ export namespace Cdp {
 		 * `startSampling` call.
 		 */
 		getSamplingProfile(
-			params: Memory.GetSamplingProfileParams
+			params: Memory.GetSamplingProfileParams,
 		): Promise<Memory.GetSamplingProfileResult | undefined>;
 	}
 
@@ -15749,7 +15749,7 @@ export namespace Cdp {
 		/**
 		 * Parameters of the 'Memory.getDOMCounters' method.
 		 */
-		export interface GetDOMCountersParams {}
+		export type GetDOMCountersParams = {};
 
 		/**
 		 * Return value of the 'Memory.getDOMCounters' method.
@@ -15765,22 +15765,22 @@ export namespace Cdp {
 		/**
 		 * Parameters of the 'Memory.prepareForLeakDetection' method.
 		 */
-		export interface PrepareForLeakDetectionParams {}
+		export type PrepareForLeakDetectionParams = {};
 
 		/**
 		 * Return value of the 'Memory.prepareForLeakDetection' method.
 		 */
-		export interface PrepareForLeakDetectionResult {}
+		export type PrepareForLeakDetectionResult = {};
 
 		/**
 		 * Parameters of the 'Memory.forciblyPurgeJavaScriptMemory' method.
 		 */
-		export interface ForciblyPurgeJavaScriptMemoryParams {}
+		export type ForciblyPurgeJavaScriptMemoryParams = {};
 
 		/**
 		 * Return value of the 'Memory.forciblyPurgeJavaScriptMemory' method.
 		 */
-		export interface ForciblyPurgeJavaScriptMemoryResult {}
+		export type ForciblyPurgeJavaScriptMemoryResult = {};
 
 		/**
 		 * Parameters of the 'Memory.setPressureNotificationsSuppressed' method.
@@ -15795,7 +15795,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Memory.setPressureNotificationsSuppressed' method.
 		 */
-		export interface SetPressureNotificationsSuppressedResult {}
+		export type SetPressureNotificationsSuppressedResult = {};
 
 		/**
 		 * Parameters of the 'Memory.simulatePressureNotification' method.
@@ -15810,7 +15810,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Memory.simulatePressureNotification' method.
 		 */
-		export interface SimulatePressureNotificationResult {}
+		export type SimulatePressureNotificationResult = {};
 
 		/**
 		 * Parameters of the 'Memory.startSampling' method.
@@ -15830,22 +15830,22 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Memory.startSampling' method.
 		 */
-		export interface StartSamplingResult {}
+		export type StartSamplingResult = {};
 
 		/**
 		 * Parameters of the 'Memory.stopSampling' method.
 		 */
-		export interface StopSamplingParams {}
+		export type StopSamplingParams = {};
 
 		/**
 		 * Return value of the 'Memory.stopSampling' method.
 		 */
-		export interface StopSamplingResult {}
+		export type StopSamplingResult = {};
 
 		/**
 		 * Parameters of the 'Memory.getAllTimeSamplingProfile' method.
 		 */
-		export interface GetAllTimeSamplingProfileParams {}
+		export type GetAllTimeSamplingProfileParams = {};
 
 		/**
 		 * Return value of the 'Memory.getAllTimeSamplingProfile' method.
@@ -15857,7 +15857,7 @@ export namespace Cdp {
 		/**
 		 * Parameters of the 'Memory.getBrowserSamplingProfile' method.
 		 */
-		export interface GetBrowserSamplingProfileParams {}
+		export type GetBrowserSamplingProfileParams = {};
 
 		/**
 		 * Return value of the 'Memory.getBrowserSamplingProfile' method.
@@ -15869,7 +15869,7 @@ export namespace Cdp {
 		/**
 		 * Parameters of the 'Memory.getSamplingProfile' method.
 		 */
-		export interface GetSamplingProfileParams {}
+		export type GetSamplingProfileParams = {};
 
 		/**
 		 * Return value of the 'Memory.getSamplingProfile' method.
@@ -15947,14 +15947,14 @@ export namespace Cdp {
 		 * Sets a list of content encodings that will be accepted. Empty list means no encoding is accepted.
 		 */
 		setAcceptedEncodings(
-			params: Network.SetAcceptedEncodingsParams
+			params: Network.SetAcceptedEncodingsParams,
 		): Promise<Network.SetAcceptedEncodingsResult | undefined>;
 
 		/**
 		 * Clears accepted encodings set by setAcceptedEncodings
 		 */
 		clearAcceptedEncodingsOverride(
-			params: Network.ClearAcceptedEncodingsOverrideParams
+			params: Network.ClearAcceptedEncodingsOverrideParams,
 		): Promise<Network.ClearAcceptedEncodingsOverrideResult | undefined>;
 
 		/**
@@ -15962,7 +15962,7 @@ export namespace Cdp {
 		 * @deprecated
 		 */
 		canClearBrowserCache(
-			params: Network.CanClearBrowserCacheParams
+			params: Network.CanClearBrowserCacheParams,
 		): Promise<Network.CanClearBrowserCacheResult | undefined>;
 
 		/**
@@ -15970,7 +15970,7 @@ export namespace Cdp {
 		 * @deprecated
 		 */
 		canClearBrowserCookies(
-			params: Network.CanClearBrowserCookiesParams
+			params: Network.CanClearBrowserCookiesParams,
 		): Promise<Network.CanClearBrowserCookiesResult | undefined>;
 
 		/**
@@ -15978,21 +15978,21 @@ export namespace Cdp {
 		 * @deprecated
 		 */
 		canEmulateNetworkConditions(
-			params: Network.CanEmulateNetworkConditionsParams
+			params: Network.CanEmulateNetworkConditionsParams,
 		): Promise<Network.CanEmulateNetworkConditionsResult | undefined>;
 
 		/**
 		 * Clears browser cache.
 		 */
 		clearBrowserCache(
-			params: Network.ClearBrowserCacheParams
+			params: Network.ClearBrowserCacheParams,
 		): Promise<Network.ClearBrowserCacheResult | undefined>;
 
 		/**
 		 * Clears browser cookies.
 		 */
 		clearBrowserCookies(
-			params: Network.ClearBrowserCookiesParams
+			params: Network.ClearBrowserCookiesParams,
 		): Promise<Network.ClearBrowserCookiesResult | undefined>;
 
 		/**
@@ -16004,35 +16004,35 @@ export namespace Cdp {
 		 * @deprecated
 		 */
 		continueInterceptedRequest(
-			params: Network.ContinueInterceptedRequestParams
+			params: Network.ContinueInterceptedRequestParams,
 		): Promise<Network.ContinueInterceptedRequestResult | undefined>;
 
 		/**
 		 * Deletes browser cookies with matching name and url or domain/path pair.
 		 */
 		deleteCookies(
-			params: Network.DeleteCookiesParams
+			params: Network.DeleteCookiesParams,
 		): Promise<Network.DeleteCookiesResult | undefined>;
 
 		/**
 		 * Disables network tracking, prevents network events from being sent to the client.
 		 */
 		disable(
-			params: Network.DisableParams
+			params: Network.DisableParams,
 		): Promise<Network.DisableResult | undefined>;
 
 		/**
 		 * Activates emulation of network conditions.
 		 */
 		emulateNetworkConditions(
-			params: Network.EmulateNetworkConditionsParams
+			params: Network.EmulateNetworkConditionsParams,
 		): Promise<Network.EmulateNetworkConditionsResult | undefined>;
 
 		/**
 		 * Enables network tracking, network events will now be delivered to the client.
 		 */
 		enable(
-			params: Network.EnableParams
+			params: Network.EnableParams,
 		): Promise<Network.EnableResult | undefined>;
 
 		/**
@@ -16042,14 +16042,14 @@ export namespace Cdp {
 		 * @deprecated
 		 */
 		getAllCookies(
-			params: Network.GetAllCookiesParams
+			params: Network.GetAllCookiesParams,
 		): Promise<Network.GetAllCookiesResult | undefined>;
 
 		/**
 		 * Returns the DER-encoded certificate.
 		 */
 		getCertificate(
-			params: Network.GetCertificateParams
+			params: Network.GetCertificateParams,
 		): Promise<Network.GetCertificateResult | undefined>;
 
 		/**
@@ -16057,28 +16057,28 @@ export namespace Cdp {
 		 * detailed cookie information in the `cookies` field.
 		 */
 		getCookies(
-			params: Network.GetCookiesParams
+			params: Network.GetCookiesParams,
 		): Promise<Network.GetCookiesResult | undefined>;
 
 		/**
 		 * Returns content served for the given request.
 		 */
 		getResponseBody(
-			params: Network.GetResponseBodyParams
+			params: Network.GetResponseBodyParams,
 		): Promise<Network.GetResponseBodyResult | undefined>;
 
 		/**
 		 * Returns post data sent with the request. Returns an error when no data was sent with the request.
 		 */
 		getRequestPostData(
-			params: Network.GetRequestPostDataParams
+			params: Network.GetRequestPostDataParams,
 		): Promise<Network.GetRequestPostDataResult | undefined>;
 
 		/**
 		 * Returns content served for the given currently intercepted request.
 		 */
 		getResponseBodyForInterception(
-			params: Network.GetResponseBodyForInterceptionParams
+			params: Network.GetResponseBodyForInterceptionParams,
 		): Promise<Network.GetResponseBodyForInterceptionResult | undefined>;
 
 		/**
@@ -16088,7 +16088,7 @@ export namespace Cdp {
 		 * is specified.
 		 */
 		takeResponseBodyForInterceptionAsStream(
-			params: Network.TakeResponseBodyForInterceptionAsStreamParams
+			params: Network.TakeResponseBodyForInterceptionAsStreamParams,
 		): Promise<
 			Network.TakeResponseBodyForInterceptionAsStreamResult | undefined
 		>;
@@ -16099,63 +16099,63 @@ export namespace Cdp {
 		 * attribute, user, password.
 		 */
 		replayXHR(
-			params: Network.ReplayXHRParams
+			params: Network.ReplayXHRParams,
 		): Promise<Network.ReplayXHRResult | undefined>;
 
 		/**
 		 * Searches for given string in response content.
 		 */
 		searchInResponseBody(
-			params: Network.SearchInResponseBodyParams
+			params: Network.SearchInResponseBodyParams,
 		): Promise<Network.SearchInResponseBodyResult | undefined>;
 
 		/**
 		 * Blocks URLs from loading.
 		 */
 		setBlockedURLs(
-			params: Network.SetBlockedURLsParams
+			params: Network.SetBlockedURLsParams,
 		): Promise<Network.SetBlockedURLsResult | undefined>;
 
 		/**
 		 * Toggles ignoring of service worker for each request.
 		 */
 		setBypassServiceWorker(
-			params: Network.SetBypassServiceWorkerParams
+			params: Network.SetBypassServiceWorkerParams,
 		): Promise<Network.SetBypassServiceWorkerResult | undefined>;
 
 		/**
 		 * Toggles ignoring cache for each request. If `true`, cache will not be used.
 		 */
 		setCacheDisabled(
-			params: Network.SetCacheDisabledParams
+			params: Network.SetCacheDisabledParams,
 		): Promise<Network.SetCacheDisabledResult | undefined>;
 
 		/**
 		 * Sets a cookie with the given cookie data; may overwrite equivalent cookies if they exist.
 		 */
 		setCookie(
-			params: Network.SetCookieParams
+			params: Network.SetCookieParams,
 		): Promise<Network.SetCookieResult | undefined>;
 
 		/**
 		 * Sets given cookies.
 		 */
 		setCookies(
-			params: Network.SetCookiesParams
+			params: Network.SetCookiesParams,
 		): Promise<Network.SetCookiesResult | undefined>;
 
 		/**
 		 * Specifies whether to always send extra HTTP headers with the requests from this page.
 		 */
 		setExtraHTTPHeaders(
-			params: Network.SetExtraHTTPHeadersParams
+			params: Network.SetExtraHTTPHeadersParams,
 		): Promise<Network.SetExtraHTTPHeadersResult | undefined>;
 
 		/**
 		 * Specifies whether to attach a page script stack id in requests
 		 */
 		setAttachDebugStack(
-			params: Network.SetAttachDebugStackParams
+			params: Network.SetAttachDebugStackParams,
 		): Promise<Network.SetAttachDebugStackResult | undefined>;
 
 		/**
@@ -16164,21 +16164,21 @@ export namespace Cdp {
 		 * @deprecated
 		 */
 		setRequestInterception(
-			params: Network.SetRequestInterceptionParams
+			params: Network.SetRequestInterceptionParams,
 		): Promise<Network.SetRequestInterceptionResult | undefined>;
 
 		/**
 		 * Allows overriding user agent with the given string.
 		 */
 		setUserAgentOverride(
-			params: Network.SetUserAgentOverrideParams
+			params: Network.SetUserAgentOverrideParams,
 		): Promise<Network.SetUserAgentOverrideResult | undefined>;
 
 		/**
 		 * Returns information about the COEP/COOP isolation status.
 		 */
 		getSecurityIsolationStatus(
-			params: Network.GetSecurityIsolationStatusParams
+			params: Network.GetSecurityIsolationStatusParams,
 		): Promise<Network.GetSecurityIsolationStatusResult | undefined>;
 
 		/**
@@ -16186,14 +16186,14 @@ export namespace Cdp {
 		 * Enabling triggers 'reportingApiReportAdded' for all existing reports.
 		 */
 		enableReportingApi(
-			params: Network.EnableReportingApiParams
+			params: Network.EnableReportingApiParams,
 		): Promise<Network.EnableReportingApiResult | undefined>;
 
 		/**
 		 * Fetches the resource and returns the content.
 		 */
 		loadNetworkResource(
-			params: Network.LoadNetworkResourceParams
+			params: Network.LoadNetworkResourceParams,
 		): Promise<Network.LoadNetworkResourceResult | undefined>;
 
 		/**
@@ -16201,7 +16201,7 @@ export namespace Cdp {
 		 */
 		on(
 			event: "dataReceived",
-			listener: (event: Network.DataReceivedEvent) => void
+			listener: (event: Network.DataReceivedEvent) => void,
 		): IDisposable;
 
 		/**
@@ -16209,7 +16209,7 @@ export namespace Cdp {
 		 */
 		on(
 			event: "eventSourceMessageReceived",
-			listener: (event: Network.EventSourceMessageReceivedEvent) => void
+			listener: (event: Network.EventSourceMessageReceivedEvent) => void,
 		): IDisposable;
 
 		/**
@@ -16217,7 +16217,7 @@ export namespace Cdp {
 		 */
 		on(
 			event: "loadingFailed",
-			listener: (event: Network.LoadingFailedEvent) => void
+			listener: (event: Network.LoadingFailedEvent) => void,
 		): IDisposable;
 
 		/**
@@ -16225,7 +16225,7 @@ export namespace Cdp {
 		 */
 		on(
 			event: "loadingFinished",
-			listener: (event: Network.LoadingFinishedEvent) => void
+			listener: (event: Network.LoadingFinishedEvent) => void,
 		): IDisposable;
 
 		/**
@@ -16236,7 +16236,7 @@ export namespace Cdp {
 		 */
 		on(
 			event: "requestIntercepted",
-			listener: (event: Network.RequestInterceptedEvent) => void
+			listener: (event: Network.RequestInterceptedEvent) => void,
 		): IDisposable;
 
 		/**
@@ -16244,7 +16244,7 @@ export namespace Cdp {
 		 */
 		on(
 			event: "requestServedFromCache",
-			listener: (event: Network.RequestServedFromCacheEvent) => void
+			listener: (event: Network.RequestServedFromCacheEvent) => void,
 		): IDisposable;
 
 		/**
@@ -16252,7 +16252,7 @@ export namespace Cdp {
 		 */
 		on(
 			event: "requestWillBeSent",
-			listener: (event: Network.RequestWillBeSentEvent) => void
+			listener: (event: Network.RequestWillBeSentEvent) => void,
 		): IDisposable;
 
 		/**
@@ -16260,7 +16260,7 @@ export namespace Cdp {
 		 */
 		on(
 			event: "resourceChangedPriority",
-			listener: (event: Network.ResourceChangedPriorityEvent) => void
+			listener: (event: Network.ResourceChangedPriorityEvent) => void,
 		): IDisposable;
 
 		/**
@@ -16268,7 +16268,7 @@ export namespace Cdp {
 		 */
 		on(
 			event: "signedExchangeReceived",
-			listener: (event: Network.SignedExchangeReceivedEvent) => void
+			listener: (event: Network.SignedExchangeReceivedEvent) => void,
 		): IDisposable;
 
 		/**
@@ -16276,7 +16276,7 @@ export namespace Cdp {
 		 */
 		on(
 			event: "responseReceived",
-			listener: (event: Network.ResponseReceivedEvent) => void
+			listener: (event: Network.ResponseReceivedEvent) => void,
 		): IDisposable;
 
 		/**
@@ -16284,7 +16284,7 @@ export namespace Cdp {
 		 */
 		on(
 			event: "webSocketClosed",
-			listener: (event: Network.WebSocketClosedEvent) => void
+			listener: (event: Network.WebSocketClosedEvent) => void,
 		): IDisposable;
 
 		/**
@@ -16292,7 +16292,7 @@ export namespace Cdp {
 		 */
 		on(
 			event: "webSocketCreated",
-			listener: (event: Network.WebSocketCreatedEvent) => void
+			listener: (event: Network.WebSocketCreatedEvent) => void,
 		): IDisposable;
 
 		/**
@@ -16300,7 +16300,7 @@ export namespace Cdp {
 		 */
 		on(
 			event: "webSocketFrameError",
-			listener: (event: Network.WebSocketFrameErrorEvent) => void
+			listener: (event: Network.WebSocketFrameErrorEvent) => void,
 		): IDisposable;
 
 		/**
@@ -16308,7 +16308,7 @@ export namespace Cdp {
 		 */
 		on(
 			event: "webSocketFrameReceived",
-			listener: (event: Network.WebSocketFrameReceivedEvent) => void
+			listener: (event: Network.WebSocketFrameReceivedEvent) => void,
 		): IDisposable;
 
 		/**
@@ -16316,7 +16316,7 @@ export namespace Cdp {
 		 */
 		on(
 			event: "webSocketFrameSent",
-			listener: (event: Network.WebSocketFrameSentEvent) => void
+			listener: (event: Network.WebSocketFrameSentEvent) => void,
 		): IDisposable;
 
 		/**
@@ -16325,8 +16325,8 @@ export namespace Cdp {
 		on(
 			event: "webSocketHandshakeResponseReceived",
 			listener: (
-				event: Network.WebSocketHandshakeResponseReceivedEvent
-			) => void
+				event: Network.WebSocketHandshakeResponseReceivedEvent,
+			) => void,
 		): IDisposable;
 
 		/**
@@ -16335,8 +16335,8 @@ export namespace Cdp {
 		on(
 			event: "webSocketWillSendHandshakeRequest",
 			listener: (
-				event: Network.WebSocketWillSendHandshakeRequestEvent
-			) => void
+				event: Network.WebSocketWillSendHandshakeRequestEvent,
+			) => void,
 		): IDisposable;
 
 		/**
@@ -16344,7 +16344,7 @@ export namespace Cdp {
 		 */
 		on(
 			event: "webTransportCreated",
-			listener: (event: Network.WebTransportCreatedEvent) => void
+			listener: (event: Network.WebTransportCreatedEvent) => void,
 		): IDisposable;
 
 		/**
@@ -16353,8 +16353,8 @@ export namespace Cdp {
 		on(
 			event: "webTransportConnectionEstablished",
 			listener: (
-				event: Network.WebTransportConnectionEstablishedEvent
-			) => void
+				event: Network.WebTransportConnectionEstablishedEvent,
+			) => void,
 		): IDisposable;
 
 		/**
@@ -16362,7 +16362,7 @@ export namespace Cdp {
 		 */
 		on(
 			event: "webTransportClosed",
-			listener: (event: Network.WebTransportClosedEvent) => void
+			listener: (event: Network.WebTransportClosedEvent) => void,
 		): IDisposable;
 
 		/**
@@ -16373,7 +16373,7 @@ export namespace Cdp {
 		 */
 		on(
 			event: "requestWillBeSentExtraInfo",
-			listener: (event: Network.RequestWillBeSentExtraInfoEvent) => void
+			listener: (event: Network.RequestWillBeSentExtraInfoEvent) => void,
 		): IDisposable;
 
 		/**
@@ -16383,7 +16383,7 @@ export namespace Cdp {
 		 */
 		on(
 			event: "responseReceivedExtraInfo",
-			listener: (event: Network.ResponseReceivedExtraInfoEvent) => void
+			listener: (event: Network.ResponseReceivedExtraInfoEvent) => void,
 		): IDisposable;
 
 		/**
@@ -16394,7 +16394,7 @@ export namespace Cdp {
 		 */
 		on(
 			event: "trustTokenOperationDone",
-			listener: (event: Network.TrustTokenOperationDoneEvent) => void
+			listener: (event: Network.TrustTokenOperationDoneEvent) => void,
 		): IDisposable;
 
 		/**
@@ -16404,8 +16404,8 @@ export namespace Cdp {
 		on(
 			event: "subresourceWebBundleMetadataReceived",
 			listener: (
-				event: Network.SubresourceWebBundleMetadataReceivedEvent
-			) => void
+				event: Network.SubresourceWebBundleMetadataReceivedEvent,
+			) => void,
 		): IDisposable;
 
 		/**
@@ -16414,8 +16414,8 @@ export namespace Cdp {
 		on(
 			event: "subresourceWebBundleMetadataError",
 			listener: (
-				event: Network.SubresourceWebBundleMetadataErrorEvent
-			) => void
+				event: Network.SubresourceWebBundleMetadataErrorEvent,
+			) => void,
 		): IDisposable;
 
 		/**
@@ -16425,8 +16425,8 @@ export namespace Cdp {
 		on(
 			event: "subresourceWebBundleInnerResponseParsed",
 			listener: (
-				event: Network.SubresourceWebBundleInnerResponseParsedEvent
-			) => void
+				event: Network.SubresourceWebBundleInnerResponseParsedEvent,
+			) => void,
 		): IDisposable;
 
 		/**
@@ -16435,8 +16435,8 @@ export namespace Cdp {
 		on(
 			event: "subresourceWebBundleInnerResponseError",
 			listener: (
-				event: Network.SubresourceWebBundleInnerResponseErrorEvent
-			) => void
+				event: Network.SubresourceWebBundleInnerResponseErrorEvent,
+			) => void,
 		): IDisposable;
 
 		/**
@@ -16445,19 +16445,19 @@ export namespace Cdp {
 		 */
 		on(
 			event: "reportingApiReportAdded",
-			listener: (event: Network.ReportingApiReportAddedEvent) => void
+			listener: (event: Network.ReportingApiReportAddedEvent) => void,
 		): IDisposable;
 
 		on(
 			event: "reportingApiReportUpdated",
-			listener: (event: Network.ReportingApiReportUpdatedEvent) => void
+			listener: (event: Network.ReportingApiReportUpdatedEvent) => void,
 		): IDisposable;
 
 		on(
 			event: "reportingApiEndpointsChangedForOrigin",
 			listener: (
-				event: Network.ReportingApiEndpointsChangedForOriginEvent
-			) => void
+				event: Network.ReportingApiEndpointsChangedForOriginEvent,
+			) => void,
 		): IDisposable;
 	}
 
@@ -16478,22 +16478,22 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Network.setAcceptedEncodings' method.
 		 */
-		export interface SetAcceptedEncodingsResult {}
+		export type SetAcceptedEncodingsResult = {};
 
 		/**
 		 * Parameters of the 'Network.clearAcceptedEncodingsOverride' method.
 		 */
-		export interface ClearAcceptedEncodingsOverrideParams {}
+		export type ClearAcceptedEncodingsOverrideParams = {};
 
 		/**
 		 * Return value of the 'Network.clearAcceptedEncodingsOverride' method.
 		 */
-		export interface ClearAcceptedEncodingsOverrideResult {}
+		export type ClearAcceptedEncodingsOverrideResult = {};
 
 		/**
 		 * Parameters of the 'Network.canClearBrowserCache' method.
 		 */
-		export interface CanClearBrowserCacheParams {}
+		export type CanClearBrowserCacheParams = {};
 
 		/**
 		 * Return value of the 'Network.canClearBrowserCache' method.
@@ -16508,7 +16508,7 @@ export namespace Cdp {
 		/**
 		 * Parameters of the 'Network.canClearBrowserCookies' method.
 		 */
-		export interface CanClearBrowserCookiesParams {}
+		export type CanClearBrowserCookiesParams = {};
 
 		/**
 		 * Return value of the 'Network.canClearBrowserCookies' method.
@@ -16523,7 +16523,7 @@ export namespace Cdp {
 		/**
 		 * Parameters of the 'Network.canEmulateNetworkConditions' method.
 		 */
-		export interface CanEmulateNetworkConditionsParams {}
+		export type CanEmulateNetworkConditionsParams = {};
 
 		/**
 		 * Return value of the 'Network.canEmulateNetworkConditions' method.
@@ -16538,22 +16538,22 @@ export namespace Cdp {
 		/**
 		 * Parameters of the 'Network.clearBrowserCache' method.
 		 */
-		export interface ClearBrowserCacheParams {}
+		export type ClearBrowserCacheParams = {};
 
 		/**
 		 * Return value of the 'Network.clearBrowserCache' method.
 		 */
-		export interface ClearBrowserCacheResult {}
+		export type ClearBrowserCacheResult = {};
 
 		/**
 		 * Parameters of the 'Network.clearBrowserCookies' method.
 		 */
-		export interface ClearBrowserCookiesParams {}
+		export type ClearBrowserCookiesParams = {};
 
 		/**
 		 * Return value of the 'Network.clearBrowserCookies' method.
 		 */
-		export interface ClearBrowserCookiesResult {}
+		export type ClearBrowserCookiesResult = {};
 
 		/**
 		 * Parameters of the 'Network.continueInterceptedRequest' method.
@@ -16606,7 +16606,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Network.continueInterceptedRequest' method.
 		 */
-		export interface ContinueInterceptedRequestResult {}
+		export type ContinueInterceptedRequestResult = {};
 
 		/**
 		 * Parameters of the 'Network.deleteCookies' method.
@@ -16637,17 +16637,17 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Network.deleteCookies' method.
 		 */
-		export interface DeleteCookiesResult {}
+		export type DeleteCookiesResult = {};
 
 		/**
 		 * Parameters of the 'Network.disable' method.
 		 */
-		export interface DisableParams {}
+		export type DisableParams = {};
 
 		/**
 		 * Return value of the 'Network.disable' method.
 		 */
-		export interface DisableResult {}
+		export type DisableResult = {};
 
 		/**
 		 * Parameters of the 'Network.emulateNetworkConditions' method.
@@ -16682,7 +16682,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Network.emulateNetworkConditions' method.
 		 */
-		export interface EmulateNetworkConditionsResult {}
+		export type EmulateNetworkConditionsResult = {};
 
 		/**
 		 * Parameters of the 'Network.enable' method.
@@ -16707,12 +16707,12 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Network.enable' method.
 		 */
-		export interface EnableResult {}
+		export type EnableResult = {};
 
 		/**
 		 * Parameters of the 'Network.getAllCookies' method.
 		 */
-		export interface GetAllCookiesParams {}
+		export type GetAllCookiesParams = {};
 
 		/**
 		 * Return value of the 'Network.getAllCookies' method.
@@ -16860,7 +16860,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Network.replayXHR' method.
 		 */
-		export interface ReplayXHRResult {}
+		export type ReplayXHRResult = {};
 
 		/**
 		 * Parameters of the 'Network.searchInResponseBody' method.
@@ -16910,7 +16910,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Network.setBlockedURLs' method.
 		 */
-		export interface SetBlockedURLsResult {}
+		export type SetBlockedURLsResult = {};
 
 		/**
 		 * Parameters of the 'Network.setBypassServiceWorker' method.
@@ -16925,7 +16925,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Network.setBypassServiceWorker' method.
 		 */
-		export interface SetBypassServiceWorkerResult {}
+		export type SetBypassServiceWorkerResult = {};
 
 		/**
 		 * Parameters of the 'Network.setCacheDisabled' method.
@@ -16940,7 +16940,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Network.setCacheDisabled' method.
 		 */
-		export interface SetCacheDisabledResult {}
+		export type SetCacheDisabledResult = {};
 
 		/**
 		 * Parameters of the 'Network.setCookie' method.
@@ -17046,7 +17046,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Network.setCookies' method.
 		 */
-		export interface SetCookiesResult {}
+		export type SetCookiesResult = {};
 
 		/**
 		 * Parameters of the 'Network.setExtraHTTPHeaders' method.
@@ -17061,7 +17061,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Network.setExtraHTTPHeaders' method.
 		 */
-		export interface SetExtraHTTPHeadersResult {}
+		export type SetExtraHTTPHeadersResult = {};
 
 		/**
 		 * Parameters of the 'Network.setAttachDebugStack' method.
@@ -17076,7 +17076,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Network.setAttachDebugStack' method.
 		 */
-		export interface SetAttachDebugStackResult {}
+		export type SetAttachDebugStackResult = {};
 
 		/**
 		 * Parameters of the 'Network.setRequestInterception' method.
@@ -17092,7 +17092,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Network.setRequestInterception' method.
 		 */
-		export interface SetRequestInterceptionResult {}
+		export type SetRequestInterceptionResult = {};
 
 		/**
 		 * Parameters of the 'Network.setUserAgentOverride' method.
@@ -17122,7 +17122,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Network.setUserAgentOverride' method.
 		 */
-		export interface SetUserAgentOverrideResult {}
+		export type SetUserAgentOverrideResult = {};
 
 		/**
 		 * Parameters of the 'Network.getSecurityIsolationStatus' method.
@@ -17154,7 +17154,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Network.enableReportingApi' method.
 		 */
-		export interface EnableReportingApiResult {}
+		export type EnableReportingApiResult = {};
 
 		/**
 		 * Parameters of the 'Network.loadNetworkResource' method.
@@ -19426,7 +19426,7 @@ export namespace Cdp {
 		 * Enable the `NodeRuntime.waitingForDisconnect`.
 		 */
 		notifyWhenWaitingForDisconnect(
-			params: NodeRuntime.NotifyWhenWaitingForDisconnectParams
+			params: NodeRuntime.NotifyWhenWaitingForDisconnectParams,
 		): Promise<
 			NodeRuntime.NotifyWhenWaitingForDisconnectResult | undefined
 		>;
@@ -19439,7 +19439,7 @@ export namespace Cdp {
 		 */
 		on(
 			event: "waitingForDisconnect",
-			listener: (event: NodeRuntime.WaitingForDisconnectEvent) => void
+			listener: (event: NodeRuntime.WaitingForDisconnectEvent) => void,
 		): IDisposable;
 	}
 
@@ -19457,12 +19457,12 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'NodeRuntime.notifyWhenWaitingForDisconnect' method.
 		 */
-		export interface NotifyWhenWaitingForDisconnectResult {}
+		export type NotifyWhenWaitingForDisconnectResult = {};
 
 		/**
 		 * Parameters of the 'NodeRuntime.waitingForDisconnect' event.
 		 */
-		export interface WaitingForDisconnectEvent {}
+		export type WaitingForDisconnectEvent = {};
 	}
 
 	/**
@@ -19473,14 +19473,14 @@ export namespace Cdp {
 		 * Gets supported tracing categories.
 		 */
 		getCategories(
-			params: NodeTracing.GetCategoriesParams
+			params: NodeTracing.GetCategoriesParams,
 		): Promise<NodeTracing.GetCategoriesResult | undefined>;
 
 		/**
 		 * Start trace events collection.
 		 */
 		start(
-			params: NodeTracing.StartParams
+			params: NodeTracing.StartParams,
 		): Promise<NodeTracing.StartResult | undefined>;
 
 		/**
@@ -19488,7 +19488,7 @@ export namespace Cdp {
 		 * dataCollected events followed by tracingComplete event.
 		 */
 		stop(
-			params: NodeTracing.StopParams
+			params: NodeTracing.StopParams,
 		): Promise<NodeTracing.StopResult | undefined>;
 
 		/**
@@ -19496,7 +19496,7 @@ export namespace Cdp {
 		 */
 		on(
 			event: "dataCollected",
-			listener: (event: NodeTracing.DataCollectedEvent) => void
+			listener: (event: NodeTracing.DataCollectedEvent) => void,
 		): IDisposable;
 
 		/**
@@ -19505,7 +19505,7 @@ export namespace Cdp {
 		 */
 		on(
 			event: "tracingComplete",
-			listener: (event: NodeTracing.TracingCompleteEvent) => void
+			listener: (event: NodeTracing.TracingCompleteEvent) => void,
 		): IDisposable;
 	}
 
@@ -19516,7 +19516,7 @@ export namespace Cdp {
 		/**
 		 * Parameters of the 'NodeTracing.getCategories' method.
 		 */
-		export interface GetCategoriesParams {}
+		export type GetCategoriesParams = {};
 
 		/**
 		 * Return value of the 'NodeTracing.getCategories' method.
@@ -19538,17 +19538,17 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'NodeTracing.start' method.
 		 */
-		export interface StartResult {}
+		export type StartResult = {};
 
 		/**
 		 * Parameters of the 'NodeTracing.stop' method.
 		 */
-		export interface StopParams {}
+		export type StopParams = {};
 
 		/**
 		 * Return value of the 'NodeTracing.stop' method.
 		 */
-		export interface StopResult {}
+		export type StopResult = {};
 
 		/**
 		 * Parameters of the 'NodeTracing.dataCollected' event.
@@ -19560,7 +19560,7 @@ export namespace Cdp {
 		/**
 		 * Parameters of the 'NodeTracing.tracingComplete' event.
 		 */
-		export interface TracingCompleteEvent {}
+		export type TracingCompleteEvent = {};
 
 		export interface TraceConfig {
 			/**
@@ -19586,7 +19586,7 @@ export namespace Cdp {
 		 * Sends protocol message over session with given id.
 		 */
 		sendMessageToWorker(
-			params: NodeWorker.SendMessageToWorkerParams
+			params: NodeWorker.SendMessageToWorkerParams,
 		): Promise<NodeWorker.SendMessageToWorkerResult | undefined>;
 
 		/**
@@ -19594,21 +19594,21 @@ export namespace Cdp {
 		 * as they start
 		 */
 		enable(
-			params: NodeWorker.EnableParams
+			params: NodeWorker.EnableParams,
 		): Promise<NodeWorker.EnableResult | undefined>;
 
 		/**
 		 * Detaches from all running workers and disables attaching to new workers as they are started.
 		 */
 		disable(
-			params: NodeWorker.DisableParams
+			params: NodeWorker.DisableParams,
 		): Promise<NodeWorker.DisableResult | undefined>;
 
 		/**
 		 * Detached from the worker with given sessionId.
 		 */
 		detach(
-			params: NodeWorker.DetachParams
+			params: NodeWorker.DetachParams,
 		): Promise<NodeWorker.DetachResult | undefined>;
 
 		/**
@@ -19616,7 +19616,7 @@ export namespace Cdp {
 		 */
 		on(
 			event: "attachedToWorker",
-			listener: (event: NodeWorker.AttachedToWorkerEvent) => void
+			listener: (event: NodeWorker.AttachedToWorkerEvent) => void,
 		): IDisposable;
 
 		/**
@@ -19624,7 +19624,7 @@ export namespace Cdp {
 		 */
 		on(
 			event: "detachedFromWorker",
-			listener: (event: NodeWorker.DetachedFromWorkerEvent) => void
+			listener: (event: NodeWorker.DetachedFromWorkerEvent) => void,
 		): IDisposable;
 
 		/**
@@ -19633,7 +19633,9 @@ export namespace Cdp {
 		 */
 		on(
 			event: "receivedMessageFromWorker",
-			listener: (event: NodeWorker.ReceivedMessageFromWorkerEvent) => void
+			listener: (
+				event: NodeWorker.ReceivedMessageFromWorkerEvent,
+			) => void,
 		): IDisposable;
 	}
 
@@ -19656,7 +19658,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'NodeWorker.sendMessageToWorker' method.
 		 */
-		export interface SendMessageToWorkerResult {}
+		export type SendMessageToWorkerResult = {};
 
 		/**
 		 * Parameters of the 'NodeWorker.enable' method.
@@ -19672,17 +19674,17 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'NodeWorker.enable' method.
 		 */
-		export interface EnableResult {}
+		export type EnableResult = {};
 
 		/**
 		 * Parameters of the 'NodeWorker.disable' method.
 		 */
-		export interface DisableParams {}
+		export type DisableParams = {};
 
 		/**
 		 * Return value of the 'NodeWorker.disable' method.
 		 */
-		export interface DisableResult {}
+		export type DisableResult = {};
 
 		/**
 		 * Parameters of the 'NodeWorker.detach' method.
@@ -19694,7 +19696,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'NodeWorker.detach' method.
 		 */
-		export interface DetachResult {}
+		export type DetachResult = {};
 
 		/**
 		 * Parameters of the 'NodeWorker.attachedToWorker' event.
@@ -19758,35 +19760,35 @@ export namespace Cdp {
 		 * Disables domain notifications.
 		 */
 		disable(
-			params: Overlay.DisableParams
+			params: Overlay.DisableParams,
 		): Promise<Overlay.DisableResult | undefined>;
 
 		/**
 		 * Enables domain notifications.
 		 */
 		enable(
-			params: Overlay.EnableParams
+			params: Overlay.EnableParams,
 		): Promise<Overlay.EnableResult | undefined>;
 
 		/**
 		 * For testing.
 		 */
 		getHighlightObjectForTest(
-			params: Overlay.GetHighlightObjectForTestParams
+			params: Overlay.GetHighlightObjectForTestParams,
 		): Promise<Overlay.GetHighlightObjectForTestResult | undefined>;
 
 		/**
 		 * For Persistent Grid testing.
 		 */
 		getGridHighlightObjectsForTest(
-			params: Overlay.GetGridHighlightObjectsForTestParams
+			params: Overlay.GetGridHighlightObjectsForTestParams,
 		): Promise<Overlay.GetGridHighlightObjectsForTestResult | undefined>;
 
 		/**
 		 * For Source Order Viewer testing.
 		 */
 		getSourceOrderHighlightObjectForTest(
-			params: Overlay.GetSourceOrderHighlightObjectForTestParams
+			params: Overlay.GetSourceOrderHighlightObjectForTestParams,
 		): Promise<
 			Overlay.GetSourceOrderHighlightObjectForTestResult | undefined
 		>;
@@ -19795,7 +19797,7 @@ export namespace Cdp {
 		 * Hides any highlight.
 		 */
 		hideHighlight(
-			params: Overlay.HideHighlightParams
+			params: Overlay.HideHighlightParams,
 		): Promise<Overlay.HideHighlightResult | undefined>;
 
 		/**
@@ -19806,7 +19808,7 @@ export namespace Cdp {
 		 * @deprecated
 		 */
 		highlightFrame(
-			params: Overlay.HighlightFrameParams
+			params: Overlay.HighlightFrameParams,
 		): Promise<Overlay.HighlightFrameResult | undefined>;
 
 		/**
@@ -19814,21 +19816,21 @@ export namespace Cdp {
 		 * objectId must be specified.
 		 */
 		highlightNode(
-			params: Overlay.HighlightNodeParams
+			params: Overlay.HighlightNodeParams,
 		): Promise<Overlay.HighlightNodeResult | undefined>;
 
 		/**
 		 * Highlights given quad. Coordinates are absolute with respect to the main frame viewport.
 		 */
 		highlightQuad(
-			params: Overlay.HighlightQuadParams
+			params: Overlay.HighlightQuadParams,
 		): Promise<Overlay.HighlightQuadResult | undefined>;
 
 		/**
 		 * Highlights given rectangle. Coordinates are absolute with respect to the main frame viewport.
 		 */
 		highlightRect(
-			params: Overlay.HighlightRectParams
+			params: Overlay.HighlightRectParams,
 		): Promise<Overlay.HighlightRectResult | undefined>;
 
 		/**
@@ -19836,7 +19838,7 @@ export namespace Cdp {
 		 * JavaScript object wrapper. Either nodeId or objectId must be specified.
 		 */
 		highlightSourceOrder(
-			params: Overlay.HighlightSourceOrderParams
+			params: Overlay.HighlightSourceOrderParams,
 		): Promise<Overlay.HighlightSourceOrderResult | undefined>;
 
 		/**
@@ -19844,72 +19846,72 @@ export namespace Cdp {
 		 * Backend then generates 'inspectNodeRequested' event upon element selection.
 		 */
 		setInspectMode(
-			params: Overlay.SetInspectModeParams
+			params: Overlay.SetInspectModeParams,
 		): Promise<Overlay.SetInspectModeResult | undefined>;
 
 		/**
 		 * Highlights owner element of all frames detected to be ads.
 		 */
 		setShowAdHighlights(
-			params: Overlay.SetShowAdHighlightsParams
+			params: Overlay.SetShowAdHighlightsParams,
 		): Promise<Overlay.SetShowAdHighlightsResult | undefined>;
 
 		setPausedInDebuggerMessage(
-			params: Overlay.SetPausedInDebuggerMessageParams
+			params: Overlay.SetPausedInDebuggerMessageParams,
 		): Promise<Overlay.SetPausedInDebuggerMessageResult | undefined>;
 
 		/**
 		 * Requests that backend shows debug borders on layers
 		 */
 		setShowDebugBorders(
-			params: Overlay.SetShowDebugBordersParams
+			params: Overlay.SetShowDebugBordersParams,
 		): Promise<Overlay.SetShowDebugBordersResult | undefined>;
 
 		/**
 		 * Requests that backend shows the FPS counter
 		 */
 		setShowFPSCounter(
-			params: Overlay.SetShowFPSCounterParams
+			params: Overlay.SetShowFPSCounterParams,
 		): Promise<Overlay.SetShowFPSCounterResult | undefined>;
 
 		/**
 		 * Highlight multiple elements with the CSS Grid overlay.
 		 */
 		setShowGridOverlays(
-			params: Overlay.SetShowGridOverlaysParams
+			params: Overlay.SetShowGridOverlaysParams,
 		): Promise<Overlay.SetShowGridOverlaysResult | undefined>;
 
 		setShowFlexOverlays(
-			params: Overlay.SetShowFlexOverlaysParams
+			params: Overlay.SetShowFlexOverlaysParams,
 		): Promise<Overlay.SetShowFlexOverlaysResult | undefined>;
 
 		setShowScrollSnapOverlays(
-			params: Overlay.SetShowScrollSnapOverlaysParams
+			params: Overlay.SetShowScrollSnapOverlaysParams,
 		): Promise<Overlay.SetShowScrollSnapOverlaysResult | undefined>;
 
 		setShowContainerQueryOverlays(
-			params: Overlay.SetShowContainerQueryOverlaysParams
+			params: Overlay.SetShowContainerQueryOverlaysParams,
 		): Promise<Overlay.SetShowContainerQueryOverlaysResult | undefined>;
 
 		/**
 		 * Requests that backend shows paint rectangles
 		 */
 		setShowPaintRects(
-			params: Overlay.SetShowPaintRectsParams
+			params: Overlay.SetShowPaintRectsParams,
 		): Promise<Overlay.SetShowPaintRectsResult | undefined>;
 
 		/**
 		 * Requests that backend shows layout shift regions
 		 */
 		setShowLayoutShiftRegions(
-			params: Overlay.SetShowLayoutShiftRegionsParams
+			params: Overlay.SetShowLayoutShiftRegionsParams,
 		): Promise<Overlay.SetShowLayoutShiftRegionsResult | undefined>;
 
 		/**
 		 * Requests that backend shows scroll bottleneck rects
 		 */
 		setShowScrollBottleneckRects(
-			params: Overlay.SetShowScrollBottleneckRectsParams
+			params: Overlay.SetShowScrollBottleneckRectsParams,
 		): Promise<Overlay.SetShowScrollBottleneckRectsResult | undefined>;
 
 		/**
@@ -19917,42 +19919,42 @@ export namespace Cdp {
 		 * @deprecated
 		 */
 		setShowHitTestBorders(
-			params: Overlay.SetShowHitTestBordersParams
+			params: Overlay.SetShowHitTestBordersParams,
 		): Promise<Overlay.SetShowHitTestBordersResult | undefined>;
 
 		/**
 		 * Request that backend shows an overlay with web vital metrics.
 		 */
 		setShowWebVitals(
-			params: Overlay.SetShowWebVitalsParams
+			params: Overlay.SetShowWebVitalsParams,
 		): Promise<Overlay.SetShowWebVitalsResult | undefined>;
 
 		/**
 		 * Paints viewport size upon main frame resize.
 		 */
 		setShowViewportSizeOnResize(
-			params: Overlay.SetShowViewportSizeOnResizeParams
+			params: Overlay.SetShowViewportSizeOnResizeParams,
 		): Promise<Overlay.SetShowViewportSizeOnResizeResult | undefined>;
 
 		/**
 		 * Add a dual screen device hinge
 		 */
 		setShowHinge(
-			params: Overlay.SetShowHingeParams
+			params: Overlay.SetShowHingeParams,
 		): Promise<Overlay.SetShowHingeResult | undefined>;
 
 		/**
 		 * Show elements in isolation mode with overlays.
 		 */
 		setShowIsolatedElements(
-			params: Overlay.SetShowIsolatedElementsParams
+			params: Overlay.SetShowIsolatedElementsParams,
 		): Promise<Overlay.SetShowIsolatedElementsResult | undefined>;
 
 		/**
 		 * Show Window Controls Overlay for PWA
 		 */
 		setShowWindowControlsOverlay(
-			params: Overlay.SetShowWindowControlsOverlayParams
+			params: Overlay.SetShowWindowControlsOverlayParams,
 		): Promise<Overlay.SetShowWindowControlsOverlayResult | undefined>;
 
 		/**
@@ -19961,7 +19963,7 @@ export namespace Cdp {
 		 */
 		on(
 			event: "inspectNodeRequested",
-			listener: (event: Overlay.InspectNodeRequestedEvent) => void
+			listener: (event: Overlay.InspectNodeRequestedEvent) => void,
 		): IDisposable;
 
 		/**
@@ -19969,7 +19971,7 @@ export namespace Cdp {
 		 */
 		on(
 			event: "nodeHighlightRequested",
-			listener: (event: Overlay.NodeHighlightRequestedEvent) => void
+			listener: (event: Overlay.NodeHighlightRequestedEvent) => void,
 		): IDisposable;
 
 		/**
@@ -19977,7 +19979,7 @@ export namespace Cdp {
 		 */
 		on(
 			event: "screenshotRequested",
-			listener: (event: Overlay.ScreenshotRequestedEvent) => void
+			listener: (event: Overlay.ScreenshotRequestedEvent) => void,
 		): IDisposable;
 
 		/**
@@ -19985,7 +19987,7 @@ export namespace Cdp {
 		 */
 		on(
 			event: "inspectModeCanceled",
-			listener: (event: Overlay.InspectModeCanceledEvent) => void
+			listener: (event: Overlay.InspectModeCanceledEvent) => void,
 		): IDisposable;
 	}
 
@@ -19996,22 +19998,22 @@ export namespace Cdp {
 		/**
 		 * Parameters of the 'Overlay.disable' method.
 		 */
-		export interface DisableParams {}
+		export type DisableParams = {};
 
 		/**
 		 * Return value of the 'Overlay.disable' method.
 		 */
-		export interface DisableResult {}
+		export type DisableResult = {};
 
 		/**
 		 * Parameters of the 'Overlay.enable' method.
 		 */
-		export interface EnableParams {}
+		export type EnableParams = {};
 
 		/**
 		 * Return value of the 'Overlay.enable' method.
 		 */
-		export interface EnableResult {}
+		export type EnableResult = {};
 
 		/**
 		 * Parameters of the 'Overlay.getHighlightObjectForTest' method.
@@ -20096,12 +20098,12 @@ export namespace Cdp {
 		/**
 		 * Parameters of the 'Overlay.hideHighlight' method.
 		 */
-		export interface HideHighlightParams {}
+		export type HideHighlightParams = {};
 
 		/**
 		 * Return value of the 'Overlay.hideHighlight' method.
 		 */
-		export interface HideHighlightResult {}
+		export type HideHighlightResult = {};
 
 		/**
 		 * Parameters of the 'Overlay.highlightFrame' method.
@@ -20126,7 +20128,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Overlay.highlightFrame' method.
 		 */
-		export interface HighlightFrameResult {}
+		export type HighlightFrameResult = {};
 
 		/**
 		 * Parameters of the 'Overlay.highlightNode' method.
@@ -20161,7 +20163,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Overlay.highlightNode' method.
 		 */
-		export interface HighlightNodeResult {}
+		export type HighlightNodeResult = {};
 
 		/**
 		 * Parameters of the 'Overlay.highlightQuad' method.
@@ -20186,7 +20188,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Overlay.highlightQuad' method.
 		 */
-		export interface HighlightQuadResult {}
+		export type HighlightQuadResult = {};
 
 		/**
 		 * Parameters of the 'Overlay.highlightRect' method.
@@ -20226,7 +20228,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Overlay.highlightRect' method.
 		 */
-		export interface HighlightRectResult {}
+		export type HighlightRectResult = {};
 
 		/**
 		 * Parameters of the 'Overlay.highlightSourceOrder' method.
@@ -20256,7 +20258,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Overlay.highlightSourceOrder' method.
 		 */
-		export interface HighlightSourceOrderResult {}
+		export type HighlightSourceOrderResult = {};
 
 		/**
 		 * Parameters of the 'Overlay.setInspectMode' method.
@@ -20277,7 +20279,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Overlay.setInspectMode' method.
 		 */
-		export interface SetInspectModeResult {}
+		export type SetInspectModeResult = {};
 
 		/**
 		 * Parameters of the 'Overlay.setShowAdHighlights' method.
@@ -20292,7 +20294,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Overlay.setShowAdHighlights' method.
 		 */
-		export interface SetShowAdHighlightsResult {}
+		export type SetShowAdHighlightsResult = {};
 
 		/**
 		 * Parameters of the 'Overlay.setPausedInDebuggerMessage' method.
@@ -20307,7 +20309,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Overlay.setPausedInDebuggerMessage' method.
 		 */
-		export interface SetPausedInDebuggerMessageResult {}
+		export type SetPausedInDebuggerMessageResult = {};
 
 		/**
 		 * Parameters of the 'Overlay.setShowDebugBorders' method.
@@ -20322,7 +20324,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Overlay.setShowDebugBorders' method.
 		 */
-		export interface SetShowDebugBordersResult {}
+		export type SetShowDebugBordersResult = {};
 
 		/**
 		 * Parameters of the 'Overlay.setShowFPSCounter' method.
@@ -20337,7 +20339,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Overlay.setShowFPSCounter' method.
 		 */
-		export interface SetShowFPSCounterResult {}
+		export type SetShowFPSCounterResult = {};
 
 		/**
 		 * Parameters of the 'Overlay.setShowGridOverlays' method.
@@ -20352,7 +20354,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Overlay.setShowGridOverlays' method.
 		 */
-		export interface SetShowGridOverlaysResult {}
+		export type SetShowGridOverlaysResult = {};
 
 		/**
 		 * Parameters of the 'Overlay.setShowFlexOverlays' method.
@@ -20367,7 +20369,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Overlay.setShowFlexOverlays' method.
 		 */
-		export interface SetShowFlexOverlaysResult {}
+		export type SetShowFlexOverlaysResult = {};
 
 		/**
 		 * Parameters of the 'Overlay.setShowScrollSnapOverlays' method.
@@ -20382,7 +20384,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Overlay.setShowScrollSnapOverlays' method.
 		 */
-		export interface SetShowScrollSnapOverlaysResult {}
+		export type SetShowScrollSnapOverlaysResult = {};
 
 		/**
 		 * Parameters of the 'Overlay.setShowContainerQueryOverlays' method.
@@ -20397,7 +20399,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Overlay.setShowContainerQueryOverlays' method.
 		 */
-		export interface SetShowContainerQueryOverlaysResult {}
+		export type SetShowContainerQueryOverlaysResult = {};
 
 		/**
 		 * Parameters of the 'Overlay.setShowPaintRects' method.
@@ -20412,7 +20414,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Overlay.setShowPaintRects' method.
 		 */
-		export interface SetShowPaintRectsResult {}
+		export type SetShowPaintRectsResult = {};
 
 		/**
 		 * Parameters of the 'Overlay.setShowLayoutShiftRegions' method.
@@ -20427,7 +20429,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Overlay.setShowLayoutShiftRegions' method.
 		 */
-		export interface SetShowLayoutShiftRegionsResult {}
+		export type SetShowLayoutShiftRegionsResult = {};
 
 		/**
 		 * Parameters of the 'Overlay.setShowScrollBottleneckRects' method.
@@ -20442,7 +20444,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Overlay.setShowScrollBottleneckRects' method.
 		 */
-		export interface SetShowScrollBottleneckRectsResult {}
+		export type SetShowScrollBottleneckRectsResult = {};
 
 		/**
 		 * Parameters of the 'Overlay.setShowHitTestBorders' method.
@@ -20457,7 +20459,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Overlay.setShowHitTestBorders' method.
 		 */
-		export interface SetShowHitTestBordersResult {}
+		export type SetShowHitTestBordersResult = {};
 
 		/**
 		 * Parameters of the 'Overlay.setShowWebVitals' method.
@@ -20469,7 +20471,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Overlay.setShowWebVitals' method.
 		 */
-		export interface SetShowWebVitalsResult {}
+		export type SetShowWebVitalsResult = {};
 
 		/**
 		 * Parameters of the 'Overlay.setShowViewportSizeOnResize' method.
@@ -20484,7 +20486,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Overlay.setShowViewportSizeOnResize' method.
 		 */
-		export interface SetShowViewportSizeOnResizeResult {}
+		export type SetShowViewportSizeOnResizeResult = {};
 
 		/**
 		 * Parameters of the 'Overlay.setShowHinge' method.
@@ -20499,7 +20501,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Overlay.setShowHinge' method.
 		 */
-		export interface SetShowHingeResult {}
+		export type SetShowHingeResult = {};
 
 		/**
 		 * Parameters of the 'Overlay.setShowIsolatedElements' method.
@@ -20514,7 +20516,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Overlay.setShowIsolatedElements' method.
 		 */
-		export interface SetShowIsolatedElementsResult {}
+		export type SetShowIsolatedElementsResult = {};
 
 		/**
 		 * Parameters of the 'Overlay.setShowWindowControlsOverlay' method.
@@ -20529,7 +20531,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Overlay.setShowWindowControlsOverlay' method.
 		 */
-		export interface SetShowWindowControlsOverlayResult {}
+		export type SetShowWindowControlsOverlayResult = {};
 
 		/**
 		 * Parameters of the 'Overlay.inspectNodeRequested' event.
@@ -20561,7 +20563,7 @@ export namespace Cdp {
 		/**
 		 * Parameters of the 'Overlay.inspectModeCanceled' event.
 		 */
-		export interface InspectModeCanceledEvent {}
+		export type InspectModeCanceledEvent = {};
 
 		/**
 		 * Configuration data for drawing the source order of an elements children.
@@ -21055,28 +21057,28 @@ export namespace Cdp {
 		 * @deprecated
 		 */
 		addScriptToEvaluateOnLoad(
-			params: Page.AddScriptToEvaluateOnLoadParams
+			params: Page.AddScriptToEvaluateOnLoadParams,
 		): Promise<Page.AddScriptToEvaluateOnLoadResult | undefined>;
 
 		/**
 		 * Evaluates given script in every frame upon creation (before loading frame's scripts).
 		 */
 		addScriptToEvaluateOnNewDocument(
-			params: Page.AddScriptToEvaluateOnNewDocumentParams
+			params: Page.AddScriptToEvaluateOnNewDocumentParams,
 		): Promise<Page.AddScriptToEvaluateOnNewDocumentResult | undefined>;
 
 		/**
 		 * Brings page to front (activates tab).
 		 */
 		bringToFront(
-			params: Page.BringToFrontParams
+			params: Page.BringToFrontParams,
 		): Promise<Page.BringToFrontResult | undefined>;
 
 		/**
 		 * Capture page screenshot.
 		 */
 		captureScreenshot(
-			params: Page.CaptureScreenshotParams
+			params: Page.CaptureScreenshotParams,
 		): Promise<Page.CaptureScreenshotResult | undefined>;
 
 		/**
@@ -21084,7 +21086,7 @@ export namespace Cdp {
 		 * iframes, shadow DOM, external resources, and element-inline styles.
 		 */
 		captureSnapshot(
-			params: Page.CaptureSnapshotParams
+			params: Page.CaptureSnapshotParams,
 		): Promise<Page.CaptureSnapshotResult | undefined>;
 
 		/**
@@ -21092,7 +21094,7 @@ export namespace Cdp {
 		 * @deprecated
 		 */
 		clearDeviceMetricsOverride(
-			params: Page.ClearDeviceMetricsOverrideParams
+			params: Page.ClearDeviceMetricsOverrideParams,
 		): Promise<Page.ClearDeviceMetricsOverrideResult | undefined>;
 
 		/**
@@ -21100,7 +21102,7 @@ export namespace Cdp {
 		 * @deprecated
 		 */
 		clearDeviceOrientationOverride(
-			params: Page.ClearDeviceOrientationOverrideParams
+			params: Page.ClearDeviceOrientationOverrideParams,
 		): Promise<Page.ClearDeviceOrientationOverrideResult | undefined>;
 
 		/**
@@ -21108,14 +21110,14 @@ export namespace Cdp {
 		 * @deprecated
 		 */
 		clearGeolocationOverride(
-			params: Page.ClearGeolocationOverrideParams
+			params: Page.ClearGeolocationOverrideParams,
 		): Promise<Page.ClearGeolocationOverrideResult | undefined>;
 
 		/**
 		 * Creates an isolated world for the given frame.
 		 */
 		createIsolatedWorld(
-			params: Page.CreateIsolatedWorldParams
+			params: Page.CreateIsolatedWorldParams,
 		): Promise<Page.CreateIsolatedWorldResult | undefined>;
 
 		/**
@@ -21123,29 +21125,29 @@ export namespace Cdp {
 		 * @deprecated
 		 */
 		deleteCookie(
-			params: Page.DeleteCookieParams
+			params: Page.DeleteCookieParams,
 		): Promise<Page.DeleteCookieResult | undefined>;
 
 		/**
 		 * Disables page domain notifications.
 		 */
 		disable(
-			params: Page.DisableParams
+			params: Page.DisableParams,
 		): Promise<Page.DisableResult | undefined>;
 
 		/**
 		 * Enables page domain notifications.
 		 */
 		enable(
-			params: Page.EnableParams
+			params: Page.EnableParams,
 		): Promise<Page.EnableResult | undefined>;
 
 		getAppManifest(
-			params: Page.GetAppManifestParams
+			params: Page.GetAppManifestParams,
 		): Promise<Page.GetAppManifestResult | undefined>;
 
 		getInstallabilityErrors(
-			params: Page.GetInstallabilityErrorsParams
+			params: Page.GetInstallabilityErrorsParams,
 		): Promise<Page.GetInstallabilityErrorsResult | undefined>;
 
 		/**
@@ -21153,7 +21155,7 @@ export namespace Cdp {
 		 * @deprecated
 		 */
 		getManifestIcons(
-			params: Page.GetManifestIconsParams
+			params: Page.GetManifestIconsParams,
 		): Promise<Page.GetManifestIconsResult | undefined>;
 
 		/**
@@ -21161,11 +21163,11 @@ export namespace Cdp {
 		 * Only returns values if the feature flag 'WebAppEnableManifestId' is enabled
 		 */
 		getAppId(
-			params: Page.GetAppIdParams
+			params: Page.GetAppIdParams,
 		): Promise<Page.GetAppIdResult | undefined>;
 
 		getAdScriptId(
-			params: Page.GetAdScriptIdParams
+			params: Page.GetAdScriptIdParams,
 		): Promise<Page.GetAdScriptIdResult | undefined>;
 
 		/**
@@ -21175,84 +21177,84 @@ export namespace Cdp {
 		 * @deprecated
 		 */
 		getCookies(
-			params: Page.GetCookiesParams
+			params: Page.GetCookiesParams,
 		): Promise<Page.GetCookiesResult | undefined>;
 
 		/**
 		 * Returns present frame tree structure.
 		 */
 		getFrameTree(
-			params: Page.GetFrameTreeParams
+			params: Page.GetFrameTreeParams,
 		): Promise<Page.GetFrameTreeResult | undefined>;
 
 		/**
 		 * Returns metrics relating to the layouting of the page, such as viewport bounds/scale.
 		 */
 		getLayoutMetrics(
-			params: Page.GetLayoutMetricsParams
+			params: Page.GetLayoutMetricsParams,
 		): Promise<Page.GetLayoutMetricsResult | undefined>;
 
 		/**
 		 * Returns navigation history for the current page.
 		 */
 		getNavigationHistory(
-			params: Page.GetNavigationHistoryParams
+			params: Page.GetNavigationHistoryParams,
 		): Promise<Page.GetNavigationHistoryResult | undefined>;
 
 		/**
 		 * Resets navigation history for the current page.
 		 */
 		resetNavigationHistory(
-			params: Page.ResetNavigationHistoryParams
+			params: Page.ResetNavigationHistoryParams,
 		): Promise<Page.ResetNavigationHistoryResult | undefined>;
 
 		/**
 		 * Returns content of the given resource.
 		 */
 		getResourceContent(
-			params: Page.GetResourceContentParams
+			params: Page.GetResourceContentParams,
 		): Promise<Page.GetResourceContentResult | undefined>;
 
 		/**
 		 * Returns present frame / resource tree structure.
 		 */
 		getResourceTree(
-			params: Page.GetResourceTreeParams
+			params: Page.GetResourceTreeParams,
 		): Promise<Page.GetResourceTreeResult | undefined>;
 
 		/**
 		 * Accepts or dismisses a JavaScript initiated dialog (alert, confirm, prompt, or onbeforeunload).
 		 */
 		handleJavaScriptDialog(
-			params: Page.HandleJavaScriptDialogParams
+			params: Page.HandleJavaScriptDialogParams,
 		): Promise<Page.HandleJavaScriptDialogResult | undefined>;
 
 		/**
 		 * Navigates current page to the given URL.
 		 */
 		navigate(
-			params: Page.NavigateParams
+			params: Page.NavigateParams,
 		): Promise<Page.NavigateResult | undefined>;
 
 		/**
 		 * Navigates current page to the given history entry.
 		 */
 		navigateToHistoryEntry(
-			params: Page.NavigateToHistoryEntryParams
+			params: Page.NavigateToHistoryEntryParams,
 		): Promise<Page.NavigateToHistoryEntryResult | undefined>;
 
 		/**
 		 * Print page as PDF.
 		 */
 		printToPDF(
-			params: Page.PrintToPDFParams
+			params: Page.PrintToPDFParams,
 		): Promise<Page.PrintToPDFResult | undefined>;
 
 		/**
 		 * Reloads given page optionally ignoring the cache.
 		 */
 		reload(
-			params: Page.ReloadParams
+			params: Page.ReloadParams,
 		): Promise<Page.ReloadResult | undefined>;
 
 		/**
@@ -21260,56 +21262,56 @@ export namespace Cdp {
 		 * @deprecated
 		 */
 		removeScriptToEvaluateOnLoad(
-			params: Page.RemoveScriptToEvaluateOnLoadParams
+			params: Page.RemoveScriptToEvaluateOnLoadParams,
 		): Promise<Page.RemoveScriptToEvaluateOnLoadResult | undefined>;
 
 		/**
 		 * Removes given script from the list.
 		 */
 		removeScriptToEvaluateOnNewDocument(
-			params: Page.RemoveScriptToEvaluateOnNewDocumentParams
+			params: Page.RemoveScriptToEvaluateOnNewDocumentParams,
 		): Promise<Page.RemoveScriptToEvaluateOnNewDocumentResult | undefined>;
 
 		/**
 		 * Acknowledges that a screencast frame has been received by the frontend.
 		 */
 		screencastFrameAck(
-			params: Page.ScreencastFrameAckParams
+			params: Page.ScreencastFrameAckParams,
 		): Promise<Page.ScreencastFrameAckResult | undefined>;
 
 		/**
 		 * Searches for given string in resource content.
 		 */
 		searchInResource(
-			params: Page.SearchInResourceParams
+			params: Page.SearchInResourceParams,
 		): Promise<Page.SearchInResourceResult | undefined>;
 
 		/**
 		 * Enable Chrome's experimental ad filter on all sites.
 		 */
 		setAdBlockingEnabled(
-			params: Page.SetAdBlockingEnabledParams
+			params: Page.SetAdBlockingEnabledParams,
 		): Promise<Page.SetAdBlockingEnabledResult | undefined>;
 
 		/**
 		 * Enable page Content Security Policy by-passing.
 		 */
 		setBypassCSP(
-			params: Page.SetBypassCSPParams
+			params: Page.SetBypassCSPParams,
 		): Promise<Page.SetBypassCSPResult | undefined>;
 
 		/**
 		 * Get Permissions Policy state on given frame.
 		 */
 		getPermissionsPolicyState(
-			params: Page.GetPermissionsPolicyStateParams
+			params: Page.GetPermissionsPolicyStateParams,
 		): Promise<Page.GetPermissionsPolicyStateResult | undefined>;
 
 		/**
 		 * Get Origin Trials on given frame.
 		 */
 		getOriginTrials(
-			params: Page.GetOriginTrialsParams
+			params: Page.GetOriginTrialsParams,
 		): Promise<Page.GetOriginTrialsResult | undefined>;
 
 		/**
@@ -21319,7 +21321,7 @@ export namespace Cdp {
 		 * @deprecated
 		 */
 		setDeviceMetricsOverride(
-			params: Page.SetDeviceMetricsOverrideParams
+			params: Page.SetDeviceMetricsOverrideParams,
 		): Promise<Page.SetDeviceMetricsOverrideResult | undefined>;
 
 		/**
@@ -21327,28 +21329,28 @@ export namespace Cdp {
 		 * @deprecated
 		 */
 		setDeviceOrientationOverride(
-			params: Page.SetDeviceOrientationOverrideParams
+			params: Page.SetDeviceOrientationOverrideParams,
 		): Promise<Page.SetDeviceOrientationOverrideResult | undefined>;
 
 		/**
 		 * Set generic font families.
 		 */
 		setFontFamilies(
-			params: Page.SetFontFamiliesParams
+			params: Page.SetFontFamiliesParams,
 		): Promise<Page.SetFontFamiliesResult | undefined>;
 
 		/**
 		 * Set default font sizes.
 		 */
 		setFontSizes(
-			params: Page.SetFontSizesParams
+			params: Page.SetFontSizesParams,
 		): Promise<Page.SetFontSizesResult | undefined>;
 
 		/**
 		 * Sets given markup as the document's HTML.
 		 */
 		setDocumentContent(
-			params: Page.SetDocumentContentParams
+			params: Page.SetDocumentContentParams,
 		): Promise<Page.SetDocumentContentResult | undefined>;
 
 		/**
@@ -21356,7 +21358,7 @@ export namespace Cdp {
 		 * @deprecated
 		 */
 		setDownloadBehavior(
-			params: Page.SetDownloadBehaviorParams
+			params: Page.SetDownloadBehaviorParams,
 		): Promise<Page.SetDownloadBehaviorResult | undefined>;
 
 		/**
@@ -21365,14 +21367,14 @@ export namespace Cdp {
 		 * @deprecated
 		 */
 		setGeolocationOverride(
-			params: Page.SetGeolocationOverrideParams
+			params: Page.SetGeolocationOverrideParams,
 		): Promise<Page.SetGeolocationOverrideResult | undefined>;
 
 		/**
 		 * Controls whether page will emit lifecycle events.
 		 */
 		setLifecycleEventsEnabled(
-			params: Page.SetLifecycleEventsEnabledParams
+			params: Page.SetLifecycleEventsEnabledParams,
 		): Promise<Page.SetLifecycleEventsEnabledResult | undefined>;
 
 		/**
@@ -21380,21 +21382,21 @@ export namespace Cdp {
 		 * @deprecated
 		 */
 		setTouchEmulationEnabled(
-			params: Page.SetTouchEmulationEnabledParams
+			params: Page.SetTouchEmulationEnabledParams,
 		): Promise<Page.SetTouchEmulationEnabledResult | undefined>;
 
 		/**
 		 * Starts sending each frame using the `screencastFrame` event.
 		 */
 		startScreencast(
-			params: Page.StartScreencastParams
+			params: Page.StartScreencastParams,
 		): Promise<Page.StartScreencastResult | undefined>;
 
 		/**
 		 * Force the page stop all navigations and pending resource fetches.
 		 */
 		stopLoading(
-			params: Page.StopLoadingParams
+			params: Page.StopLoadingParams,
 		): Promise<Page.StopLoadingResult | undefined>;
 
 		/**
@@ -21413,14 +21415,14 @@ export namespace Cdp {
 		 * https://github.com/WICG/web-lifecycle/
 		 */
 		setWebLifecycleState(
-			params: Page.SetWebLifecycleStateParams
+			params: Page.SetWebLifecycleStateParams,
 		): Promise<Page.SetWebLifecycleStateResult | undefined>;
 
 		/**
 		 * Stops sending each frame in the `screencastFrame`.
 		 */
 		stopScreencast(
-			params: Page.StopScreencastParams
+			params: Page.StopScreencastParams,
 		): Promise<Page.StopScreencastResult | undefined>;
 
 		/**
@@ -21432,7 +21434,7 @@ export namespace Cdp {
 		 * See also: `Page.compilationCacheProduced`.
 		 */
 		produceCompilationCache(
-			params: Page.ProduceCompilationCacheParams
+			params: Page.ProduceCompilationCacheParams,
 		): Promise<Page.ProduceCompilationCacheResult | undefined>;
 
 		/**
@@ -21440,14 +21442,14 @@ export namespace Cdp {
 		 * cross-process navigation.
 		 */
 		addCompilationCache(
-			params: Page.AddCompilationCacheParams
+			params: Page.AddCompilationCacheParams,
 		): Promise<Page.AddCompilationCacheResult | undefined>;
 
 		/**
 		 * Clears seeded compilation cache.
 		 */
 		clearCompilationCache(
-			params: Page.ClearCompilationCacheParams
+			params: Page.ClearCompilationCacheParams,
 		): Promise<Page.ClearCompilationCacheResult | undefined>;
 
 		/**
@@ -21455,7 +21457,7 @@ export namespace Cdp {
 		 * https://w3c.github.io/secure-payment-confirmation/#sctn-automation-set-spc-transaction-mode
 		 */
 		setSPCTransactionMode(
-			params: Page.SetSPCTransactionModeParams
+			params: Page.SetSPCTransactionModeParams,
 		): Promise<Page.SetSPCTransactionModeResult | undefined>;
 
 		/**
@@ -21463,21 +21465,21 @@ export namespace Cdp {
 		 * https://html.spec.whatwg.org/multipage/system-state.html#rph-automation
 		 */
 		setRPHRegistrationMode(
-			params: Page.SetRPHRegistrationModeParams
+			params: Page.SetRPHRegistrationModeParams,
 		): Promise<Page.SetRPHRegistrationModeResult | undefined>;
 
 		/**
 		 * Generates a report for testing.
 		 */
 		generateTestReport(
-			params: Page.GenerateTestReportParams
+			params: Page.GenerateTestReportParams,
 		): Promise<Page.GenerateTestReportResult | undefined>;
 
 		/**
 		 * Pauses page execution. Can be resumed using generic Runtime.runIfWaitingForDebugger.
 		 */
 		waitForDebugger(
-			params: Page.WaitForDebuggerParams
+			params: Page.WaitForDebuggerParams,
 		): Promise<Page.WaitForDebuggerResult | undefined>;
 
 		/**
@@ -21486,7 +21488,7 @@ export namespace Cdp {
 		 * Instead, a protocol event `Page.fileChooserOpened` is emitted.
 		 */
 		setInterceptFileChooserDialog(
-			params: Page.SetInterceptFileChooserDialogParams
+			params: Page.SetInterceptFileChooserDialogParams,
 		): Promise<Page.SetInterceptFileChooserDialogResult | undefined>;
 
 		/**
@@ -21499,12 +21501,12 @@ export namespace Cdp {
 		 * TODO(https://crbug.com/1440085): Remove this once Puppeteer supports tab targets.
 		 */
 		setPrerenderingAllowed(
-			params: Page.SetPrerenderingAllowedParams
+			params: Page.SetPrerenderingAllowedParams,
 		): Promise<Page.SetPrerenderingAllowedResult | undefined>;
 
 		on(
 			event: "domContentEventFired",
-			listener: (event: Page.DomContentEventFiredEvent) => void
+			listener: (event: Page.DomContentEventFiredEvent) => void,
 		): IDisposable;
 
 		/**
@@ -21512,7 +21514,7 @@ export namespace Cdp {
 		 */
 		on(
 			event: "fileChooserOpened",
-			listener: (event: Page.FileChooserOpenedEvent) => void
+			listener: (event: Page.FileChooserOpenedEvent) => void,
 		): IDisposable;
 
 		/**
@@ -21520,7 +21522,7 @@ export namespace Cdp {
 		 */
 		on(
 			event: "frameAttached",
-			listener: (event: Page.FrameAttachedEvent) => void
+			listener: (event: Page.FrameAttachedEvent) => void,
 		): IDisposable;
 
 		/**
@@ -21529,7 +21531,9 @@ export namespace Cdp {
 		 */
 		on(
 			event: "frameClearedScheduledNavigation",
-			listener: (event: Page.FrameClearedScheduledNavigationEvent) => void
+			listener: (
+				event: Page.FrameClearedScheduledNavigationEvent,
+			) => void,
 		): IDisposable;
 
 		/**
@@ -21537,7 +21541,7 @@ export namespace Cdp {
 		 */
 		on(
 			event: "frameDetached",
-			listener: (event: Page.FrameDetachedEvent) => void
+			listener: (event: Page.FrameDetachedEvent) => void,
 		): IDisposable;
 
 		/**
@@ -21545,7 +21549,7 @@ export namespace Cdp {
 		 */
 		on(
 			event: "frameNavigated",
-			listener: (event: Page.FrameNavigatedEvent) => void
+			listener: (event: Page.FrameNavigatedEvent) => void,
 		): IDisposable;
 
 		/**
@@ -21553,12 +21557,12 @@ export namespace Cdp {
 		 */
 		on(
 			event: "documentOpened",
-			listener: (event: Page.DocumentOpenedEvent) => void
+			listener: (event: Page.DocumentOpenedEvent) => void,
 		): IDisposable;
 
 		on(
 			event: "frameResized",
-			listener: (event: Page.FrameResizedEvent) => void
+			listener: (event: Page.FrameResizedEvent) => void,
 		): IDisposable;
 
 		/**
@@ -21567,7 +21571,7 @@ export namespace Cdp {
 		 */
 		on(
 			event: "frameRequestedNavigation",
-			listener: (event: Page.FrameRequestedNavigationEvent) => void
+			listener: (event: Page.FrameRequestedNavigationEvent) => void,
 		): IDisposable;
 
 		/**
@@ -21576,7 +21580,7 @@ export namespace Cdp {
 		 */
 		on(
 			event: "frameScheduledNavigation",
-			listener: (event: Page.FrameScheduledNavigationEvent) => void
+			listener: (event: Page.FrameScheduledNavigationEvent) => void,
 		): IDisposable;
 
 		/**
@@ -21584,7 +21588,7 @@ export namespace Cdp {
 		 */
 		on(
 			event: "frameStartedLoading",
-			listener: (event: Page.FrameStartedLoadingEvent) => void
+			listener: (event: Page.FrameStartedLoadingEvent) => void,
 		): IDisposable;
 
 		/**
@@ -21592,7 +21596,7 @@ export namespace Cdp {
 		 */
 		on(
 			event: "frameStoppedLoading",
-			listener: (event: Page.FrameStoppedLoadingEvent) => void
+			listener: (event: Page.FrameStoppedLoadingEvent) => void,
 		): IDisposable;
 
 		/**
@@ -21602,7 +21606,7 @@ export namespace Cdp {
 		 */
 		on(
 			event: "downloadWillBegin",
-			listener: (event: Page.DownloadWillBeginEvent) => void
+			listener: (event: Page.DownloadWillBeginEvent) => void,
 		): IDisposable;
 
 		/**
@@ -21612,7 +21616,7 @@ export namespace Cdp {
 		 */
 		on(
 			event: "downloadProgress",
-			listener: (event: Page.DownloadProgressEvent) => void
+			listener: (event: Page.DownloadProgressEvent) => void,
 		): IDisposable;
 
 		/**
@@ -21620,7 +21624,7 @@ export namespace Cdp {
 		 */
 		on(
 			event: "interstitialHidden",
-			listener: (event: Page.InterstitialHiddenEvent) => void
+			listener: (event: Page.InterstitialHiddenEvent) => void,
 		): IDisposable;
 
 		/**
@@ -21628,7 +21632,7 @@ export namespace Cdp {
 		 */
 		on(
 			event: "interstitialShown",
-			listener: (event: Page.InterstitialShownEvent) => void
+			listener: (event: Page.InterstitialShownEvent) => void,
 		): IDisposable;
 
 		/**
@@ -21637,7 +21641,7 @@ export namespace Cdp {
 		 */
 		on(
 			event: "javascriptDialogClosed",
-			listener: (event: Page.JavascriptDialogClosedEvent) => void
+			listener: (event: Page.JavascriptDialogClosedEvent) => void,
 		): IDisposable;
 
 		/**
@@ -21646,7 +21650,7 @@ export namespace Cdp {
 		 */
 		on(
 			event: "javascriptDialogOpening",
-			listener: (event: Page.JavascriptDialogOpeningEvent) => void
+			listener: (event: Page.JavascriptDialogOpeningEvent) => void,
 		): IDisposable;
 
 		/**
@@ -21654,7 +21658,7 @@ export namespace Cdp {
 		 */
 		on(
 			event: "lifecycleEvent",
-			listener: (event: Page.LifecycleEventEvent) => void
+			listener: (event: Page.LifecycleEventEvent) => void,
 		): IDisposable;
 
 		/**
@@ -21665,12 +21669,12 @@ export namespace Cdp {
 		 */
 		on(
 			event: "backForwardCacheNotUsed",
-			listener: (event: Page.BackForwardCacheNotUsedEvent) => void
+			listener: (event: Page.BackForwardCacheNotUsedEvent) => void,
 		): IDisposable;
 
 		on(
 			event: "loadEventFired",
-			listener: (event: Page.LoadEventFiredEvent) => void
+			listener: (event: Page.LoadEventFiredEvent) => void,
 		): IDisposable;
 
 		/**
@@ -21678,7 +21682,7 @@ export namespace Cdp {
 		 */
 		on(
 			event: "navigatedWithinDocument",
-			listener: (event: Page.NavigatedWithinDocumentEvent) => void
+			listener: (event: Page.NavigatedWithinDocumentEvent) => void,
 		): IDisposable;
 
 		/**
@@ -21686,7 +21690,7 @@ export namespace Cdp {
 		 */
 		on(
 			event: "screencastFrame",
-			listener: (event: Page.ScreencastFrameEvent) => void
+			listener: (event: Page.ScreencastFrameEvent) => void,
 		): IDisposable;
 
 		/**
@@ -21694,7 +21698,7 @@ export namespace Cdp {
 		 */
 		on(
 			event: "screencastVisibilityChanged",
-			listener: (event: Page.ScreencastVisibilityChangedEvent) => void
+			listener: (event: Page.ScreencastVisibilityChangedEvent) => void,
 		): IDisposable;
 
 		/**
@@ -21703,7 +21707,7 @@ export namespace Cdp {
 		 */
 		on(
 			event: "windowOpen",
-			listener: (event: Page.WindowOpenEvent) => void
+			listener: (event: Page.WindowOpenEvent) => void,
 		): IDisposable;
 
 		/**
@@ -21712,7 +21716,7 @@ export namespace Cdp {
 		 */
 		on(
 			event: "compilationCacheProduced",
-			listener: (event: Page.CompilationCacheProducedEvent) => void
+			listener: (event: Page.CompilationCacheProducedEvent) => void,
 		): IDisposable;
 	}
 
@@ -21776,12 +21780,12 @@ export namespace Cdp {
 		/**
 		 * Parameters of the 'Page.bringToFront' method.
 		 */
-		export interface BringToFrontParams {}
+		export type BringToFrontParams = {};
 
 		/**
 		 * Return value of the 'Page.bringToFront' method.
 		 */
-		export interface BringToFrontResult {}
+		export type BringToFrontResult = {};
 
 		/**
 		 * Parameters of the 'Page.captureScreenshot' method.
@@ -21851,32 +21855,32 @@ export namespace Cdp {
 		/**
 		 * Parameters of the 'Page.clearDeviceMetricsOverride' method.
 		 */
-		export interface ClearDeviceMetricsOverrideParams {}
+		export type ClearDeviceMetricsOverrideParams = {};
 
 		/**
 		 * Return value of the 'Page.clearDeviceMetricsOverride' method.
 		 */
-		export interface ClearDeviceMetricsOverrideResult {}
+		export type ClearDeviceMetricsOverrideResult = {};
 
 		/**
 		 * Parameters of the 'Page.clearDeviceOrientationOverride' method.
 		 */
-		export interface ClearDeviceOrientationOverrideParams {}
+		export type ClearDeviceOrientationOverrideParams = {};
 
 		/**
 		 * Return value of the 'Page.clearDeviceOrientationOverride' method.
 		 */
-		export interface ClearDeviceOrientationOverrideResult {}
+		export type ClearDeviceOrientationOverrideResult = {};
 
 		/**
 		 * Parameters of the 'Page.clearGeolocationOverride' method.
 		 */
-		export interface ClearGeolocationOverrideParams {}
+		export type ClearGeolocationOverrideParams = {};
 
 		/**
 		 * Return value of the 'Page.clearGeolocationOverride' method.
 		 */
-		export interface ClearGeolocationOverrideResult {}
+		export type ClearGeolocationOverrideResult = {};
 
 		/**
 		 * Parameters of the 'Page.createIsolatedWorld' method.
@@ -21927,32 +21931,32 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Page.deleteCookie' method.
 		 */
-		export interface DeleteCookieResult {}
+		export type DeleteCookieResult = {};
 
 		/**
 		 * Parameters of the 'Page.disable' method.
 		 */
-		export interface DisableParams {}
+		export type DisableParams = {};
 
 		/**
 		 * Return value of the 'Page.disable' method.
 		 */
-		export interface DisableResult {}
+		export type DisableResult = {};
 
 		/**
 		 * Parameters of the 'Page.enable' method.
 		 */
-		export interface EnableParams {}
+		export type EnableParams = {};
 
 		/**
 		 * Return value of the 'Page.enable' method.
 		 */
-		export interface EnableResult {}
+		export type EnableResult = {};
 
 		/**
 		 * Parameters of the 'Page.getAppManifest' method.
 		 */
-		export interface GetAppManifestParams {}
+		export type GetAppManifestParams = {};
 
 		/**
 		 * Return value of the 'Page.getAppManifest' method.
@@ -21979,7 +21983,7 @@ export namespace Cdp {
 		/**
 		 * Parameters of the 'Page.getInstallabilityErrors' method.
 		 */
-		export interface GetInstallabilityErrorsParams {}
+		export type GetInstallabilityErrorsParams = {};
 
 		/**
 		 * Return value of the 'Page.getInstallabilityErrors' method.
@@ -21991,7 +21995,7 @@ export namespace Cdp {
 		/**
 		 * Parameters of the 'Page.getManifestIcons' method.
 		 */
-		export interface GetManifestIconsParams {}
+		export type GetManifestIconsParams = {};
 
 		/**
 		 * Return value of the 'Page.getManifestIcons' method.
@@ -22003,7 +22007,7 @@ export namespace Cdp {
 		/**
 		 * Parameters of the 'Page.getAppId' method.
 		 */
-		export interface GetAppIdParams {}
+		export type GetAppIdParams = {};
 
 		/**
 		 * Return value of the 'Page.getAppId' method.
@@ -22041,7 +22045,7 @@ export namespace Cdp {
 		/**
 		 * Parameters of the 'Page.getCookies' method.
 		 */
-		export interface GetCookiesParams {}
+		export type GetCookiesParams = {};
 
 		/**
 		 * Return value of the 'Page.getCookies' method.
@@ -22056,7 +22060,7 @@ export namespace Cdp {
 		/**
 		 * Parameters of the 'Page.getFrameTree' method.
 		 */
-		export interface GetFrameTreeParams {}
+		export type GetFrameTreeParams = {};
 
 		/**
 		 * Return value of the 'Page.getFrameTree' method.
@@ -22071,7 +22075,7 @@ export namespace Cdp {
 		/**
 		 * Parameters of the 'Page.getLayoutMetrics' method.
 		 */
-		export interface GetLayoutMetricsParams {}
+		export type GetLayoutMetricsParams = {};
 
 		/**
 		 * Return value of the 'Page.getLayoutMetrics' method.
@@ -22114,7 +22118,7 @@ export namespace Cdp {
 		/**
 		 * Parameters of the 'Page.getNavigationHistory' method.
 		 */
-		export interface GetNavigationHistoryParams {}
+		export type GetNavigationHistoryParams = {};
 
 		/**
 		 * Return value of the 'Page.getNavigationHistory' method.
@@ -22134,12 +22138,12 @@ export namespace Cdp {
 		/**
 		 * Parameters of the 'Page.resetNavigationHistory' method.
 		 */
-		export interface ResetNavigationHistoryParams {}
+		export type ResetNavigationHistoryParams = {};
 
 		/**
 		 * Return value of the 'Page.resetNavigationHistory' method.
 		 */
-		export interface ResetNavigationHistoryResult {}
+		export type ResetNavigationHistoryResult = {};
 
 		/**
 		 * Parameters of the 'Page.getResourceContent' method.
@@ -22174,7 +22178,7 @@ export namespace Cdp {
 		/**
 		 * Parameters of the 'Page.getResourceTree' method.
 		 */
-		export interface GetResourceTreeParams {}
+		export type GetResourceTreeParams = {};
 
 		/**
 		 * Return value of the 'Page.getResourceTree' method.
@@ -22205,7 +22209,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Page.handleJavaScriptDialog' method.
 		 */
-		export interface HandleJavaScriptDialogResult {}
+		export type HandleJavaScriptDialogResult = {};
 
 		/**
 		 * Parameters of the 'Page.navigate' method.
@@ -22271,7 +22275,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Page.navigateToHistoryEntry' method.
 		 */
-		export interface NavigateToHistoryEntryResult {}
+		export type NavigateToHistoryEntryResult = {};
 
 		/**
 		 * Parameters of the 'Page.printToPDF' method.
@@ -22408,7 +22412,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Page.reload' method.
 		 */
-		export interface ReloadResult {}
+		export type ReloadResult = {};
 
 		/**
 		 * Parameters of the 'Page.removeScriptToEvaluateOnLoad' method.
@@ -22420,7 +22424,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Page.removeScriptToEvaluateOnLoad' method.
 		 */
-		export interface RemoveScriptToEvaluateOnLoadResult {}
+		export type RemoveScriptToEvaluateOnLoadResult = {};
 
 		/**
 		 * Parameters of the 'Page.removeScriptToEvaluateOnNewDocument' method.
@@ -22432,7 +22436,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Page.removeScriptToEvaluateOnNewDocument' method.
 		 */
-		export interface RemoveScriptToEvaluateOnNewDocumentResult {}
+		export type RemoveScriptToEvaluateOnNewDocumentResult = {};
 
 		/**
 		 * Parameters of the 'Page.screencastFrameAck' method.
@@ -22447,7 +22451,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Page.screencastFrameAck' method.
 		 */
-		export interface ScreencastFrameAckResult {}
+		export type ScreencastFrameAckResult = {};
 
 		/**
 		 * Parameters of the 'Page.searchInResource' method.
@@ -22502,7 +22506,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Page.setAdBlockingEnabled' method.
 		 */
-		export interface SetAdBlockingEnabledResult {}
+		export type SetAdBlockingEnabledResult = {};
 
 		/**
 		 * Parameters of the 'Page.setBypassCSP' method.
@@ -22517,7 +22521,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Page.setBypassCSP' method.
 		 */
-		export interface SetBypassCSPResult {}
+		export type SetBypassCSPResult = {};
 
 		/**
 		 * Parameters of the 'Page.getPermissionsPolicyState' method.
@@ -22616,7 +22620,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Page.setDeviceMetricsOverride' method.
 		 */
-		export interface SetDeviceMetricsOverrideResult {}
+		export type SetDeviceMetricsOverrideResult = {};
 
 		/**
 		 * Parameters of the 'Page.setDeviceOrientationOverride' method.
@@ -22641,7 +22645,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Page.setDeviceOrientationOverride' method.
 		 */
-		export interface SetDeviceOrientationOverrideResult {}
+		export type SetDeviceOrientationOverrideResult = {};
 
 		/**
 		 * Parameters of the 'Page.setFontFamilies' method.
@@ -22661,7 +22665,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Page.setFontFamilies' method.
 		 */
-		export interface SetFontFamiliesResult {}
+		export type SetFontFamiliesResult = {};
 
 		/**
 		 * Parameters of the 'Page.setFontSizes' method.
@@ -22676,7 +22680,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Page.setFontSizes' method.
 		 */
-		export interface SetFontSizesResult {}
+		export type SetFontSizesResult = {};
 
 		/**
 		 * Parameters of the 'Page.setDocumentContent' method.
@@ -22696,7 +22700,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Page.setDocumentContent' method.
 		 */
-		export interface SetDocumentContentResult {}
+		export type SetDocumentContentResult = {};
 
 		/**
 		 * Parameters of the 'Page.setDownloadBehavior' method.
@@ -22717,7 +22721,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Page.setDownloadBehavior' method.
 		 */
-		export interface SetDownloadBehaviorResult {}
+		export type SetDownloadBehaviorResult = {};
 
 		/**
 		 * Parameters of the 'Page.setGeolocationOverride' method.
@@ -22742,7 +22746,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Page.setGeolocationOverride' method.
 		 */
-		export interface SetGeolocationOverrideResult {}
+		export type SetGeolocationOverrideResult = {};
 
 		/**
 		 * Parameters of the 'Page.setLifecycleEventsEnabled' method.
@@ -22757,7 +22761,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Page.setLifecycleEventsEnabled' method.
 		 */
-		export interface SetLifecycleEventsEnabledResult {}
+		export type SetLifecycleEventsEnabledResult = {};
 
 		/**
 		 * Parameters of the 'Page.setTouchEmulationEnabled' method.
@@ -22777,7 +22781,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Page.setTouchEmulationEnabled' method.
 		 */
-		export interface SetTouchEmulationEnabledResult {}
+		export type SetTouchEmulationEnabledResult = {};
 
 		/**
 		 * Parameters of the 'Page.startScreencast' method.
@@ -22812,37 +22816,37 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Page.startScreencast' method.
 		 */
-		export interface StartScreencastResult {}
+		export type StartScreencastResult = {};
 
 		/**
 		 * Parameters of the 'Page.stopLoading' method.
 		 */
-		export interface StopLoadingParams {}
+		export type StopLoadingParams = {};
 
 		/**
 		 * Return value of the 'Page.stopLoading' method.
 		 */
-		export interface StopLoadingResult {}
+		export type StopLoadingResult = {};
 
 		/**
 		 * Parameters of the 'Page.crash' method.
 		 */
-		export interface CrashParams {}
+		export type CrashParams = {};
 
 		/**
 		 * Return value of the 'Page.crash' method.
 		 */
-		export interface CrashResult {}
+		export type CrashResult = {};
 
 		/**
 		 * Parameters of the 'Page.close' method.
 		 */
-		export interface CloseParams {}
+		export type CloseParams = {};
 
 		/**
 		 * Return value of the 'Page.close' method.
 		 */
-		export interface CloseResult {}
+		export type CloseResult = {};
 
 		/**
 		 * Parameters of the 'Page.setWebLifecycleState' method.
@@ -22857,17 +22861,17 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Page.setWebLifecycleState' method.
 		 */
-		export interface SetWebLifecycleStateResult {}
+		export type SetWebLifecycleStateResult = {};
 
 		/**
 		 * Parameters of the 'Page.stopScreencast' method.
 		 */
-		export interface StopScreencastParams {}
+		export type StopScreencastParams = {};
 
 		/**
 		 * Return value of the 'Page.stopScreencast' method.
 		 */
-		export interface StopScreencastResult {}
+		export type StopScreencastResult = {};
 
 		/**
 		 * Parameters of the 'Page.produceCompilationCache' method.
@@ -22879,7 +22883,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Page.produceCompilationCache' method.
 		 */
-		export interface ProduceCompilationCacheResult {}
+		export type ProduceCompilationCacheResult = {};
 
 		/**
 		 * Parameters of the 'Page.addCompilationCache' method.
@@ -22896,17 +22900,17 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Page.addCompilationCache' method.
 		 */
-		export interface AddCompilationCacheResult {}
+		export type AddCompilationCacheResult = {};
 
 		/**
 		 * Parameters of the 'Page.clearCompilationCache' method.
 		 */
-		export interface ClearCompilationCacheParams {}
+		export type ClearCompilationCacheParams = {};
 
 		/**
 		 * Return value of the 'Page.clearCompilationCache' method.
 		 */
-		export interface ClearCompilationCacheResult {}
+		export type ClearCompilationCacheResult = {};
 
 		/**
 		 * Parameters of the 'Page.setSPCTransactionMode' method.
@@ -22918,7 +22922,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Page.setSPCTransactionMode' method.
 		 */
-		export interface SetSPCTransactionModeResult {}
+		export type SetSPCTransactionModeResult = {};
 
 		/**
 		 * Parameters of the 'Page.setRPHRegistrationMode' method.
@@ -22930,7 +22934,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Page.setRPHRegistrationMode' method.
 		 */
-		export interface SetRPHRegistrationModeResult {}
+		export type SetRPHRegistrationModeResult = {};
 
 		/**
 		 * Parameters of the 'Page.generateTestReport' method.
@@ -22950,17 +22954,17 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Page.generateTestReport' method.
 		 */
-		export interface GenerateTestReportResult {}
+		export type GenerateTestReportResult = {};
 
 		/**
 		 * Parameters of the 'Page.waitForDebugger' method.
 		 */
-		export interface WaitForDebuggerParams {}
+		export type WaitForDebuggerParams = {};
 
 		/**
 		 * Return value of the 'Page.waitForDebugger' method.
 		 */
-		export interface WaitForDebuggerResult {}
+		export type WaitForDebuggerResult = {};
 
 		/**
 		 * Parameters of the 'Page.setInterceptFileChooserDialog' method.
@@ -22972,7 +22976,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Page.setInterceptFileChooserDialog' method.
 		 */
-		export interface SetInterceptFileChooserDialogResult {}
+		export type SetInterceptFileChooserDialogResult = {};
 
 		/**
 		 * Parameters of the 'Page.setPrerenderingAllowed' method.
@@ -22984,7 +22988,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Page.setPrerenderingAllowed' method.
 		 */
-		export interface SetPrerenderingAllowedResult {}
+		export type SetPrerenderingAllowedResult = {};
 
 		/**
 		 * Parameters of the 'Page.domContentEventFired' event.
@@ -23080,7 +23084,7 @@ export namespace Cdp {
 		/**
 		 * Parameters of the 'Page.frameResized' event.
 		 */
-		export interface FrameResizedEvent {}
+		export type FrameResizedEvent = {};
 
 		/**
 		 * Parameters of the 'Page.frameRequestedNavigation' event.
@@ -23206,12 +23210,12 @@ export namespace Cdp {
 		/**
 		 * Parameters of the 'Page.interstitialHidden' event.
 		 */
-		export interface InterstitialHiddenEvent {}
+		export type InterstitialHiddenEvent = {};
 
 		/**
 		 * Parameters of the 'Page.interstitialShown' event.
 		 */
-		export interface InterstitialShownEvent {}
+		export type InterstitialShownEvent = {};
 
 		/**
 		 * Parameters of the 'Page.javascriptDialogClosed' event.
@@ -24385,14 +24389,14 @@ export namespace Cdp {
 		 * Disable collecting and reporting metrics.
 		 */
 		disable(
-			params: Performance.DisableParams
+			params: Performance.DisableParams,
 		): Promise<Performance.DisableResult | undefined>;
 
 		/**
 		 * Enable collecting and reporting metrics.
 		 */
 		enable(
-			params: Performance.EnableParams
+			params: Performance.EnableParams,
 		): Promise<Performance.EnableResult | undefined>;
 
 		/**
@@ -24402,14 +24406,14 @@ export namespace Cdp {
 		 * @deprecated
 		 */
 		setTimeDomain(
-			params: Performance.SetTimeDomainParams
+			params: Performance.SetTimeDomainParams,
 		): Promise<Performance.SetTimeDomainResult | undefined>;
 
 		/**
 		 * Retrieve current values of run-time metrics.
 		 */
 		getMetrics(
-			params: Performance.GetMetricsParams
+			params: Performance.GetMetricsParams,
 		): Promise<Performance.GetMetricsResult | undefined>;
 
 		/**
@@ -24417,7 +24421,7 @@ export namespace Cdp {
 		 */
 		on(
 			event: "metrics",
-			listener: (event: Performance.MetricsEvent) => void
+			listener: (event: Performance.MetricsEvent) => void,
 		): IDisposable;
 	}
 
@@ -24428,12 +24432,12 @@ export namespace Cdp {
 		/**
 		 * Parameters of the 'Performance.disable' method.
 		 */
-		export interface DisableParams {}
+		export type DisableParams = {};
 
 		/**
 		 * Return value of the 'Performance.disable' method.
 		 */
-		export interface DisableResult {}
+		export type DisableResult = {};
 
 		/**
 		 * Parameters of the 'Performance.enable' method.
@@ -24448,7 +24452,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Performance.enable' method.
 		 */
-		export interface EnableResult {}
+		export type EnableResult = {};
 
 		/**
 		 * Parameters of the 'Performance.setTimeDomain' method.
@@ -24463,12 +24467,12 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Performance.setTimeDomain' method.
 		 */
-		export interface SetTimeDomainResult {}
+		export type SetTimeDomainResult = {};
 
 		/**
 		 * Parameters of the 'Performance.getMetrics' method.
 		 */
-		export interface GetMetricsParams {}
+		export type GetMetricsParams = {};
 
 		/**
 		 * Return value of the 'Performance.getMetrics' method.
@@ -24520,7 +24524,7 @@ export namespace Cdp {
 		 * See also: timelineEventAdded
 		 */
 		enable(
-			params: PerformanceTimeline.EnableParams
+			params: PerformanceTimeline.EnableParams,
 		): Promise<PerformanceTimeline.EnableResult | undefined>;
 
 		/**
@@ -24529,8 +24533,8 @@ export namespace Cdp {
 		on(
 			event: "timelineEventAdded",
 			listener: (
-				event: PerformanceTimeline.TimelineEventAddedEvent
-			) => void
+				event: PerformanceTimeline.TimelineEventAddedEvent,
+			) => void,
 		): IDisposable;
 	}
 
@@ -24555,7 +24559,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'PerformanceTimeline.enable' method.
 		 */
-		export interface EnableResult {}
+		export type EnableResult = {};
 
 		/**
 		 * Parameters of the 'PerformanceTimeline.timelineEventAdded' event.
@@ -24652,11 +24656,11 @@ export namespace Cdp {
 	 */
 	export interface PreloadApi {
 		enable(
-			params: Preload.EnableParams
+			params: Preload.EnableParams,
 		): Promise<Preload.EnableResult | undefined>;
 
 		disable(
-			params: Preload.DisableParams
+			params: Preload.DisableParams,
 		): Promise<Preload.DisableResult | undefined>;
 
 		/**
@@ -24664,12 +24668,12 @@ export namespace Cdp {
 		 */
 		on(
 			event: "ruleSetUpdated",
-			listener: (event: Preload.RuleSetUpdatedEvent) => void
+			listener: (event: Preload.RuleSetUpdatedEvent) => void,
 		): IDisposable;
 
 		on(
 			event: "ruleSetRemoved",
-			listener: (event: Preload.RuleSetRemovedEvent) => void
+			listener: (event: Preload.RuleSetRemovedEvent) => void,
 		): IDisposable;
 
 		/**
@@ -24677,7 +24681,7 @@ export namespace Cdp {
 		 */
 		on(
 			event: "preloadEnabledStateUpdated",
-			listener: (event: Preload.PreloadEnabledStateUpdatedEvent) => void
+			listener: (event: Preload.PreloadEnabledStateUpdatedEvent) => void,
 		): IDisposable;
 
 		/**
@@ -24685,7 +24689,7 @@ export namespace Cdp {
 		 */
 		on(
 			event: "prefetchStatusUpdated",
-			listener: (event: Preload.PrefetchStatusUpdatedEvent) => void
+			listener: (event: Preload.PrefetchStatusUpdatedEvent) => void,
 		): IDisposable;
 
 		/**
@@ -24693,7 +24697,7 @@ export namespace Cdp {
 		 */
 		on(
 			event: "prerenderStatusUpdated",
-			listener: (event: Preload.PrerenderStatusUpdatedEvent) => void
+			listener: (event: Preload.PrerenderStatusUpdatedEvent) => void,
 		): IDisposable;
 
 		/**
@@ -24702,8 +24706,8 @@ export namespace Cdp {
 		on(
 			event: "preloadingAttemptSourcesUpdated",
 			listener: (
-				event: Preload.PreloadingAttemptSourcesUpdatedEvent
-			) => void
+				event: Preload.PreloadingAttemptSourcesUpdatedEvent,
+			) => void,
 		): IDisposable;
 	}
 
@@ -24714,22 +24718,22 @@ export namespace Cdp {
 		/**
 		 * Parameters of the 'Preload.enable' method.
 		 */
-		export interface EnableParams {}
+		export type EnableParams = {};
 
 		/**
 		 * Return value of the 'Preload.enable' method.
 		 */
-		export interface EnableResult {}
+		export type EnableResult = {};
 
 		/**
 		 * Parameters of the 'Preload.disable' method.
 		 */
-		export interface DisableParams {}
+		export type DisableParams = {};
 
 		/**
 		 * Return value of the 'Preload.disable' method.
 		 */
-		export interface DisableResult {}
+		export type DisableResult = {};
 
 		/**
 		 * Parameters of the 'Preload.ruleSetUpdated' event.
@@ -25051,11 +25055,11 @@ export namespace Cdp {
 	 */
 	export interface ProfilerApi {
 		disable(
-			params: Profiler.DisableParams
+			params: Profiler.DisableParams,
 		): Promise<Profiler.DisableResult | undefined>;
 
 		enable(
-			params: Profiler.EnableParams
+			params: Profiler.EnableParams,
 		): Promise<Profiler.EnableResult | undefined>;
 
 		/**
@@ -25063,18 +25067,18 @@ export namespace Cdp {
 		 * garbage collection.
 		 */
 		getBestEffortCoverage(
-			params: Profiler.GetBestEffortCoverageParams
+			params: Profiler.GetBestEffortCoverageParams,
 		): Promise<Profiler.GetBestEffortCoverageResult | undefined>;
 
 		/**
 		 * Changes CPU profiler sampling interval. Must be called before CPU profiles recording started.
 		 */
 		setSamplingInterval(
-			params: Profiler.SetSamplingIntervalParams
+			params: Profiler.SetSamplingIntervalParams,
 		): Promise<Profiler.SetSamplingIntervalResult | undefined>;
 
 		start(
-			params: Profiler.StartParams
+			params: Profiler.StartParams,
 		): Promise<Profiler.StartResult | undefined>;
 
 		/**
@@ -25083,11 +25087,11 @@ export namespace Cdp {
 		 * counters.
 		 */
 		startPreciseCoverage(
-			params: Profiler.StartPreciseCoverageParams
+			params: Profiler.StartPreciseCoverageParams,
 		): Promise<Profiler.StartPreciseCoverageResult | undefined>;
 
 		stop(
-			params: Profiler.StopParams
+			params: Profiler.StopParams,
 		): Promise<Profiler.StopResult | undefined>;
 
 		/**
@@ -25095,7 +25099,7 @@ export namespace Cdp {
 		 * executing optimized code.
 		 */
 		stopPreciseCoverage(
-			params: Profiler.StopPreciseCoverageParams
+			params: Profiler.StopPreciseCoverageParams,
 		): Promise<Profiler.StopPreciseCoverageResult | undefined>;
 
 		/**
@@ -25103,12 +25107,12 @@ export namespace Cdp {
 		 * coverage needs to have started.
 		 */
 		takePreciseCoverage(
-			params: Profiler.TakePreciseCoverageParams
+			params: Profiler.TakePreciseCoverageParams,
 		): Promise<Profiler.TakePreciseCoverageResult | undefined>;
 
 		on(
 			event: "consoleProfileFinished",
-			listener: (event: Profiler.ConsoleProfileFinishedEvent) => void
+			listener: (event: Profiler.ConsoleProfileFinishedEvent) => void,
 		): IDisposable;
 
 		/**
@@ -25116,7 +25120,7 @@ export namespace Cdp {
 		 */
 		on(
 			event: "consoleProfileStarted",
-			listener: (event: Profiler.ConsoleProfileStartedEvent) => void
+			listener: (event: Profiler.ConsoleProfileStartedEvent) => void,
 		): IDisposable;
 
 		/**
@@ -25127,7 +25131,7 @@ export namespace Cdp {
 		 */
 		on(
 			event: "preciseCoverageDeltaUpdate",
-			listener: (event: Profiler.PreciseCoverageDeltaUpdateEvent) => void
+			listener: (event: Profiler.PreciseCoverageDeltaUpdateEvent) => void,
 		): IDisposable;
 	}
 
@@ -25138,27 +25142,27 @@ export namespace Cdp {
 		/**
 		 * Parameters of the 'Profiler.disable' method.
 		 */
-		export interface DisableParams {}
+		export type DisableParams = {};
 
 		/**
 		 * Return value of the 'Profiler.disable' method.
 		 */
-		export interface DisableResult {}
+		export type DisableResult = {};
 
 		/**
 		 * Parameters of the 'Profiler.enable' method.
 		 */
-		export interface EnableParams {}
+		export type EnableParams = {};
 
 		/**
 		 * Return value of the 'Profiler.enable' method.
 		 */
-		export interface EnableResult {}
+		export type EnableResult = {};
 
 		/**
 		 * Parameters of the 'Profiler.getBestEffortCoverage' method.
 		 */
-		export interface GetBestEffortCoverageParams {}
+		export type GetBestEffortCoverageParams = {};
 
 		/**
 		 * Return value of the 'Profiler.getBestEffortCoverage' method.
@@ -25183,17 +25187,17 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Profiler.setSamplingInterval' method.
 		 */
-		export interface SetSamplingIntervalResult {}
+		export type SetSamplingIntervalResult = {};
 
 		/**
 		 * Parameters of the 'Profiler.start' method.
 		 */
-		export interface StartParams {}
+		export type StartParams = {};
 
 		/**
 		 * Return value of the 'Profiler.start' method.
 		 */
-		export interface StartResult {}
+		export type StartResult = {};
 
 		/**
 		 * Parameters of the 'Profiler.startPreciseCoverage' method.
@@ -25228,7 +25232,7 @@ export namespace Cdp {
 		/**
 		 * Parameters of the 'Profiler.stop' method.
 		 */
-		export interface StopParams {}
+		export type StopParams = {};
 
 		/**
 		 * Return value of the 'Profiler.stop' method.
@@ -25243,17 +25247,17 @@ export namespace Cdp {
 		/**
 		 * Parameters of the 'Profiler.stopPreciseCoverage' method.
 		 */
-		export interface StopPreciseCoverageParams {}
+		export type StopPreciseCoverageParams = {};
 
 		/**
 		 * Return value of the 'Profiler.stopPreciseCoverage' method.
 		 */
-		export interface StopPreciseCoverageResult {}
+		export type StopPreciseCoverageResult = {};
 
 		/**
 		 * Parameters of the 'Profiler.takePreciseCoverage' method.
 		 */
-		export interface TakePreciseCoverageParams {}
+		export type TakePreciseCoverageParams = {};
 
 		/**
 		 * Return value of the 'Profiler.takePreciseCoverage' method.
@@ -25477,7 +25481,7 @@ export namespace Cdp {
 		 * Add handler to promise with given promise object id.
 		 */
 		awaitPromise(
-			params: Runtime.AwaitPromiseParams
+			params: Runtime.AwaitPromiseParams,
 		): Promise<Runtime.AwaitPromiseResult | undefined>;
 
 		/**
@@ -25485,28 +25489,28 @@ export namespace Cdp {
 		 * inherited from the target object.
 		 */
 		callFunctionOn(
-			params: Runtime.CallFunctionOnParams
+			params: Runtime.CallFunctionOnParams,
 		): Promise<Runtime.CallFunctionOnResult | undefined>;
 
 		/**
 		 * Compiles expression.
 		 */
 		compileScript(
-			params: Runtime.CompileScriptParams
+			params: Runtime.CompileScriptParams,
 		): Promise<Runtime.CompileScriptResult | undefined>;
 
 		/**
 		 * Disables reporting of execution contexts creation.
 		 */
 		disable(
-			params: Runtime.DisableParams
+			params: Runtime.DisableParams,
 		): Promise<Runtime.DisableResult | undefined>;
 
 		/**
 		 * Discards collected exceptions and console API calls.
 		 */
 		discardConsoleEntries(
-			params: Runtime.DiscardConsoleEntriesParams
+			params: Runtime.DiscardConsoleEntriesParams,
 		): Promise<Runtime.DiscardConsoleEntriesResult | undefined>;
 
 		/**
@@ -25515,21 +25519,21 @@ export namespace Cdp {
 		 * context.
 		 */
 		enable(
-			params: Runtime.EnableParams
+			params: Runtime.EnableParams,
 		): Promise<Runtime.EnableResult | undefined>;
 
 		/**
 		 * Evaluates expression on global object.
 		 */
 		evaluate(
-			params: Runtime.EvaluateParams
+			params: Runtime.EvaluateParams,
 		): Promise<Runtime.EvaluateResult | undefined>;
 
 		/**
 		 * Returns the isolate id.
 		 */
 		getIsolateId(
-			params: Runtime.GetIsolateIdParams
+			params: Runtime.GetIsolateIdParams,
 		): Promise<Runtime.GetIsolateIdResult | undefined>;
 
 		/**
@@ -25537,7 +25541,7 @@ export namespace Cdp {
 		 * It is the total usage of the corresponding isolate not scoped to a particular Runtime.
 		 */
 		getHeapUsage(
-			params: Runtime.GetHeapUsageParams
+			params: Runtime.GetHeapUsageParams,
 		): Promise<Runtime.GetHeapUsageResult | undefined>;
 
 		/**
@@ -25545,61 +25549,61 @@ export namespace Cdp {
 		 * object.
 		 */
 		getProperties(
-			params: Runtime.GetPropertiesParams
+			params: Runtime.GetPropertiesParams,
 		): Promise<Runtime.GetPropertiesResult | undefined>;
 
 		/**
 		 * Returns all let, const and class variables from global scope.
 		 */
 		globalLexicalScopeNames(
-			params: Runtime.GlobalLexicalScopeNamesParams
+			params: Runtime.GlobalLexicalScopeNamesParams,
 		): Promise<Runtime.GlobalLexicalScopeNamesResult | undefined>;
 
 		queryObjects(
-			params: Runtime.QueryObjectsParams
+			params: Runtime.QueryObjectsParams,
 		): Promise<Runtime.QueryObjectsResult | undefined>;
 
 		/**
 		 * Releases remote object with given id.
 		 */
 		releaseObject(
-			params: Runtime.ReleaseObjectParams
+			params: Runtime.ReleaseObjectParams,
 		): Promise<Runtime.ReleaseObjectResult | undefined>;
 
 		/**
 		 * Releases all remote objects that belong to a given group.
 		 */
 		releaseObjectGroup(
-			params: Runtime.ReleaseObjectGroupParams
+			params: Runtime.ReleaseObjectGroupParams,
 		): Promise<Runtime.ReleaseObjectGroupResult | undefined>;
 
 		/**
 		 * Tells inspected instance to run if it was waiting for debugger to attach.
 		 */
 		runIfWaitingForDebugger(
-			params: Runtime.RunIfWaitingForDebuggerParams
+			params: Runtime.RunIfWaitingForDebuggerParams,
 		): Promise<Runtime.RunIfWaitingForDebuggerResult | undefined>;
 
 		/**
 		 * Runs script with given id in a given context.
 		 */
 		runScript(
-			params: Runtime.RunScriptParams
+			params: Runtime.RunScriptParams,
 		): Promise<Runtime.RunScriptResult | undefined>;
 
 		/**
 		 * Enables or disables async call stacks tracking.
 		 */
 		setAsyncCallStackDepth(
-			params: Runtime.SetAsyncCallStackDepthParams
+			params: Runtime.SetAsyncCallStackDepthParams,
 		): Promise<Runtime.SetAsyncCallStackDepthResult | undefined>;
 
 		setCustomObjectFormatterEnabled(
-			params: Runtime.SetCustomObjectFormatterEnabledParams
+			params: Runtime.SetCustomObjectFormatterEnabledParams,
 		): Promise<Runtime.SetCustomObjectFormatterEnabledResult | undefined>;
 
 		setMaxCallStackSizeToCapture(
-			params: Runtime.SetMaxCallStackSizeToCaptureParams
+			params: Runtime.SetMaxCallStackSizeToCaptureParams,
 		): Promise<Runtime.SetMaxCallStackSizeToCaptureResult | undefined>;
 
 		/**
@@ -25607,7 +25611,7 @@ export namespace Cdp {
 		 * Will cancel the termination when the outer-most script execution ends.
 		 */
 		terminateExecution(
-			params: Runtime.TerminateExecutionParams
+			params: Runtime.TerminateExecutionParams,
 		): Promise<Runtime.TerminateExecutionResult | undefined>;
 
 		/**
@@ -25619,7 +25623,7 @@ export namespace Cdp {
 		 * Each binding function call produces Runtime.bindingCalled notification.
 		 */
 		addBinding(
-			params: Runtime.AddBindingParams
+			params: Runtime.AddBindingParams,
 		): Promise<Runtime.AddBindingResult | undefined>;
 
 		/**
@@ -25627,7 +25631,7 @@ export namespace Cdp {
 		 * unsubscribes current runtime agent from Runtime.bindingCalled notifications.
 		 */
 		removeBinding(
-			params: Runtime.RemoveBindingParams
+			params: Runtime.RemoveBindingParams,
 		): Promise<Runtime.RemoveBindingResult | undefined>;
 
 		/**
@@ -25638,7 +25642,7 @@ export namespace Cdp {
 		 * Error was thrown.
 		 */
 		getExceptionDetails(
-			params: Runtime.GetExceptionDetailsParams
+			params: Runtime.GetExceptionDetailsParams,
 		): Promise<Runtime.GetExceptionDetailsResult | undefined>;
 
 		/**
@@ -25646,7 +25650,7 @@ export namespace Cdp {
 		 */
 		on(
 			event: "bindingCalled",
-			listener: (event: Runtime.BindingCalledEvent) => void
+			listener: (event: Runtime.BindingCalledEvent) => void,
 		): IDisposable;
 
 		/**
@@ -25654,7 +25658,7 @@ export namespace Cdp {
 		 */
 		on(
 			event: "consoleAPICalled",
-			listener: (event: Runtime.ConsoleAPICalledEvent) => void
+			listener: (event: Runtime.ConsoleAPICalledEvent) => void,
 		): IDisposable;
 
 		/**
@@ -25662,7 +25666,7 @@ export namespace Cdp {
 		 */
 		on(
 			event: "exceptionRevoked",
-			listener: (event: Runtime.ExceptionRevokedEvent) => void
+			listener: (event: Runtime.ExceptionRevokedEvent) => void,
 		): IDisposable;
 
 		/**
@@ -25670,7 +25674,7 @@ export namespace Cdp {
 		 */
 		on(
 			event: "exceptionThrown",
-			listener: (event: Runtime.ExceptionThrownEvent) => void
+			listener: (event: Runtime.ExceptionThrownEvent) => void,
 		): IDisposable;
 
 		/**
@@ -25678,7 +25682,7 @@ export namespace Cdp {
 		 */
 		on(
 			event: "executionContextCreated",
-			listener: (event: Runtime.ExecutionContextCreatedEvent) => void
+			listener: (event: Runtime.ExecutionContextCreatedEvent) => void,
 		): IDisposable;
 
 		/**
@@ -25686,7 +25690,7 @@ export namespace Cdp {
 		 */
 		on(
 			event: "executionContextDestroyed",
-			listener: (event: Runtime.ExecutionContextDestroyedEvent) => void
+			listener: (event: Runtime.ExecutionContextDestroyedEvent) => void,
 		): IDisposable;
 
 		/**
@@ -25694,7 +25698,7 @@ export namespace Cdp {
 		 */
 		on(
 			event: "executionContextsCleared",
-			listener: (event: Runtime.ExecutionContextsClearedEvent) => void
+			listener: (event: Runtime.ExecutionContextsClearedEvent) => void,
 		): IDisposable;
 
 		/**
@@ -25703,7 +25707,7 @@ export namespace Cdp {
 		 */
 		on(
 			event: "inspectRequested",
-			listener: (event: Runtime.InspectRequestedEvent) => void
+			listener: (event: Runtime.InspectRequestedEvent) => void,
 		): IDisposable;
 	}
 
@@ -25888,32 +25892,32 @@ export namespace Cdp {
 		/**
 		 * Parameters of the 'Runtime.disable' method.
 		 */
-		export interface DisableParams {}
+		export type DisableParams = {};
 
 		/**
 		 * Return value of the 'Runtime.disable' method.
 		 */
-		export interface DisableResult {}
+		export type DisableResult = {};
 
 		/**
 		 * Parameters of the 'Runtime.discardConsoleEntries' method.
 		 */
-		export interface DiscardConsoleEntriesParams {}
+		export type DiscardConsoleEntriesParams = {};
 
 		/**
 		 * Return value of the 'Runtime.discardConsoleEntries' method.
 		 */
-		export interface DiscardConsoleEntriesResult {}
+		export type DiscardConsoleEntriesResult = {};
 
 		/**
 		 * Parameters of the 'Runtime.enable' method.
 		 */
-		export interface EnableParams {}
+		export type EnableParams = {};
 
 		/**
 		 * Return value of the 'Runtime.enable' method.
 		 */
-		export interface EnableResult {}
+		export type EnableResult = {};
 
 		/**
 		 * Parameters of the 'Runtime.evaluate' method.
@@ -26036,7 +26040,7 @@ export namespace Cdp {
 		/**
 		 * Parameters of the 'Runtime.getIsolateId' method.
 		 */
-		export interface GetIsolateIdParams {}
+		export type GetIsolateIdParams = {};
 
 		/**
 		 * Return value of the 'Runtime.getIsolateId' method.
@@ -26051,7 +26055,7 @@ export namespace Cdp {
 		/**
 		 * Parameters of the 'Runtime.getHeapUsage' method.
 		 */
-		export interface GetHeapUsageParams {}
+		export type GetHeapUsageParams = {};
 
 		/**
 		 * Return value of the 'Runtime.getHeapUsage' method.
@@ -26180,7 +26184,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Runtime.releaseObject' method.
 		 */
-		export interface ReleaseObjectResult {}
+		export type ReleaseObjectResult = {};
 
 		/**
 		 * Parameters of the 'Runtime.releaseObjectGroup' method.
@@ -26195,17 +26199,17 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Runtime.releaseObjectGroup' method.
 		 */
-		export interface ReleaseObjectGroupResult {}
+		export type ReleaseObjectGroupResult = {};
 
 		/**
 		 * Parameters of the 'Runtime.runIfWaitingForDebugger' method.
 		 */
-		export interface RunIfWaitingForDebuggerParams {}
+		export type RunIfWaitingForDebuggerParams = {};
 
 		/**
 		 * Return value of the 'Runtime.runIfWaitingForDebugger' method.
 		 */
-		export interface RunIfWaitingForDebuggerResult {}
+		export type RunIfWaitingForDebuggerResult = {};
 
 		/**
 		 * Parameters of the 'Runtime.runScript' method.
@@ -26284,7 +26288,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Runtime.setAsyncCallStackDepth' method.
 		 */
-		export interface SetAsyncCallStackDepthResult {}
+		export type SetAsyncCallStackDepthResult = {};
 
 		/**
 		 * Parameters of the 'Runtime.setCustomObjectFormatterEnabled' method.
@@ -26296,7 +26300,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Runtime.setCustomObjectFormatterEnabled' method.
 		 */
-		export interface SetCustomObjectFormatterEnabledResult {}
+		export type SetCustomObjectFormatterEnabledResult = {};
 
 		/**
 		 * Parameters of the 'Runtime.setMaxCallStackSizeToCapture' method.
@@ -26308,17 +26312,17 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Runtime.setMaxCallStackSizeToCapture' method.
 		 */
-		export interface SetMaxCallStackSizeToCaptureResult {}
+		export type SetMaxCallStackSizeToCaptureResult = {};
 
 		/**
 		 * Parameters of the 'Runtime.terminateExecution' method.
 		 */
-		export interface TerminateExecutionParams {}
+		export type TerminateExecutionParams = {};
 
 		/**
 		 * Return value of the 'Runtime.terminateExecution' method.
 		 */
-		export interface TerminateExecutionResult {}
+		export type TerminateExecutionResult = {};
 
 		/**
 		 * Parameters of the 'Runtime.addBinding' method.
@@ -26351,7 +26355,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Runtime.addBinding' method.
 		 */
-		export interface AddBindingResult {}
+		export type AddBindingResult = {};
 
 		/**
 		 * Parameters of the 'Runtime.removeBinding' method.
@@ -26363,7 +26367,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Runtime.removeBinding' method.
 		 */
-		export interface RemoveBindingResult {}
+		export type RemoveBindingResult = {};
 
 		/**
 		 * Parameters of the 'Runtime.getExceptionDetails' method.
@@ -26509,7 +26513,7 @@ export namespace Cdp {
 		/**
 		 * Parameters of the 'Runtime.executionContextsCleared' event.
 		 */
-		export interface ExecutionContextsClearedEvent {}
+		export type ExecutionContextsClearedEvent = {};
 
 		/**
 		 * Parameters of the 'Runtime.inspectRequested' event.
@@ -27136,7 +27140,7 @@ export namespace Cdp {
 		 * Returns supported domains.
 		 */
 		getDomains(
-			params: Schema.GetDomainsParams
+			params: Schema.GetDomainsParams,
 		): Promise<Schema.GetDomainsResult | undefined>;
 	}
 
@@ -27147,7 +27151,7 @@ export namespace Cdp {
 		/**
 		 * Parameters of the 'Schema.getDomains' method.
 		 */
-		export interface GetDomainsParams {}
+		export type GetDomainsParams = {};
 
 		/**
 		 * Return value of the 'Schema.getDomains' method.
@@ -27183,21 +27187,21 @@ export namespace Cdp {
 		 * Disables tracking security state changes.
 		 */
 		disable(
-			params: Security.DisableParams
+			params: Security.DisableParams,
 		): Promise<Security.DisableResult | undefined>;
 
 		/**
 		 * Enables tracking security state changes.
 		 */
 		enable(
-			params: Security.EnableParams
+			params: Security.EnableParams,
 		): Promise<Security.EnableResult | undefined>;
 
 		/**
 		 * Enable/disable whether all certificate errors should be ignored.
 		 */
 		setIgnoreCertificateErrors(
-			params: Security.SetIgnoreCertificateErrorsParams
+			params: Security.SetIgnoreCertificateErrorsParams,
 		): Promise<Security.SetIgnoreCertificateErrorsResult | undefined>;
 
 		/**
@@ -27205,7 +27209,7 @@ export namespace Cdp {
 		 * @deprecated
 		 */
 		handleCertificateError(
-			params: Security.HandleCertificateErrorParams
+			params: Security.HandleCertificateErrorParams,
 		): Promise<Security.HandleCertificateErrorResult | undefined>;
 
 		/**
@@ -27214,7 +27218,7 @@ export namespace Cdp {
 		 * @deprecated
 		 */
 		setOverrideCertificateErrors(
-			params: Security.SetOverrideCertificateErrorsParams
+			params: Security.SetOverrideCertificateErrorsParams,
 		): Promise<Security.SetOverrideCertificateErrorsResult | undefined>;
 
 		/**
@@ -27226,7 +27230,7 @@ export namespace Cdp {
 		 */
 		on(
 			event: "certificateError",
-			listener: (event: Security.CertificateErrorEvent) => void
+			listener: (event: Security.CertificateErrorEvent) => void,
 		): IDisposable;
 
 		/**
@@ -27234,7 +27238,9 @@ export namespace Cdp {
 		 */
 		on(
 			event: "visibleSecurityStateChanged",
-			listener: (event: Security.VisibleSecurityStateChangedEvent) => void
+			listener: (
+				event: Security.VisibleSecurityStateChangedEvent,
+			) => void,
 		): IDisposable;
 
 		/**
@@ -27243,7 +27249,7 @@ export namespace Cdp {
 		 */
 		on(
 			event: "securityStateChanged",
-			listener: (event: Security.SecurityStateChangedEvent) => void
+			listener: (event: Security.SecurityStateChangedEvent) => void,
 		): IDisposable;
 	}
 
@@ -27254,22 +27260,22 @@ export namespace Cdp {
 		/**
 		 * Parameters of the 'Security.disable' method.
 		 */
-		export interface DisableParams {}
+		export type DisableParams = {};
 
 		/**
 		 * Return value of the 'Security.disable' method.
 		 */
-		export interface DisableResult {}
+		export type DisableResult = {};
 
 		/**
 		 * Parameters of the 'Security.enable' method.
 		 */
-		export interface EnableParams {}
+		export type EnableParams = {};
 
 		/**
 		 * Return value of the 'Security.enable' method.
 		 */
-		export interface EnableResult {}
+		export type EnableResult = {};
 
 		/**
 		 * Parameters of the 'Security.setIgnoreCertificateErrors' method.
@@ -27284,7 +27290,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Security.setIgnoreCertificateErrors' method.
 		 */
-		export interface SetIgnoreCertificateErrorsResult {}
+		export type SetIgnoreCertificateErrorsResult = {};
 
 		/**
 		 * Parameters of the 'Security.handleCertificateError' method.
@@ -27304,7 +27310,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Security.handleCertificateError' method.
 		 */
-		export interface HandleCertificateErrorResult {}
+		export type HandleCertificateErrorResult = {};
 
 		/**
 		 * Parameters of the 'Security.setOverrideCertificateErrors' method.
@@ -27319,7 +27325,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Security.setOverrideCertificateErrors' method.
 		 */
-		export interface SetOverrideCertificateErrorsResult {}
+		export type SetOverrideCertificateErrorsResult = {};
 
 		/**
 		 * Parameters of the 'Security.certificateError' event.
@@ -27638,72 +27644,72 @@ export namespace Cdp {
 	 */
 	export interface ServiceWorkerApi {
 		deliverPushMessage(
-			params: ServiceWorker.DeliverPushMessageParams
+			params: ServiceWorker.DeliverPushMessageParams,
 		): Promise<ServiceWorker.DeliverPushMessageResult | undefined>;
 
 		disable(
-			params: ServiceWorker.DisableParams
+			params: ServiceWorker.DisableParams,
 		): Promise<ServiceWorker.DisableResult | undefined>;
 
 		dispatchSyncEvent(
-			params: ServiceWorker.DispatchSyncEventParams
+			params: ServiceWorker.DispatchSyncEventParams,
 		): Promise<ServiceWorker.DispatchSyncEventResult | undefined>;
 
 		dispatchPeriodicSyncEvent(
-			params: ServiceWorker.DispatchPeriodicSyncEventParams
+			params: ServiceWorker.DispatchPeriodicSyncEventParams,
 		): Promise<ServiceWorker.DispatchPeriodicSyncEventResult | undefined>;
 
 		enable(
-			params: ServiceWorker.EnableParams
+			params: ServiceWorker.EnableParams,
 		): Promise<ServiceWorker.EnableResult | undefined>;
 
 		inspectWorker(
-			params: ServiceWorker.InspectWorkerParams
+			params: ServiceWorker.InspectWorkerParams,
 		): Promise<ServiceWorker.InspectWorkerResult | undefined>;
 
 		setForceUpdateOnPageLoad(
-			params: ServiceWorker.SetForceUpdateOnPageLoadParams
+			params: ServiceWorker.SetForceUpdateOnPageLoadParams,
 		): Promise<ServiceWorker.SetForceUpdateOnPageLoadResult | undefined>;
 
 		skipWaiting(
-			params: ServiceWorker.SkipWaitingParams
+			params: ServiceWorker.SkipWaitingParams,
 		): Promise<ServiceWorker.SkipWaitingResult | undefined>;
 
 		startWorker(
-			params: ServiceWorker.StartWorkerParams
+			params: ServiceWorker.StartWorkerParams,
 		): Promise<ServiceWorker.StartWorkerResult | undefined>;
 
 		stopAllWorkers(
-			params: ServiceWorker.StopAllWorkersParams
+			params: ServiceWorker.StopAllWorkersParams,
 		): Promise<ServiceWorker.StopAllWorkersResult | undefined>;
 
 		stopWorker(
-			params: ServiceWorker.StopWorkerParams
+			params: ServiceWorker.StopWorkerParams,
 		): Promise<ServiceWorker.StopWorkerResult | undefined>;
 
 		unregister(
-			params: ServiceWorker.UnregisterParams
+			params: ServiceWorker.UnregisterParams,
 		): Promise<ServiceWorker.UnregisterResult | undefined>;
 
 		updateRegistration(
-			params: ServiceWorker.UpdateRegistrationParams
+			params: ServiceWorker.UpdateRegistrationParams,
 		): Promise<ServiceWorker.UpdateRegistrationResult | undefined>;
 
 		on(
 			event: "workerErrorReported",
-			listener: (event: ServiceWorker.WorkerErrorReportedEvent) => void
+			listener: (event: ServiceWorker.WorkerErrorReportedEvent) => void,
 		): IDisposable;
 
 		on(
 			event: "workerRegistrationUpdated",
 			listener: (
-				event: ServiceWorker.WorkerRegistrationUpdatedEvent
-			) => void
+				event: ServiceWorker.WorkerRegistrationUpdatedEvent,
+			) => void,
 		): IDisposable;
 
 		on(
 			event: "workerVersionUpdated",
-			listener: (event: ServiceWorker.WorkerVersionUpdatedEvent) => void
+			listener: (event: ServiceWorker.WorkerVersionUpdatedEvent) => void,
 		): IDisposable;
 	}
 
@@ -27725,17 +27731,17 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'ServiceWorker.deliverPushMessage' method.
 		 */
-		export interface DeliverPushMessageResult {}
+		export type DeliverPushMessageResult = {};
 
 		/**
 		 * Parameters of the 'ServiceWorker.disable' method.
 		 */
-		export interface DisableParams {}
+		export type DisableParams = {};
 
 		/**
 		 * Return value of the 'ServiceWorker.disable' method.
 		 */
-		export interface DisableResult {}
+		export type DisableResult = {};
 
 		/**
 		 * Parameters of the 'ServiceWorker.dispatchSyncEvent' method.
@@ -27753,7 +27759,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'ServiceWorker.dispatchSyncEvent' method.
 		 */
-		export interface DispatchSyncEventResult {}
+		export type DispatchSyncEventResult = {};
 
 		/**
 		 * Parameters of the 'ServiceWorker.dispatchPeriodicSyncEvent' method.
@@ -27769,17 +27775,17 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'ServiceWorker.dispatchPeriodicSyncEvent' method.
 		 */
-		export interface DispatchPeriodicSyncEventResult {}
+		export type DispatchPeriodicSyncEventResult = {};
 
 		/**
 		 * Parameters of the 'ServiceWorker.enable' method.
 		 */
-		export interface EnableParams {}
+		export type EnableParams = {};
 
 		/**
 		 * Return value of the 'ServiceWorker.enable' method.
 		 */
-		export interface EnableResult {}
+		export type EnableResult = {};
 
 		/**
 		 * Parameters of the 'ServiceWorker.inspectWorker' method.
@@ -27791,7 +27797,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'ServiceWorker.inspectWorker' method.
 		 */
-		export interface InspectWorkerResult {}
+		export type InspectWorkerResult = {};
 
 		/**
 		 * Parameters of the 'ServiceWorker.setForceUpdateOnPageLoad' method.
@@ -27803,7 +27809,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'ServiceWorker.setForceUpdateOnPageLoad' method.
 		 */
-		export interface SetForceUpdateOnPageLoadResult {}
+		export type SetForceUpdateOnPageLoadResult = {};
 
 		/**
 		 * Parameters of the 'ServiceWorker.skipWaiting' method.
@@ -27815,7 +27821,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'ServiceWorker.skipWaiting' method.
 		 */
-		export interface SkipWaitingResult {}
+		export type SkipWaitingResult = {};
 
 		/**
 		 * Parameters of the 'ServiceWorker.startWorker' method.
@@ -27827,17 +27833,17 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'ServiceWorker.startWorker' method.
 		 */
-		export interface StartWorkerResult {}
+		export type StartWorkerResult = {};
 
 		/**
 		 * Parameters of the 'ServiceWorker.stopAllWorkers' method.
 		 */
-		export interface StopAllWorkersParams {}
+		export type StopAllWorkersParams = {};
 
 		/**
 		 * Return value of the 'ServiceWorker.stopAllWorkers' method.
 		 */
-		export interface StopAllWorkersResult {}
+		export type StopAllWorkersResult = {};
 
 		/**
 		 * Parameters of the 'ServiceWorker.stopWorker' method.
@@ -27849,7 +27855,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'ServiceWorker.stopWorker' method.
 		 */
-		export interface StopWorkerResult {}
+		export type StopWorkerResult = {};
 
 		/**
 		 * Parameters of the 'ServiceWorker.unregister' method.
@@ -27861,7 +27867,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'ServiceWorker.unregister' method.
 		 */
-		export interface UnregisterResult {}
+		export type UnregisterResult = {};
 
 		/**
 		 * Parameters of the 'ServiceWorker.updateRegistration' method.
@@ -27873,7 +27879,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'ServiceWorker.updateRegistration' method.
 		 */
-		export interface UpdateRegistrationResult {}
+		export type UpdateRegistrationResult = {};
 
 		/**
 		 * Parameters of the 'ServiceWorker.workerErrorReported' event.
@@ -27981,112 +27987,112 @@ export namespace Cdp {
 		 * Returns a storage key given a frame id.
 		 */
 		getStorageKeyForFrame(
-			params: Storage.GetStorageKeyForFrameParams
+			params: Storage.GetStorageKeyForFrameParams,
 		): Promise<Storage.GetStorageKeyForFrameResult | undefined>;
 
 		/**
 		 * Clears storage for origin.
 		 */
 		clearDataForOrigin(
-			params: Storage.ClearDataForOriginParams
+			params: Storage.ClearDataForOriginParams,
 		): Promise<Storage.ClearDataForOriginResult | undefined>;
 
 		/**
 		 * Clears storage for storage key.
 		 */
 		clearDataForStorageKey(
-			params: Storage.ClearDataForStorageKeyParams
+			params: Storage.ClearDataForStorageKeyParams,
 		): Promise<Storage.ClearDataForStorageKeyResult | undefined>;
 
 		/**
 		 * Returns all browser cookies.
 		 */
 		getCookies(
-			params: Storage.GetCookiesParams
+			params: Storage.GetCookiesParams,
 		): Promise<Storage.GetCookiesResult | undefined>;
 
 		/**
 		 * Sets given cookies.
 		 */
 		setCookies(
-			params: Storage.SetCookiesParams
+			params: Storage.SetCookiesParams,
 		): Promise<Storage.SetCookiesResult | undefined>;
 
 		/**
 		 * Clears cookies.
 		 */
 		clearCookies(
-			params: Storage.ClearCookiesParams
+			params: Storage.ClearCookiesParams,
 		): Promise<Storage.ClearCookiesResult | undefined>;
 
 		/**
 		 * Returns usage and quota in bytes.
 		 */
 		getUsageAndQuota(
-			params: Storage.GetUsageAndQuotaParams
+			params: Storage.GetUsageAndQuotaParams,
 		): Promise<Storage.GetUsageAndQuotaResult | undefined>;
 
 		/**
 		 * Override quota for the specified origin
 		 */
 		overrideQuotaForOrigin(
-			params: Storage.OverrideQuotaForOriginParams
+			params: Storage.OverrideQuotaForOriginParams,
 		): Promise<Storage.OverrideQuotaForOriginResult | undefined>;
 
 		/**
 		 * Registers origin to be notified when an update occurs to its cache storage list.
 		 */
 		trackCacheStorageForOrigin(
-			params: Storage.TrackCacheStorageForOriginParams
+			params: Storage.TrackCacheStorageForOriginParams,
 		): Promise<Storage.TrackCacheStorageForOriginResult | undefined>;
 
 		/**
 		 * Registers storage key to be notified when an update occurs to its cache storage list.
 		 */
 		trackCacheStorageForStorageKey(
-			params: Storage.TrackCacheStorageForStorageKeyParams
+			params: Storage.TrackCacheStorageForStorageKeyParams,
 		): Promise<Storage.TrackCacheStorageForStorageKeyResult | undefined>;
 
 		/**
 		 * Registers origin to be notified when an update occurs to its IndexedDB.
 		 */
 		trackIndexedDBForOrigin(
-			params: Storage.TrackIndexedDBForOriginParams
+			params: Storage.TrackIndexedDBForOriginParams,
 		): Promise<Storage.TrackIndexedDBForOriginResult | undefined>;
 
 		/**
 		 * Registers storage key to be notified when an update occurs to its IndexedDB.
 		 */
 		trackIndexedDBForStorageKey(
-			params: Storage.TrackIndexedDBForStorageKeyParams
+			params: Storage.TrackIndexedDBForStorageKeyParams,
 		): Promise<Storage.TrackIndexedDBForStorageKeyResult | undefined>;
 
 		/**
 		 * Unregisters origin from receiving notifications for cache storage.
 		 */
 		untrackCacheStorageForOrigin(
-			params: Storage.UntrackCacheStorageForOriginParams
+			params: Storage.UntrackCacheStorageForOriginParams,
 		): Promise<Storage.UntrackCacheStorageForOriginResult | undefined>;
 
 		/**
 		 * Unregisters storage key from receiving notifications for cache storage.
 		 */
 		untrackCacheStorageForStorageKey(
-			params: Storage.UntrackCacheStorageForStorageKeyParams
+			params: Storage.UntrackCacheStorageForStorageKeyParams,
 		): Promise<Storage.UntrackCacheStorageForStorageKeyResult | undefined>;
 
 		/**
 		 * Unregisters origin from receiving notifications for IndexedDB.
 		 */
 		untrackIndexedDBForOrigin(
-			params: Storage.UntrackIndexedDBForOriginParams
+			params: Storage.UntrackIndexedDBForOriginParams,
 		): Promise<Storage.UntrackIndexedDBForOriginResult | undefined>;
 
 		/**
 		 * Unregisters storage key from receiving notifications for IndexedDB.
 		 */
 		untrackIndexedDBForStorageKey(
-			params: Storage.UntrackIndexedDBForStorageKeyParams
+			params: Storage.UntrackIndexedDBForStorageKeyParams,
 		): Promise<Storage.UntrackIndexedDBForStorageKeyResult | undefined>;
 
 		/**
@@ -28094,7 +28100,7 @@ export namespace Cdp {
 		 * current browsing context.
 		 */
 		getTrustTokens(
-			params: Storage.GetTrustTokensParams
+			params: Storage.GetTrustTokensParams,
 		): Promise<Storage.GetTrustTokensResult | undefined>;
 
 		/**
@@ -28102,98 +28108,98 @@ export namespace Cdp {
 		 * Leaves other stored data, including the issuer's Redemption Records, intact.
 		 */
 		clearTrustTokens(
-			params: Storage.ClearTrustTokensParams
+			params: Storage.ClearTrustTokensParams,
 		): Promise<Storage.ClearTrustTokensResult | undefined>;
 
 		/**
 		 * Gets details for a named interest group.
 		 */
 		getInterestGroupDetails(
-			params: Storage.GetInterestGroupDetailsParams
+			params: Storage.GetInterestGroupDetailsParams,
 		): Promise<Storage.GetInterestGroupDetailsResult | undefined>;
 
 		/**
 		 * Enables/Disables issuing of interestGroupAccessed events.
 		 */
 		setInterestGroupTracking(
-			params: Storage.SetInterestGroupTrackingParams
+			params: Storage.SetInterestGroupTrackingParams,
 		): Promise<Storage.SetInterestGroupTrackingResult | undefined>;
 
 		/**
 		 * Gets metadata for an origin's shared storage.
 		 */
 		getSharedStorageMetadata(
-			params: Storage.GetSharedStorageMetadataParams
+			params: Storage.GetSharedStorageMetadataParams,
 		): Promise<Storage.GetSharedStorageMetadataResult | undefined>;
 
 		/**
 		 * Gets the entries in an given origin's shared storage.
 		 */
 		getSharedStorageEntries(
-			params: Storage.GetSharedStorageEntriesParams
+			params: Storage.GetSharedStorageEntriesParams,
 		): Promise<Storage.GetSharedStorageEntriesResult | undefined>;
 
 		/**
 		 * Sets entry with `key` and `value` for a given origin's shared storage.
 		 */
 		setSharedStorageEntry(
-			params: Storage.SetSharedStorageEntryParams
+			params: Storage.SetSharedStorageEntryParams,
 		): Promise<Storage.SetSharedStorageEntryResult | undefined>;
 
 		/**
 		 * Deletes entry for `key` (if it exists) for a given origin's shared storage.
 		 */
 		deleteSharedStorageEntry(
-			params: Storage.DeleteSharedStorageEntryParams
+			params: Storage.DeleteSharedStorageEntryParams,
 		): Promise<Storage.DeleteSharedStorageEntryResult | undefined>;
 
 		/**
 		 * Clears all entries for a given origin's shared storage.
 		 */
 		clearSharedStorageEntries(
-			params: Storage.ClearSharedStorageEntriesParams
+			params: Storage.ClearSharedStorageEntriesParams,
 		): Promise<Storage.ClearSharedStorageEntriesResult | undefined>;
 
 		/**
 		 * Resets the budget for `ownerOrigin` by clearing all budget withdrawals.
 		 */
 		resetSharedStorageBudget(
-			params: Storage.ResetSharedStorageBudgetParams
+			params: Storage.ResetSharedStorageBudgetParams,
 		): Promise<Storage.ResetSharedStorageBudgetResult | undefined>;
 
 		/**
 		 * Enables/disables issuing of sharedStorageAccessed events.
 		 */
 		setSharedStorageTracking(
-			params: Storage.SetSharedStorageTrackingParams
+			params: Storage.SetSharedStorageTrackingParams,
 		): Promise<Storage.SetSharedStorageTrackingResult | undefined>;
 
 		/**
 		 * Set tracking for a storage key's buckets.
 		 */
 		setStorageBucketTracking(
-			params: Storage.SetStorageBucketTrackingParams
+			params: Storage.SetStorageBucketTrackingParams,
 		): Promise<Storage.SetStorageBucketTrackingResult | undefined>;
 
 		/**
 		 * Deletes the Storage Bucket with the given storage key and bucket name.
 		 */
 		deleteStorageBucket(
-			params: Storage.DeleteStorageBucketParams
+			params: Storage.DeleteStorageBucketParams,
 		): Promise<Storage.DeleteStorageBucketResult | undefined>;
 
 		/**
 		 * Deletes state for sites identified as potential bounce trackers, immediately.
 		 */
 		runBounceTrackingMitigations(
-			params: Storage.RunBounceTrackingMitigationsParams
+			params: Storage.RunBounceTrackingMitigationsParams,
 		): Promise<Storage.RunBounceTrackingMitigationsResult | undefined>;
 
 		/**
 		 * https://wicg.github.io/attribution-reporting-api/
 		 */
 		setAttributionReportingLocalTestingMode(
-			params: Storage.SetAttributionReportingLocalTestingModeParams
+			params: Storage.SetAttributionReportingLocalTestingModeParams,
 		): Promise<
 			Storage.SetAttributionReportingLocalTestingModeResult | undefined
 		>;
@@ -28202,7 +28208,7 @@ export namespace Cdp {
 		 * Enables/disables issuing of Attribution Reporting events.
 		 */
 		setAttributionReportingTracking(
-			params: Storage.SetAttributionReportingTrackingParams
+			params: Storage.SetAttributionReportingTrackingParams,
 		): Promise<Storage.SetAttributionReportingTrackingResult | undefined>;
 
 		/**
@@ -28210,7 +28216,7 @@ export namespace Cdp {
 		 */
 		on(
 			event: "cacheStorageContentUpdated",
-			listener: (event: Storage.CacheStorageContentUpdatedEvent) => void
+			listener: (event: Storage.CacheStorageContentUpdatedEvent) => void,
 		): IDisposable;
 
 		/**
@@ -28218,7 +28224,7 @@ export namespace Cdp {
 		 */
 		on(
 			event: "cacheStorageListUpdated",
-			listener: (event: Storage.CacheStorageListUpdatedEvent) => void
+			listener: (event: Storage.CacheStorageListUpdatedEvent) => void,
 		): IDisposable;
 
 		/**
@@ -28226,7 +28232,7 @@ export namespace Cdp {
 		 */
 		on(
 			event: "indexedDBContentUpdated",
-			listener: (event: Storage.IndexedDBContentUpdatedEvent) => void
+			listener: (event: Storage.IndexedDBContentUpdatedEvent) => void,
 		): IDisposable;
 
 		/**
@@ -28234,7 +28240,7 @@ export namespace Cdp {
 		 */
 		on(
 			event: "indexedDBListUpdated",
-			listener: (event: Storage.IndexedDBListUpdatedEvent) => void
+			listener: (event: Storage.IndexedDBListUpdatedEvent) => void,
 		): IDisposable;
 
 		/**
@@ -28242,7 +28248,7 @@ export namespace Cdp {
 		 */
 		on(
 			event: "interestGroupAccessed",
-			listener: (event: Storage.InterestGroupAccessedEvent) => void
+			listener: (event: Storage.InterestGroupAccessedEvent) => void,
 		): IDisposable;
 
 		/**
@@ -28251,19 +28257,19 @@ export namespace Cdp {
 		 */
 		on(
 			event: "sharedStorageAccessed",
-			listener: (event: Storage.SharedStorageAccessedEvent) => void
+			listener: (event: Storage.SharedStorageAccessedEvent) => void,
 		): IDisposable;
 
 		on(
 			event: "storageBucketCreatedOrUpdated",
 			listener: (
-				event: Storage.StorageBucketCreatedOrUpdatedEvent
-			) => void
+				event: Storage.StorageBucketCreatedOrUpdatedEvent,
+			) => void,
 		): IDisposable;
 
 		on(
 			event: "storageBucketDeleted",
-			listener: (event: Storage.StorageBucketDeletedEvent) => void
+			listener: (event: Storage.StorageBucketDeletedEvent) => void,
 		): IDisposable;
 
 		/**
@@ -28273,8 +28279,8 @@ export namespace Cdp {
 		on(
 			event: "attributionReportingSourceRegistered",
 			listener: (
-				event: Storage.AttributionReportingSourceRegisteredEvent
-			) => void
+				event: Storage.AttributionReportingSourceRegisteredEvent,
+			) => void,
 		): IDisposable;
 	}
 
@@ -28314,7 +28320,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Storage.clearDataForOrigin' method.
 		 */
-		export interface ClearDataForOriginResult {}
+		export type ClearDataForOriginResult = {};
 
 		/**
 		 * Parameters of the 'Storage.clearDataForStorageKey' method.
@@ -28334,7 +28340,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Storage.clearDataForStorageKey' method.
 		 */
-		export interface ClearDataForStorageKeyResult {}
+		export type ClearDataForStorageKeyResult = {};
 
 		/**
 		 * Parameters of the 'Storage.getCookies' method.
@@ -28374,7 +28380,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Storage.setCookies' method.
 		 */
-		export interface SetCookiesResult {}
+		export type SetCookiesResult = {};
 
 		/**
 		 * Parameters of the 'Storage.clearCookies' method.
@@ -28389,7 +28395,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Storage.clearCookies' method.
 		 */
-		export interface ClearCookiesResult {}
+		export type ClearCookiesResult = {};
 
 		/**
 		 * Parameters of the 'Storage.getUsageAndQuota' method.
@@ -28450,7 +28456,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Storage.overrideQuotaForOrigin' method.
 		 */
-		export interface OverrideQuotaForOriginResult {}
+		export type OverrideQuotaForOriginResult = {};
 
 		/**
 		 * Parameters of the 'Storage.trackCacheStorageForOrigin' method.
@@ -28465,7 +28471,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Storage.trackCacheStorageForOrigin' method.
 		 */
-		export interface TrackCacheStorageForOriginResult {}
+		export type TrackCacheStorageForOriginResult = {};
 
 		/**
 		 * Parameters of the 'Storage.trackCacheStorageForStorageKey' method.
@@ -28480,7 +28486,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Storage.trackCacheStorageForStorageKey' method.
 		 */
-		export interface TrackCacheStorageForStorageKeyResult {}
+		export type TrackCacheStorageForStorageKeyResult = {};
 
 		/**
 		 * Parameters of the 'Storage.trackIndexedDBForOrigin' method.
@@ -28495,7 +28501,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Storage.trackIndexedDBForOrigin' method.
 		 */
-		export interface TrackIndexedDBForOriginResult {}
+		export type TrackIndexedDBForOriginResult = {};
 
 		/**
 		 * Parameters of the 'Storage.trackIndexedDBForStorageKey' method.
@@ -28510,7 +28516,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Storage.trackIndexedDBForStorageKey' method.
 		 */
-		export interface TrackIndexedDBForStorageKeyResult {}
+		export type TrackIndexedDBForStorageKeyResult = {};
 
 		/**
 		 * Parameters of the 'Storage.untrackCacheStorageForOrigin' method.
@@ -28525,7 +28531,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Storage.untrackCacheStorageForOrigin' method.
 		 */
-		export interface UntrackCacheStorageForOriginResult {}
+		export type UntrackCacheStorageForOriginResult = {};
 
 		/**
 		 * Parameters of the 'Storage.untrackCacheStorageForStorageKey' method.
@@ -28540,7 +28546,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Storage.untrackCacheStorageForStorageKey' method.
 		 */
-		export interface UntrackCacheStorageForStorageKeyResult {}
+		export type UntrackCacheStorageForStorageKeyResult = {};
 
 		/**
 		 * Parameters of the 'Storage.untrackIndexedDBForOrigin' method.
@@ -28555,7 +28561,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Storage.untrackIndexedDBForOrigin' method.
 		 */
-		export interface UntrackIndexedDBForOriginResult {}
+		export type UntrackIndexedDBForOriginResult = {};
 
 		/**
 		 * Parameters of the 'Storage.untrackIndexedDBForStorageKey' method.
@@ -28570,12 +28576,12 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Storage.untrackIndexedDBForStorageKey' method.
 		 */
-		export interface UntrackIndexedDBForStorageKeyResult {}
+		export type UntrackIndexedDBForStorageKeyResult = {};
 
 		/**
 		 * Parameters of the 'Storage.getTrustTokens' method.
 		 */
-		export interface GetTrustTokensParams {}
+		export type GetTrustTokensParams = {};
 
 		/**
 		 * Return value of the 'Storage.getTrustTokens' method.
@@ -28627,7 +28633,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Storage.setInterestGroupTracking' method.
 		 */
-		export interface SetInterestGroupTrackingResult {}
+		export type SetInterestGroupTrackingResult = {};
 
 		/**
 		 * Parameters of the 'Storage.getSharedStorageMetadata' method.
@@ -28677,7 +28683,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Storage.setSharedStorageEntry' method.
 		 */
-		export interface SetSharedStorageEntryResult {}
+		export type SetSharedStorageEntryResult = {};
 
 		/**
 		 * Parameters of the 'Storage.deleteSharedStorageEntry' method.
@@ -28691,7 +28697,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Storage.deleteSharedStorageEntry' method.
 		 */
-		export interface DeleteSharedStorageEntryResult {}
+		export type DeleteSharedStorageEntryResult = {};
 
 		/**
 		 * Parameters of the 'Storage.clearSharedStorageEntries' method.
@@ -28703,7 +28709,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Storage.clearSharedStorageEntries' method.
 		 */
-		export interface ClearSharedStorageEntriesResult {}
+		export type ClearSharedStorageEntriesResult = {};
 
 		/**
 		 * Parameters of the 'Storage.resetSharedStorageBudget' method.
@@ -28715,7 +28721,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Storage.resetSharedStorageBudget' method.
 		 */
-		export interface ResetSharedStorageBudgetResult {}
+		export type ResetSharedStorageBudgetResult = {};
 
 		/**
 		 * Parameters of the 'Storage.setSharedStorageTracking' method.
@@ -28727,7 +28733,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Storage.setSharedStorageTracking' method.
 		 */
-		export interface SetSharedStorageTrackingResult {}
+		export type SetSharedStorageTrackingResult = {};
 
 		/**
 		 * Parameters of the 'Storage.setStorageBucketTracking' method.
@@ -28741,7 +28747,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Storage.setStorageBucketTracking' method.
 		 */
-		export interface SetStorageBucketTrackingResult {}
+		export type SetStorageBucketTrackingResult = {};
 
 		/**
 		 * Parameters of the 'Storage.deleteStorageBucket' method.
@@ -28753,12 +28759,12 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Storage.deleteStorageBucket' method.
 		 */
-		export interface DeleteStorageBucketResult {}
+		export type DeleteStorageBucketResult = {};
 
 		/**
 		 * Parameters of the 'Storage.runBounceTrackingMitigations' method.
 		 */
-		export interface RunBounceTrackingMitigationsParams {}
+		export type RunBounceTrackingMitigationsParams = {};
 
 		/**
 		 * Return value of the 'Storage.runBounceTrackingMitigations' method.
@@ -28780,7 +28786,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Storage.setAttributionReportingLocalTestingMode' method.
 		 */
-		export interface SetAttributionReportingLocalTestingModeResult {}
+		export type SetAttributionReportingLocalTestingModeResult = {};
 
 		/**
 		 * Parameters of the 'Storage.setAttributionReportingTracking' method.
@@ -28792,7 +28798,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Storage.setAttributionReportingTracking' method.
 		 */
-		export interface SetAttributionReportingTrackingResult {}
+		export type SetAttributionReportingTrackingResult = {};
 
 		/**
 		 * Parameters of the 'Storage.cacheStorageContentUpdated' event.
@@ -29312,21 +29318,21 @@ export namespace Cdp {
 		 * Returns information about the system.
 		 */
 		getInfo(
-			params: SystemInfo.GetInfoParams
+			params: SystemInfo.GetInfoParams,
 		): Promise<SystemInfo.GetInfoResult | undefined>;
 
 		/**
 		 * Returns information about the feature state.
 		 */
 		getFeatureState(
-			params: SystemInfo.GetFeatureStateParams
+			params: SystemInfo.GetFeatureStateParams,
 		): Promise<SystemInfo.GetFeatureStateResult | undefined>;
 
 		/**
 		 * Returns information about all running processes.
 		 */
 		getProcessInfo(
-			params: SystemInfo.GetProcessInfoParams
+			params: SystemInfo.GetProcessInfoParams,
 		): Promise<SystemInfo.GetProcessInfoResult | undefined>;
 	}
 
@@ -29337,7 +29343,7 @@ export namespace Cdp {
 		/**
 		 * Parameters of the 'SystemInfo.getInfo' method.
 		 */
-		export interface GetInfoParams {}
+		export type GetInfoParams = {};
 
 		/**
 		 * Return value of the 'SystemInfo.getInfo' method.
@@ -29384,7 +29390,7 @@ export namespace Cdp {
 		/**
 		 * Parameters of the 'SystemInfo.getProcessInfo' method.
 		 */
-		export interface GetProcessInfoParams {}
+		export type GetProcessInfoParams = {};
 
 		/**
 		 * Return value of the 'SystemInfo.getProcessInfo' method.
@@ -29608,28 +29614,28 @@ export namespace Cdp {
 		 * Activates (focuses) the target.
 		 */
 		activateTarget(
-			params: Target.ActivateTargetParams
+			params: Target.ActivateTargetParams,
 		): Promise<Target.ActivateTargetResult | undefined>;
 
 		/**
 		 * Attaches to the target with given id.
 		 */
 		attachToTarget(
-			params: Target.AttachToTargetParams
+			params: Target.AttachToTargetParams,
 		): Promise<Target.AttachToTargetResult | undefined>;
 
 		/**
 		 * Attaches to the browser target, only uses flat sessionId mode.
 		 */
 		attachToBrowserTarget(
-			params: Target.AttachToBrowserTargetParams
+			params: Target.AttachToBrowserTargetParams,
 		): Promise<Target.AttachToBrowserTargetResult | undefined>;
 
 		/**
 		 * Closes the target. If the target is a page that gets closed too.
 		 */
 		closeTarget(
-			params: Target.CloseTargetParams
+			params: Target.CloseTargetParams,
 		): Promise<Target.CloseTargetResult | undefined>;
 
 		/**
@@ -29643,7 +29649,7 @@ export namespace Cdp {
 		 * - `binding.onmessage = json => handleMessage(json)` - a callback that will be called for the protocol notifications and command responses.
 		 */
 		exposeDevToolsProtocol(
-			params: Target.ExposeDevToolsProtocolParams
+			params: Target.ExposeDevToolsProtocolParams,
 		): Promise<Target.ExposeDevToolsProtocolResult | undefined>;
 
 		/**
@@ -29651,28 +29657,28 @@ export namespace Cdp {
 		 * one.
 		 */
 		createBrowserContext(
-			params: Target.CreateBrowserContextParams
+			params: Target.CreateBrowserContextParams,
 		): Promise<Target.CreateBrowserContextResult | undefined>;
 
 		/**
 		 * Returns all browser contexts created with `Target.createBrowserContext` method.
 		 */
 		getBrowserContexts(
-			params: Target.GetBrowserContextsParams
+			params: Target.GetBrowserContextsParams,
 		): Promise<Target.GetBrowserContextsResult | undefined>;
 
 		/**
 		 * Creates a new page.
 		 */
 		createTarget(
-			params: Target.CreateTargetParams
+			params: Target.CreateTargetParams,
 		): Promise<Target.CreateTargetResult | undefined>;
 
 		/**
 		 * Detaches session with given id.
 		 */
 		detachFromTarget(
-			params: Target.DetachFromTargetParams
+			params: Target.DetachFromTargetParams,
 		): Promise<Target.DetachFromTargetResult | undefined>;
 
 		/**
@@ -29680,21 +29686,21 @@ export namespace Cdp {
 		 * beforeunload hooks.
 		 */
 		disposeBrowserContext(
-			params: Target.DisposeBrowserContextParams
+			params: Target.DisposeBrowserContextParams,
 		): Promise<Target.DisposeBrowserContextResult | undefined>;
 
 		/**
 		 * Returns information about a target.
 		 */
 		getTargetInfo(
-			params: Target.GetTargetInfoParams
+			params: Target.GetTargetInfoParams,
 		): Promise<Target.GetTargetInfoResult | undefined>;
 
 		/**
 		 * Retrieves a list of available targets.
 		 */
 		getTargets(
-			params: Target.GetTargetsParams
+			params: Target.GetTargetsParams,
 		): Promise<Target.GetTargetsResult | undefined>;
 
 		/**
@@ -29704,7 +29710,7 @@ export namespace Cdp {
 		 * @deprecated
 		 */
 		sendMessageToTarget(
-			params: Target.SendMessageToTargetParams
+			params: Target.SendMessageToTargetParams,
 		): Promise<Target.SendMessageToTargetResult | undefined>;
 
 		/**
@@ -29715,7 +29721,7 @@ export namespace Cdp {
 		 * for creation of related targets.
 		 */
 		setAutoAttach(
-			params: Target.SetAutoAttachParams
+			params: Target.SetAutoAttachParams,
 		): Promise<Target.SetAutoAttachResult | undefined>;
 
 		/**
@@ -29726,7 +29732,7 @@ export namespace Cdp {
 		 * `setAutoAttach`. Only available at the Browser target.
 		 */
 		autoAttachRelated(
-			params: Target.AutoAttachRelatedParams
+			params: Target.AutoAttachRelatedParams,
 		): Promise<Target.AutoAttachRelatedResult | undefined>;
 
 		/**
@@ -29734,7 +29740,7 @@ export namespace Cdp {
 		 * `targetCreated/targetInfoChanged/targetDestroyed` events.
 		 */
 		setDiscoverTargets(
-			params: Target.SetDiscoverTargetsParams
+			params: Target.SetDiscoverTargetsParams,
 		): Promise<Target.SetDiscoverTargetsResult | undefined>;
 
 		/**
@@ -29742,7 +29748,7 @@ export namespace Cdp {
 		 * `true`.
 		 */
 		setRemoteLocations(
-			params: Target.SetRemoteLocationsParams
+			params: Target.SetRemoteLocationsParams,
 		): Promise<Target.SetRemoteLocationsResult | undefined>;
 
 		/**
@@ -29750,7 +29756,7 @@ export namespace Cdp {
 		 */
 		on(
 			event: "attachedToTarget",
-			listener: (event: Target.AttachedToTargetEvent) => void
+			listener: (event: Target.AttachedToTargetEvent) => void,
 		): IDisposable;
 
 		/**
@@ -29759,7 +29765,7 @@ export namespace Cdp {
 		 */
 		on(
 			event: "detachedFromTarget",
-			listener: (event: Target.DetachedFromTargetEvent) => void
+			listener: (event: Target.DetachedFromTargetEvent) => void,
 		): IDisposable;
 
 		/**
@@ -29768,7 +29774,7 @@ export namespace Cdp {
 		 */
 		on(
 			event: "receivedMessageFromTarget",
-			listener: (event: Target.ReceivedMessageFromTargetEvent) => void
+			listener: (event: Target.ReceivedMessageFromTargetEvent) => void,
 		): IDisposable;
 
 		/**
@@ -29776,7 +29782,7 @@ export namespace Cdp {
 		 */
 		on(
 			event: "targetCreated",
-			listener: (event: Target.TargetCreatedEvent) => void
+			listener: (event: Target.TargetCreatedEvent) => void,
 		): IDisposable;
 
 		/**
@@ -29784,7 +29790,7 @@ export namespace Cdp {
 		 */
 		on(
 			event: "targetDestroyed",
-			listener: (event: Target.TargetDestroyedEvent) => void
+			listener: (event: Target.TargetDestroyedEvent) => void,
 		): IDisposable;
 
 		/**
@@ -29792,7 +29798,7 @@ export namespace Cdp {
 		 */
 		on(
 			event: "targetCrashed",
-			listener: (event: Target.TargetCrashedEvent) => void
+			listener: (event: Target.TargetCrashedEvent) => void,
 		): IDisposable;
 
 		/**
@@ -29801,7 +29807,7 @@ export namespace Cdp {
 		 */
 		on(
 			event: "targetInfoChanged",
-			listener: (event: Target.TargetInfoChangedEvent) => void
+			listener: (event: Target.TargetInfoChangedEvent) => void,
 		): IDisposable;
 	}
 
@@ -29819,7 +29825,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Target.activateTarget' method.
 		 */
-		export interface ActivateTargetResult {}
+		export type ActivateTargetResult = {};
 
 		/**
 		 * Parameters of the 'Target.attachToTarget' method.
@@ -29848,7 +29854,7 @@ export namespace Cdp {
 		/**
 		 * Parameters of the 'Target.attachToBrowserTarget' method.
 		 */
-		export interface AttachToBrowserTargetParams {}
+		export type AttachToBrowserTargetParams = {};
 
 		/**
 		 * Return value of the 'Target.attachToBrowserTarget' method.
@@ -29893,7 +29899,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Target.exposeDevToolsProtocol' method.
 		 */
-		export interface ExposeDevToolsProtocolResult {}
+		export type ExposeDevToolsProtocolResult = {};
 
 		/**
 		 * Parameters of the 'Target.createBrowserContext' method.
@@ -29934,7 +29940,7 @@ export namespace Cdp {
 		/**
 		 * Parameters of the 'Target.getBrowserContexts' method.
 		 */
-		export interface GetBrowserContextsParams {}
+		export type GetBrowserContextsParams = {};
 
 		/**
 		 * Return value of the 'Target.getBrowserContexts' method.
@@ -30022,7 +30028,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Target.detachFromTarget' method.
 		 */
-		export interface DetachFromTargetResult {}
+		export type DetachFromTargetResult = {};
 
 		/**
 		 * Parameters of the 'Target.disposeBrowserContext' method.
@@ -30034,7 +30040,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Target.disposeBrowserContext' method.
 		 */
-		export interface DisposeBrowserContextResult {}
+		export type DisposeBrowserContextResult = {};
 
 		/**
 		 * Parameters of the 'Target.getTargetInfo' method.
@@ -30093,7 +30099,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Target.sendMessageToTarget' method.
 		 */
-		export interface SendMessageToTargetResult {}
+		export type SendMessageToTargetResult = {};
 
 		/**
 		 * Parameters of the 'Target.setAutoAttach' method.
@@ -30126,7 +30132,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Target.setAutoAttach' method.
 		 */
-		export interface SetAutoAttachResult {}
+		export type SetAutoAttachResult = {};
 
 		/**
 		 * Parameters of the 'Target.autoAttachRelated' method.
@@ -30149,7 +30155,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Target.autoAttachRelated' method.
 		 */
-		export interface AutoAttachRelatedResult {}
+		export type AutoAttachRelatedResult = {};
 
 		/**
 		 * Parameters of the 'Target.setDiscoverTargets' method.
@@ -30170,7 +30176,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Target.setDiscoverTargets' method.
 		 */
-		export interface SetDiscoverTargetsResult {}
+		export type SetDiscoverTargetsResult = {};
 
 		/**
 		 * Parameters of the 'Target.setRemoteLocations' method.
@@ -30185,7 +30191,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Target.setRemoteLocations' method.
 		 */
-		export interface SetRemoteLocationsResult {}
+		export type SetRemoteLocationsResult = {};
 
 		/**
 		 * Parameters of the 'Target.attachedToTarget' event.
@@ -30358,14 +30364,14 @@ export namespace Cdp {
 		 * Request browser port binding.
 		 */
 		bind(
-			params: Tethering.BindParams
+			params: Tethering.BindParams,
 		): Promise<Tethering.BindResult | undefined>;
 
 		/**
 		 * Request browser port unbinding.
 		 */
 		unbind(
-			params: Tethering.UnbindParams
+			params: Tethering.UnbindParams,
 		): Promise<Tethering.UnbindResult | undefined>;
 
 		/**
@@ -30373,7 +30379,7 @@ export namespace Cdp {
 		 */
 		on(
 			event: "accepted",
-			listener: (event: Tethering.AcceptedEvent) => void
+			listener: (event: Tethering.AcceptedEvent) => void,
 		): IDisposable;
 	}
 
@@ -30394,7 +30400,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Tethering.bind' method.
 		 */
-		export interface BindResult {}
+		export type BindResult = {};
 
 		/**
 		 * Parameters of the 'Tethering.unbind' method.
@@ -30409,7 +30415,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Tethering.unbind' method.
 		 */
-		export interface UnbindResult {}
+		export type UnbindResult = {};
 
 		/**
 		 * Parameters of the 'Tethering.accepted' event.
@@ -30440,33 +30446,33 @@ export namespace Cdp {
 		 * Gets supported tracing categories.
 		 */
 		getCategories(
-			params: Tracing.GetCategoriesParams
+			params: Tracing.GetCategoriesParams,
 		): Promise<Tracing.GetCategoriesResult | undefined>;
 
 		/**
 		 * Record a clock sync marker in the trace.
 		 */
 		recordClockSyncMarker(
-			params: Tracing.RecordClockSyncMarkerParams
+			params: Tracing.RecordClockSyncMarkerParams,
 		): Promise<Tracing.RecordClockSyncMarkerResult | undefined>;
 
 		/**
 		 * Request a global memory dump.
 		 */
 		requestMemoryDump(
-			params: Tracing.RequestMemoryDumpParams
+			params: Tracing.RequestMemoryDumpParams,
 		): Promise<Tracing.RequestMemoryDumpResult | undefined>;
 
 		/**
 		 * Start trace events collection.
 		 */
 		start(
-			params: Tracing.StartParams
+			params: Tracing.StartParams,
 		): Promise<Tracing.StartResult | undefined>;
 
 		on(
 			event: "bufferUsage",
-			listener: (event: Tracing.BufferUsageEvent) => void
+			listener: (event: Tracing.BufferUsageEvent) => void,
 		): IDisposable;
 
 		/**
@@ -30475,7 +30481,7 @@ export namespace Cdp {
 		 */
 		on(
 			event: "dataCollected",
-			listener: (event: Tracing.DataCollectedEvent) => void
+			listener: (event: Tracing.DataCollectedEvent) => void,
 		): IDisposable;
 
 		/**
@@ -30484,7 +30490,7 @@ export namespace Cdp {
 		 */
 		on(
 			event: "tracingComplete",
-			listener: (event: Tracing.TracingCompleteEvent) => void
+			listener: (event: Tracing.TracingCompleteEvent) => void,
 		): IDisposable;
 	}
 
@@ -30495,17 +30501,17 @@ export namespace Cdp {
 		/**
 		 * Parameters of the 'Tracing.end' method.
 		 */
-		export interface EndParams {}
+		export type EndParams = {};
 
 		/**
 		 * Return value of the 'Tracing.end' method.
 		 */
-		export interface EndResult {}
+		export type EndResult = {};
 
 		/**
 		 * Parameters of the 'Tracing.getCategories' method.
 		 */
-		export interface GetCategoriesParams {}
+		export type GetCategoriesParams = {};
 
 		/**
 		 * Return value of the 'Tracing.getCategories' method.
@@ -30530,7 +30536,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Tracing.recordClockSyncMarker' method.
 		 */
-		export interface RecordClockSyncMarkerResult {}
+		export type RecordClockSyncMarkerResult = {};
 
 		/**
 		 * Parameters of the 'Tracing.requestMemoryDump' method.
@@ -30619,7 +30625,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'Tracing.start' method.
 		 */
-		export interface StartResult {}
+		export type StartResult = {};
 
 		/**
 		 * Parameters of the 'Tracing.bufferUsage' event.
@@ -30774,21 +30780,21 @@ export namespace Cdp {
 		 * Enables the WebAudio domain and starts sending context lifetime events.
 		 */
 		enable(
-			params: WebAudio.EnableParams
+			params: WebAudio.EnableParams,
 		): Promise<WebAudio.EnableResult | undefined>;
 
 		/**
 		 * Disables the WebAudio domain.
 		 */
 		disable(
-			params: WebAudio.DisableParams
+			params: WebAudio.DisableParams,
 		): Promise<WebAudio.DisableResult | undefined>;
 
 		/**
 		 * Fetch the realtime data from the registered contexts.
 		 */
 		getRealtimeData(
-			params: WebAudio.GetRealtimeDataParams
+			params: WebAudio.GetRealtimeDataParams,
 		): Promise<WebAudio.GetRealtimeDataResult | undefined>;
 
 		/**
@@ -30796,7 +30802,7 @@ export namespace Cdp {
 		 */
 		on(
 			event: "contextCreated",
-			listener: (event: WebAudio.ContextCreatedEvent) => void
+			listener: (event: WebAudio.ContextCreatedEvent) => void,
 		): IDisposable;
 
 		/**
@@ -30804,7 +30810,7 @@ export namespace Cdp {
 		 */
 		on(
 			event: "contextWillBeDestroyed",
-			listener: (event: WebAudio.ContextWillBeDestroyedEvent) => void
+			listener: (event: WebAudio.ContextWillBeDestroyedEvent) => void,
 		): IDisposable;
 
 		/**
@@ -30812,7 +30818,7 @@ export namespace Cdp {
 		 */
 		on(
 			event: "contextChanged",
-			listener: (event: WebAudio.ContextChangedEvent) => void
+			listener: (event: WebAudio.ContextChangedEvent) => void,
 		): IDisposable;
 
 		/**
@@ -30820,7 +30826,7 @@ export namespace Cdp {
 		 */
 		on(
 			event: "audioListenerCreated",
-			listener: (event: WebAudio.AudioListenerCreatedEvent) => void
+			listener: (event: WebAudio.AudioListenerCreatedEvent) => void,
 		): IDisposable;
 
 		/**
@@ -30829,8 +30835,8 @@ export namespace Cdp {
 		on(
 			event: "audioListenerWillBeDestroyed",
 			listener: (
-				event: WebAudio.AudioListenerWillBeDestroyedEvent
-			) => void
+				event: WebAudio.AudioListenerWillBeDestroyedEvent,
+			) => void,
 		): IDisposable;
 
 		/**
@@ -30838,7 +30844,7 @@ export namespace Cdp {
 		 */
 		on(
 			event: "audioNodeCreated",
-			listener: (event: WebAudio.AudioNodeCreatedEvent) => void
+			listener: (event: WebAudio.AudioNodeCreatedEvent) => void,
 		): IDisposable;
 
 		/**
@@ -30846,7 +30852,7 @@ export namespace Cdp {
 		 */
 		on(
 			event: "audioNodeWillBeDestroyed",
-			listener: (event: WebAudio.AudioNodeWillBeDestroyedEvent) => void
+			listener: (event: WebAudio.AudioNodeWillBeDestroyedEvent) => void,
 		): IDisposable;
 
 		/**
@@ -30854,7 +30860,7 @@ export namespace Cdp {
 		 */
 		on(
 			event: "audioParamCreated",
-			listener: (event: WebAudio.AudioParamCreatedEvent) => void
+			listener: (event: WebAudio.AudioParamCreatedEvent) => void,
 		): IDisposable;
 
 		/**
@@ -30862,7 +30868,7 @@ export namespace Cdp {
 		 */
 		on(
 			event: "audioParamWillBeDestroyed",
-			listener: (event: WebAudio.AudioParamWillBeDestroyedEvent) => void
+			listener: (event: WebAudio.AudioParamWillBeDestroyedEvent) => void,
 		): IDisposable;
 
 		/**
@@ -30870,7 +30876,7 @@ export namespace Cdp {
 		 */
 		on(
 			event: "nodesConnected",
-			listener: (event: WebAudio.NodesConnectedEvent) => void
+			listener: (event: WebAudio.NodesConnectedEvent) => void,
 		): IDisposable;
 
 		/**
@@ -30878,7 +30884,7 @@ export namespace Cdp {
 		 */
 		on(
 			event: "nodesDisconnected",
-			listener: (event: WebAudio.NodesDisconnectedEvent) => void
+			listener: (event: WebAudio.NodesDisconnectedEvent) => void,
 		): IDisposable;
 
 		/**
@@ -30886,7 +30892,7 @@ export namespace Cdp {
 		 */
 		on(
 			event: "nodeParamConnected",
-			listener: (event: WebAudio.NodeParamConnectedEvent) => void
+			listener: (event: WebAudio.NodeParamConnectedEvent) => void,
 		): IDisposable;
 
 		/**
@@ -30894,7 +30900,7 @@ export namespace Cdp {
 		 */
 		on(
 			event: "nodeParamDisconnected",
-			listener: (event: WebAudio.NodeParamDisconnectedEvent) => void
+			listener: (event: WebAudio.NodeParamDisconnectedEvent) => void,
 		): IDisposable;
 	}
 
@@ -30905,22 +30911,22 @@ export namespace Cdp {
 		/**
 		 * Parameters of the 'WebAudio.enable' method.
 		 */
-		export interface EnableParams {}
+		export type EnableParams = {};
 
 		/**
 		 * Return value of the 'WebAudio.enable' method.
 		 */
-		export interface EnableResult {}
+		export type EnableResult = {};
 
 		/**
 		 * Parameters of the 'WebAudio.disable' method.
 		 */
-		export interface DisableParams {}
+		export type DisableParams = {};
 
 		/**
 		 * Return value of the 'WebAudio.disable' method.
 		 */
-		export interface DisableResult {}
+		export type DisableResult = {};
 
 		/**
 		 * Parameters of the 'WebAudio.getRealtimeData' method.
@@ -31219,42 +31225,42 @@ export namespace Cdp {
 		 * retrieval with a virtual authenticator.
 		 */
 		enable(
-			params: WebAuthn.EnableParams
+			params: WebAuthn.EnableParams,
 		): Promise<WebAuthn.EnableResult | undefined>;
 
 		/**
 		 * Disable the WebAuthn domain.
 		 */
 		disable(
-			params: WebAuthn.DisableParams
+			params: WebAuthn.DisableParams,
 		): Promise<WebAuthn.DisableResult | undefined>;
 
 		/**
 		 * Creates and adds a virtual authenticator.
 		 */
 		addVirtualAuthenticator(
-			params: WebAuthn.AddVirtualAuthenticatorParams
+			params: WebAuthn.AddVirtualAuthenticatorParams,
 		): Promise<WebAuthn.AddVirtualAuthenticatorResult | undefined>;
 
 		/**
 		 * Resets parameters isBogusSignature, isBadUV, isBadUP to false if they are not present.
 		 */
 		setResponseOverrideBits(
-			params: WebAuthn.SetResponseOverrideBitsParams
+			params: WebAuthn.SetResponseOverrideBitsParams,
 		): Promise<WebAuthn.SetResponseOverrideBitsResult | undefined>;
 
 		/**
 		 * Removes the given authenticator.
 		 */
 		removeVirtualAuthenticator(
-			params: WebAuthn.RemoveVirtualAuthenticatorParams
+			params: WebAuthn.RemoveVirtualAuthenticatorParams,
 		): Promise<WebAuthn.RemoveVirtualAuthenticatorResult | undefined>;
 
 		/**
 		 * Adds the credential to the specified authenticator.
 		 */
 		addCredential(
-			params: WebAuthn.AddCredentialParams
+			params: WebAuthn.AddCredentialParams,
 		): Promise<WebAuthn.AddCredentialResult | undefined>;
 
 		/**
@@ -31262,28 +31268,28 @@ export namespace Cdp {
 		 * matches the credential ID.
 		 */
 		getCredential(
-			params: WebAuthn.GetCredentialParams
+			params: WebAuthn.GetCredentialParams,
 		): Promise<WebAuthn.GetCredentialResult | undefined>;
 
 		/**
 		 * Returns all the credentials stored in the given virtual authenticator.
 		 */
 		getCredentials(
-			params: WebAuthn.GetCredentialsParams
+			params: WebAuthn.GetCredentialsParams,
 		): Promise<WebAuthn.GetCredentialsResult | undefined>;
 
 		/**
 		 * Removes a credential from the authenticator.
 		 */
 		removeCredential(
-			params: WebAuthn.RemoveCredentialParams
+			params: WebAuthn.RemoveCredentialParams,
 		): Promise<WebAuthn.RemoveCredentialResult | undefined>;
 
 		/**
 		 * Clears all the credentials from the specified device.
 		 */
 		clearCredentials(
-			params: WebAuthn.ClearCredentialsParams
+			params: WebAuthn.ClearCredentialsParams,
 		): Promise<WebAuthn.ClearCredentialsResult | undefined>;
 
 		/**
@@ -31291,7 +31297,7 @@ export namespace Cdp {
 		 * The default is true.
 		 */
 		setUserVerified(
-			params: WebAuthn.SetUserVerifiedParams
+			params: WebAuthn.SetUserVerifiedParams,
 		): Promise<WebAuthn.SetUserVerifiedResult | undefined>;
 
 		/**
@@ -31299,7 +31305,7 @@ export namespace Cdp {
 		 * The default is true.
 		 */
 		setAutomaticPresenceSimulation(
-			params: WebAuthn.SetAutomaticPresenceSimulationParams
+			params: WebAuthn.SetAutomaticPresenceSimulationParams,
 		): Promise<WebAuthn.SetAutomaticPresenceSimulationResult | undefined>;
 
 		/**
@@ -31307,7 +31313,7 @@ export namespace Cdp {
 		 */
 		on(
 			event: "credentialAdded",
-			listener: (event: WebAuthn.CredentialAddedEvent) => void
+			listener: (event: WebAuthn.CredentialAddedEvent) => void,
 		): IDisposable;
 
 		/**
@@ -31315,7 +31321,7 @@ export namespace Cdp {
 		 */
 		on(
 			event: "credentialAsserted",
-			listener: (event: WebAuthn.CredentialAssertedEvent) => void
+			listener: (event: WebAuthn.CredentialAssertedEvent) => void,
 		): IDisposable;
 	}
 
@@ -31340,17 +31346,17 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'WebAuthn.enable' method.
 		 */
-		export interface EnableResult {}
+		export type EnableResult = {};
 
 		/**
 		 * Parameters of the 'WebAuthn.disable' method.
 		 */
-		export interface DisableParams {}
+		export type DisableParams = {};
 
 		/**
 		 * Return value of the 'WebAuthn.disable' method.
 		 */
-		export interface DisableResult {}
+		export type DisableResult = {};
 
 		/**
 		 * Parameters of the 'WebAuthn.addVirtualAuthenticator' method.
@@ -31394,7 +31400,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'WebAuthn.setResponseOverrideBits' method.
 		 */
-		export interface SetResponseOverrideBitsResult {}
+		export type SetResponseOverrideBitsResult = {};
 
 		/**
 		 * Parameters of the 'WebAuthn.removeVirtualAuthenticator' method.
@@ -31406,7 +31412,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'WebAuthn.removeVirtualAuthenticator' method.
 		 */
-		export interface RemoveVirtualAuthenticatorResult {}
+		export type RemoveVirtualAuthenticatorResult = {};
 
 		/**
 		 * Parameters of the 'WebAuthn.addCredential' method.
@@ -31420,7 +31426,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'WebAuthn.addCredential' method.
 		 */
-		export interface AddCredentialResult {}
+		export type AddCredentialResult = {};
 
 		/**
 		 * Parameters of the 'WebAuthn.getCredential' method.
@@ -31464,7 +31470,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'WebAuthn.removeCredential' method.
 		 */
-		export interface RemoveCredentialResult {}
+		export type RemoveCredentialResult = {};
 
 		/**
 		 * Parameters of the 'WebAuthn.clearCredentials' method.
@@ -31476,7 +31482,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'WebAuthn.clearCredentials' method.
 		 */
-		export interface ClearCredentialsResult {}
+		export type ClearCredentialsResult = {};
 
 		/**
 		 * Parameters of the 'WebAuthn.setUserVerified' method.
@@ -31490,7 +31496,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'WebAuthn.setUserVerified' method.
 		 */
-		export interface SetUserVerifiedResult {}
+		export type SetUserVerifiedResult = {};
 
 		/**
 		 * Parameters of the 'WebAuthn.setAutomaticPresenceSimulation' method.
@@ -31504,7 +31510,7 @@ export namespace Cdp {
 		/**
 		 * Return value of the 'WebAuthn.setAutomaticPresenceSimulation' method.
 		 */
-		export interface SetAutomaticPresenceSimulationResult {}
+		export type SetAutomaticPresenceSimulationResult = {};
 
 		/**
 		 * Parameters of the 'WebAuthn.credentialAdded' event.

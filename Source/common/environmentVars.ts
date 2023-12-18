@@ -25,7 +25,7 @@ export function getSanitizeProcessEnv(base: NodeJS.ProcessEnv) {
 	];
 
 	return new EnvironmentVars(base).map((key, value) =>
-		keysToRemove.some((re) => re.test(key)) ? undefined : value
+		keysToRemove.some((re) => re.test(key)) ? undefined : value,
 	);
 }
 
@@ -48,7 +48,7 @@ export class EnvironmentVars {
 	 * Process environment, sanitized of any VS Code specific variables.
 	 */
 	public static readonly processEnv = once(() =>
-		getSanitizeProcessEnv(process.env)
+		getSanitizeProcessEnv(process.env),
 	);
 
 	/**
@@ -80,7 +80,7 @@ export class EnvironmentVars {
 	public addToPath(
 		location: string,
 		prependOrAppend: "prepend" | "append" = "append",
-		includePlaceholder = false
+		includePlaceholder = false,
 	) {
 		const prop = EnvironmentVars.platform === "win32" ? "Path" : "PATH";
 		const delimiter =
@@ -111,7 +111,7 @@ export class EnvironmentVars {
 		const existing = this.lookup("NODE_OPTIONS");
 		return this.update(
 			"NODE_OPTIONS",
-			existing ? `${existing} ${option}` : option
+			existing ? `${existing} ${option}` : option,
 		);
 	}
 
@@ -139,10 +139,13 @@ export class EnvironmentVars {
 	 * the value is not included in the resulting set of variables.
 	 */
 	public map(
-		mapper: (key: string, value: string | null) => string | null | undefined
+		mapper: (
+			key: string,
+			value: string | null,
+		) => string | null | undefined,
 	) {
 		return new EnvironmentVars(
-			mapValues(this.value, (v, k) => mapper(k, v))
+			mapValues(this.value, (v, k) => mapper(k, v)),
 		);
 	}
 
@@ -156,7 +159,7 @@ export class EnvironmentVars {
 		)[]
 	): EnvironmentVars {
 		const objects = vars.map((v) =>
-			v instanceof EnvironmentVars ? v.value : v
+			v instanceof EnvironmentVars ? v.value : v,
 		);
 		const result =
 			EnvironmentVars.platform === "win32"

@@ -2,13 +2,13 @@
  * Copyright (C) Microsoft Corporation. All rights reserved.
  *--------------------------------------------------------*/
 
+import * as os from "os";
 import * as l10n from "@vscode/l10n";
 import { Container } from "inversify";
-import * as os from "os";
 import { CancellationToken } from "vscode";
 import {
-	getAsyncStackPolicy,
 	IAsyncStackPolicy,
+	getAsyncStackPolicy,
 } from "./adapter/asyncStackPolicy";
 import { DebugAdapter } from "./adapter/debugAdapter";
 import { DiagnosticToolSuggester } from "./adapter/diagnosticToolSuggester";
@@ -33,15 +33,15 @@ import Dap from "./dap/api";
 import DapConnection from "./dap/connection";
 import { createTargetContainer, provideLaunchParams } from "./ioc";
 import {
-	disposeContainer,
 	ExtensionLocation,
 	IInitializeParams,
 	IsVSCode,
+	disposeContainer,
 } from "./ioc-extras";
 import { ITargetOrigin } from "./targets/targetOrigin";
 import {
-	ILauncher,
 	ILaunchResult,
+	ILauncher,
 	IStopMetadata,
 	ITarget,
 } from "./targets/targets";
@@ -68,7 +68,7 @@ export interface IBinderDelegate {
 	initAdapter(
 		debugAdapter: DebugAdapter,
 		target: ITarget,
-		launcher: ILauncher
+		launcher: ILauncher,
 	): Promise<boolean>;
 
 	/**
@@ -111,7 +111,7 @@ export class Binder implements IDisposable {
 		private readonly _delegate: IBinderDelegate,
 		connection: DapConnection,
 		private readonly _rootServices: Container,
-		targetOrigin: ITargetOrigin
+		targetOrigin: ITargetOrigin,
 	) {
 		this._dap = connection.dap();
 		this._targetOrigin = targetOrigin;
@@ -120,8 +120,8 @@ export class Binder implements IDisposable {
 			installUnhandledErrorReporter(
 				_rootServices.get(ILogger),
 				_rootServices.get(ITelemetryReporter),
-				_rootServices.get(IsVSCode)
-			)
+				_rootServices.get(IsVSCode),
+			),
 		);
 
 		connection.attachTelemetry(_rootServices.get(ITelemetryReporter));
@@ -163,7 +163,7 @@ export class Binder implements IDisposable {
 		dap.on("threads", async () => ({ threads: [] }));
 		dap.on("loadedSources", async () => ({ sources: [] }));
 		dap.on("breakpointLocations", () =>
-			Promise.resolve({ breakpoints: [] })
+			Promise.resolve({ breakpoints: [] }),
 		);
 		dap.on("attach", async (params) => {
 			await this.boot(params as AnyResolvingConfiguration, dap);
@@ -201,7 +201,7 @@ export class Binder implements IDisposable {
 
 	private readonly getLaunchers = once(() => {
 		const launchers = new Set<ILauncher>(
-			this._rootServices.getAll(ILauncher)
+			this._rootServices.getAll(ILauncher),
 		);
 
 		for (const launcher of launchers) {
@@ -210,7 +210,7 @@ export class Binder implements IDisposable {
 					const targets = this.targetList();
 					this._attachToNewTargets(targets, launcher);
 					this._terminateOrphanThreads(targets);
-				})
+				}),
 			);
 		}
 
@@ -223,7 +223,7 @@ export class Binder implements IDisposable {
 	private async _terminateRoot(terminateDebuggee?: boolean) {
 		this._root.state = TargetState.Terminating;
 		await Promise.all(
-			[...this.getLaunchers()].map((l) => l.terminate(terminateDebuggee))
+			[...this.getLaunchers()].map((l) => l.terminate(terminateDebuggee)),
 		);
 		await this._root.waitUntilChildrenAre(TargetState.Terminated);
 		this._root.state = TargetState.Terminated;
@@ -251,7 +251,7 @@ export class Binder implements IDisposable {
 	public async boot(params: AnyResolvingConfiguration, dap: Dap.Api) {
 		return this._boot(
 			applyDefaults(params, this._rootServices.get(ExtensionLocation)),
-			dap
+			dap,
 		);
 	}
 
@@ -270,14 +270,14 @@ export class Binder implements IDisposable {
 
 		if (params.rootPath)
 			params.rootPath = urlUtils.platformPathToPreferredCase(
-				params.rootPath
+				params.rootPath,
 			);
 		this._launchParams = params;
 
 		const boots = await Promise.all(
 			[...this.getLaunchers()].map((l) =>
-				this._launch(l, params, cts.token)
-			)
+				this._launch(l, params, cts.token),
+			),
 		);
 
 		Promise.all(boots.map((b) => b.terminated)).then((allMetadata) => {
@@ -313,7 +313,7 @@ export class Binder implements IDisposable {
 
 			if (value && typeof value === "object") {
 				return mapValues(value as { [key: string]: unknown }, (v) =>
-					sanitizer(v)
+					sanitizer(v),
 				);
 			}
 
@@ -330,7 +330,7 @@ export class Binder implements IDisposable {
 				adapterVersion: packageVersion,
 				parameters: mapValues(
 					rawParams as unknown as { [key: string]: unknown },
-					sanitizer
+					sanitizer,
 				),
 			});
 	}
@@ -340,32 +340,32 @@ export class Binder implements IDisposable {
 		if (newParams) {
 			const currentParams =
 				this._rootServices.get<MutableLaunchConfig>(
-					MutableLaunchConfig
+					MutableLaunchConfig,
 				);
 			resolved = applyDefaults(
 				{
 					__workspaceFolder: currentParams.__workspaceFolder,
 					...newParams,
 				},
-				this._rootServices.get<ExtensionLocation>(ExtensionLocation)
+				this._rootServices.get<ExtensionLocation>(ExtensionLocation),
 			);
 			currentParams.update(resolved);
 		}
 
 		await Promise.all(
-			[...this.getLaunchers()].map((l) => l.restart(resolved))
+			[...this.getLaunchers()].map((l) => l.restart(resolved)),
 		);
 	}
 
 	async _launch(
 		launcher: ILauncher,
 		params: AnyLaunchConfiguration,
-		cancellationToken: CancellationToken
+		cancellationToken: CancellationToken,
 	) {
 		const result = await this.captureLaunch(
 			launcher,
 			params,
-			cancellationToken
+			cancellationToken,
 		);
 		if (!result.blockSessionTermination) {
 			return { terminated: Promise.resolve(undefined) };
@@ -377,7 +377,7 @@ export class Binder implements IDisposable {
 					launcher.onTerminated((result) => {
 						listener.dispose();
 						resolve(result);
-					})
+					}),
 				);
 			}),
 		};
@@ -391,7 +391,7 @@ export class Binder implements IDisposable {
 	private async captureLaunch(
 		launcher: ILauncher,
 		params: AnyLaunchConfiguration,
-		cancellationToken: CancellationToken
+		cancellationToken: CancellationToken,
 	): Promise<ILaunchResult> {
 		const name = launcher.constructor.name;
 
@@ -457,7 +457,7 @@ export class Binder implements IDisposable {
 
 		if (!this._asyncStackPolicy) {
 			this._asyncStackPolicy = getAsyncStackPolicy(
-				launchParams.showAsyncStacks
+				launchParams.showAsyncStacks,
 			);
 		}
 
@@ -469,7 +469,7 @@ export class Binder implements IDisposable {
 			parentContainer,
 			target,
 			dap,
-			cdp
+			cdp,
 		);
 		connection.attachTelemetry(container.get(ITelemetryReporter));
 		this._serviceTree.set(target, parentContainer);
@@ -478,7 +478,7 @@ export class Binder implements IDisposable {
 			dap,
 			this._asyncStackPolicy,
 			launchParams,
-			container
+			container,
 		);
 		const thread = debugAdapter.createThread(cdp, target);
 
@@ -529,7 +529,7 @@ export class Binder implements IDisposable {
 				: this._root;
 			if (!parent) {
 				throw new Error(
-					`Got target with unknown parent: ${target.name()}`
+					`Got target with unknown parent: ${target.name()}`,
 				);
 			}
 
@@ -544,13 +544,15 @@ export class Binder implements IDisposable {
 	 */
 	private async _terminateOrphanThreads(
 		targets: ITarget[],
-		terminateArgs?: Dap.TerminatedEventParams
+		terminateArgs?: Dap.TerminatedEventParams,
 	) {
 		const toRelease = [...this._root.all()].filter(
-			(n) => !targets.includes(n.value)
+			(n) => !targets.includes(n.value),
 		);
 		return Promise.all(
-			toRelease.map((n) => this._markTargetAsTerminated(n, terminateArgs))
+			toRelease.map((n) =>
+				this._markTargetAsTerminated(n, terminateArgs),
+			),
 		);
 	}
 
@@ -559,7 +561,7 @@ export class Binder implements IDisposable {
 	 */
 	private async _markTargetAsTerminated(
 		node: TreeNode,
-		terminateArgs: Dap.TerminatedEventParams = {}
+		terminateArgs: Dap.TerminatedEventParams = {},
 	) {
 		if (node.state >= TargetState.Terminating) {
 			await node.waitUntil(TargetState.Terminated);
@@ -609,7 +611,7 @@ export class Binder implements IDisposable {
 	 */
 	private async _disconnectTarget(
 		node: TargetTreeNode,
-		args: Dap.DisconnectParams
+		args: Dap.DisconnectParams,
 	) {
 		if (node.state >= TargetState.Disconnected) {
 			return {};
@@ -649,11 +651,11 @@ function warnNightly(dap: Dap.Api): void {
 	}
 }
 
-const enum TargetState {
-	Running,
-	Terminating,
-	Terminated,
-	Disconnected,
+enum TargetState {
+	Running = 0,
+	Terminating = 1,
+	Terminated = 2,
+	Disconnected = 3,
 }
 
 type ThreadData = { thread: Thread; debugAdapter: DebugAdapter };

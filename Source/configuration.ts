@@ -39,7 +39,7 @@ export interface IMandatedConfiguration extends Dap.LaunchParams {
 	postRestartTask?: string;
 }
 
-export const enum OutputSource {
+export enum OutputSource {
 	Console = "console",
 	Stdio = "std",
 }
@@ -345,7 +345,7 @@ export interface IConfigurationWithEnv {
 	envFile: string | null;
 }
 
-export const enum KillBehavior {
+export enum KillBehavior {
 	Forceful = "forceful",
 	Polite = "polite",
 	None = "none",
@@ -826,14 +826,14 @@ export type ResolvedConfiguration<T> =
 	T extends ResolvingNodeAttachConfiguration
 		? INodeAttachConfiguration
 		: T extends ResolvingExtensionHostConfiguration
-			? IExtensionHostLaunchConfiguration
-			: T extends ResolvingNodeLaunchConfiguration
-				? INodeLaunchConfiguration
-				: T extends ResolvingChromeConfiguration
-					? AnyChromeConfiguration
-					: T extends ResolvingTerminalConfiguration
-						? ITerminalLaunchConfiguration
-						: never;
+		  ? IExtensionHostLaunchConfiguration
+		  : T extends ResolvingNodeLaunchConfiguration
+			  ? INodeLaunchConfiguration
+			  : T extends ResolvingChromeConfiguration
+				  ? AnyChromeConfiguration
+				  : T extends ResolvingTerminalConfiguration
+					  ? ITerminalLaunchConfiguration
+					  : never;
 
 export const baseDefaults: IBaseConfiguration = {
 	type: "",
@@ -1008,11 +1008,11 @@ export const applyNodeishDefaults = (
 	config:
 		| ResolvingNodeConfiguration
 		| ResolvingTerminalConfiguration
-		| ResolvingExtensionHostConfiguration
+		| ResolvingExtensionHostConfiguration,
 ) => {
 	if (!config.sourceMapPathOverrides && config.cwd) {
 		config.sourceMapPathOverrides = defaultSourceMapPathOverrides(
-			config.cwd
+			config.cwd,
 		);
 	}
 
@@ -1036,40 +1036,40 @@ export function applyNodeDefaults({
 
 export function applyChromeDefaults(
 	config: ResolvingChromeConfiguration,
-	browserLocation: "workspace" | "ui"
+	browserLocation: "workspace" | "ui",
 ): AnyChromeConfiguration {
 	return config.request === "attach"
 		? {
 				...chromeAttachConfigDefaults,
 				browserAttachLocation: browserLocation,
 				...config,
-			}
+		  }
 		: {
 				...chromeLaunchConfigDefaults,
 				browserLaunchLocation: browserLocation,
 				...config,
-			};
+		  };
 }
 
 export function applyEdgeDefaults(
 	config: ResolvingEdgeConfiguration,
-	browserLocation: "workspace" | "ui"
+	browserLocation: "workspace" | "ui",
 ): AnyEdgeConfiguration {
 	return config.request === "attach"
 		? {
 				...edgeAttachConfigDefaults,
 				browserAttachLocation: browserLocation,
 				...config,
-			}
+		  }
 		: {
 				...edgeLaunchConfigDefaults,
 				browserLaunchLocation: browserLocation,
 				...config,
-			};
+		  };
 }
 
 export function applyExtensionHostDefaults(
-	config: ResolvingExtensionHostConfiguration
+	config: ResolvingExtensionHostConfiguration,
 ): IExtensionHostLaunchConfiguration {
 	const resolved = { ...extensionHostConfigDefaults, ...config };
 	resolved.skipFiles = [
@@ -1081,7 +1081,7 @@ export function applyExtensionHostDefaults(
 }
 
 export function applyTerminalDefaults(
-	config: ResolvingTerminalConfiguration
+	config: ResolvingTerminalConfiguration,
 ): AnyTerminalConfiguration {
 	applyNodeishDefaults(config);
 	return config.request === "launch"
@@ -1090,7 +1090,7 @@ export function applyTerminalDefaults(
 }
 
 export const isConfigurationWithEnv = (
-	config: unknown
+	config: unknown,
 ): config is IConfigurationWithEnv =>
 	typeof config === "object" &&
 	!!config &&
@@ -1099,7 +1099,7 @@ export const isConfigurationWithEnv = (
 
 export function applyDefaults(
 	config: AnyResolvingConfiguration,
-	location?: "local" | "remote"
+	location?: "local" | "remote",
 ): AnyLaunchConfiguration {
 	let configWithDefaults: AnyLaunchConfiguration;
 	const defaultBrowserLocation =
@@ -1111,13 +1111,13 @@ export function applyDefaults(
 		case DebugType.Edge:
 			configWithDefaults = applyEdgeDefaults(
 				config,
-				defaultBrowserLocation
+				defaultBrowserLocation,
 			);
 			break;
 		case DebugType.Chrome:
 			configWithDefaults = applyChromeDefaults(
 				config,
-				defaultBrowserLocation
+				defaultBrowserLocation,
 			);
 			break;
 		case DebugType.ExtensionHost:
@@ -1148,13 +1148,13 @@ export function removeOptionalWorkspaceFolderUsages<
 		outFiles: config.outFiles.filter((o) => !o.includes(token)),
 		sourceMapPathOverrides: filterValues(
 			config.sourceMapPathOverrides,
-			(v): v is string => !v.includes("${workspaceFolder}")
+			(v): v is string => !v.includes("${workspaceFolder}"),
 		),
 	};
 
 	if ("vueComponentPaths" in cast) {
 		cast.vueComponentPaths = cast.vueComponentPaths.filter(
-			(o) => !o.includes(token)
+			(o) => !o.includes(token),
 		);
 	}
 
@@ -1176,7 +1176,7 @@ export function removeOptionalWorkspaceFolderUsages<
 }
 
 export function resolveWorkspaceInConfig<T extends AnyLaunchConfiguration>(
-	config: T
+	config: T,
 ): T {
 	if (!config.__workspaceFolder) {
 		config = removeOptionalWorkspaceFolderUsages(config);
@@ -1185,14 +1185,14 @@ export function resolveWorkspaceInConfig<T extends AnyLaunchConfiguration>(
 	config = resolveVariableInConfig(
 		config,
 		"workspaceFolder",
-		config.__workspaceFolder
+		config.__workspaceFolder,
 	);
 	config = resolveVariableInConfig(
 		config,
 		"webRoot",
 		"webRoot" in config
 			? (config as AnyChromiumConfiguration).webRoot
-			: config.__workspaceFolder
+			: config.__workspaceFolder,
 	);
 
 	return config;
@@ -1201,7 +1201,7 @@ export function resolveWorkspaceInConfig<T extends AnyLaunchConfiguration>(
 export function resolveVariableInConfig<T>(
 	config: T,
 	varName: string,
-	varValue: string | undefined
+	varValue: string | undefined,
 ): T {
 	let out: unknown;
 	if (typeof config === "string") {
@@ -1209,15 +1209,15 @@ export function resolveVariableInConfig<T>(
 			if (!varValue) {
 				throw new Error(
 					`Unable to resolve \${${varName}} in configuration (${JSON.stringify(
-						varName
-					)})`
+						varName,
+					)})`,
 				);
 			}
 			return varValue;
 		});
 	} else if (config instanceof Array) {
 		out = config.map((cfg) =>
-			resolveVariableInConfig(cfg, varName, varValue)
+			resolveVariableInConfig(cfg, varName, varValue),
 		);
 	} else if (typeof config === "object" && config) {
 		const obj: { [key: string]: unknown } = {};

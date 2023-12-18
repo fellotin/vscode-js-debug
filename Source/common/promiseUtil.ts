@@ -11,7 +11,7 @@ export const delay = (duration: number) =>
 
 export const disposableTimeout = (
 	fn: () => void,
-	delay?: number
+	delay?: number,
 ): IDisposable => {
 	const timeout = setTimeout(fn, delay);
 	return { dispose: () => clearTimeout(timeout) };
@@ -30,7 +30,7 @@ export interface IDeferred<T> {
  * returns a truthy value.
  */
 export function some<T>(
-	promises: ReadonlyArray<Promise<T | undefined | null | false | "">>
+	promises: ReadonlyArray<Promise<T | undefined | null | false | "">>,
 ): Promise<T | undefined> {
 	return new Promise<T | undefined>((resolve, reject) => {
 		let remaining = promises.length;

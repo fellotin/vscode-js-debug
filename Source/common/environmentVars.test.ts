@@ -68,12 +68,12 @@ describe("EnvironmentVars", () => {
 				PATH: "/usr/bin",
 			});
 			expect(
-				vars.addToPath("/usr/bin", "prepend", true).value
+				vars.addToPath("/usr/bin", "prepend", true).value,
 			).to.containSubset({
 				PATH: "/usr/bin:${env:PATH}",
 			});
 			expect(
-				vars.addToPath("/usr/bin", "append", true).value
+				vars.addToPath("/usr/bin", "append", true).value,
 			).to.containSubset({
 				PATH: "${env:PATH}:/usr/bin",
 			});
@@ -81,7 +81,7 @@ describe("EnvironmentVars", () => {
 
 		it("adds to an existing path ", () => {
 			expect(
-				vars.addToPath("/usr/local/bin").addToPath("/usr/bin").value
+				vars.addToPath("/usr/local/bin").addToPath("/usr/bin").value,
 			).to.containSubset({
 				PATH: "/usr/local/bin:/usr/bin",
 			});
@@ -113,12 +113,12 @@ describe("EnvironmentVars", () => {
 				Path: "C:\\bin",
 			});
 			expect(
-				vars.addToPath("C:\\bin", "prepend", true).value
+				vars.addToPath("C:\\bin", "prepend", true).value,
 			).to.containSubset({
 				Path: "C:\\bin;${env:Path}",
 			});
 			expect(
-				vars.addToPath("C:\\bin", "append", true).value
+				vars.addToPath("C:\\bin", "append", true).value,
 			).to.containSubset({
 				Path: "${env:Path};C:\\bin",
 			});
@@ -126,7 +126,7 @@ describe("EnvironmentVars", () => {
 
 		it("adds to an existing path ", () => {
 			expect(
-				vars.update("path", "C:\\Python").addToPath("C:\\bin").value
+				vars.update("path", "C:\\Python").addToPath("C:\\bin").value,
 			).to.containSubset({
 				path: "C:\\Python;C:\\bin",
 			});

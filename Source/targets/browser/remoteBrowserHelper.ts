@@ -3,13 +3,13 @@
  *--------------------------------------------------------*/
 
 import { randomBytes } from "crypto";
-import { inject, injectable } from "inversify";
 import { AddressInfo } from "net";
+import { inject, injectable } from "inversify";
 import { CancellationToken } from "vscode";
 import { WebSocket, WebSocketServer } from "ws";
 import {
-	acquireTrackedWebSocketServer,
 	IPortLeaseTracker,
+	acquireTrackedWebSocketServer,
 } from "../../adapter/portLeaseTracker";
 import { ITransport } from "../../cdp/transport";
 import { WebSocketTransport } from "../../cdp/webSocketTransport";
@@ -45,7 +45,7 @@ export class RemoteBrowserHelper implements IDisposable {
 		params: Omit<
 			Dap.LaunchBrowserInCompanionEventParams,
 			"serverPort" | "launchId"
-		>
+		>,
 	): Promise<ITransport> {
 		if (this.server) {
 			this.server.close();
@@ -58,7 +58,7 @@ export class RemoteBrowserHelper implements IDisposable {
 				perMessageDeflate: true,
 				host: "127.0.0.1",
 				path,
-			}
+			},
 		));
 
 		const launchId = ++launchIdCounter;
@@ -75,12 +75,12 @@ export class RemoteBrowserHelper implements IDisposable {
 				server.once("error", reject);
 			}),
 			cancellationToken,
-			"Timed out waiting for browser connection"
+			"Timed out waiting for browser connection",
 		);
 
 		const transport = new WebSocketTransport(socket);
 		this.teardown.set(transport, () =>
-			dap.killCompanionBrowser({ launchId })
+			dap.killCompanionBrowser({ launchId }),
 		);
 
 		return transport;

@@ -4,9 +4,9 @@
 
 import { IBreakpointCondition } from ".";
 import { getSyntaxErrorIn } from "../../../common/sourceUtils";
+import { Dap } from "../../../dap/api";
 import { invalidBreakPointCondition } from "../../../dap/errors";
 import { ProtocolError } from "../../../dap/protocolError";
-import { Dap } from "../../../dap/api";
 
 /**
  * Simple conditional breakpoint with an expression evaluated on the browser
@@ -15,12 +15,12 @@ import { Dap } from "../../../dap/api";
 export class SimpleCondition implements IBreakpointCondition {
 	constructor(
 		params: Dap.SourceBreakpoint,
-		public readonly breakCondition: string | undefined
+		public readonly breakCondition: string | undefined,
 	) {
 		const err = breakCondition && getSyntaxErrorIn(breakCondition);
 		if (err) {
 			throw new ProtocolError(
-				invalidBreakPointCondition(params, err.message)
+				invalidBreakPointCondition(params, err.message),
 			);
 		}
 	}

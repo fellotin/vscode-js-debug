@@ -20,28 +20,28 @@ describe("StackTraceParser", () => {
 			"      at Object.<anonymous> (",
 			new StackTraceLocation(
 				"/home/bousse-e/Téléchargements/idl/monprojet/build/hello.js",
-				new Base1Position(2, 2)
+				new Base1Position(2, 2),
 			),
 			")",
 			"\n",
 			"      at Module._compile (",
 			new StackTraceLocation(
 				"node:internal/modules/cjs/loader",
-				new Base1Position(1103, 14)
+				new Base1Position(1103, 14),
 			),
 			`)`,
 			"\n",
 			"      at Object.Module._extensions..js (",
 			new StackTraceLocation(
 				"node:internal/modules/cjs/loader",
-				new Base1Position(1155, 10)
+				new Base1Position(1155, 10),
 			),
 			`)`,
 			"\n",
 			"      at ",
 			new StackTraceLocation(
 				"node:internal/main/run_main_module",
-				new Base1Position(17, 47)
+				new Base1Position(17, 47),
 			),
 			"\n",
 			"    \n",

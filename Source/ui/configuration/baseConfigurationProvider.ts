@@ -36,7 +36,7 @@ export abstract class BaseConfigurationProvider<
 
 	public async provideDebugConfigurations(
 		folder: vscode.WorkspaceFolder | undefined,
-		token?: vscode.CancellationToken
+		token?: vscode.CancellationToken,
 	): Promise<vscode.DebugConfiguration[]> {
 		try {
 			const r = await this.provide(folder, token);
@@ -67,7 +67,7 @@ export abstract class BaseConfigurationProvider<
 
 	protected abstract provide(
 		folder: vscode.WorkspaceFolder | undefined,
-		token?: vscode.CancellationToken
+		token?: vscode.CancellationToken,
 	):
 		| Promise<ResolvingConfiguration<T>[] | ResolvingConfiguration<T>>
 		| ResolvingConfiguration<T>[]

@@ -25,10 +25,7 @@ import { WatchDog } from "./watchdogSpawn";
  * still kill it at the end. See vscode#126911
  */
 class ExtensionHostProgram extends WatchDogProgram {
-	constructor(
-		wd: WatchDog,
-		private readonly logger: ILogger
-	) {
+	constructor(wd: WatchDog, private readonly logger: ILogger) {
 		super(wd);
 
 		this.stopped.then(() => {
@@ -36,7 +33,7 @@ class ExtensionHostProgram extends WatchDogProgram {
 				killTree(
 					this.telemetry.processId,
 					this.logger,
-					KillBehavior.Polite
+					KillBehavior.Polite,
 				);
 			}
 		});
@@ -63,7 +60,7 @@ export class ExtensionHostAttacher extends NodeAttacherBase<IExtensionHostAttach
 	 * @inheritdoc
 	 */
 	protected resolveParams(
-		params: AnyLaunchConfiguration
+		params: AnyLaunchConfiguration,
 	): IExtensionHostAttachConfiguration | undefined {
 		return params.type === DebugType.ExtensionHost &&
 			params.request === "attach"
@@ -75,12 +72,12 @@ export class ExtensionHostAttacher extends NodeAttacherBase<IExtensionHostAttach
 	 * @inheritdoc
 	 */
 	protected async launchProgram(
-		runData: IRunData<IExtensionHostAttachConfiguration>
+		runData: IRunData<IExtensionHostAttachConfiguration>,
 	): Promise<void> {
 		const inspectorURL = await retryGetNodeEndpoint(
 			`http://localhost:${runData.params.port}`,
 			runData.context.cancellationToken,
-			this.logger
+			this.logger,
 		);
 
 		const wd = await WatchDog.attach({
@@ -93,7 +90,7 @@ export class ExtensionHostAttacher extends NodeAttacherBase<IExtensionHostAttach
 
 		const program = (this.program = new ExtensionHostProgram(
 			wd,
-			this.logger
+			this.logger,
 		));
 		this.program.stopped.then((result) => {
 			if (program === this.program) {
@@ -108,7 +105,7 @@ export class ExtensionHostAttacher extends NodeAttacherBase<IExtensionHostAttach
 	protected createLifecycle(
 		cdp: Cdp.Api,
 		run: IRunData<IExtensionHostAttachConfiguration>,
-		target: Cdp.Target.TargetInfo
+		target: Cdp.Target.TargetInfo,
 	) {
 		return target.openerId
 			? {}
@@ -122,7 +119,7 @@ export class ExtensionHostAttacher extends NodeAttacherBase<IExtensionHostAttach
 	protected async onFirstInitialize(
 		cdp: Cdp.Api,
 		run: IRunData<IExtensionHostAttachConfiguration>,
-		target: Cdp.Target.TargetInfo
+		target: Cdp.Target.TargetInfo,
 	) {
 		this.setEnvironmentVariables(cdp, run, target.targetId);
 		const telemetry = await this.gatherTelemetryFromCdp(cdp, run);
@@ -134,7 +131,7 @@ export class ExtensionHostAttacher extends NodeAttacherBase<IExtensionHostAttach
 			const code = new TerminalProcess(
 				{ processId: telemetry.processId },
 				this.logger,
-				KillBehavior.Forceful
+				KillBehavior.Forceful,
 			);
 			code.stopped.then(() => watchdog.stop());
 			watchdog.stopped.then(() => {
@@ -148,7 +145,7 @@ export class ExtensionHostAttacher extends NodeAttacherBase<IExtensionHostAttach
 	private async setEnvironmentVariables(
 		cdp: Cdp.Api,
 		run: IRunData<IExtensionHostAttachConfiguration>,
-		targetId: string
+		targetId: string,
 	) {
 		if (!run.params.autoAttachChildProcesses) {
 			return;
@@ -157,12 +154,12 @@ export class ExtensionHostAttacher extends NodeAttacherBase<IExtensionHostAttach
 		const vars = await this.resolveEnvironment(
 			run,
 			new NodeBinary("node", Semver.parse(process.versions.node)),
-			{ openerId: targetId }
+			{ openerId: targetId },
 		);
 
 		return this.appendEnvironmentVariables(
 			cdp,
-			vars.update("ELECTRON_RUN_AS_NODE", null)
+			vars.update("ELECTRON_RUN_AS_NODE", null),
 		);
 	}
 }

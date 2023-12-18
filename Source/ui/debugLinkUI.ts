@@ -2,9 +2,9 @@
  * Copyright (C) Microsoft Corporation. All rights reserved.
  *--------------------------------------------------------*/
 
+import { URL } from "url";
 import * as l10n from "@vscode/l10n";
 import { inject, injectable } from "inversify";
-import { URL } from "url";
 import * as vscode from "vscode";
 import {
 	Commands,
@@ -21,7 +21,7 @@ import { ExtensionContext, IExtensionContribution } from "../ioc-extras";
 
 function getPossibleUrl(
 	link: string,
-	requirePort: boolean
+	requirePort: boolean,
 ): string | undefined {
 	if (!link) {
 		return;
@@ -64,8 +64,8 @@ export class DebugLinkUi implements IExtensionContribution {
 	public register(context: vscode.ExtensionContext) {
 		context.subscriptions.push(
 			vscode.commands.registerCommand(Commands.DebugLink, (link) =>
-				this.handle(link)
-			)
+				this.handle(link),
+			),
 		);
 	}
 
@@ -103,7 +103,7 @@ export class DebugLinkUi implements IExtensionContribution {
 
 		vscode.debug.startDebugging(
 			vscode.workspace.workspaceFolders?.[0],
-			config
+			config,
 		);
 		this.persistConfig(config);
 	}
@@ -154,11 +154,11 @@ export class DebugLinkUi implements IExtensionContribution {
 		const never = l10n.t("Never");
 		const r = await vscode.window.showInformationMessage(
 			l10n.t(
-				"Would you like to save a configuration in your launch.json for easy access later?"
+				"Would you like to save a configuration in your launch.json for easy access later?",
 			),
 			yes,
 			l10n.t("No"),
-			never
+			never,
 		);
 
 		if (r === never) {

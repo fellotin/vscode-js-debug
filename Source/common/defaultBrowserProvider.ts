@@ -3,19 +3,19 @@
  *--------------------------------------------------------*/
 
 import defaultBrowserModule from "default-browser";
-import { injectable, inject } from "inversify";
-import { Execa } from "../ioc-extras";
 import type execaType from "execa";
-import { ChildProcessError } from "./processUtils";
+import { inject, injectable } from "inversify";
+import { Execa } from "../ioc-extras";
 import { once } from "./objUtils";
+import { ChildProcessError } from "./processUtils";
 
-export const enum DefaultBrowser {
-	Chrome,
-	Safari,
-	Firefox,
-	Edge,
-	OldEdge,
-	IE,
+export enum DefaultBrowser {
+	Chrome = 0,
+	Safari = 1,
+	Firefox = 2,
+	Edge = 3,
+	OldEdge = 4,
+	IE = 5,
 }
 
 const substrings = new Map([

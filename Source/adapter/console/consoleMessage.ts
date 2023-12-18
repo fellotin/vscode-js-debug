@@ -7,7 +7,7 @@ import { Thread } from "../threads";
 
 export interface IConsoleMessage {
 	toDap(
-		thread: Thread
+		thread: Thread,
 	): Promise<Dap.OutputEventParams> | Dap.OutputEventParams;
 }
 

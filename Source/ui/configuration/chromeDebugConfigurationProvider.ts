@@ -2,20 +2,20 @@
  * Copyright (C) Microsoft Corporation. All rights reserved.
  *--------------------------------------------------------*/
 
+import { injectable } from "inversify";
 import * as vscode from "vscode";
-import {
-	ResolvingChromeConfiguration,
-	AnyChromeConfiguration,
-	chromeAttachConfigDefaults,
-	chromeLaunchConfigDefaults,
-	IChromeLaunchConfiguration,
-} from "../../configuration";
 import { DebugType } from "../../common/contributionUtils";
 import {
-	ChromiumDebugConfigurationResolver,
+	AnyChromeConfiguration,
+	IChromeLaunchConfiguration,
+	ResolvingChromeConfiguration,
+	chromeAttachConfigDefaults,
+	chromeLaunchConfigDefaults,
+} from "../../configuration";
+import {
 	ChromiumDebugConfigurationProvider,
+	ChromiumDebugConfigurationResolver,
 } from "./chromiumDebugConfigurationProvider";
-import { injectable } from "inversify";
 
 /**
  * Configuration provider for Chrome debugging.
@@ -30,7 +30,7 @@ export class ChromeDebugConfigurationResolver
 	 */
 	protected async resolveDebugConfigurationAsync(
 		folder: vscode.WorkspaceFolder | undefined,
-		config: ResolvingChromeConfiguration
+		config: ResolvingChromeConfiguration,
 	): Promise<AnyChromeConfiguration | null | undefined> {
 		if (!config.name && !config.type && !config.request) {
 			const fromContext =

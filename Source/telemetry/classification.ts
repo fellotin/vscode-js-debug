@@ -223,7 +223,7 @@ export interface IDiagnosticPromptMetrics {
  * invoked when any of the logging functions are called.
  */
 export const createLoggers = (
-	sendEvent: (event: Dap.OutputEventParams) => void
+	sendEvent: (event: Dap.OutputEventParams) => void,
 ) => {
 	const globalMetrics: Partial<IGlobalMetrics> = {};
 	setJsDebugCommitId(globalMetrics);
@@ -243,7 +243,7 @@ export const createLoggers = (
 			E,
 			ClassifiedEvent<T>,
 			"Type of classified event does not match event properties"
-		>
+		>,
 	) {
 		return sendEvent({
 			category: "telemetry",
@@ -304,7 +304,7 @@ export const createLoggers = (
 	};
 
 	const launch = (
-		metrics: Omit<ILaunchMetrics, "parameters"> & { parameters: object }
+		metrics: Omit<ILaunchMetrics, "parameters"> & { parameters: object },
 	) => {
 		publicLog2<
 			IGlobalMetrics & ILaunchMetrics,
@@ -333,7 +333,7 @@ export const createLoggers = (
 				path.dirname(__filename),
 				"..",
 				"..",
-				".gitcommit"
+				".gitcommit",
 			);
 			globalMetrics.jsDebugCommitId = fs.readFileSync(filePath, "utf8");
 		} catch {
@@ -343,7 +343,7 @@ export const createLoggers = (
 
 	const setGlobalMetric = <K extends keyof IGlobalMetrics>(
 		key: K,
-		value: IGlobalMetrics[K]
+		value: IGlobalMetrics[K],
 	) => {
 		globalMetrics[key] = value;
 	};

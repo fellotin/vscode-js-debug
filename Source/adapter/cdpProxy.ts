@@ -13,8 +13,8 @@ import { DisposableList, IDisposable } from "../common/disposable";
 import { ILogger, LogTag } from "../common/logging";
 import Dap from "../dap/api";
 import {
-	acquireTrackedWebSocketServer,
 	IPortLeaseTracker,
+	acquireTrackedWebSocketServer,
 } from "./portLeaseTracker";
 
 const jsDebugDomain = "JsDebug";
@@ -35,7 +35,7 @@ interface IJsDebugDomain {
 }
 
 // @see https://source.chromium.org/chromium/chromium/src/+/master:v8/third_party/inspector_protocol/crdtp/dispatch.h;drc=3573d5e0faf3098600993625b3f07b83f8753867
-const enum ProxyErrors {
+enum ProxyErrors {
 	ParseError = -32700,
 	InvalidRequest = -32600,
 	MethodNotFound = -32601,
@@ -60,10 +60,10 @@ export interface ICdpProxyProvider extends IDisposable {
 
 type ReplayMethod = { event: string; params: Record<string, unknown> };
 
-const enum CaptureBehavior {
-	Append,
-	CappedAppend,
-	Replace,
+enum CaptureBehavior {
+	Append = 0,
+	CappedAppend = 1,
+	Replace = 2,
 }
 
 type CaptureBehaviorParams =
@@ -101,7 +101,7 @@ class DomainReplays {
 		cdp: Cdp.Api,
 		domain: keyof Cdp.Api,
 		event: string,
-		behavior: CaptureBehaviorParams
+		behavior: CaptureBehaviorParams,
 	) {
 		const handler = cdp[domain] as {
 			on(event: string, fn: (arg: Record<string, unknown>) => void): void;
@@ -131,7 +131,7 @@ class DomainReplays {
 	 */
 	public filter(
 		domain: keyof Cdp.Api,
-		filterFn: (r: ReplayMethod) => boolean
+		filterFn: (r: ReplayMethod) => boolean,
 	) {
 		const ll = this.replays.get(domain);
 		if (!ll) {
@@ -187,14 +187,14 @@ export class CdpProxyProvider implements ICdpProxyProvider {
 								handle.send({
 									method: c.method,
 									params: c.params,
-								})
-						)
+								}),
+						),
 					);
 				} else {
 					handle.pushDisposable(
 						this.cdp.session.on(event, (params) =>
-							handle.send({ method: event, params })
-						)
+							handle.send({ method: event, params }),
+						),
 					);
 				}
 			}
@@ -269,7 +269,7 @@ export class CdpProxyProvider implements ICdpProxyProvider {
 			this.logger.info(
 				LogTag.ProxyActivity,
 				"accepted proxy connection",
-				{ id: clientHandle.id }
+				{ id: clientHandle.id },
 			);
 
 			client.on("close", () => {
@@ -278,7 +278,7 @@ export class CdpProxyProvider implements ICdpProxyProvider {
 					"closed proxy connection",
 					{
 						id: clientHandle.id,
-					}
+					},
 				);
 				this.disposables.disposeObject(clientHandle);
 			});
@@ -300,7 +300,7 @@ export class CdpProxyProvider implements ICdpProxyProvider {
 				this.logger.verbose(
 					LogTag.ProxyActivity,
 					"received proxy message",
-					message
+					message,
 				);
 
 				const { method, params, id = 0 } = message;
@@ -311,14 +311,14 @@ export class CdpProxyProvider implements ICdpProxyProvider {
 							? await this.invokeJsDebugDomainMethod(
 									clientHandle,
 									fn,
-									params
-								)
+									params,
+							  )
 							: await this.invokeCdpMethod(
 									clientHandle,
 									domain,
 									fn,
-									params
-								);
+									params,
+							  );
 					clientHandle.send({ id, result });
 				} catch (e) {
 					const error =
@@ -346,11 +346,11 @@ export class CdpProxyProvider implements ICdpProxyProvider {
 		client: ClientHandle,
 		domain: string,
 		method: string,
-		params: object
+		params: object,
 	) {
 		const promise = this.cdp.session.sendOrDie(
 			`${domain}.${method}`,
-			params
+			params,
 		);
 		switch (method) {
 			case "enable":
@@ -373,24 +373,24 @@ export class CdpProxyProvider implements ICdpProxyProvider {
 	private invokeJsDebugDomainMethod(
 		handle: ClientHandle,
 		method: string,
-		params: unknown
+		params: unknown,
 	) {
 		if (!this.jsDebugApi.hasOwnProperty(method)) {
 			throw new ProtocolError(method).setCause(
 				ProxyErrors.MethodNotFound,
-				`${jsDebugDomain}.${method} not found`
+				`${jsDebugDomain}.${method} not found`,
 			);
 		}
 
 		type MethodMap = {
 			[key: string]: (
 				handle: ClientHandle,
-				arg: unknown
+				arg: unknown,
 			) => Promise<object>;
 		};
 		return (this.jsDebugApi as unknown as MethodMap)[method](
 			handle,
-			params
+			params,
 		);
 	}
 }
@@ -403,7 +403,7 @@ class ClientHandle implements IDisposable {
 
 	constructor(
 		readonly webSocket: WebSocket,
-		private readonly logger: ILogger
+		private readonly logger: ILogger,
 	) {}
 
 	pushDisposable(d: IDisposable): void {
@@ -419,7 +419,7 @@ class ClientHandle implements IDisposable {
 		this.logger.verbose(
 			LogTag.ProxyActivity,
 			"send proxy message",
-			message
+			message,
 		);
 		this.webSocket.send(JSON.stringify(message));
 	}

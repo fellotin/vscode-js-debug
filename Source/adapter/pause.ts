@@ -18,10 +18,10 @@ export type PausedReason =
 	| "data breakpoint"
 	| "frame_entry";
 
-export const enum StepDirection {
-	In,
-	Over,
-	Out,
+export enum StepDirection {
+	In = 0,
+	Over = 1,
+	Out = 2,
 }
 
 export type ExpectedPauseReason =

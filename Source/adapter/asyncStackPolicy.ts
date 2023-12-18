@@ -2,14 +2,14 @@
  * Copyright (C) Microsoft Corporation. All rights reserved.
  *--------------------------------------------------------*/
 
+import Cdp from "../cdp/api";
 import {
+	DisposableList,
 	IDisposable,
 	noOpDisposable,
-	DisposableList,
 } from "../common/disposable";
-import Cdp from "../cdp/api";
-import { AsyncStackMode } from "../configuration";
 import { EventEmitter } from "../common/events";
+import { AsyncStackMode } from "../configuration";
 
 /**
  * Controls when async stack traces are enabled in the debugee, either
@@ -73,7 +73,7 @@ const onceBp = (maxDepth: number): IAsyncStackPolicy => {
 					if (evt.reason !== "instrumentation") {
 						tryEnable();
 					}
-				})
+				}),
 			);
 
 			return disposable;
