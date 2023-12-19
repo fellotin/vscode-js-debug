@@ -79,13 +79,13 @@ export interface IBaseConfiguration extends IMandatedConfiguration {
 	 * prefixed with "!" to exclude them. May be set to an empty array or null
 	 * to avoid restriction.
 	 */
-	resolveSourceMapLocations: ReadonlyArray<string> | null;
+	resolveSourceMapLocations: readonly string[] | null;
 
 	/**
 	 * Locations that should be scanned while looking for sourcemaps. Patterns
 	 * can be prefixed with "!" to exclude them.
 	 */
-	outFiles: ReadonlyArray<string>;
+	outFiles: readonly string[];
 
 	/**
 	 * Whether to pause when sourcemapped scripts are loaded to load their
@@ -101,7 +101,7 @@ export interface IBaseConfiguration extends IMandatedConfiguration {
 	/**
 	 * An array of glob patterns for files to skip when debugging.
 	 */
-	skipFiles: ReadonlyArray<string>;
+	skipFiles: readonly string[];
 
 	/**
 	 * Automatically step through generated code that cannot be mapped back to the original source.
@@ -219,7 +219,7 @@ export interface IExtensionHostBaseConfiguration
 	/**
 	 * Command line arguments passed to the program.
 	 */
-	args: ReadonlyArray<string>;
+	args: readonly string[];
 
 	/**
 	 * If source maps are enabled, these glob patterns specify the generated
@@ -227,7 +227,7 @@ export interface IExtensionHostBaseConfiguration
 	 * If not specified, the generated code is expected in the same directory
 	 * as its source.
 	 */
-	outFiles: ReadonlyArray<string>;
+	outFiles: readonly string[];
 
 	/**
 	 * Path to the VS Code binary.
@@ -293,7 +293,7 @@ export interface INodeBaseConfiguration
 	 * If not specified, the generated code is expected in the same directory
 	 * as its source.
 	 */
-	outFiles: ReadonlyArray<string>;
+	outFiles: readonly string[];
 
 	/**
 	 * Path to the local directory containing the program.
@@ -316,7 +316,7 @@ export interface INodeBaseConfiguration
 	 * when using sourcemaps that don't exist or can't be detected before launch.
 	 * @see https://github.com/microsoft/vscode-js-debug/issues/492
 	 */
-	runtimeSourcemapPausePatterns: ReadonlyArray<string>;
+	runtimeSourcemapPausePatterns: readonly string[];
 
 	/**
 	 * Allows you to explicitly specify the Node version that's running, which
@@ -386,7 +386,7 @@ export interface INodeLaunchConfiguration
 	/**
 	 * Command line arguments passed to the program.
 	 */
-	args: string | ReadonlyArray<string>;
+	args: string | readonly string[];
 
 	/**
 	 * Restart session after Node.js has terminated.
@@ -407,7 +407,7 @@ export interface INodeLaunchConfiguration
 	/**
 	 * Optional arguments passed to the runtime executable.
 	 */
-	runtimeArgs: ReadonlyArray<string>;
+	runtimeArgs: readonly string[];
 
 	/**
 	 * If true, will start profiling soon as the process launches.
@@ -487,7 +487,7 @@ export interface IChromiumBaseConfiguration extends IBaseConfiguration {
 	 * searches the entire workspace. This needs to be specified due to extra
 	 * lookups that Vue's sourcemaps require.
 	 */
-	vueComponentPaths: ReadonlyArray<string>;
+	vueComponentPaths: readonly string[];
 
 	/**
    * WebSocket (`ws://`) address of the inspector. It's a template string that
@@ -610,7 +610,7 @@ export interface IChromiumLaunchConfiguration
 	/**
 	 * Additional browser command line arguments.
 	 */
-	runtimeArgs: ReadonlyArray<string> | null;
+	runtimeArgs: readonly string[] | null;
 
 	/**
 	 * Either 'canary', 'stable', 'beta', 'dev', 'custom' or path to the browser executable.
@@ -1105,27 +1105,32 @@ export function applyDefaults(
 	const defaultBrowserLocation =
 		location === "remote" ? ("ui" as const) : ("workspace" as const);
 	switch (config.type) {
-		case DebugType.Node:
+		case DebugType.Node: {
 			configWithDefaults = applyNodeDefaults(config);
 			break;
-		case DebugType.Edge:
+		}
+		case DebugType.Edge: {
 			configWithDefaults = applyEdgeDefaults(
 				config,
 				defaultBrowserLocation,
 			);
 			break;
-		case DebugType.Chrome:
+		}
+		case DebugType.Chrome: {
 			configWithDefaults = applyChromeDefaults(
 				config,
 				defaultBrowserLocation,
 			);
 			break;
-		case DebugType.ExtensionHost:
+		}
+		case DebugType.ExtensionHost: {
 			configWithDefaults = applyExtensionHostDefaults(config);
 			break;
-		case DebugType.Terminal:
+		}
+		case DebugType.Terminal: {
 			configWithDefaults = applyTerminalDefaults(config);
 			break;
+		}
 		default:
 			throw assertNever(config, "Unknown config: {value}");
 	}
@@ -1215,7 +1220,7 @@ export function resolveVariableInConfig<T>(
 			}
 			return varValue;
 		});
-	} else if (config instanceof Array) {
+	} else if (Array.isArray(config)) {
 		out = config.map((cfg) =>
 			resolveVariableInConfig(cfg, varName, varValue),
 		);
@@ -1233,7 +1238,7 @@ export function resolveVariableInConfig<T>(
 	return out as T;
 }
 
-export const breakpointLanguages: ReadonlyArray<string> = [
+export const breakpointLanguages: readonly string[] = [
 	"javascript",
 	"typescript",
 	"typescriptreact",

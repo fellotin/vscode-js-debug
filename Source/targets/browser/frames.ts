@@ -39,13 +39,14 @@ export class FrameModel {
 		mainFramePayload: Cdp.Page.FrameResourceTree | undefined,
 		targetId: Cdp.Target.TargetID,
 	) {
-		if (mainFramePayload)
+		if (mainFramePayload) {
 			this._addFramesRecursively(
 				cdp,
 				mainFramePayload,
 				mainFramePayload.frame.parentId,
 				targetId,
 			);
+		}
 		cdp.Page.on("frameAttached", (event) => {
 			this._frameAttached(
 				cdp,
@@ -69,7 +70,9 @@ export class FrameModel {
 	): Frame {
 		const frame = new Frame(this, cdp, frameId, parentFrameId);
 		this._frames.set(frame.id, frame);
-		if (frame.isMainFrame()) this._mainFrame = frame;
+		if (frame.isMainFrame()) {
+			this._mainFrame = frame;
+		}
 		this._onFrameAddedEmitter.fire(frame);
 		return frame;
 	}
@@ -81,7 +84,9 @@ export class FrameModel {
 		parentFrameId: Cdp.Page.FrameId | undefined,
 	): Frame {
 		let frame = this._frames.get(frameId);
-		if (!frame) frame = this._addFrame(cdp, frameId, parentFrameId);
+		if (!frame) {
+			frame = this._addFrame(cdp, frameId, parentFrameId);
+		}
 		frame._ref(targetId);
 		return frame;
 	}
@@ -111,7 +116,9 @@ export class FrameModel {
 		frameId: Cdp.Page.FrameId,
 	) {
 		const frame = this._frames.get(frameId);
-		if (!frame) return;
+		if (!frame) {
+			return;
+		}
 		frame._unref(targetId);
 	}
 
@@ -119,7 +126,7 @@ export class FrameModel {
 		return this._frames.get(frameId);
 	}
 
-	frames(): Array<Frame> {
+	frames(): Frame[] {
 		return Array.from(this._frames.values());
 	}
 
@@ -143,13 +150,14 @@ export class FrameModel {
 			frameTreePayload.childFrames &&
 			i < frameTreePayload.childFrames.length;
 			++i
-		)
+		) {
 			this._addFramesRecursively(
 				cdp,
 				frameTreePayload.childFrames[i],
 				frame.id,
 				targetId,
 			);
+		}
 	}
 }
 
@@ -224,26 +232,34 @@ export class Frame {
 	}
 
 	_unrefChildFrames(targetId: Cdp.Target.TargetID) {
-		for (const child of this.childFrames()) child._unref(targetId);
+		for (const child of this.childFrames()) {
+			child._unref(targetId);
+		}
 	}
 
 	_unref(targetId: Cdp.Target.TargetID) {
 		this._targets.delete(targetId);
-		if (this._targets.size) return;
+		if (this._targets.size) {
+			return;
+		}
 		this._unrefChildFrames(targetId);
 		this.model._frames.delete(this.id);
 		this.model._onFrameRemovedEmitter.fire(this);
 	}
 
 	displayName(): string {
-		if (this._name) return this._name;
+		if (this._name) {
+			return this._name;
+		}
 		return displayName(this._url) || `<iframe ${this.id}>`;
 	}
 }
 
 function trimEnd(text: string, maxLength: number) {
-	if (text.length <= maxLength) return text;
-	return text.substr(0, maxLength - 1) + "…";
+	if (text.length <= maxLength) {
+		return text;
+	}
+	return `${text.substr(0, maxLength - 1)}…`;
 }
 
 function displayName(urlstring: string): string {
@@ -254,13 +270,23 @@ function displayName(urlstring: string): string {
 		return trimEnd(urlstring, 20);
 	}
 
-	if (url.protocol === "data") return trimEnd(urlstring, 20);
+	if (url.protocol === "data") {
+		return trimEnd(urlstring, 20);
+	}
 
-	if (url.protocol === "blob") return urlstring;
-	if (urlstring === "about:blank") return urlstring;
+	if (url.protocol === "blob") {
+		return urlstring;
+	}
+	if (urlstring === "about:blank") {
+		return urlstring;
+	}
 
 	let displayName = path.basename(url.pathname);
-	if (!displayName) displayName = (url.host || "") + "/";
-	if (displayName === "/") displayName = trimEnd(urlstring, 20);
+	if (!displayName) {
+		displayName = `${url.host || ""}/`;
+	}
+	if (displayName === "/") {
+		displayName = trimEnd(urlstring, 20);
+	}
 	return displayName;
 }

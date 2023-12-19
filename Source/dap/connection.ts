@@ -80,7 +80,9 @@ export default class Connection {
 			{},
 			{
 				get: (_target, methodName: string) => {
-					if (methodName === "then") return;
+					if (methodName === "then") {
+						return;
+					}
 					if (methodName === "on") {
 						return (
 							requestName: string,
@@ -91,9 +93,10 @@ export default class Connection {
 								this._requestHandlers.delete(requestName);
 						};
 					}
-					if (methodName === "off")
+					if (methodName === "off") {
 						return (requestName: string) =>
 							this._requestHandlers.delete(requestName);
+					}
 					return (params: object) => {
 						if (isRequest(methodName)) {
 							return this.enqueueRequest(
@@ -125,7 +128,9 @@ export default class Connection {
 		};
 		const off = (eventName: string, listener: () => void) => {
 			const listeners = this._eventListeners.get(eventName);
-			if (listeners) listeners.delete(listener);
+			if (listeners) {
+				listeners.delete(listener);
+			}
 		};
 		const once = (
 			eventName: string,
@@ -133,7 +138,9 @@ export default class Connection {
 		) => {
 			return new Promise((cb) => {
 				const listener = (params?: object) => {
-					if (filter && !filter(params)) return;
+					if (filter && !filter(params)) {
+						return;
+					}
 					off(eventName, listener);
 					cb(params);
 				};
@@ -144,9 +151,15 @@ export default class Connection {
 			{},
 			{
 				get: (_target, methodName: string) => {
-					if (methodName === "on") return on;
-					if (methodName === "off") return off;
-					if (methodName === "once") return once;
+					if (methodName === "on") {
+						return on;
+					}
+					if (methodName === "off") {
+						return off;
+					}
+					if (methodName === "once") {
+						return once;
+					}
 					return (params?: object) =>
 						this.enqueueRequest(methodName, params);
 				},
@@ -176,7 +189,7 @@ export default class Connection {
 		if (this.closed) {
 			this.logger.warn(
 				LogTag.DapSend,
-				`Not sending message because the connection has ended`,
+				"Not sending message because the connection has ended",
 				message,
 			);
 			onDidWrite?.();
@@ -268,7 +281,9 @@ export default class Connection {
 		}
 		if (msg.type === "event") {
 			const listeners = this._eventListeners.get(msg.event) || new Set();
-			for (const listener of listeners) listener(msg.body);
+			for (const listener of listeners) {
+				listener(msg.body);
+			}
 		}
 		if (msg.type === "response") {
 			const cb = this._pendingRequests.get(msg.request_seq);
@@ -288,7 +303,7 @@ export default class Connection {
 				// eslint-disable-next-line
 				const format: string | undefined = (msg.body as any)?.error
 					?.format;
-				cb(format || msg.message || `Unknown error`);
+				cb(format || msg.message || "Unknown error");
 			}
 		}
 	}

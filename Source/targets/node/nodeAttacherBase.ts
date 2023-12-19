@@ -28,20 +28,18 @@ export abstract class NodeAttacherBase<
 		cdp: Cdp.Api,
 		vars: EnvironmentVars,
 	) {
-		const expression =
-			`typeof process==='undefined'||process.pid===undefined?'process not defined':(()=>{` +
-			Object.entries(vars.defined())
-				.map(([key, value]) => {
-					const k = JSON.stringify(key);
-					return appendVars.includes(key)
-						? `process.env[${k}]=(process.env[${k}]||'')+${JSON.stringify(
-								value,
-						  )}`
-						: `process.env[${k}]=${JSON.stringify(value)}`;
-				})
-				.join(";") +
-			"})()" +
-			getSourceSuffix();
+		const expression = `typeof process==='undefined'||process.pid===undefined?'process not defined':(()=>{${Object.entries(
+			vars.defined(),
+		)
+			.map(([key, value]) => {
+				const k = JSON.stringify(key);
+				return appendVars.includes(key)
+					? `process.env[${k}]=(process.env[${k}]||'')+${JSON.stringify(
+							value,
+					  )}`
+					: `process.env[${k}]=${JSON.stringify(value)}`;
+			})
+			.join(";")}})()${getSourceSuffix()}`;
 
 		for (let retries = 0; retries < 5; retries++) {
 			const result = await cdp.Runtime.evaluate({

@@ -85,7 +85,7 @@ export interface IRPCMetricsAndErrorsMap {
 }
 
 export interface IRPCOperation {
-	performance: ReadonlyArray<IRPCMetrics>;
+	performance: readonly IRPCMetrics[];
 }
 
 interface IErrorClassification {
@@ -271,10 +271,9 @@ export const createLoggers = (
 		>("js-debug/error", { ...globalMetrics, ...metrics });
 
 	const browserVersion = (metrics: IBrowserVersionMetrics) => {
-		globalMetrics.browser =
-			(metrics.targetProject || metrics.targetProject) +
-			"/" +
-			metrics.targetVersion;
+		globalMetrics.browser = `${
+			metrics.targetProject || metrics.targetProject
+		}/${metrics.targetVersion}`;
 
 		publicLog2<
 			IGlobalMetrics & IBrowserVersionMetrics,

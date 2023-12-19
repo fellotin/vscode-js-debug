@@ -32,7 +32,7 @@ export class ChromeDebugConfigurationResolver
 		folder: vscode.WorkspaceFolder | undefined,
 		config: ResolvingChromeConfiguration,
 	): Promise<AnyChromeConfiguration | null | undefined> {
-		if (!config.name && !config.type && !config.request) {
+		if (!(config.name || config.type || config.request)) {
 			const fromContext =
 				new ChromeDebugConfigurationProvider().createLaunchConfigFromContext();
 			if (!fromContext) {

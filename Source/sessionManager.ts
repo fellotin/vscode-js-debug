@@ -168,7 +168,9 @@ export class SessionManager<TSessionImpl extends IDebugSessionLike>
 	public terminate(debugSession: TSessionImpl) {
 		const session = this._sessions.get(debugSession.id);
 		this._sessions.delete(debugSession.id);
-		if (session) session.dispose();
+		if (session) {
+			session.dispose();
+		}
 	}
 
 	/**
@@ -315,7 +317,9 @@ export class SessionManager<TSessionImpl extends IDebugSessionLike>
 	public releaseDap(target: ITarget) {
 		this._sessionForTarget.delete(target);
 		const callbacks = this._sessionForTargetCallbacks.get(target);
-		if (callbacks) callbacks.reject(new Error("Target gone"));
+		if (callbacks) {
+			callbacks.reject(new Error("Target gone"));
+		}
 		this._sessionForTargetCallbacks.delete(target);
 	}
 
@@ -323,12 +327,16 @@ export class SessionManager<TSessionImpl extends IDebugSessionLike>
 	 * @inheritdoc
 	 */
 	public dispose() {
-		for (const session of this._sessions.values()) session.dispose();
+		for (const session of this._sessions.values()) {
+			session.dispose();
+		}
 		this._sessions.clear();
 		this._pendingTarget.clear();
 		this._sessionForTarget.clear();
 		this._sessionForTargetCallbacks.clear();
-		for (const disposable of this._disposables) disposable.dispose();
+		for (const disposable of this._disposables) {
+			disposable.dispose();
+		}
 		this._disposables = [];
 	}
 }

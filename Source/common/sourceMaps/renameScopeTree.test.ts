@@ -42,7 +42,7 @@ describe("extractScopeRanges", () => {
 					toOffset.convert(node.range.end),
 				);
 			actual.push(own);
-			node.children?.forEach((c) => gather(c, own + " -> "));
+			node.children?.forEach((c) => gather(c, `${own} -> `));
 		};
 
 		root.children?.forEach((node) => gather(node, ""));

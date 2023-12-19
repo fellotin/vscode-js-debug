@@ -33,10 +33,15 @@ function tokenizeFormatString(
 	const tokens: FormatToken[] = [];
 
 	function addStringToken(str: string) {
-		if (!str) return;
+		if (!str) {
+			return;
+		}
 		const lastToken = tokens[tokens.length - 1];
-		if (lastToken?.type === "string") lastToken.value += str;
-		else tokens.push({ type: "string", value: str });
+		if (lastToken?.type === "string") {
+			lastToken.value += str;
+		} else {
+			tokens.push({ type: "string", value: str });
+		}
 	}
 
 	function addSpecifierToken(
@@ -58,18 +63,20 @@ function tokenizeFormatString(
 		`%%|%(?:(\\d+)\\$)?(?:\\.(\\d*))?([${formatterNames.join("")}])`,
 		"g",
 	);
-	for (let match = re.exec(format); !!match; match = re.exec(format)) {
+	for (let match = re.exec(format); match; match = re.exec(format)) {
 		const matchStart = match.index;
-		if (matchStart > textStart)
+		if (matchStart > textStart) {
 			addStringToken(format.substring(textStart, matchStart));
+		}
 
 		if (match[0] === "%%") {
 			addStringToken("%");
 		} else {
 			const [, substitionString, precisionString, specifierString] =
 				match;
-			if (substitionString && Number(substitionString) > 0)
+			if (substitionString && Number(substitionString) > 0) {
 				substitutionIndex = Number(substitionString) - 1;
+			}
 			const precision = precisionString
 				? Number(precisionString)
 				: undefined;
@@ -84,7 +91,7 @@ function tokenizeFormatString(
 
 export function formatMessage<T>(
 	format: string,
-	substitutions: ReadonlyArray<T>,
+	substitutions: readonly T[],
 	formatters: Formatters<T>,
 ): { result: string; usedAllSubs: boolean } {
 	const tokens = tokenizeFormatString(format, Array.from(formatters.keys()));
@@ -107,11 +114,13 @@ export function formatMessage<T>(
 		if (index >= substitutions.length) {
 			// If there are not enough substitutions for the current substitutionIndex
 			// just output the format specifier literally and move on.
-			builder.append("%" + (token.precision || "") + token.specifier);
+			builder.append(`%${token.precision || ""}${token.specifier}`);
 			continue;
 		}
 		usedSubstitutionIndexes.add(index);
-		if (token.specifier === "c") cssFormatApplied = true;
+		if (token.specifier === "c") {
+			cssFormatApplied = true;
+		}
 		const formatter = formatters.get(token.specifier) || defaultFormatter;
 		builder.append(
 			formatter(substitutions[index], {
@@ -121,14 +130,19 @@ export function formatMessage<T>(
 		);
 	}
 
-	if (cssFormatApplied) builder.append("\x1b[0m"); // clear format
+	if (cssFormatApplied) {
+		builder.append("\x1b[0m"); // clear format
+	}
 
 	for (let i = 0; builder.checkBudget() && i < substitutions.length; ++i) {
-		if (usedSubstitutionIndexes.has(i)) continue;
+		if (usedSubstitutionIndexes.has(i)) {
+			continue;
+		}
 		usedSubstitutionIndexes.add(i);
-		if (format || i)
+		if (format || i) {
 			// either we are second argument or we had format.
 			builder.append(" ");
+		}
 		builder.append(
 			defaultFormatter(substitutions[i], {
 				budget: builder.budget(),
@@ -162,25 +176,39 @@ export function formatCssAsAnsi(style: string): string {
 	while (match !== null) {
 		if (match.length === 3) {
 			switch (match[1]) {
-				case "color":
+				case "color": {
 					const color = escapeAnsiColor(match[2]);
-					if (color) escapedSequence += `\x1b[38;5;${color}m`;
+					if (color) {
+						escapedSequence += `\x1b[38;5;${color}m`;
+					}
 					break;
+				}
 				case "background":
-				case "background-color":
+				case "background-color": {
 					const background = escapeAnsiColor(match[2]);
-					if (background)
+					if (background) {
 						escapedSequence += `\x1b[48;5;${background}m`;
+					}
 					break;
-				case "font-weight":
-					if (match[2] === "bold") escapedSequence += "\x1b[1m";
+				}
+				case "font-weight": {
+					if (match[2] === "bold") {
+						escapedSequence += "\x1b[1m";
+					}
 					break;
-				case "font-style":
-					if (match[2] === "italic") escapedSequence += "\x1b[3m";
+				}
+				case "font-style": {
+					if (match[2] === "italic") {
+						escapedSequence += "\x1b[3m";
+					}
 					break;
-				case "text-decoration":
-					if (match[2] === "underline") escapedSequence += "\x1b[4m";
+				}
+				case "text-decoration": {
+					if (match[2] === "underline") {
+						escapedSequence += "\x1b[4m";
+					}
 					break;
+				}
 				default:
 				// css not mapped, skip
 			}

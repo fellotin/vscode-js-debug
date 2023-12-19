@@ -69,14 +69,14 @@ export const getStringyProps = templateFunction(function (
 				}
 			}
 
-			if (!str && !String(value.toString).includes("[native code]")) {
+			if (!(str || String(value.toString).includes("[native code]"))) {
 				str = String(value);
 			}
 
 			if (str && !str.startsWith("[object ")) {
 				out[key] =
 					str.length >= maxLength
-						? str.slice(0, maxLength) + "…"
+						? `${str.slice(0, maxLength)}…`
 						: str;
 			}
 		}
@@ -122,13 +122,13 @@ export const getToStringIfCustom = templateFunction(function (
 			}
 		}
 
-		if (!str && !String(this.toString).includes("[native code]")) {
+		if (!(str || String(this.toString).includes("[native code]"))) {
 			str = String(this);
 		}
 
 		if (str && !str.startsWith("[object ")) {
 			return str.length >= maxLength
-				? str.slice(0, maxLength) + "…"
+				? `${str.slice(0, maxLength)}…`
 				: str;
 		}
 	}

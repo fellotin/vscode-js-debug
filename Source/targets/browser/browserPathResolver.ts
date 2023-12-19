@@ -91,10 +91,10 @@ export class BrowserSourcePathResolver extends SourcePathResolverBase<IOptions> 
 		);
 		const urlPrefix = bestMatch[0].replace(/\/$|^\//g, "");
 		if (urlPrefix) {
-			urlPath = urlPrefix + "/" + urlPath;
+			urlPath = `${urlPrefix}/${urlPath}`;
 		}
 
-		if (!baseUrl && !utils.isValidUrl(urlPath)) {
+		if (!(baseUrl || utils.isValidUrl(urlPath))) {
 			return { url: urlPath, needsWildcard: true };
 		}
 
@@ -166,7 +166,7 @@ export class BrowserSourcePathResolver extends SourcePathResolverBase<IOptions> 
 			.replace(/^\//, "") // Strip leading /
 			.split(/[\/\\]/);
 		while (pathParts.length > 0) {
-			const joinedPath = "/" + pathParts.join("/");
+			const joinedPath = `/${pathParts.join("/")}`;
 			const clientPath = await defaultPathMappingResolver(
 				joinedPath,
 				this.options.pathMapping,
@@ -196,12 +196,13 @@ export class BrowserSourcePathResolver extends SourcePathResolverBase<IOptions> 
 		switch (this.vueMapper.getVueHandling(url)) {
 			case VueHandling.Omit:
 				return undefined;
-			case VueHandling.Lookup:
+			case VueHandling.Lookup: {
 				const vuePath = await this.vueMapper.lookup(url);
 				if (vuePath) {
 					return fixDriveLetterAndSlashes(vuePath);
 				}
 				break;
+			}
 			default:
 			// fall through
 		}
@@ -267,10 +268,10 @@ export class BrowserSourcePathResolver extends SourcePathResolverBase<IOptions> 
 		let endRegexEscape = url.length;
 		if (url.endsWith(Suffix.Index)) {
 			endRegexEscape = url.length - Suffix.Index.length - 1;
-			url = url.slice(0, endRegexEscape) + `\\/?($|index(\\.html)?)`;
+			url = `${url.slice(0, endRegexEscape)}\\/?($|index(\\.html)?)`;
 		} else if (url.endsWith(Suffix.Html)) {
 			endRegexEscape = url.length - Suffix.Html.length;
-			url = url.slice(0, endRegexEscape) + `(\\.html)?`;
+			url = `${url.slice(0, endRegexEscape)}(\\.html)?`;
 		}
 
 		// If there's no base URL, allow the URL to match _any_ protocol

@@ -423,8 +423,9 @@ export class DebugAdapter implements IDisposable {
 
 	async _onThreads(): Promise<Dap.ThreadsResult | Dap.Error> {
 		const threads: Dap.Thread[] = [];
-		if (this._thread)
+		if (this._thread) {
 			threads.push({ id: this._thread.id, name: this._thread.name() });
+		}
 		return { threads };
 	}
 
@@ -517,8 +518,9 @@ export class DebugAdapter implements IDisposable {
 		const variableStore = this.findVariableStore((v) =>
 			v.hasVariable(params.variablesReference),
 		);
-		if (!variableStore)
+		if (!variableStore) {
 			return errors.createSilentError(l10n.t("Variable not found"));
+		}
 		params.value = sourceUtils.wrapObjectLiteral(params.value.trim());
 		return variableStore.setVariable(params);
 	}
@@ -532,9 +534,13 @@ export class DebugAdapter implements IDisposable {
 	}
 
 	async _refreshStackTrace() {
-		if (!this._thread) return;
+		if (!this._thread) {
+			return;
+		}
 		const details = this._thread.pausedDetails();
-		if (details) await this._thread.refreshStackTrace();
+		if (details) {
+			await this._thread.refreshStackTrace();
+		}
 	}
 
 	createThread(cdp: Cdp.Api, target: ITarget): Thread {
@@ -611,7 +617,7 @@ export class DebugAdapter implements IDisposable {
 	async _prettyPrintSource(
 		params: Dap.PrettyPrintSourceParams,
 	): Promise<Dap.PrettyPrintSourceResult | Dap.Error> {
-		if (!params.source || !this._thread) {
+		if (!(params.source && this._thread)) {
 			return { canPrettyPrint: false };
 		}
 

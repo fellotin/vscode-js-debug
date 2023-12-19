@@ -29,14 +29,14 @@ describe("StackTraceParser", () => {
 				"node:internal/modules/cjs/loader",
 				new Base1Position(1103, 14),
 			),
-			`)`,
+			")",
 			"\n",
 			"      at Object.Module._extensions..js (",
 			new StackTraceLocation(
 				"node:internal/modules/cjs/loader",
 				new Base1Position(1155, 10),
 			),
-			`)`,
+			")",
 			"\n",
 			"      at ",
 			new StackTraceLocation(

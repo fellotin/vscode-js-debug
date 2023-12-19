@@ -141,7 +141,7 @@ export enum ErrorCodes {
 export function reportToConsole(dap: Dap.Api, error: string) {
 	dap.output({
 		category: "console",
-		output: error + "\n",
+		output: `${error}\n`,
 	});
 }
 
@@ -278,7 +278,7 @@ export const replError = (message: string) =>
 export const browserNotFound = (
 	browserType: string,
 	requested: string,
-	available: ReadonlyArray<string>,
+	available: readonly string[],
 ) =>
 	createUserError(
 		requested === "*" && !available.length

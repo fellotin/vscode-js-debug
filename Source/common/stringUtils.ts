@@ -5,12 +5,16 @@
 import { IPosition } from "./positions";
 
 export function trimEnd(text: string, maxLength: number) {
-	if (text.length <= maxLength) return text;
-	return text.substr(0, maxLength - 1) + "…";
+	if (text.length <= maxLength) {
+		return text;
+	}
+	return `${text.substr(0, maxLength - 1)}…`;
 }
 
 export function trimMiddle(text: string, maxLength: number) {
-	if (text.length <= maxLength) return text;
+	if (text.length <= maxLength) {
+		return text;
+	}
 	let leftHalf = maxLength >> 1;
 	let rightHalf = maxLength - leftHalf - 1;
 
@@ -21,12 +25,13 @@ export function trimMiddle(text: string, maxLength: number) {
 	}
 
 	const leftPoint = text.codePointAt(leftHalf - 1);
-	if (leftHalf > 0 && leftPoint && leftPoint >= 0x10000) --leftHalf;
-	return (
-		text.substr(0, leftHalf) +
-		"\u2026" +
-		text.substr(text.length - rightHalf, rightHalf)
-	);
+	if (leftHalf > 0 && leftPoint && leftPoint >= 0x10000) {
+		--leftHalf;
+	}
+	return `${text.substr(0, leftHalf)}\u2026${text.substr(
+		text.length - rightHalf,
+		rightHalf,
+	)}`;
 }
 
 export function formatMillisForLog(millis: number): string {

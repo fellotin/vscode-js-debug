@@ -145,22 +145,27 @@ export function rewriteTopLevelAwait(code: string): string | undefined {
 				case "ArrowFunctionExpression":
 				case "MethodDefinition":
 					return VisitorOption.Skip;
-				case "AwaitExpression":
+				case "AwaitExpression": {
 					containsAwait = true;
 					return;
-				case "ForOfStatement":
+				}
+				case "ForOfStatement": {
 					if (node.await) {
 						containsAwait = true;
 					}
 					return;
-				case "ReturnStatement":
+				}
+				case "ReturnStatement": {
 					containsReturn = true;
 					return;
-				case "VariableDeclaration":
+				}
+				case "VariableDeclaration": {
 					if (
-						!parent ||
-						!("body" in parent) ||
-						!(parent.body instanceof Array)
+						!(
+							parent &&
+							"body" in parent &&
+							Array.isArray(parent.body)
+						)
 					) {
 						return;
 					}
@@ -187,6 +192,7 @@ export function rewriteTopLevelAwait(code: string): string | undefined {
 					);
 
 					stmts.splice(stmts.indexOf(node), 1, ...spliced);
+				}
 			}
 		},
 	});
@@ -253,7 +259,9 @@ export function wrapObjectLiteral(code: string): string {
 }
 
 export function parseSourceMappingUrl(content: string): string | undefined {
-	if (!content) return;
+	if (!content) {
+		return;
+	}
 	const name = "sourceMappingURL";
 	const length = content.length;
 	const nameLength = name.length;
@@ -262,22 +270,38 @@ export function parseSourceMappingUrl(content: string): string | undefined {
 	let equalSignPos = 0;
 	while (true) {
 		pos = content.lastIndexOf(name, pos);
-		if (pos === -1) return;
+		if (pos === -1) {
+			return;
+		}
 		// Check for a /\/[\/*][@#][ \t]/ regexp (length of 4) before found name.
-		if (pos < 4) return;
+		if (pos < 4) {
+			return;
+		}
 		pos -= 4;
-		if (content[pos] !== "/") continue;
-		if (content[pos + 1] !== "/") continue;
-		if (content[pos + 2] !== "#" && content[pos + 2] !== "@") continue;
-		if (content[pos + 3] !== " " && content[pos + 3] !== "\t") continue;
+		if (content[pos] !== "/") {
+			continue;
+		}
+		if (content[pos + 1] !== "/") {
+			continue;
+		}
+		if (content[pos + 2] !== "#" && content[pos + 2] !== "@") {
+			continue;
+		}
+		if (content[pos + 3] !== " " && content[pos + 3] !== "\t") {
+			continue;
+		}
 		equalSignPos = pos + 4 + nameLength;
-		if (equalSignPos < length && content[equalSignPos] !== "=") continue;
+		if (equalSignPos < length && content[equalSignPos] !== "=") {
+			continue;
+		}
 		break;
 	}
 
 	let sourceMapUrl = content.substring(equalSignPos + 1);
 	const newLine = sourceMapUrl.indexOf("\n");
-	if (newLine !== -1) sourceMapUrl = sourceMapUrl.substring(0, newLine);
+	if (newLine !== -1) {
+		sourceMapUrl = sourceMapUrl.substring(0, newLine);
+	}
 	return sourceMapUrl.trim();
 }
 

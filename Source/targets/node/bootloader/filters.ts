@@ -9,7 +9,7 @@ import { IBootloaderInfo } from "./environment";
 import { bootloaderLogger } from "./logger";
 
 export const checkIsDebugMode = (env: IBootloaderInfo) => {
-	if (!env || !env.inspectorIpc) {
+	if (!env?.inspectorIpc) {
 		bootloaderLogger.info(
 			LogTag.RuntimeLaunch,
 			"Disabling due to lack of IPC server",

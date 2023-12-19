@@ -40,17 +40,17 @@ export class FileGlobList {
 		patterns,
 	}: {
 		rootPath?: string;
-		patterns?: ReadonlyArray<string>;
+		patterns?: readonly string[];
 	}) {
-		if (!rootPath || !patterns) {
-			this.rootPath = "";
-			this.patterns = [];
-		} else {
+		if (rootPath && patterns) {
 			this.rootPath = rootPath;
 			this.patterns = patterns.map((p) => {
 				const negated = p.startsWith("!");
 				return { negated, pattern: p.slice(negated ? 1 : 0) };
 			});
+		} else {
+			this.rootPath = "";
+			this.patterns = [];
 		}
 	}
 

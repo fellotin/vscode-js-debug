@@ -263,8 +263,9 @@ describe("BrowserPathResolver", () => {
 					filePath,
 				),
 			).to.equal(
-				urlToRegex(absolutePathToFileUrl(filePath)) +
-					"|[hH][tT][tT][pP][sS]?:\\/\\/[^\\/]+\\/[fF][oO][oO]\\.[jJ][sS]($|\\?)",
+				`${urlToRegex(
+					absolutePathToFileUrl(filePath),
+				)}|[hH][tT][tT][pP][sS]?:\\/\\/[^\\/]+\\/[fF][oO][oO]\\.[jJ][sS]($|\\?)`,
 			);
 		});
 

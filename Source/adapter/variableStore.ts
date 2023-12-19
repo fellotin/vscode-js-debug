@@ -363,11 +363,12 @@ class VariableContext {
 			return [];
 		}
 
-		if (evaluationOptions)
+		if (evaluationOptions) {
 			this.cdp.DotnetDebugger.setEvaluationOptions({
 				options: evaluationOptions,
 				type: "variable",
 			});
+		}
 
 		const [accessorsProperties, ownProperties, stringyProps] =
 			await Promise.all([
@@ -397,7 +398,9 @@ class VariableContext {
 					.then((r) => r?.result.value || {})
 					.catch(() => ({}) as Record<string, string>),
 			]);
-		if (!accessorsProperties || !ownProperties) return [];
+		if (!(accessorsProperties && ownProperties)) {
+			return [];
+		}
 
 		// Merge own properties and all accessors.
 		const propertiesMap = new Map<string, AnyPropertyDescriptor>();
@@ -421,9 +424,14 @@ class VariableContext {
 			propertiesMap.set(property.name, property);
 		}
 		for (const property of ownProperties.result) {
-			if (property.get || property.set) continue;
-			if (property.symbol) propertySymbols.push(property);
-			else propertiesMap.set(property.name, property);
+			if (property.get || property.set) {
+				continue;
+			}
+			if (property.symbol) {
+				propertySymbols.push(property);
+			} else {
+				propertiesMap.set(property.name, property);
+			}
 		}
 
 		// Push own properties & accessors and symbols
@@ -579,10 +587,7 @@ class VariableContext {
 			if (customValueDescription) {
 				if (customValueDescription.exceptionDetails === undefined) {
 					return { result: customValueDescription.result };
-				} else if (
-					customValueDescription &&
-					customValueDescription.result.description
-				) {
+				} else if (customValueDescription?.result.description) {
 					return {
 						errorDescription:
 							customValueDescription.result.description,
@@ -733,7 +738,7 @@ class OutputVariable extends Variable {
 	constructor(
 		context: VariableContext,
 		private readonly value: string,
-		private readonly args: ReadonlyArray<Cdp.Runtime.RemoteObject>,
+		private readonly args: readonly Cdp.Runtime.RemoteObject[],
 		private readonly stackTrace: StackTrace | undefined,
 	) {
 		super(context, { type: args[0]?.type ?? "string" });
@@ -1107,13 +1112,6 @@ class OutputTableVariable extends ArrayVariable {
 }
 
 abstract class AccessorVariable extends Variable {
-	constructor(
-		context: VariableContext,
-		remoteObject: Cdp.Runtime.RemoteObject,
-	) {
-		super(context, remoteObject);
-	}
-
 	public override getChildren(_params: Dap.VariablesParams) {
 		return this.context.createObjectPropertyVars(this.remoteObject);
 	}
@@ -1479,7 +1477,7 @@ export class VariableStore {
 	 */
 	public createVariableForOutput(
 		text: string,
-		args: ReadonlyArray<Cdp.Runtime.RemoteObject>,
+		args: readonly Cdp.Runtime.RemoteObject[],
 		stackTrace?: StackTrace,
 		outputType?: Cdp.Runtime.ConsoleAPICalledEvent["type"],
 	): IVariableContainer {

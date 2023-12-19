@@ -80,7 +80,6 @@ export class TerminalLinkHandler
 				return [];
 			case "always":
 				break;
-			case "on":
 			default:
 				if (!this.enabledTerminals.has(context.terminal)) {
 					return [];

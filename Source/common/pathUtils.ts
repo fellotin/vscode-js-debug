@@ -171,7 +171,9 @@ export function fixDriveLetter(
 	aPath: string,
 	uppercaseDriveLetter = false,
 ): string {
-	if (!aPath) return aPath;
+	if (!aPath) {
+		return aPath;
+	}
 
 	if (isWindowsFileUri(aPath)) {
 		const prefixLen = fileUriPrefix.length;
@@ -197,7 +199,9 @@ export function fixDriveLetterAndSlashes(
 	aPath: string,
 	uppercaseDriveLetter = false,
 ): string {
-	if (!aPath) return aPath;
+	if (!aPath) {
+		return aPath;
+	}
 
 	aPath = fixDriveLetter(aPath, uppercaseDriveLetter);
 	if (isWindowsFileUri(aPath)) {
@@ -248,7 +252,7 @@ export const isSubdirectoryOf = (parent: string, child: string) => {
  */
 export const isSubpathOrEqualTo = (parent: string, child: string) => {
 	const rel = path.relative(parent, child);
-	return !path.isAbsolute(rel) && !rel.startsWith("..");
+	return !(path.isAbsolute(rel) || rel.startsWith(".."));
 };
 
 /**

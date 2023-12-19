@@ -176,7 +176,7 @@ export class Source {
 	/**
 	 * Gets scripts associated with this source.
 	 */
-	get scripts(): ReadonlyArray<ISourceScript> {
+	get scripts(): readonly ISourceScript[] {
 		return this._scripts;
 	}
 
@@ -228,7 +228,7 @@ export class Source {
 			return (
 				map && {
 					map,
-					source: [...this.sourceMap.sourceByUrl!.values()][0],
+					source: [...this.sourceMap.sourceByUrl?.values()][0],
 				}
 			);
 		}
@@ -241,9 +241,9 @@ export class Source {
 		// Eval'd scripts have empty urls, give them a temporary one for the purpose
 		// of the sourcemap. See #929
 		const baseUrl = this.url || `eval://${this.sourceReference}.js`;
-		const sourceMapUrl = baseUrl + "-pretty.map";
+		const sourceMapUrl = `${baseUrl}-pretty.map`;
 		const basename = baseUrl.split(/[\/\\]/).pop() as string;
-		const fileName = basename + "-pretty.js";
+		const fileName = `${basename}-pretty.js`;
 		const map = await prettyPrintAsSourceMap(
 			fileName,
 			content,
@@ -306,7 +306,9 @@ export class Source {
 
 	async prettyName(): Promise<string> {
 		const path = await this._existingAbsolutePath;
-		if (path) return path;
+		if (path) {
+			return path;
+		}
 		return this._fqname;
 	}
 
@@ -332,7 +334,7 @@ export class Source {
 	 */
 	private _fullyQualifiedName(): string {
 		if (!this.url) {
-			return "<eval>/VM" + this.sourceReference;
+			return `<eval>/VM${this.sourceReference}`;
 		}
 
 		if (this.url.endsWith(sourceUtils.SourceConstants.ReplExtension)) {
@@ -357,7 +359,7 @@ export class Source {
 			const tokens: string[] = [];
 			const url = new URL(this.url);
 			if (url.protocol === "data:") {
-				return "<eval>/VM" + this.sourceReference;
+				return `<eval>/VM${this.sourceReference}`;
 			}
 
 			if (url.hostname) {
@@ -365,7 +367,7 @@ export class Source {
 			}
 
 			if (url.port) {
-				tokens.push("\uA789" + url.port); // : in unicode
+				tokens.push(`\uA789${url.port}`); // : in unicode
 			}
 
 			if (url.pathname) {
@@ -378,7 +380,7 @@ export class Source {
 
 			const searchParams = url.searchParams?.toString();
 			if (searchParams) {
-				tokens.push("?" + searchParams);
+				tokens.push(`?${searchParams}`);
 			}
 
 			fqname = tokens.join("");
@@ -574,7 +576,9 @@ export function uiToRawOffset<T extends LineColumn>(
 	let { lineNumber, columnNumber } = lc;
 	if (offset) {
 		lineNumber += offset.lineOffset;
-		if (lineNumber <= 1) columnNumber += offset.columnOffset;
+		if (lineNumber <= 1) {
+			columnNumber += offset.columnOffset;
+		}
 	}
 
 	return { ...lc, lineNumber, columnNumber };
@@ -591,8 +595,9 @@ export function rawToUiOffset<T extends LineColumn>(
 	let { lineNumber, columnNumber } = lc;
 	if (offset) {
 		lineNumber = Math.max(1, lineNumber - offset.lineOffset);
-		if (lineNumber <= 1)
+		if (lineNumber <= 1) {
 			columnNumber = Math.max(1, columnNumber - offset.columnOffset);
+		}
 	}
 
 	return { ...lc, lineNumber, columnNumber };

@@ -5,7 +5,7 @@
 export class Semver {
 	public static parse(str: string) {
 		const parts = str.split(".").map(Number);
-		if (parts.length !== 3 || parts.some(isNaN)) {
+		if (parts.length !== 3 || parts.some(Number.isNaN)) {
 			throw new SyntaxError(`Input string '${str}' is not a semver`);
 		}
 

@@ -58,7 +58,7 @@ export class ChromeLauncher extends BrowserLauncher<IChromeLaunchConfiguration> 
 			this.browserFinder,
 			executablePath,
 		);
-		if (!resolvedPath || !(await canAccess(this.fs, resolvedPath))) {
+		if (!(resolvedPath && (await canAccess(this.fs, resolvedPath)))) {
 			throw new ProtocolError(
 				browserNotFound(
 					"Chrome",

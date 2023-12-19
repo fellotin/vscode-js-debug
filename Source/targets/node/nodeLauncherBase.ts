@@ -557,7 +557,7 @@ export abstract class NodeLauncherBase<T extends AnyNodeConfiguration>
 
 		// 2. Try the tmpdir, if it's space-free.
 		const contents = `require(${JSON.stringify(targetPath)})`;
-		if (!os.tmpdir().includes(" ") || !cwd) {
+		if (!(os.tmpdir().includes(" ") && cwd)) {
 			const tmpPath = path.join(
 				os.tmpdir(),
 				"vscode-js-debug-bootloader.js",
@@ -589,16 +589,14 @@ export abstract class NodeLauncherBase<T extends AnyNodeConfiguration>
 				returnByValue: true,
 				// note: for some bizarre reason, if launched with --inspect-brk, the
 				// process.pid in extension host debugging is initially undefined.
-				expression:
-					`typeof process === 'undefined' || process.pid === undefined ? 'process not defined' : ({ processId: process.pid, nodeVersion: process.version, architecture: process.arch })` +
-					getSourceSuffix(),
+				expression: `typeof process === 'undefined' || process.pid === undefined ? 'process not defined' : ({ processId: process.pid, nodeVersion: process.version, architecture: process.arch })${getSourceSuffix()}`,
 			});
 
 			if (!this.program) {
 				return; // shut down
 			}
 
-			if (!telemetry || !telemetry.result.value) {
+			if (!telemetry?.result.value) {
 				this.logger.error(
 					LogTag.RuntimeTarget,
 					"Undefined result getting telemetry",

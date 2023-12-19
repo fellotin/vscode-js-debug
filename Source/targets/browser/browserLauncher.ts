@@ -357,7 +357,10 @@ export abstract class BrowserLauncher<T extends AnyChromiumLaunchConfiguration>
 				fullFile.includes("?") ? fullFile.indexOf("?") : Infinity,
 			);
 
-			if (isFinite(di) && !(await existsInjected(this.fs, fullFile))) {
+			if (
+				Number.isFinite(di) &&
+				!(await existsInjected(this.fs, fullFile))
+			) {
 				url =
 					absolutePathToFileUrl(fullFile.slice(0, di)) +
 					fullFile.slice(di);

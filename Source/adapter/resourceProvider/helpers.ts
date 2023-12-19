@@ -18,7 +18,7 @@ export const addHeader: (
 	return {
 		...options,
 		[key]: existing
-			? existing instanceof Array
+			? Array.isArray(existing)
 				? existing.concat(value)
 				: [existing as string, value]
 			: value,

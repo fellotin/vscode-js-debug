@@ -251,13 +251,10 @@ export class ExceptionPauseService implements IExceptionPauseService {
 				return undefined;
 			}
 
-			const expr =
-				"!!(" +
-				filters
-					.map((f) => f.condition)
-					.filter(truthy)
-					.join(") || !!(") +
-				")";
+			const expr = `!!(${filters
+				.map((f) => f.condition)
+				.filter(truthy)
+				.join(") || !!(")})`;
 
 			const err = getSyntaxErrorIn(expr);
 			if (err) {

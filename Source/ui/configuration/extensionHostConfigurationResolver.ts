@@ -81,5 +81,5 @@ const getExtensionKind = async (
 		return ["workspace"];
 	}
 
-	return extensionKind instanceof Array ? extensionKind : [extensionKind];
+	return Array.isArray(extensionKind) ? extensionKind : [extensionKind];
 };

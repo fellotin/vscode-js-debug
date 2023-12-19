@@ -10,7 +10,7 @@ interface ObjectConstructor {
 }
 
 // eslint-disable-next-line
-declare var Object: ObjectConstructor;
+declare let Object: ObjectConstructor;
 
 /** Return the strings that form S and ignore the symbols */
 type WithoutSymbols<S> = S extends string ? S : never;

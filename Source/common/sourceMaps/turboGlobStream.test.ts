@@ -40,7 +40,7 @@ describe("TurboGlobStream", () => {
 					...opts,
 					cache,
 					fileProcessor: (fname, meta) => {
-						delete (meta as Record<string, unknown>).mtime; // delete this since it'll change for every test
+						(meta as Record<string, unknown>).mtime = undefined; // delete this since it'll change for every test
 						return opts.fileProcessor(fname, meta);
 					},
 				});

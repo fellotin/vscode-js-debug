@@ -16,7 +16,7 @@ export function fixInspectFlags(config: ResolvingNodeLaunchConfiguration) {
 	const resolved: string[] = [];
 	for (const arg of config.runtimeArgs) {
 		if (/^--inspect-brk(=|$)/.test(arg)) {
-			config.stopOnEntry = config.stopOnEntry || true;
+			config.stopOnEntry = true;
 		} else {
 			resolved.push(arg);
 		}

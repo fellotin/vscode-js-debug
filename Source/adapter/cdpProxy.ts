@@ -353,14 +353,16 @@ export class CdpProxyProvider implements ICdpProxyProvider {
 			params,
 		);
 		switch (method) {
-			case "enable":
+			case "enable": {
 				for (const m of this.replay.read(domain as keyof Cdp.Api)) {
 					client.send({ method: m.event, params: m.params });
 				}
 				break;
-			case "disable":
+			}
+			case "disable": {
 				this.replay.clearDomain(domain as keyof Cdp.Api);
 				break;
+			}
 			default:
 			// no-op
 		}

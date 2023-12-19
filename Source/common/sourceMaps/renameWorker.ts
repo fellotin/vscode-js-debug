@@ -25,7 +25,7 @@ export function extractScopeRangesWithFactory<T extends TypeWithChildren>(
 		{ loc: start }: Node = indexingNode,
 		{ loc: end }: Node = indexingNode,
 	) => {
-		if (!start || !end) {
+		if (!(start && end)) {
 			throw new Error("should include locations");
 		}
 
@@ -51,28 +51,32 @@ export function extractScopeRangesWithFactory<T extends TypeWithChildren>(
 			switch (node.type) {
 				// include from the first param to catch function names:
 				case "FunctionDeclaration":
-				case "ArrowFunctionExpression":
+				case "ArrowFunctionExpression": {
 					push(node, node.params[0] || node.body, node.body);
 					coveredBlocks.add(node.body);
 					break;
+				}
 				// include the top level program:
-				case "Program":
+				case "Program": {
 					push(node);
 					programScope = stack[0].scopeNode;
 					break;
+				}
 				// include the entire loop to handle declarations inside the statement:
 				case "ForStatement":
 				case "ForOfStatement":
-				case "ForInStatement":
+				case "ForInStatement": {
 					push(node);
 					coveredBlocks.add(node.body);
 					break;
+				}
 				// everything else is captured with block statements:
-				case "BlockStatement":
+				case "BlockStatement": {
 					if (!coveredBlocks.has(node)) {
 						push(node);
 					}
 					break;
+				}
 			}
 		},
 		leave: (node) => {

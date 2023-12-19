@@ -64,7 +64,7 @@ export class WebSocketTransport implements ITransport {
 								return;
 							}
 
-							this.create(
+							WebSocketTransport.create(
 								redirectUrl,
 								cancellationToken,
 								remoteHostHeader,

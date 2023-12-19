@@ -49,7 +49,7 @@ export class PrettyPrintUI implements IExtensionContribution {
 	 */
 	public async prettifyActive() {
 		const editor = vscode.window.activeTextEditor;
-		if (!editor || !this.canPrettyPrint(editor)) {
+		if (!(editor && this.canPrettyPrint(editor))) {
 			return;
 		}
 

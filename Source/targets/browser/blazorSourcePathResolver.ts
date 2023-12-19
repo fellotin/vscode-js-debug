@@ -71,8 +71,9 @@ export class BlazorSourcePathResolver extends BrowserSourcePathResolver {
 			const fileUrl = utils.absolutePathToFileUrl(absolutePath);
 			const fileRegexp = utils.urlToRegex(fileUrl);
 			const fileRegexpSuper = super.absolutePathToUrlRegexp(absolutePath);
-			if (!fileRegexp.includes(fileRegexpSuper))
+			if (!fileRegexp.includes(fileRegexpSuper)) {
 				return `${fileRegexp}|${fileRegexpSuper}`;
+			}
 			return fileRegexp;
 		}
 

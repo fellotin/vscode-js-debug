@@ -53,8 +53,12 @@ export class BreakpointsStatisticsCalculator {
 		let hit = 0;
 		for (const singleStatistic of this._statisticsById.values()) {
 			count++;
-			if (singleStatistic.hit) hit++;
-			if (singleStatistic.verified) verified++;
+			if (singleStatistic.hit) {
+				hit++;
+			}
+			if (singleStatistic.verified) {
+				verified++;
+			}
 		}
 
 		return { set: count, verified, hit };

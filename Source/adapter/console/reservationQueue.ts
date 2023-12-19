@@ -71,7 +71,7 @@ export class ReservationQueue<T> implements IDisposable {
 	}
 }
 
-const extractResolved = <T>(list: ReadonlyArray<Reservation<T>>) =>
+const extractResolved = <T>(list: readonly Reservation<T>[]) =>
 	list.map((i) => i.value).filter((v): v is T => v !== rejected);
 
 const unsettled = Symbol("unsettled");

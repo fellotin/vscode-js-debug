@@ -22,7 +22,6 @@ export const isInstanceOf = <T extends Function>(cls: T) =>
  * Asserts that the value is never. If this function is reached, it throws.
  */
 export const assertNever = (value: never, message: string): never => {
-	debugger;
 	throw new Error(message.replace("{value}", JSON.stringify(value)));
 };
 
@@ -110,7 +109,7 @@ export function sortKeys<T>(
 	obj: T,
 	sortFn?: (a: keyof T, b: keyof T) => number,
 ): T {
-	if (!obj || typeof obj !== "object" || obj instanceof Array) {
+	if (!obj || typeof obj !== "object" || Array.isArray(obj)) {
 		return obj;
 	}
 
@@ -130,7 +129,7 @@ export function walkObject(obj: any, visitor: (value: unknown) => any): any {
 	obj = visitor(obj);
 
 	if (obj) {
-		if (obj instanceof Array) {
+		if (Array.isArray(obj)) {
 			obj = obj.map((v) => walkObject(v, visitor));
 		} else if (typeof obj === "object" && obj) {
 			for (const key of Object.keys(obj)) {
@@ -353,7 +352,7 @@ export function trailingEdgeThrottle(
  * in which the predicate returned true, the second where it returned false.
  */
 export async function bisectArrayAsync<T>(
-	items: ReadonlyArray<T>,
+	items: readonly T[],
 	predicate: (item: T) => Promise<boolean> | boolean,
 ): Promise<[T[], T[]]> {
 	const a: T[] = [];
@@ -372,7 +371,7 @@ export async function bisectArrayAsync<T>(
 /**
  * Flattens an array of arrays into a single-dimensional array.
  */
-export function flatten<T>(items: ReadonlyArray<ReadonlyArray<T>>): T[] {
+export function flatten<T>(items: readonly (readonly T[])[]): T[] {
 	let out: T[] = [];
 	for (const list of items) {
 		out = out.concat(list);

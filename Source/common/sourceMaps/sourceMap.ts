@@ -44,12 +44,12 @@ export class SourceMap implements SourceMapConsumer {
 			| IndexedSourceMapConsumer,
 		public readonly metadata: Readonly<ISourceMapMetadata>,
 		private readonly actualRoot: string,
-		public readonly actualSources: ReadonlyArray<string>,
+		public readonly actualSources: readonly string[],
 		public readonly hasNames: boolean,
 	) {
 		if (actualSources.length !== original.sources.length) {
 			throw new Error(
-				`Expected actualSources.length === original.source.length`,
+				"Expected actualSources.length === original.source.length",
 			);
 		}
 

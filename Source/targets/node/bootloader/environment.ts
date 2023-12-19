@@ -75,7 +75,7 @@ export interface IBootloaderInfo {
 	/**
 	 * Pattern globs to use when auto attaching in 'smart' mode.
 	 */
-	aaPatterns?: ReadonlyArray<string>;
+	aaPatterns?: readonly string[];
 
 	/**
 	 * Whether the process is running in a remote environment.
@@ -120,7 +120,7 @@ export class BootloaderEnvironment {
 
 	public set nodeOptions(value: string | undefined) {
 		if (value === undefined) {
-			delete this.processEnv.NODE_OPTIONS;
+			this.processEnv.NODE_OPTIONS = undefined;
 		} else {
 			this.processEnv.NODE_OPTIONS = value;
 		}
@@ -146,7 +146,7 @@ export class BootloaderEnvironment {
 
 	public set inspectorOptions(value: IBootloaderInfo | undefined) {
 		if (value === undefined) {
-			delete this.processEnv.VSCODE_INSPECTOR_OPTIONS;
+			this.processEnv.VSCODE_INSPECTOR_OPTIONS = undefined;
 		} else {
 			this.processEnv.VSCODE_INSPECTOR_OPTIONS = JSON.stringify(value);
 		}
@@ -156,7 +156,7 @@ export class BootloaderEnvironment {
 	 * Unsets inspector options for this and all child processes.
 	 */
 	public unsetForTree() {
-		delete this.processEnv.VSCODE_INSPECTOR_OPTIONS;
+		this.processEnv.VSCODE_INSPECTOR_OPTIONS = undefined;
 	}
 
 	/**

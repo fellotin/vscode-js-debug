@@ -114,7 +114,7 @@ export const getDefaultProfileName = () => {
  */
 @injectable()
 export class ProfilerFactory implements IProfilerFactory {
-	public static readonly ctors: ReadonlyArray<IProfilerCtor> = [
+	public static readonly ctors: readonly IProfilerCtor[] = [
 		BasicCpuProfiler,
 		BasicHeapProfiler,
 		HeapDumpProfiler,

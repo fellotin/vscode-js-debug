@@ -35,7 +35,7 @@ export class ChildProcessError extends Error {
  */
 export function spawnAsync(
 	command: string,
-	args: ReadonlyArray<string>,
+	args: readonly string[],
 	options?: SpawnOptionsWithoutStdio,
 ): Promise<{ stdout: string; stderr: string }> {
 	return new Promise((resolve, reject) => {

@@ -230,7 +230,9 @@ export class RootSourceMapFactory implements IRootSourceMapFactory {
 		const localSourceMapUrl = await this.pathResolve.urlToAbsolutePath({
 			url,
 		});
-		if (!localSourceMapUrl) return;
+		if (!localSourceMapUrl) {
+			return;
+		}
 
 		try {
 			return this.parseSourceMapDirect(
@@ -267,7 +269,7 @@ export class RootSourceMapFactory implements IRootSourceMapFactory {
 					e.message,
 				).error;
 				this.dap.output({
-					output: message.format + "\n",
+					output: `${message.format}\n`,
 					category: "stderr",
 				});
 				this.hasWarnedAboutMaps.add(sourceMap);

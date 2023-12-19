@@ -58,10 +58,10 @@ export class QueryObjectsMessage implements IConsoleMessage {
 			};
 		}
 
-		const text =
-			"\x1b[32mobjects: " +
-			previewRemoteObject(withPreview, "repl") +
-			"\x1b[0m";
+		const text = `\x1b[32mobjects: ${previewRemoteObject(
+			withPreview,
+			"repl",
+		)}\x1b[0m`;
 		const variablesReference = thread.replVariables.createVariableForOutput(
 			text,
 			[withPreview],

@@ -50,9 +50,11 @@ export class BrowserTargetManager implements IDisposable {
 	): Promise<BrowserTargetManager | undefined> {
 		const rootSession = connection.rootSession();
 		const result = await rootSession.Target.attachToBrowserTarget({});
-		if (!result) return;
+		if (!result) {
+			return;
+		}
 		const browserSession = connection.createSession(result.sessionId);
-		return new this(
+		return new BrowserTargetManager(
 			connection,
 			process,
 			browserSession,
@@ -251,8 +253,9 @@ export class BrowserTargetManager implements IDisposable {
 			},
 		);
 		this._targets.set(sessionId, target);
-		if (parentTarget)
+		if (parentTarget) {
 			parentTarget._children.set(targetInfo.targetId, target);
+		}
 
 		cdp.Target.on("attachedToTarget", async (event) => {
 			this.attachedToTarget(
@@ -290,8 +293,9 @@ export class BrowserTargetManager implements IDisposable {
 		}
 
 		const type = targetInfo.type as BrowserTargetType;
-		if (domDebuggerTypes.has(type))
+		if (domDebuggerTypes.has(type)) {
 			this.frameModel.attached(cdp, targetInfo.targetId);
+		}
 		this.serviceWorkerModel.attached(cdp);
 
 		this._onTargetAddedEmitter.fire(target);
@@ -400,7 +404,7 @@ export class BrowserTargetManager implements IDisposable {
 
 		// if we arent' attach, detach any existing targets and then attempt to
 		// re-attach if the conditions are right.
-		if (!targetInfo.attached || !targets.length) {
+		if (!(targetInfo.attached && targets.length)) {
 			if (targets.length) {
 				await Promise.all(
 					targets.map((t) =>

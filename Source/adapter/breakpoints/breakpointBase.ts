@@ -67,7 +67,7 @@ export interface IBreakpointCdpReferenceApplied {
 	// ID of the breakpoint on CDP.
 	cdpId: Cdp.Debugger.BreakpointId;
 	// Locations where CDP told us the breakpoint has bound.
-	locations: ReadonlyArray<Cdp.Debugger.Location>;
+	locations: readonly Cdp.Debugger.Location[];
 	// Arguments used to set the breakpoint.
 	args: AnyCdpBreakpointArgs;
 	// A list of UI locations whether this breakpoint was resolved.
@@ -110,8 +110,7 @@ export abstract class Breakpoint {
 	 * A list of the CDP breakpoints that have been set from this one. Note that
 	 * this can be set, only through {@link Breakpoint#updateCdpRefs}
 	 */
-	protected readonly cdpBreakpoints: ReadonlyArray<BreakpointCdpReference> =
-		[];
+	protected readonly cdpBreakpoints: readonly BreakpointCdpReference[] = [];
 
 	/**
 	 * Gets the source the breakpoint is set in.
@@ -194,7 +193,7 @@ export abstract class Breakpoint {
 		this.isEnabled = true;
 		const promises: Promise<void>[] = [this._setPredicted(thread)];
 		const source = this._manager._sourceContainer.source(this.source);
-		if (!source || !(source instanceof SourceFromMap)) {
+		if (!(source && source instanceof SourceFromMap)) {
 			promises.push(
 				// For breakpoints set before launch, we don't know whether they are in a compiled or
 				// a source map source. To make them work, we always set by url to not miss compiled.
@@ -453,11 +452,11 @@ export abstract class Breakpoint {
 	 */
 	protected updateCdpRefs(
 		mutator: (
-			l: ReadonlyArray<BreakpointCdpReference>,
-		) => ReadonlyArray<BreakpointCdpReference>,
+			l: readonly BreakpointCdpReference[],
+		) => readonly BreakpointCdpReference[],
 	) {
 		const cast = this as unknown as {
-			cdpBreakpoints: ReadonlyArray<BreakpointCdpReference>;
+			cdpBreakpoints: readonly BreakpointCdpReference[];
 		};
 		cast.cdpBreakpoints = mutator(this.cdpBreakpoints);
 
@@ -478,7 +477,7 @@ export abstract class Breakpoint {
 	}
 
 	protected async _setPredicted(thread: Thread): Promise<void> {
-		if (!this.source.path || !this._manager._breakpointsPredictor) {
+		if (!(this.source.path && this._manager._breakpointsPredictor)) {
 			return;
 		}
 
@@ -496,7 +495,6 @@ export abstract class Breakpoint {
 					workspaceLocation.absolutePath,
 				);
 			if (re === undefined) {
-				continue;
 			} else if (typeof re === "string") {
 				promises.push(
 					this._setByUrlRegexp(thread, re, workspaceLocation),

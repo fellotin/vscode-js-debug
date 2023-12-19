@@ -61,7 +61,7 @@ export class DisposableList {
 		return this.disposed;
 	}
 
-	constructor(initialItems?: ReadonlyArray<IDisposable>) {
+	constructor(initialItems?: readonly IDisposable[]) {
 		if (initialItems) {
 			this.items = initialItems.slice();
 		}
@@ -80,8 +80,8 @@ export class DisposableList {
 	 * Adds new items to the disposable list.
 	 */
 	public push<T extends IDisposable>(newItem: T): T;
-	public push(...newItems: ReadonlyArray<IDisposable>): void;
-	public push(...newItems: ReadonlyArray<IDisposable>): IDisposable {
+	public push(...newItems: readonly IDisposable[]): void;
+	public push(...newItems: readonly IDisposable[]): IDisposable {
 		if (this.disposed) {
 			newItems.forEach((d) => d.dispose());
 			return newItems[0];

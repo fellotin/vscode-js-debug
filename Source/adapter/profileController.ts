@@ -72,7 +72,7 @@ export class ProfileController implements IProfileController {
 
 		this.cdp.Profiler.on("consoleProfileStarted", () => {
 			dap.output({
-				output: l10n.t("Console profile started") + "\n",
+				output: `${l10n.t("Console profile started")}\n`,
 				category: "console",
 			});
 		});
@@ -132,11 +132,10 @@ export class ProfileController implements IProfileController {
 		await this.basicCpuProfiler.save(evt.profile, basename);
 
 		dap.output({
-			output:
-				l10n.t(
-					'CPU profile saved as "{0}" in your workspace folder',
-					basename,
-				) + "\n",
+			output: `${l10n.t(
+				'CPU profile saved as "{0}" in your workspace folder',
+				basename,
+			)}\n`,
 			category: "console",
 		});
 	}
@@ -194,7 +193,7 @@ export class ProfileController implements IProfileController {
 
 	private async stopProfiling(dap: Dap.Api) {
 		const running = await this.profile?.catch(() => undefined);
-		if (!running || !this.profile) {
+		if (!(running && this.profile)) {
 			return {}; // guard against concurrent stops
 		}
 

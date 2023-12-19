@@ -12,8 +12,10 @@ export async function toggleSkippingFile(
 ): Promise<void> {
 	if (!aPath) {
 		const activeEditor = vscode.window.activeTextEditor;
-		if (!activeEditor) return;
-		aPath = activeEditor && activeEditor.document.fileName;
+		if (!activeEditor) {
+			return;
+		}
+		aPath = activeEditor?.document.fileName;
 	}
 
 	if (aPath && vscode.debug.activeDebugSession) {

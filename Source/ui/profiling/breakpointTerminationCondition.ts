@@ -40,7 +40,7 @@ export class BreakpointTerminationConditionFactory
 
 	public async onPick(
 		session: vscode.DebugSession,
-		breakpointIds?: ReadonlyArray<number>,
+		breakpointIds?: readonly number[],
 	) {
 		if (breakpointIds) {
 			return new BreakpointTerminationCondition(breakpointIds);
@@ -52,7 +52,7 @@ export class BreakpointTerminationConditionFactory
 		quickPick.busy = true;
 
 		const chosen = await new Promise<
-			ReadonlyArray<BreakpointPickItem> | undefined
+			readonly BreakpointPickItem[] | undefined
 		>((resolve) => {
 			quickPick.onDidAccept(() => resolve(quickPick.selectedItems));
 			quickPick.onDidHide(() => resolve(undefined));
@@ -120,7 +120,7 @@ export class BreakpointTerminationConditionFactory
 
 	private async getCandidates(
 		dapBps: ReadonlyArray<Dap.Breakpoint | undefined>,
-		codeBps: ReadonlyArray<vscode.SourceBreakpoint>,
+		codeBps: readonly vscode.SourceBreakpoint[],
 	): Promise<BreakpointPickItem[]> {
 		if (dapBps.length !== codeBps.length) {
 			throw new Error("Mismatched breakpoint array lengths");
@@ -132,7 +132,7 @@ export class BreakpointTerminationConditionFactory
 			codeBps.map(
 				async (codeBp, i): Promise<BreakpointPickItem | undefined> => {
 					const dapBp = dapBps[i];
-					if (!dapBp || !dapBp.id) {
+					if (!dapBp?.id) {
 						return; // does not apply to this session
 					}
 
@@ -175,7 +175,7 @@ class BreakpointTerminationCondition implements ITerminationCondition {
 		};
 	}
 
-	constructor(private readonly breakpointIds: ReadonlyArray<number>) {}
+	constructor(private readonly breakpointIds: readonly number[]) {}
 
 	public dispose() {
 		// no-op

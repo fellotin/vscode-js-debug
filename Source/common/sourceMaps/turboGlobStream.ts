@@ -123,12 +123,10 @@ export class TurboGlobStream<E> {
 					} else {
 						tokens.push(
 							new RegExp(
-								"^" +
-									m.tokens
-										.slice(i, nextSlash)
-										.map((t) => t.output || t.value)
-										.join("") +
-									"$",
+								`^${m.tokens
+									.slice(i, nextSlash)
+									.map((t) => t.output || t.value)
+									.join("")}$`,
 							),
 						);
 					}
@@ -282,7 +280,7 @@ export class TurboGlobStream<E> {
 		siblings: readonly string[],
 		cache: CacheTree<IGlobCached<E>>,
 	): unknown {
-		const nextPath = path + "/" + dirent.name;
+		const nextPath = `${path}/${dirent.name}`;
 		const descends = this.getDirectoryReadDescends(ctx, ti, path, dirent);
 		if (descends === undefined) {
 			return;
@@ -333,7 +331,7 @@ export class TurboGlobStream<E> {
 		path: string,
 		dirent: { name: string; type: CachedType },
 	): undefined | number | number[] {
-		const nextPath = path + "/" + dirent.name;
+		const nextPath = `${path}/${dirent.name}`;
 		if (this.ignore.some((i) => i(nextPath))) {
 			return;
 		}

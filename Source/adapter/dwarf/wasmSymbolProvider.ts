@@ -199,7 +199,7 @@ export class WasmSymbolProvider implements IWasmSymbolProvider, IDisposable {
 			return this.defaultSymbols(script);
 		}
 
-		if (!(result instanceof Array) || result.length === 0) {
+		if (!Array.isArray(result) || result.length === 0) {
 			rpc.sendMessage("removeRawModule", moduleId); // no await necessary
 			return this.defaultSymbols(script);
 		}
@@ -677,13 +677,15 @@ class WasmSymbols extends DecompiledWasmSymbols {
 				rawRanges = flatten(ranges);
 				break;
 			}
-			case StepDirection.In:
+			case StepDirection.In: {
 				// Step in should skip over any intermediary statements on this line
 				rawRanges = await getOwnLineRanges();
 				break;
-			default:
+			}
+			default: {
 				rawRanges = [];
 				break;
+			}
 		}
 
 		return rawRanges.map(

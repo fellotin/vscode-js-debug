@@ -118,8 +118,9 @@ export class StackTrace {
 		parentId?: Cdp.Runtime.StackTraceId,
 	): StackTrace {
 		const result = new StackTrace(thread);
-		for (const callFrame of frames)
+		for (const callFrame of frames) {
 			result._appendFrame(StackFrame.fromDebugger(thread, callFrame));
+		}
 		if (parentId) {
 			result._asyncStackTraceId = parentId;
 			console.assert(!parent);
@@ -234,14 +235,15 @@ export class StackTrace {
 		thread: Thread,
 		stackTrace: Cdp.Runtime.StackTrace | undefined,
 	) {
-		console.assert(!stackTrace || !this._asyncStackTraceId);
+		console.assert(!(stackTrace && this._asyncStackTraceId));
 
 		while (stackTrace) {
 			if (
 				stackTrace.description === "async function" &&
 				stackTrace.callFrames.length
-			)
+			) {
 				stackTrace.callFrames.shift();
+			}
 
 			if (stackTrace.callFrames.length) {
 				this._appendFrame(
@@ -301,7 +303,7 @@ export class StackTrace {
 			}
 		}
 		const promises = stackFrames.map(mapper);
-		return (await Promise.all(promises)).join("\n") + "\n";
+		return `${(await Promise.all(promises)).join("\n")}\n`;
 	}
 
 	public async toDap(
@@ -319,7 +321,7 @@ export class StackTrace {
 
 		return {
 			stackFrames: await Promise.all(result),
-			totalFrames: !!this._asyncStackTraceId ? 1000000 : frames.length,
+			totalFrames: this._asyncStackTraceId ? 1000000 : frames.length,
 		};
 	}
 }
@@ -559,44 +561,54 @@ export class StackFrame implements IStackFrameElement {
 					| "registers"
 					| undefined;
 				switch (scope.type) {
-					case "global":
+					case "global": {
 						name = l10n.t("Global");
 						break;
-					case "local":
+					}
+					case "local": {
 						name = l10n.t("Local");
 						presentationHint = "locals";
 						break;
-					case "with":
+					}
+					case "with": {
 						name = l10n.t("With Block");
 						presentationHint = "locals";
 						break;
-					case "closure":
+					}
+					case "closure": {
 						name = l10n.t("Closure");
 						presentationHint = "arguments";
 						break;
-					case "catch":
+					}
+					case "catch": {
 						name = l10n.t("Catch Block");
 						presentationHint = "locals";
 						break;
-					case "block":
+					}
+					case "block": {
 						name = l10n.t("Block");
 						presentationHint = "locals";
 						break;
-					case "script":
+					}
+					case "script": {
 						name = l10n.t("Script");
 						break;
-					case "eval":
+					}
+					case "eval": {
 						name = l10n.t("Eval");
 						break;
-					case "module":
+					}
+					case "module": {
 						name = l10n.t("Module");
 						break;
-					default:
+					}
+					default: {
 						// fallback for custom scope types from other runtimes (#651)
 						name =
 							scope.type.substr(0, 1).toUpperCase() +
 							scope.type.substr(1);
 						break;
+					}
 				}
 				if (scope.name && scope.type === "closure") {
 					name = l10n.t("Closure ({0})", scope.name);
@@ -627,8 +639,9 @@ export class StackFrame implements IStackFrameElement {
 					dap.column = (
 						startUiLocation || startRawLocation
 					).columnNumber;
-					if (startUiLocation)
+					if (startUiLocation) {
 						dap.source = await startUiLocation.source.toDap();
+					}
 					if (scope.endLocation) {
 						const endRawLocation = this._thread.rawLocation(
 							scope.endLocation,
@@ -739,8 +752,9 @@ export class StackFrame implements IStackFrameElement {
 			(await uiLocation?.source.prettyName()) || "<unknown>";
 		const anyLocation = uiLocation || this._rawLocation;
 		let text = `${name} @ ${prettyName}:${anyLocation.lineNumber}`;
-		if (anyLocation.columnNumber > 1)
+		if (anyLocation.columnNumber > 1) {
 			text += `:${anyLocation.columnNumber}`;
+		}
 		return text;
 	}
 
@@ -762,13 +776,15 @@ export class StackFrame implements IStackFrameElement {
 
 		const extraProperties: IExtraProperty[] = [];
 		if (scopeNumber === 0) {
-			if (scope.thisObject)
+			if (scope.thisObject) {
 				extraProperties.push({ name: "this", value: scope.thisObject });
-			if (scope.returnValue)
+			}
+			if (scope.returnValue) {
 				extraProperties.push({
 					name: l10n.t("Return value"),
 					value: scope.returnValue,
 				});
+			}
 		}
 
 		const paused = this._thread.pausedVariables();
@@ -786,7 +802,9 @@ export class StackFrame implements IStackFrameElement {
 
 	public readonly completions = once(
 		async (): Promise<Dap.CompletionItem[]> => {
-			if (!this._scope) return [];
+			if (!this._scope) {
+				return [];
+			}
 			const variableStore = this._thread.pausedVariables();
 			if (!variableStore) {
 				return [];
@@ -929,7 +947,7 @@ export class InlinedFrame implements IStackFrameElement {
 	public async scopes(): Promise<Dap.ScopesResult> {
 		const v = this.source.sourceMap.value.settledValue;
 		const callFrameId = this.root.callFrameId();
-		if (!v || !callFrameId) {
+		if (!(v && callFrameId)) {
 			return EMPTY_SCOPES;
 		}
 

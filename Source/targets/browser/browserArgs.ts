@@ -13,7 +13,7 @@ export type BrowserConnection = "pipe" | number;
 const debugPortArg = "--remote-debugging-port";
 const debugPipeArg = "--remote-debugging-pipe";
 
-const argsToMap = (args: ReadonlyArray<string>) => {
+const argsToMap = (args: readonly string[]) => {
 	const map: { [key: string]: string | null } = {};
 	for (const arg of args) {
 		const delimiter = arg.indexOf("=");
@@ -65,7 +65,7 @@ export class BrowserArgs {
 
 	private readonly argMap = once(() => argsToMap(this.args));
 
-	constructor(private readonly args: ReadonlyArray<string> = []) {}
+	constructor(private readonly args: readonly string[] = []) {}
 
 	/**
 	 * Adds or overwrites an argument.
@@ -86,7 +86,7 @@ export class BrowserArgs {
 	/**
 	 * Merges the set of arguments into this one.
 	 */
-	public merge(args: ReadonlyArray<string> | BrowserArgs) {
+	public merge(args: readonly string[] | BrowserArgs) {
 		return new BrowserArgs(
 			mapToArgs({
 				...this.argMap(),

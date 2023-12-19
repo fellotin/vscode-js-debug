@@ -21,17 +21,23 @@ export class BudgetStringBuilder {
 	}
 
 	private _append(text: string) {
-		if (this._tokens.length) this._budget -= this._separator.length;
+		if (this._tokens.length) {
+			this._budget -= this._separator.length;
+		}
 		this._tokens.push(text);
 		this._budget -= text.length;
 	}
 
 	appendEllipsis() {
-		if (this._tokens[this._tokens.length - 1] !== "…") this._append("…");
+		if (this._tokens[this._tokens.length - 1] !== "…") {
+			this._append("…");
+		}
 	}
 
 	checkBudget(): boolean {
-		if (this._budget <= 0) this.appendEllipsis();
+		if (this._budget <= 0) {
+			this.appendEllipsis();
+		}
 		return this._budget > 0;
 	}
 

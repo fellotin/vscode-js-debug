@@ -22,7 +22,7 @@ export interface ITerminationConditionFactory {
 	 */
 	onPick(
 		session: DebugSession,
-		...args: ReadonlyArray<unknown>
+		...args: readonly unknown[]
 	): Promise<ITerminationCondition | undefined>;
 }
 

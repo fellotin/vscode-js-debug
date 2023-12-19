@@ -11,4 +11,4 @@ import { getSourceSuffix } from "../../adapter/templates";
  * See microsoft/vscode#106698.
  */
 export const signalReadyExpr = () =>
-	`globalThis.__jsDebugIsReady = true; ` + getSourceSuffix();
+	`globalThis.__jsDebugIsReady = true; ${getSourceSuffix()}`;

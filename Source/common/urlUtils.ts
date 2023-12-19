@@ -210,11 +210,15 @@ export function completeUrlEscapingRoot(
 		return relative;
 	}
 
-	let s = url.protocol + "//";
-	if (url.username) s += url.username + ":" + url.password + "@";
+	let s = `${url.protocol}//`;
+	if (url.username) {
+		s += `${url.username}:${url.password}@`;
+	}
 	s += url.host;
 	s += path.dirname(url.pathname);
-	if (s[s.length - 1] !== "/") s += "/";
+	if (s[s.length - 1] !== "/") {
+		s += "/";
+	}
 	s += relative;
 	return s;
 }
@@ -238,11 +242,15 @@ export function escapeForRegExp(s: string): string {
 			break;
 		}
 	}
-	if (!foundChar) return s;
+	if (!foundChar) {
+		return s;
+	}
 
 	let result = "";
 	for (let i = 0; i < s.length; ++i) {
-		if (chars.indexOf(s.charAt(i)) !== -1) result += "\\";
+		if (chars.indexOf(s.charAt(i)) !== -1) {
+			result += "\\";
+		}
 		result += s.charAt(i);
 	}
 	return result;
@@ -296,7 +304,7 @@ export function fileUrlToAbsolutePath(urlOrPath: string): string | undefined {
 	// doesn't seem to), so only do this if the debugger is currently running on Windows.
 	if (urlOrPath.startsWith("/") && process.platform === "win32") {
 		if (urlOrPath[1] !== "/") {
-			urlOrPath = "/" + urlOrPath; // restore extra slash
+			urlOrPath = `/${urlOrPath}`; // restore extra slash
 		}
 	}
 
@@ -304,7 +312,7 @@ export function fileUrlToAbsolutePath(urlOrPath: string): string | undefined {
 		// If it has a : before the first /, assume it's a windows path or url.
 		// Ensure unix-style path starts with /, it can be removed when file:/// was stripped.
 		// Don't add if the url still has a protocol
-		urlOrPath = "/" + urlOrPath;
+		urlOrPath = `/${urlOrPath}`;
 	}
 
 	return fixDriveLetterAndSlashes(urlOrPath);
@@ -327,9 +335,9 @@ export function fileUrlToNetworkPath(urlOrPath: string): string {
 /** @deprecated consider absolutePathToFileUrlWithDetection instead */
 export function absolutePathToFileUrl(absolutePath: string): string {
 	if (platform === "win32") {
-		return "file:///" + platformPathToUrlPath(absolutePath);
+		return `file:///${platformPathToUrlPath(absolutePath)}`;
 	}
-	return "file://" + platformPathToUrlPath(absolutePath);
+	return `file://${platformPathToUrlPath(absolutePath)}`;
 }
 
 /**
@@ -341,9 +349,9 @@ export function absolutePathToFileUrlWithDetection(
 	absolutePath: string,
 ): string {
 	if (!absolutePath.startsWith("/")) {
-		return "file:///" + platformPathToUrlPath(absolutePath);
+		return `file:///${platformPathToUrlPath(absolutePath)}`;
 	}
-	return "file://" + platformPathToUrlPath(absolutePath);
+	return `file://${platformPathToUrlPath(absolutePath)}`;
 }
 
 /**
@@ -393,13 +401,14 @@ const createReGroup = (patterns: ReadonlySet<string>): string => {
 			return "";
 		case 1:
 			return iteratorFirst(patterns.values()) as string;
-		default:
+		default: {
 			// Prefer the more compacy [aA] form if we're only matching single
 			// characters, produce a non-capturing group otherwise.
 			const arr = [...patterns];
 			return arr.some((p) => p.length > 1)
 				? `(?:${arr.join("|")})`
 				: `[${arr.join("")}]`;
+		}
 	}
 };
 
@@ -496,7 +505,7 @@ export function urlToRegex(
 export const makeDriveLetterReCaseInsensitive = (re: string) =>
 	re.replace(
 		/^(file:\\\/\\\/\\\/)?([a-z]):/i,
-		(_, file = "", letter) =>
+		(_, file, letter) =>
 			`${file}[${letter.toUpperCase()}${letter.toLowerCase()}]:`,
 	);
 
@@ -520,8 +529,9 @@ export function maybeAbsolutePathToFileUrl(
 		rootPath &&
 		platformPathToPreferredCase(sourceUrl).startsWith(rootPath) &&
 		!isValidUrl(sourceUrl)
-	)
+	) {
 		return absolutePathToFileUrl(sourceUrl);
+	}
 	return sourceUrl;
 }
 
@@ -566,8 +576,9 @@ export function platformPathToPreferredCase(
 export function platformPathToPreferredCase(
 	p: string | undefined,
 ): string | undefined {
-	if (p && platform === "win32" && p[1] === ":")
+	if (p && platform === "win32" && p[1] === ":") {
 		return p[0].toUpperCase() + p.substring(1);
+	}
 	return p;
 }
 
@@ -578,7 +589,7 @@ export type TargetFilter = (info: Cdp.Target.TargetInfo) => boolean;
  */
 export const createTargetFilterForConfig = (
 	config: AnyChromiumConfiguration,
-	additonalMatches: ReadonlyArray<string> = [],
+	additonalMatches: readonly string[] = [],
 ): ((t: { url: string }) => boolean) => {
 	const filter =
 		config.urlFilter || ("file" in config && config.file) || config.url;
@@ -613,7 +624,7 @@ function isURLCompat(urlOrPath: string): boolean {
  * Creates a function to filter a target URL.
  */
 export const createTargetFilter = (
-	...targetUrls: ReadonlyArray<string>
+	...targetUrls: readonly string[]
 ): ((testUrl: string) => boolean) => {
 	const standardizeMatch = (aUrl: string) => {
 		aUrl = aUrl.toLowerCase();
@@ -649,7 +660,7 @@ export const createTargetFilter = (
 			".*",
 		),
 	);
-	const targetUrlRegex = new RegExp("^(" + escaped.join("|") + ")$", "g");
+	const targetUrlRegex = new RegExp(`^(${escaped.join("|")})$`, "g");
 
 	return (testUrl) => {
 		targetUrlRegex.lastIndex = 0;

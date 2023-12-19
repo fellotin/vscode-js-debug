@@ -160,9 +160,7 @@ export class StreamDapTransport implements IDapTransport {
 								receivedTime,
 							});
 						} catch (e) {
-							console.error(
-								"Error handling data: " + (e && e.message),
-							);
+							console.error(`Error handling data: ${e?.message}`);
 						}
 					}
 					continue; // there may be more complete messages to process

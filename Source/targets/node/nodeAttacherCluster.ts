@@ -113,7 +113,7 @@ async function getProcessTree(
 		}
 	}
 
-	if (!isNaN(rootPid) && rootPid > 0) {
+	if (!Number.isNaN(rootPid) && rootPid > 0) {
 		return map.get(rootPid);
 	}
 

@@ -62,9 +62,9 @@ export const isPackageManager = (exe: string) =>
  */
 export const getRunScript = (
 	runtimeExecutable: string | null,
-	runtimeArgs: ReadonlyArray<string>,
+	runtimeArgs: readonly string[],
 ) => {
-	if (!runtimeExecutable || !isPackageManager(runtimeExecutable)) {
+	if (!(runtimeExecutable && isPackageManager(runtimeExecutable))) {
 		return;
 	}
 
@@ -82,7 +82,7 @@ export interface IWarningMessage {
 	message: string;
 }
 
-const warningMessages: ReadonlyArray<IWarningMessage> = [
+const warningMessages: readonly IWarningMessage[] = [
 	{
 		inclusiveMin: new Semver(16, 0, 0),
 		inclusiveMax: new Semver(16, 3, 99),

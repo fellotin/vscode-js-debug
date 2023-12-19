@@ -164,7 +164,7 @@ export class RenameProvider implements IRenameProvider {
 			scope.data ??= [];
 
 			// some tools emit name mapping each time the identifier is used, avoid duplicates.
-			if (!scope.data.some((r) => r.compiled == compiled)) {
+			if (!scope.data.some((r) => r.compiled === compiled)) {
 				scope.data.push({ compiled, original: mapping.name });
 			}
 		});

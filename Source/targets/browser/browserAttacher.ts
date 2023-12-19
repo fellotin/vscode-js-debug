@@ -65,10 +65,16 @@ export class BrowserAttacher<
 	 * @inheritdoc
 	 */
 	public dispose() {
-		for (const disposable of this._disposables) disposable.dispose();
+		for (const disposable of this._disposables) {
+			disposable.dispose();
+		}
 		this._disposables = [];
-		if (this._attemptTimer) clearTimeout(this._attemptTimer);
-		if (this._targetManager) this._targetManager.dispose();
+		if (this._attemptTimer) {
+			clearTimeout(this._attemptTimer);
+		}
+		if (this._targetManager) {
+			this._targetManager.dispose();
+		}
 	}
 
 	/**

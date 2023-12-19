@@ -30,7 +30,7 @@ const allPackages = [];
 const srcDir = "src";
 const buildDir = "dist";
 const buildSrcDir = `${buildDir}/src`;
-const nodeTargetsDir = `targets/node`;
+const nodeTargetsDir = "targets/node";
 
 const isWatch =
 	process.argv.includes("watch") || process.argv.includes("--watch");
@@ -85,9 +85,9 @@ gulp.task("clean", () =>
 async function fixNightlyReadme() {
 	const readmePath = `${buildDir}/README.md`;
 	const readmeText = await readFile(readmePath);
-	const readmeNightlyText = await readFile(`README.nightly.md`);
+	const readmeNightlyText = await readFile("README.nightly.md");
 
-	await writeFile(readmePath, readmeNightlyText + "\n" + readmeText);
+	await writeFile(readmePath, `${readmeNightlyText}\n${readmeText}`);
 }
 
 const getVersionNumber = () => {

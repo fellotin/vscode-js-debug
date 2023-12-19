@@ -49,7 +49,7 @@ export class WindowsProcessTree extends BaseProcessTree {
 			const ppid = Number(matches[3]);
 			const date = Number(matches[2]);
 			let args = matches[1].trim();
-			if (!isNaN(pid) && !isNaN(ppid) && args) {
+			if (!(Number.isNaN(pid) || Number.isNaN(ppid)) && args) {
 				let command = args;
 				if (args[0] === '"') {
 					const end = args.indexOf('"', 1);

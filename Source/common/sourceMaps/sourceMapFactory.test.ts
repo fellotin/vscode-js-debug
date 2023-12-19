@@ -15,8 +15,9 @@ import {
 } from "./sourceMapFactory";
 
 const toDataUri = (obj: unknown) =>
-	"data:application/json;base64," +
-	Buffer.from(JSON.stringify(obj)).toString("base64");
+	`data:application/json;base64,${Buffer.from(JSON.stringify(obj)).toString(
+		"base64",
+	)}`;
 
 const sampleSource = "console.log(123)";
 const basicSourceMap: RawSourceMap = {

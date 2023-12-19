@@ -91,18 +91,21 @@ export class DiagnosticsUI implements IExtensionContribution {
 				this.isPrompting = false;
 
 				switch (response) {
-					case yes:
+					case yes: {
 						this.getDiagnosticInfo(
 							await this.getTargetSession(),
 							true,
 						);
 						break;
-					case never:
+					}
+					case never: {
 						context.workspaceState.update(neverRemindKey, true);
 						break;
-					case notNow:
+					}
+					case notNow: {
 						this.dismissedForSession = true;
 						break;
+					}
 				}
 			}),
 		);
@@ -110,7 +113,7 @@ export class DiagnosticsUI implements IExtensionContribution {
 
 	private getTargetSession() {
 		const active = vscode.debug.activeDebugSession;
-		if (!active || !isDebugType(active?.type)) {
+		if (!(active && isDebugType(active?.type))) {
 			return this.pickSession();
 		}
 
@@ -137,7 +140,7 @@ export class DiagnosticsUI implements IExtensionContribution {
 		session: vscode.DebugSession | undefined,
 		fromSuggestion = false,
 	) {
-		if (!session || !this.tracker.isRunning(session)) {
+		if (!(session && this.tracker.isRunning(session))) {
 			vscode.window.showErrorMessage(
 				l10n.t(
 					'It looks like your debug session has already ended. Try debugging again, then run the "Debug: Diagnose Breakpoint Problems" command.',

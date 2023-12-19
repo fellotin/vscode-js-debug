@@ -198,7 +198,7 @@ class BreakpointsDataProvider implements vscode.TreeDataProvider<TreeItem> {
 				} else if (
 					enabled &&
 					(this.getChildren(parent) as XHRBreakpoint[]).every(
-						(c) => c.checked || c.checkboxState == undefined,
+						(c) => c.checked || c.checkboxState === undefined,
 					)
 				) {
 					parent.checkboxState = state;
@@ -372,7 +372,7 @@ export function registerCustomBreakpointsUI(
 					provider.addXHRBreakpoints(
 						new XHRBreakpoint(
 							{ match },
-							treeItem.checkboxState ==
+							treeItem.checkboxState ===
 								vscode.TreeItemCheckboxState.Checked,
 						),
 					);

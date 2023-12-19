@@ -107,13 +107,13 @@ export class DelegateLauncher implements ILauncher {
 		const origin = delegate.target.targetOrigin();
 		if (!(origin instanceof MutableTargetOrigin)) {
 			throw new Error(
-				`Expected delegate session to have a mutable target origin`,
+				"Expected delegate session to have a mutable target origin",
 			);
 		}
 
 		const logger = delegate.target.logger;
 		if (!(logger instanceof ProxyLogger)) {
-			throw new Error(`Expected delegate session to have a proxy logger`);
+			throw new Error("Expected delegate session to have a proxy logger");
 		}
 
 		// Update the origin to 're-home' it under the current debug session,

@@ -19,16 +19,36 @@ export const serializeForClipboardTmpl = templateFunction(
 		function getTypedArrayContructor(
 			value: unknown,
 		): TypedArrayConstructor | undefined {
-			if (value instanceof Uint8Array) return Uint8Array;
-			if (value instanceof Uint8ClampedArray) return Uint8ClampedArray;
-			if (value instanceof Uint16Array) return Uint16Array;
-			if (value instanceof Uint32Array) return Uint32Array;
-			if (value instanceof BigUint64Array) return BigUint64Array;
-			if (value instanceof Int8Array) return Int8Array;
-			if (value instanceof Int32Array) return Int32Array;
-			if (value instanceof BigInt64Array) return BigInt64Array;
-			if (value instanceof Float32Array) return Float32Array;
-			if (value instanceof Float64Array) return Float64Array;
+			if (value instanceof Uint8Array) {
+				return Uint8Array;
+			}
+			if (value instanceof Uint8ClampedArray) {
+				return Uint8ClampedArray;
+			}
+			if (value instanceof Uint16Array) {
+				return Uint16Array;
+			}
+			if (value instanceof Uint32Array) {
+				return Uint32Array;
+			}
+			if (value instanceof BigUint64Array) {
+				return BigUint64Array;
+			}
+			if (value instanceof Int8Array) {
+				return Int8Array;
+			}
+			if (value instanceof Int32Array) {
+				return Int32Array;
+			}
+			if (value instanceof BigInt64Array) {
+				return BigInt64Array;
+			}
+			if (value instanceof Float32Array) {
+				return Float32Array;
+			}
+			if (value instanceof Float64Array) {
+				return Float64Array;
+			}
 		}
 
 		function serializeToJavaScriptyString(
@@ -75,7 +95,7 @@ export const serializeForClipboardTmpl = templateFunction(
 				}
 				case "number":
 					return `${value}`;
-				case "object":
+				case "object": {
 					if (value === null) {
 						return "null";
 					}
@@ -108,42 +128,43 @@ export const serializeForClipboardTmpl = templateFunction(
 						)}]).buffer`;
 					}
 
-					if (value instanceof Array) {
+					if (Array.isArray(value)) {
 						return [
-							`[`,
+							"[",
 							...value.map(
 								(item) =>
-									indent.repeat(level + 1) +
-									serializeToJavaScriptyString(
-										item,
-										level + 1,
-										[...seen, value],
-									) +
-									",",
+									`${
+										indent.repeat(level + 1) +
+										serializeToJavaScriptyString(
+											item,
+											level + 1,
+											[...seen, value],
+										)
+									},`,
 							),
-							indent.repeat(level) + "]",
+							`${indent.repeat(level)}]`,
 						].join(eol);
 					}
 
 					const asPropMap = value as { [key: string]: unknown };
 					return [
-						`{`,
+						"{",
 						...Object.keys(asPropMap).map(
 							(key) =>
-								indent.repeat(level + 1) +
-								(/^[$a-z_][0-9a-z_$]*$/i.test(key)
-									? key
-									: JSON.stringify(key)) +
-								": " +
-								serializeToJavaScriptyString(
+								`${
+									indent.repeat(level + 1) +
+									(/^[$a-z_][0-9a-z_$]*$/i.test(key)
+										? key
+										: JSON.stringify(key))
+								}: ${serializeToJavaScriptyString(
 									asPropMap[key],
 									level + 1,
 									[...seen, value],
-								) +
-								",",
+								)},`,
 						),
-						indent.repeat(level) + "}",
+						`${indent.repeat(level)}}`,
 					].join(eol);
+				}
 				case "string":
 					return JSON.stringify(value);
 				case "symbol":
@@ -158,7 +179,7 @@ export const serializeForClipboardTmpl = templateFunction(
 		try {
 			return serializeToJavaScriptyString(valueToStringify);
 		} catch {
-			return "" + valueToStringify;
+			return `${valueToStringify}`;
 		}
 	},
 );

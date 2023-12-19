@@ -110,7 +110,7 @@ export const enumerateProperties = remoteFunction(function (
 		isGlobal = false;
 	}
 
-	return { result, isArray: this instanceof Array };
+	return { result, isArray: Array.isArray(this) };
 });
 
 /**

@@ -176,7 +176,7 @@ function inspectOrQueue(env: IBootloaderInfo, ownId: string): boolean {
 		if (status) {
 			console.error(stderr.toString());
 			console.error(
-				`Error activating auto attach, please report to https://aka.ms/js-dbg-issue`,
+				"Error activating auto attach, please report to https://aka.ms/js-dbg-issue",
 			);
 			return false; // some error status code
 		}
@@ -218,7 +218,6 @@ function shouldForceProcessIntoDebugMode(env: IBootloaderInfo) {
 			return true;
 		case AutoAttachMode.Smart:
 			return shouldSmartAttach(env);
-		case AutoAttachMode.OnlyWithFlag:
 		default:
 			return false;
 	}

@@ -106,7 +106,7 @@ export interface IPrepareOptions extends IEvaluatorBaseOptions {
 	 * Replaces the identifiers in the associated script with references to the
 	 * given remote objects.
 	 */
-	hoist?: ReadonlyArray<string>;
+	hoist?: readonly string[];
 
 	/**
 	 * Optional information used to rename identifiers.
@@ -124,7 +124,7 @@ export interface IEvaluateOptions extends IEvaluatorBaseOptions {
 	 * Replaces the identifiers in the associated script with references to the
 	 * given remote objects.
 	 */
-	hoist?: ReadonlyArray<string>;
+	hoist?: readonly string[];
 
 	/**
 	 * Stack frame object on which the evaluation is being run. This is

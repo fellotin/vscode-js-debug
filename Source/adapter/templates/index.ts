@@ -65,7 +65,7 @@ export function templateFunction<Args extends unknown[]>(
 export function templateFunction<Args extends unknown[]>(
 	fn: string | ((...args: Args) => void),
 ): TemplateFunction<string[]> {
-	return templateFunctionStr("" + fn);
+	return templateFunctionStr(`${fn}`);
 }
 
 function templateFunctionStr<Args extends string[]>(
@@ -131,7 +131,7 @@ export class RemoteObjectId {
 export function remoteFunction<Args extends unknown[], R>(
 	fn: string | ((...args: Args) => R),
 ) {
-	const stringified = ("" + fn).replace("}", getSourceSuffix() + "}");
+	const stringified = `${fn}`.replace("}", `${getSourceSuffix()}}`);
 
 	// Some ugly typing here, but it gets us type safety. Mainly we want to:
 	//  1. Have args that extend the function arg and omit the args we provide (easy)

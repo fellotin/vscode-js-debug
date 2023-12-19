@@ -156,11 +156,9 @@ export class NodeSourcePathResolver extends SourcePathResolverBase<IOptions> {
 
 		this.linkedBp?.warn();
 
-		return (
-			urlUtils.urlToRegex(this.absolutePathToUrl(absolutePath)) +
-			"|" +
-			urlUtils.urlToRegex(this.absolutePathToUrl(realPath))
-		);
+		return `${urlUtils.urlToRegex(
+			this.absolutePathToUrl(absolutePath),
+		)}|${urlUtils.urlToRegex(this.absolutePathToUrl(realPath))}`;
 	}
 
 	private async sourceMapSourceToAbsolute(url: string, map: SourceMap) {

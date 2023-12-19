@@ -82,8 +82,7 @@ export class StatefulResourceProvider
 		}
 
 		if (
-			!res.resource.success ||
-			!res.resource.httpStatusCode ||
+			!(res.resource.success && res.resource.httpStatusCode) ||
 			res.resource.httpStatusCode >= 400 ||
 			!res.resource.stream
 		) {
@@ -93,7 +92,7 @@ export class StatefulResourceProvider
 		// Small optimization: normally we'd need a trailing `IO.read` request to
 		// get an EOF, but if the response headers have a length then we can avoid that!
 		let maxOffset = Number(res.resource.headers?.["Content-Length"]);
-		if (isNaN(maxOffset)) {
+		if (Number.isNaN(maxOffset)) {
 			maxOffset = Infinity;
 		}
 

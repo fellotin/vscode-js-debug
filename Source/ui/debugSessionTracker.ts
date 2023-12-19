@@ -177,7 +177,9 @@ export class DebugSessionTracker implements vscode.Disposable {
 	}
 
 	dispose() {
-		for (const disposable of this._disposables) disposable.dispose();
+		for (const disposable of this._disposables) {
+			disposable.dispose();
+		}
 		this._disposables = [];
 	}
 }

@@ -12,7 +12,7 @@ const capturingGroupRe = new RegExp(
 	escapeRegexSpecialChars(capturingGroup),
 	"g",
 );
-const nonCapturingGroup = "?:" + capturingGroup;
+const nonCapturingGroup = `?:${capturingGroup}`;
 const nonCapturingGroupRe = new RegExp(
 	escapeRegexSpecialChars(nonCapturingGroup),
 	"g",
@@ -117,12 +117,12 @@ export class SourceMapOverrides {
 			}
 
 			if (capturedGroups === 0) {
-				reSource += `([\\/\\\\].*)?`;
+				reSource += "([\\/\\\\].*)?";
 				rightPattern += "*";
 			}
 
 			this.replacers.push([
-				new RegExp(reSource + "$", "i"),
+				new RegExp(`${reSource}$`, "i"),
 				rightPattern
 					.replace(/\$/g, "$$$$")
 					.replace(/\*/, "$1"), // CodeQL [SM02383] intentional behavior, bad detection

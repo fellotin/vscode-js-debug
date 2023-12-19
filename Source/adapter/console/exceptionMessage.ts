@@ -67,7 +67,7 @@ export class ExceptionMessage extends TextualMessage<Cdp.Runtime.ExceptionDetail
 		if (StackTraceParser.isStackLike(message)) {
 			message = await thread.replacePathsInStackTrace(message);
 		} else if (stackTrace) {
-			message += "\n" + (await stackTrace.formatAsNative());
+			message += `\n${await stackTrace.formatAsNative()}`;
 		}
 
 		return {

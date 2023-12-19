@@ -224,8 +224,9 @@ function waitForWSEndpoint(
 			reject(
 				new Error(
 					[
-						"Failed to launch browser!" +
-							(error ? " " + error.message : ""),
+						`Failed to launch browser!${
+							error ? ` ${error.message}` : ""
+						}`,
 						stderr,
 						"",
 						"TROUBLESHOOTING: https://github.com/GoogleChrome/puppeteer/blob/master/docs/troubleshooting.md",
@@ -236,9 +237,11 @@ function waitForWSEndpoint(
 		}
 
 		function onLine(line: string) {
-			stderr += line + "\n";
+			stderr += `${line}\n`;
 			const match = line.match(/^DevTools listening on (ws:\/\/.*)$/);
-			if (!match) return;
+			if (!match) {
+				return;
+			}
 			cleanup();
 			resolve(match[1]);
 		}

@@ -20,7 +20,9 @@ export interface ICustomBreakpoint {
 const map: Map<string, ICustomBreakpoint> = new Map();
 
 export function customBreakpoints(): Map<string, ICustomBreakpoint> {
-	if (map.size) return map;
+	if (map.size) {
+		return map;
+	}
 
 	function g(group: string, breakpoints: ICustomBreakpoint[]) {
 		for (const b of breakpoints) {
@@ -35,7 +37,7 @@ export function customBreakpoints(): Map<string, ICustomBreakpoint> {
 	): ICustomBreakpoint {
 		const title = maybeTitle || instrumentation;
 		return {
-			id: "instrumentation:" + instrumentation,
+			id: `instrumentation:${instrumentation}`,
 			title,
 			group: "",
 			// eslint-disable-next-line
@@ -117,7 +119,7 @@ export function customBreakpoints(): Map<string, ICustomBreakpoint> {
 				  ? [target]
 				  : target;
 		return {
-			id: "listener:" + eventName,
+			id: `listener:${eventName}`,
 			title: title || eventName,
 			group: "",
 			details: (data: {
@@ -125,7 +127,7 @@ export function customBreakpoints(): Map<string, ICustomBreakpoint> {
 			}): { short: string; long: string } => {
 				const eventTargetName = (data.targetName || "*").toLowerCase();
 				return {
-					short: eventTargetName + "." + eventName,
+					short: `${eventTargetName}.${eventName}`,
 					long: l10n.t(
 						'Paused on event listener breakpoint "{0}", triggered on "{1}"',
 						eventName,
@@ -136,7 +138,7 @@ export function customBreakpoints(): Map<string, ICustomBreakpoint> {
 			apply: async (cdp: Cdp.Api, enabled: boolean): Promise<boolean> => {
 				let result = true;
 				for (const eventTarget of eventTargets) {
-					if (enabled)
+					if (enabled) {
 						result =
 							result &&
 							!!(await cdp.DOMDebugger.setEventListenerBreakpoint(
@@ -145,7 +147,7 @@ export function customBreakpoints(): Map<string, ICustomBreakpoint> {
 									targetName: eventTarget,
 								},
 							));
-					else
+					} else {
 						result =
 							result &&
 							!!(await cdp.DOMDebugger.removeEventListenerBreakpoint(
@@ -154,13 +156,14 @@ export function customBreakpoints(): Map<string, ICustomBreakpoint> {
 									targetName: eventTarget,
 								},
 							));
+					}
 				}
 				return result;
 			},
 		};
 	}
 
-	g(`Ad Auction Worklet`, [
+	g("Ad Auction Worklet", [
 		i(
 			"beforeBidderWorkletBiddingStart",
 			l10n.t("Bidder Bidding Phase Start"),
@@ -178,17 +181,17 @@ export function customBreakpoints(): Map<string, ICustomBreakpoint> {
 			l10n.t("Seller Reporting Phase Start"),
 		),
 	]);
-	g(`Animation`, [
+	g("Animation", [
 		i("requestAnimationFrame", l10n.t("Request Animation Frame")),
 		i("cancelAnimationFrame", l10n.t("Cancel Animation Frame")),
 		i("requestAnimationFrame.callback", l10n.t("Animation Frame Fired")),
 	]);
-	g(`Canvas`, [
+	g("Canvas", [
 		i("canvasContextCreated", l10n.t("Create canvas context")),
 		i("webglErrorFired", l10n.t("WebGL Error Fired")),
 		i("webglWarningFired", l10n.t("WebGL Warning Fired")),
 	]);
-	g(`Clipboard`, [
+	g("Clipboard", [
 		e("copy"),
 		e("cut"),
 		e("paste"),
@@ -196,7 +199,7 @@ export function customBreakpoints(): Map<string, ICustomBreakpoint> {
 		e("beforecut"),
 		e("beforepaste"),
 	]);
-	g(`Control`, [
+	g("Control", [
 		e("resize"),
 		e("scroll"),
 		e("scrollend"),
@@ -208,8 +211,8 @@ export function customBreakpoints(): Map<string, ICustomBreakpoint> {
 		e("submit"),
 		e("reset"),
 	]);
-	g(`Device`, [e("deviceorientation"), e("devicemotion")]);
-	g(`DOM Mutation`, [
+	g("Device", [e("deviceorientation"), e("devicemotion")]);
+	g("DOM Mutation", [
 		e("DOMActivate"),
 		e("DOMFocusIn"),
 		e("DOMFocusOut"),
@@ -222,7 +225,7 @@ export function customBreakpoints(): Map<string, ICustomBreakpoint> {
 		e("DOMSubtreeModified"),
 		e("DOMContentLoaded"),
 	]);
-	g(`Drag / Drop`, [
+	g("Drag / Drop", [
 		e("drag"),
 		e("dragstart"),
 		e("dragend"),
@@ -231,12 +234,12 @@ export function customBreakpoints(): Map<string, ICustomBreakpoint> {
 		e("dragleave"),
 		e("drop"),
 	]);
-	g(`Geolocation`, [
-		i("Geolocation.getCurrentPosition", `getCurrentPosition`),
-		i("Geolocation.watchPosition", `watchPosition`),
+	g("Geolocation", [
+		i("Geolocation.getCurrentPosition", "getCurrentPosition"),
+		i("Geolocation.watchPosition", "watchPosition"),
 	]);
-	g(`Keyboard`, [e("keydown"), e("keyup"), e("keypress"), e("input")]);
-	g(`Load`, [
+	g("Keyboard", [e("keydown"), e("keyup"), e("keypress"), e("input")]);
+	g("Load", [
 		e("load"),
 		e("beforeunload"),
 		e("unload"),
@@ -254,7 +257,7 @@ export function customBreakpoints(): Map<string, ICustomBreakpoint> {
 		e("dispose"),
 	]);
 	const av = ["audio", "video"];
-	g(`Media`, [
+	g("Media", [
 		e("play", av),
 		e("pause", av),
 		e("playing", av),
@@ -278,7 +281,7 @@ export function customBreakpoints(): Map<string, ICustomBreakpoint> {
 		e("loadeddata", av),
 		e("waiting", av),
 	]);
-	g(`Mouse`, [
+	g("Mouse", [
 		e("auxclick"),
 		e("click"),
 		e("dblclick"),
@@ -293,20 +296,20 @@ export function customBreakpoints(): Map<string, ICustomBreakpoint> {
 		e("wheel"),
 		e("contextmenu"),
 	]);
-	g(`Notification`, [
-		i("Notification.requestPermission", `requestPermission`),
+	g("Notification", [
+		i("Notification.requestPermission", "requestPermission"),
 	]);
-	g(`Parse`, [
+	g("Parse", [
 		i("Element.setInnerHTML", l10n.t("Set innerHTML")),
-		i("Document.write", `document.write`),
+		i("Document.write", "document.write"),
 	]);
-	g(`Picture-in-Picture`, [
+	g("Picture-in-Picture", [
 		e("enterpictureinpicture", "video"),
 		e("leavepictureinpicture", "video"),
 		e("resize", "PictureInPictureWindow"),
 		e("enter", "documentPictureInPicture"),
 	]);
-	g(`Pointer`, [
+	g("Pointer", [
 		e("pointerover"),
 		e("pointerout"),
 		e("pointerenter"),
@@ -319,14 +322,14 @@ export function customBreakpoints(): Map<string, ICustomBreakpoint> {
 		e("lostpointercapture"),
 		e("pointerrawupdate"),
 	]);
-	g(`Script`, [
+	g("Script", [
 		i("scriptFirstStatement", l10n.t("Script First Statement")),
 		i(
 			"scriptBlockedByCSP",
 			l10n.t("Script Blocked by Content Security Policy"),
 		),
 	]);
-	g(`Timer`, [
+	g("Timer", [
 		i("setTimeout"),
 		i("clearTimeout"),
 		i("setInterval"),
@@ -334,22 +337,22 @@ export function customBreakpoints(): Map<string, ICustomBreakpoint> {
 		i("setTimeout.callback", l10n.t("setTimeout fired")),
 		i("setInterval.callback", l10n.t("setInterval fired")),
 	]);
-	g(`Touch`, [
+	g("Touch", [
 		e("touchstart"),
 		e("touchmove"),
 		e("touchend"),
 		e("touchcancel"),
 	]);
-	g(`WebAudio`, [
+	g("WebAudio", [
 		i("audioContextCreated", l10n.t("Create AudioContext")),
 		i("audioContextClosed", l10n.t("Close AudioContext")),
 		i("audioContextResumed", l10n.t("Resume AudioContext")),
 		i("audioContextSuspended", l10n.t("Suspend AudioContext")),
 	]);
-	g(`Window`, [i("DOMWindow.close", `window.close`)]);
-	g(`Worker`, [e("message"), e("messageerror")]);
+	g("Window", [i("DOMWindow.close", "window.close")]);
+	g("Worker", [e("message"), e("messageerror")]);
 	const xhr = ["xmlhttprequest", "xmlhttprequestupload"];
-	g(`XHR`, [
+	g("XHR", [
 		e("readystatechange", xhr),
 		e("load", xhr),
 		e("loadstart", xhr),

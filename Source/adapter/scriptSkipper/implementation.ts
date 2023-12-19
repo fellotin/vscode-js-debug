@@ -41,7 +41,7 @@ interface ISharedSkipToggleEvent {
 }
 
 function preprocessNodeInternals(
-	userSkipPatterns: ReadonlyArray<string>,
+	userSkipPatterns: readonly string[],
 ): string[] | undefined {
 	const nodeInternalRegex = /^<node_internals>[\/\\](.*)$/;
 
@@ -58,7 +58,7 @@ function preprocessNodeInternals(
 
 function preprocessAuthoredGlobs(
 	spr: ISourcePathResolver,
-	userSkipPatterns: ReadonlyArray<string>,
+	userSkipPatterns: readonly string[],
 ): string[] {
 	const authoredGlobs = userSkipPatterns
 		.filter((pattern) => !pattern.includes("<node_internals>"))
@@ -265,8 +265,7 @@ export class ScriptSkipper {
 				} else {
 					this.logger.error(
 						LogTag.Internal,
-						"Could not map script beginning for " +
-							authoredSource.sourceReference,
+						`Could not map script beginning for ${authoredSource.sourceReference}`,
 					);
 				}
 			}
@@ -348,7 +347,7 @@ export class ScriptSkipper {
 
 		const deferred = (this._allNodeInternals = getDeferred());
 		const evalResult = await this.cdp.Runtime.evaluate({
-			expression: "require('module').builtinModules" + getSourceSuffix(),
+			expression: `require('module').builtinModules${getSourceSuffix()}`,
 			returnByValue: true,
 			includeCommandLineAPI: true,
 		});
@@ -357,7 +356,7 @@ export class ScriptSkipper {
 			deferred.resolve(
 				new Set(
 					(evalResult.result.value as string[]).map(
-						(name) => name + ".js",
+						(name) => `${name}.js`,
 					),
 				),
 			);

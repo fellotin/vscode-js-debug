@@ -47,18 +47,20 @@ export class NodeTarget implements ITarget {
 		cdp: Cdp.Api,
 		public readonly targetInfo: WatchdogTarget,
 		public readonly logger: ILogger,
-		private readonly lifecycle: INodeTargetLifecycleHooks = {},
+		private readonly lifecycle: INodeTargetLifecycleHooks,
 		private readonly _parent: ITarget | undefined,
 	) {
 		this.connection = connection;
 		this._cdp = cdp;
 		cdp.pause();
 		this._waitingForDebugger = targetInfo.type === "waitingForDebugger";
-		if (targetInfo.title)
+		if (targetInfo.title) {
 			this._targetName = `${basename(targetInfo.title)} [${
 				targetInfo.processId
 			}]`;
-		else this._targetName = `[${targetInfo.processId}]`;
+		} else {
+			this._targetName = `[${targetInfo.processId}]`;
+		}
 
 		cdp.Target.on("targetDestroyed", () => this.connection.close());
 		connection.onDisconnected(() => this._disconnected());
@@ -140,7 +142,9 @@ export class NodeTarget implements ITarget {
 
 	async attach(): Promise<Cdp.Api | undefined> {
 		this._serialize = this._serialize.then(async () => {
-			if (this._attached) return;
+			if (this._attached) {
+				return;
+			}
 			return this._doAttach();
 		});
 		return this._serialize;
@@ -174,12 +178,14 @@ export class NodeTarget implements ITarget {
 
 		let defaultCountextId: number;
 		this._cdp.Runtime.on("executionContextCreated", (event) => {
-			if (event.context.auxData && event.context.auxData["isDefault"])
+			if (event.context.auxData?.["isDefault"]) {
 				defaultCountextId = event.context.id;
+			}
 		});
 		this._cdp.Runtime.on("executionContextDestroyed", (event) => {
-			if (event.executionContextId === defaultCountextId)
+			if (event.executionContextId === defaultCountextId) {
 				this.connection.close();
+			}
 		});
 		return this._cdp;
 	}

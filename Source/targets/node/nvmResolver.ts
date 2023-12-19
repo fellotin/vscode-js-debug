@@ -115,7 +115,7 @@ export class NvmResolver implements INvmResolver {
 			throw new ProtocolError(nvmNotFound());
 		}
 
-		if (!directory || !(await this.fsUtils.exists(directory))) {
+		if (!(directory && (await this.fsUtils.exists(directory)))) {
 			throw new ProtocolError(
 				nvmVersionNotFound(version, versionManagers.join("/")),
 			);
@@ -202,7 +202,9 @@ export class NvmResolver implements INvmResolver {
 			`v${version}`,
 		);
 
-		if (!directory) return;
+		if (!directory) {
+			return;
+		}
 
 		return this.platform === "win32"
 			? path.join(directory, "installation")
@@ -243,7 +245,7 @@ export class NvmResolver implements INvmResolver {
 
 		const match = versionRegex.exec(versionString);
 		if (!match) {
-			throw new Error("Invalid version string: " + versionString);
+			throw new Error(`Invalid version string: ${versionString}`);
 		}
 
 		const nvsFormat = !!(match[2] || match[8]);
@@ -258,7 +260,7 @@ export class NvmResolver implements INvmResolver {
 const semverSortAscending = (a: string, b: string) => {
 	const matchA = /([0-9]+)\.([0-9]+)\.([0-9]+)/.exec(a);
 	const matchB = /([0-9]+)\.([0-9]+)\.([0-9]+)/.exec(b);
-	if (!matchA || !matchB) {
+	if (!(matchA && matchB)) {
 		return (matchB ? -1 : 0) + (matchA ? 1 : 0);
 	}
 
@@ -281,10 +283,11 @@ function nvsStandardArchName(arch: string) {
 		case "x64":
 		case "amd64":
 			return "x64";
-		case "arm":
+		case "arm": {
 			// eslint-disable-next-line
 			const armVersion = (process.config.variables as any).arm_version;
-			return armVersion ? "armv" + armVersion + "l" : "arm";
+			return armVersion ? `armv${armVersion}l` : "arm";
+		}
 		default:
 			return arch;
 	}

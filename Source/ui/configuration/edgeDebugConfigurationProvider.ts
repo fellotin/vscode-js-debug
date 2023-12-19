@@ -33,7 +33,7 @@ export class EdgeDebugConfigurationResolver
 		folder: vscode.WorkspaceFolder | undefined,
 		config: ResolvingEdgeConfiguration,
 	): Promise<AnyEdgeConfiguration | undefined> {
-		if (!config.name && !config.type && !config.request) {
+		if (!(config.name || config.type || config.request)) {
 			const fromContext =
 				new EdgeDebugConfigurationProvider().createLaunchConfigFromContext();
 			if (!fromContext) {

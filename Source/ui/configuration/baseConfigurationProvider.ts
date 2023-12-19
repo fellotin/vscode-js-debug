@@ -44,7 +44,7 @@ export abstract class BaseConfigurationProvider<
 				return [];
 			}
 
-			const configs = r instanceof Array ? r : [r];
+			const configs = Array.isArray(r) ? r : [r];
 			const preferredType = preferredDebugTypes.get(this.type);
 			if (preferredType) {
 				for (const config of configs) {

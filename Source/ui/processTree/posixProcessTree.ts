@@ -12,7 +12,7 @@ export class PosixProcessTree extends DarwinProcessTree {
 	protected createProcess() {
 		return this.spawn("ps", [
 			"-axo",
-			`pid=PID,ppid=PPID,comm:30,command=COMMAND`,
+			"pid=PID,ppid=PPID,comm:30,command=COMMAND",
 		]);
 	}
 
@@ -32,7 +32,7 @@ export class PosixProcessTree extends DarwinProcessTree {
 				return process;
 			}
 
-			pos = pos + process.command.length;
+			pos += process.command.length;
 			while (pos < process.args.length) {
 				if (process.args[pos] === " ") {
 					break;

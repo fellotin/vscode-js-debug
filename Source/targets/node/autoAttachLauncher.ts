@@ -164,7 +164,7 @@ export class AutoAttachLauncher
 		const debugVars = await this.resolveEnvironment(runData, binary, {
 			deferredMode: true,
 			inspectorIpc:
-				this.deferredSocketName ?? runData.serverAddress + ".deferred",
+				this.deferredSocketName ?? `${runData.serverAddress}.deferred`,
 			autoAttachMode,
 			aaPatterns:
 				autoAttachMode === AutoAttachMode.Smart

@@ -3,7 +3,7 @@
  *--------------------------------------------------------*/
 
 export function asArray<T>(thing: T | readonly T[]): readonly T[] {
-	return thing instanceof Array ? thing : [thing];
+	return Array.isArray(thing) ? thing : [thing];
 }
 
 /**

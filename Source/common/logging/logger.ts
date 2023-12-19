@@ -154,8 +154,6 @@ export class Logger implements ILogger, IDisposable {
 			if (process.env.JS_DEBUG_THROW_ASSERTIONS) {
 				throw new Error(message);
 			}
-
-			debugger; // break when running in development
 			return false;
 		}
 

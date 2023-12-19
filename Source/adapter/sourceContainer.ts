@@ -275,9 +275,11 @@ export class SourceContainer {
 	}
 
 	setFileContentOverrideForTest(absolutePath: string, content?: string) {
-		if (content === undefined)
+		if (content === undefined) {
 			this._fileContentOverridesForTest.delete(absolutePath);
-		else this._fileContentOverridesForTest.set(absolutePath, content);
+		} else {
+			this._fileContentOverridesForTest.set(absolutePath, content);
+		}
 	}
 
 	/**
@@ -285,8 +287,9 @@ export class SourceContainer {
 	 */
 	public async loadedSources(): Promise<Dap.Source[]> {
 		const promises: Promise<Dap.Source>[] = [];
-		for (const source of this._sourceByReference.values())
+		for (const source of this._sourceByReference.values()) {
 			promises.push(source.toDap());
+		}
 		return await Promise.all(promises);
 	}
 
@@ -295,9 +298,12 @@ export class SourceContainer {
 	 * then by path.
 	 */
 	public source(ref: Dap.Source): Source | undefined {
-		if (ref.sourceReference)
+		if (ref.sourceReference) {
 			return this._sourceByReference.get(ref.sourceReference);
-		if (ref.path) return this._sourceByAbsolutePath.get(ref.path);
+		}
+		if (ref.path) {
+			return this._sourceByAbsolutePath.get(ref.path);
+		}
 		return undefined;
 	}
 
@@ -858,7 +864,7 @@ export class SourceContainer {
 
 					this.logger.info(
 						LogTag.SourceMapParsing,
-						`Failed to process original source-map; falling back to storage source-map`,
+						"Failed to process original source-map; falling back to storage source-map",
 						{
 							fallbackSourceMapUrl:
 								source.sourceMap.metadata.sourceMapUrl,
@@ -872,9 +878,10 @@ export class SourceContainer {
 
 			if (value === undefined) {
 				this._dap.output({
-					output:
+					output: `${
 						sourceMapParseFailed(source.url, urlError.message).error
-							.format + "\n",
+							.format
+					}\n`,
 					category: "stderr",
 				});
 
@@ -1082,7 +1089,9 @@ export class SourceContainer {
 
 			compiled.sourceMap.sourceByUrl.delete(url);
 			source.compiledToSourceUrl.delete(compiled);
-			if (source.compiledToSourceUrl.size) continue;
+			if (source.compiledToSourceUrl.size) {
+				continue;
+			}
 			this.removeSource(source, silent);
 		}
 	}

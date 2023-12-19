@@ -121,8 +121,8 @@ export class UserDefinedBreakpoint extends Breakpoint {
 	 */
 	protected updateCdpRefs(
 		mutator: (
-			l: ReadonlyArray<BreakpointCdpReference>,
-		) => ReadonlyArray<BreakpointCdpReference>,
+			l: readonly BreakpointCdpReference[],
+		) => readonly BreakpointCdpReference[],
 	) {
 		const previousLocation = this.getResolvedUiLocation();
 		super.updateCdpRefs(mutator);

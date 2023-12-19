@@ -54,7 +54,7 @@ describe("urlUtils", () => {
 		it("works for file urls that contain : elsewhere", () => {
 			// Should remove query args?
 			const expectedPath = '/Users/me/file?config={"a":"b"}';
-			expect(fileUrlToAbsolutePath("file://" + expectedPath)).to.equal(
+			expect(fileUrlToAbsolutePath(`file://${expectedPath}`)).to.equal(
 				expectedPath,
 			);
 		});

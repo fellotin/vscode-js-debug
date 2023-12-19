@@ -54,7 +54,7 @@ export class LogPointCompiler {
 		return new RuntimeLogPoint(invoke);
 	}
 
-	private serializeLogStatements(statements: ReadonlyArray<Statement>) {
+	private serializeLogStatements(statements: readonly Statement[]) {
 		return returnErrorsFromStatements([], statements, false);
 	}
 

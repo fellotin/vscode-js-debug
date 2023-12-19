@@ -76,7 +76,7 @@ export class RawPipeTransport implements ITransport {
 	 * @inheritdoc
 	 */
 	public send(message: string) {
-		this.streams?.write.write(message + "\0");
+		this.streams?.write.write(`${message}\0`);
 	}
 
 	/**

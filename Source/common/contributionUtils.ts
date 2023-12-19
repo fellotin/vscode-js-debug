@@ -182,7 +182,7 @@ export interface IConfigurationTypes {
 		| DebugByLinkState
 		| ({ enabled: DebugByLinkState } & Partial<IChromeLaunchConfiguration>);
 	[Configuration.AutoAttachMode]: AutoAttachMode;
-	[Configuration.AutoAttachSmartPatterns]: ReadonlyArray<string>;
+	[Configuration.AutoAttachSmartPatterns]: readonly string[];
 	[Configuration.BreakOnConditionalError]: boolean;
 	[Configuration.UnmapMissingSources]: boolean;
 	[Configuration.DefaultRuntimeExecutables]: { [K in DebugType]?: string };

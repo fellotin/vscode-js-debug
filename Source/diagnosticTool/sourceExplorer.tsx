@@ -125,7 +125,7 @@ export const Source: FunctionComponent<{
 };
 
 const Breadcrumbs: FunctionComponent<{
-	sources: ReadonlyArray<IDiagnosticSource>;
+	sources: readonly IDiagnosticSource[];
 	update(sources: number[]): void;
 }> = ({ sources, update }) => (
 	<ol className="source-breadcrumbs">

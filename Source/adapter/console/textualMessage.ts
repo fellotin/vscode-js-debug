@@ -87,7 +87,7 @@ export abstract class TextualMessage<
 	 */
 	protected formatDefaultString(
 		thread: Thread,
-		args: ReadonlyArray<Cdp.Runtime.RemoteObject>,
+		args: readonly Cdp.Runtime.RemoteObject[],
 		includeStackInVariables = false,
 	) {
 		const useMessageFormat = args.length > 1 && args[0].type === "string";
@@ -99,7 +99,7 @@ export abstract class TextualMessage<
 			  )
 			: formatMessage("", args as AnyObject[], messageFormatters);
 
-		const output = formatResult.result + "\n";
+		const output = `${formatResult.result}\n`;
 
 		if (formatResult.usedAllSubs && !args.some(previewAsObject)) {
 			return { output };
@@ -116,7 +116,7 @@ export abstract class TextualMessage<
 	private async formatComplexStringOutput(
 		thread: Thread,
 		output: string,
-		args: ReadonlyArray<Cdp.Runtime.RemoteObject>,
+		args: readonly Cdp.Runtime.RemoteObject[],
 		includeStackInVariables: boolean,
 	) {
 		if (

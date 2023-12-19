@@ -125,8 +125,6 @@ export class ProxyLogger implements ILogger {
 			if (process.env.JS_DEBUG_THROW_ASSERTIONS) {
 				throw new Error(message);
 			}
-
-			debugger; // break when running in development
 			return false;
 		}
 

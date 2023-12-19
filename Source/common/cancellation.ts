@@ -110,8 +110,10 @@ export class CancellationTokenSource {
 	private _parentListener?: IDisposable = undefined;
 
 	constructor(parent?: CancellationToken) {
-		this._parentListener =
-			parent && parent.onCancellationRequested(this.cancel, this);
+		this._parentListener = parent?.onCancellationRequested(
+			this.cancel,
+			this,
+		);
 	}
 
 	/**

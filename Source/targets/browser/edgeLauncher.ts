@@ -186,7 +186,7 @@ export class EdgeLauncher extends BrowserLauncher<IEdgeLaunchConfiguration> {
 			this.browserFinder,
 			executablePath,
 		);
-		if (!resolvedPath || !(await canAccess(this.fs, resolvedPath))) {
+		if (!(resolvedPath && (await canAccess(this.fs, resolvedPath)))) {
 			throw new ProtocolError(
 				browserNotFound(
 					"Edge",

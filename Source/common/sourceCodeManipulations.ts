@@ -70,8 +70,8 @@ export const parseSource: (str: string) => (Statement & AcornNode)[] = (
  * statement; statement => function () { catchAndReturnErrors?(statement; return statement;) }
  * */
 export function statementsToFunction(
-	parameterNames: ReadonlyArray<string>,
-	statements: ReadonlyArray<Statement>,
+	parameterNames: readonly string[],
+	statements: readonly Statement[],
 	catchAndReturnErrors: boolean,
 ): AnyFunctionExpression {
 	if (statements.length > 1 || statements[0].type !== "FunctionDeclaration") {
@@ -121,8 +121,8 @@ export function statementsToFunction(
  * code => (parameterNames) => return catchAndReturnErrors?(code)
  * */
 const codeToFunctionExecutingCode = (
-	parameterNames: ReadonlyArray<string>,
-	body: ReadonlyArray<Statement>,
+	parameterNames: readonly string[],
+	body: readonly Statement[],
 	preserveThis: boolean,
 	catchAndReturnErrors: boolean,
 ): AnyFunctionExpression => {
@@ -178,9 +178,7 @@ const codeToFunctionExecutingCode = (
 		},
 	};
 
-	const inner = catchAndReturnErrors
-		? [innerWithTry]
-		: (body as Array<Statement>);
+	const inner = catchAndReturnErrors ? [innerWithTry] : (body as Statement[]);
 
 	return preserveThis
 		? {
@@ -207,7 +205,7 @@ const codeToFunctionExecutingCode = (
  * function (params) { code } => (function (params) { code })(argumentsText)
  * */
 export const functionToFunctionCall = (
-	argumentsList: ReadonlyArray<string>,
+	argumentsList: readonly string[],
 	functionCode: FunctionExpression | ArrowFunctionExpression,
 ): CallExpression => ({
 	type: "CallExpression",
@@ -221,8 +219,8 @@ export const functionToFunctionCall = (
  * statement; statement => catchAndReturnErrors(statement; return statement);
  * */
 export const returnErrorsFromStatements = (
-	parameterNames: ReadonlyArray<string>,
-	statements: ReadonlyArray<Statement>,
+	parameterNames: readonly string[],
+	statements: readonly Statement[],
 	preserveThis: boolean,
 ) =>
 	functionToFunctionCall(
@@ -240,8 +238,8 @@ export const returnErrorsFromStatements = (
  * statement; statement => function () { catchAndReturnErrors(statement; return statement); }
  * */
 function statementToFunction(
-	parameterNames: ReadonlyArray<string>,
-	statements: ReadonlyArray<Statement>,
+	parameterNames: readonly string[],
+	statements: readonly Statement[],
 	preserveThis: boolean,
 	catchAndReturnErrors: boolean,
 ) {
@@ -362,7 +360,7 @@ const traverseInner = (
 			const child = (node as unknown as Record<string, Node | Node[]>)[
 				key
 			];
-			if (child instanceof Array) {
+			if (Array.isArray(child)) {
 				for (const [i, c] of child.entries()) {
 					const result = traverseInner(c, visitor, node);
 					if (result === VisitorOption.Break) {

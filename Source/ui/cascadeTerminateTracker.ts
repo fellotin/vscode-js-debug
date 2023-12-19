@@ -26,7 +26,7 @@ export class CascadeTerminationTracker implements IExtensionContribution {
 			this.tracker.onSessionEnded((session) => {
 				const targets: string[] =
 					session.configuration.cascadeTerminateToConfigurations;
-				if (!targets || !(targets instanceof Array)) {
+				if (!(targets && Array.isArray(targets))) {
 					return; // may be a nested session
 				}
 

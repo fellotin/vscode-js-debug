@@ -70,7 +70,7 @@ export class FileLogSink implements ILogSink {
 	 */
 	public write(item: ILogItem<unknown>): void {
 		if (this.stream) {
-			this.stream.write(JSON.stringify(item, replacer) + "\n");
+			this.stream.write(`${JSON.stringify(item, replacer)}\n`);
 			(this.stream as Gzip).flush?.(constants.Z_SYNC_FLUSH);
 		}
 	}

@@ -71,7 +71,7 @@ export async function resolveProcessId(
 	// we resolve Process Picker early (before VS Code) so that we can probe the process for its protocol
 	const processId = config.processId?.trim();
 	const result = processId && decodePidAndPort(processId);
-	if (!result || isNaN(result.pid)) {
+	if (!result || Number.isNaN(result.pid)) {
 		throw new Error(
 			l10n.t(
 				"Attach to process: '{0}' doesn't look like a process id.",
@@ -85,7 +85,7 @@ export async function resolveProcessId(
 	}
 
 	config.port = result.port || INSPECTOR_PORT_DEFAULT;
-	delete config.processId;
+	config.processId = undefined;
 
 	if (setCwd) {
 		const inferredWd = await inferWorkingDirectory(fsUtils, result.pid);
@@ -188,7 +188,7 @@ async function listProcesses(): Promise<IProcessItem | undefined> {
 
 			const executableName = basename(leaf.command, ".exe");
 			const { port } = analyseArguments(leaf.args);
-			if (!port && !nodeProcessPattern.test(executableName)) {
+			if (!(port || nodeProcessPattern.test(executableName))) {
 				return acc;
 			}
 

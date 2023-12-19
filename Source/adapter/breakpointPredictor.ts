@@ -224,7 +224,7 @@ export class GlobalBreakpointSearch extends BreakpointSearch {
 	private async createInitialMapping(): Promise<MetadataMap> {
 		return logPerf(
 			this.logger,
-			`BreakpointsPredictor.createInitialMapping`,
+			"BreakpointsPredictor.createInitialMapping",
 			() => this.createMapping(),
 		);
 	}
@@ -344,7 +344,7 @@ export class BreakpointsPredictor implements IBreakpointsPredictor {
 	public async predictBreakpoints(
 		params: Dap.SetBreakpointsParams,
 	): Promise<void> {
-		if (!params.source.path || !params.breakpoints?.length) {
+		if (!(params.source.path && params.breakpoints?.length)) {
 			return;
 		}
 

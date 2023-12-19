@@ -70,7 +70,7 @@ function collectInitialize(dap: Dap.Api) {
 			verified: false,
 			message: l10n.t(
 				"breakpoint.provisionalBreakpoint",
-				`Unbound breakpoint`,
+				"Unbound breakpoint",
 			),
 		})); // TODO: Put a useful message here
 		return { breakpoints };
@@ -117,7 +117,7 @@ function collectInitialize(dap: Dap.Api) {
 
 			const deferred = getDeferred<Dap.LaunchResult | Dap.AttachResult>();
 			if (!initializeParams) {
-				throw new Error(`cannot call launch/attach before initialize`);
+				throw new Error("cannot call launch/attach before initialize");
 			}
 
 			resolve({
@@ -200,12 +200,14 @@ class DapSessionManager implements IBinderDelegate {
 			);
 		}
 
-		if (init.setExceptionBreakpointsParams)
+		if (init.setExceptionBreakpointsParams) {
 			await adapter.setExceptionBreakpoints(
 				init.setExceptionBreakpointsParams,
 			);
-		for (const { params, ids } of init.setBreakpointsParams)
+		}
+		for (const { params, ids } of init.setBreakpointsParams) {
 			await adapter.breakpointManager.setBreakpoints(params, ids);
+		}
 		await adapter.setCustomBreakpoints({
 			xhr: init.xhrBreakpoints,
 			ids: init.customBreakpoints,
@@ -232,10 +234,12 @@ class DapSessionManager implements IBinderDelegate {
 	/** Processes an incoming connection. */
 	public handleConnection(info: ISessionInfo) {
 		if (
-			!("__pendingTargetId" in info.launchParams) ||
-			!info.launchParams.__pendingTargetId
+			!(
+				"__pendingTargetId" in info.launchParams &&
+				info.launchParams.__pendingTargetId
+			)
 		) {
-			throw new Error(`Incoming session is missing __pendingTargetId`);
+			throw new Error("Incoming session is missing __pendingTargetId");
 		}
 
 		const targetId = info.launchParams.__pendingTargetId;
@@ -330,7 +334,7 @@ if (process.argv.includes("--help")) {
 			argv1,
 		)} [port|socket path=8123] [host=localhost]`,
 	);
-} else if (isNaN(Number(portOrSocket))) {
+} else if (Number.isNaN(Number(portOrSocket))) {
 	startDebugServer({ path: portOrSocket });
 } else {
 	startDebugServer({ port: Number(portOrSocket), host });

@@ -61,7 +61,7 @@ export class DisableSourceMapUI implements IExtensionContribution {
 		);
 
 		switch (result) {
-			case always:
+			case always: {
 				writeConfig(
 					vscode.workspace,
 					Configuration.UnmapMissingSources,
@@ -69,7 +69,8 @@ export class DisableSourceMapUI implements IExtensionContribution {
 					vscode.ConfigurationTarget.Global,
 				);
 				return true;
-			case alwayInWorkspace:
+			}
+			case alwayInWorkspace: {
 				writeConfig(
 					vscode.workspace,
 					Configuration.UnmapMissingSources,
@@ -77,6 +78,7 @@ export class DisableSourceMapUI implements IExtensionContribution {
 					vscode.ConfigurationTarget.Workspace,
 				);
 				return true;
+			}
 			case yes:
 				return true;
 			default:

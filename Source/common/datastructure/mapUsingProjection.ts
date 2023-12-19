@@ -22,7 +22,7 @@ export class MapUsingProjection<K, V, P = K> implements Map<K, V> {
 		readonly initialContents?:
 			| Map<K, V>
 			| Iterable<[K, V]>
-			| ReadonlyArray<[K, V]>,
+			| readonly [K, V][],
 	) {
 		const entries = Array.from(initialContents || []).map<
 			[P, KeyAndValue<K, V>]

@@ -51,17 +51,24 @@ export class EventEmitter<T> implements IDisposable {
 					this._listeners.delete(data);
 				},
 			};
-			if (disposables) disposables.push(result);
+			if (disposables) {
+				disposables.push(result);
+			}
 			return result;
 		};
 	}
 
 	fire(event: T): void {
 		const dispatch = !this._deliveryQueue;
-		if (!this._deliveryQueue) this._deliveryQueue = [];
-		for (const data of this._listeners)
+		if (!this._deliveryQueue) {
+			this._deliveryQueue = [];
+		}
+		for (const data of this._listeners) {
 			this._deliveryQueue.push({ data, event });
-		if (!dispatch) return;
+		}
+		if (!dispatch) {
+			return;
+		}
 		for (let index = 0; index < this._deliveryQueue.length; index++) {
 			const { data, event } = this._deliveryQueue[index];
 			data.listener.call(data.thisArg, event);
@@ -71,7 +78,9 @@ export class EventEmitter<T> implements IDisposable {
 
 	dispose() {
 		this._listeners.clear();
-		if (this._deliveryQueue) this._deliveryQueue = [];
+		if (this._deliveryQueue) {
+			this._deliveryQueue = [];
+		}
 	}
 }
 

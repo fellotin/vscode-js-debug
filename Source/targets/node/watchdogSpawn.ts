@@ -86,7 +86,7 @@ export class WatchDog implements IDisposable {
 		processId: Number(this.info.pid) || 0,
 		type: this.info.waitForDebugger ? "waitingForDebugger" : "",
 		title: this.info.scriptName,
-		url: "file://" + this.info.scriptName,
+		url: `file://${this.info.scriptName}`,
 		openerId: this.info.openerId,
 		attached: true,
 		canAccessOpener: false,
@@ -183,7 +183,7 @@ export class WatchDog implements IDisposable {
 	private async execute(data: string): Promise<{} | void> {
 		const object = JSON.parse(data);
 		switch (object.method) {
-			case Method.AttachToTarget:
+			case Method.AttachToTarget: {
 				if (this.target) {
 					this.disposeTarget();
 				}
@@ -198,15 +198,18 @@ export class WatchDog implements IDisposable {
 							: undefined,
 					},
 				};
+			}
 
-			case Method.DetachFromTarget:
+			case Method.DetachFromTarget: {
 				this.gracefulExit = true;
 				this.disposeTarget();
 				return { id: object.id, result: {} };
+			}
 
-			default:
+			default: {
 				this.target?.send(object);
 				return;
+			}
 		}
 	}
 

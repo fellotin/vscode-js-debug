@@ -43,7 +43,7 @@ type DynamicConfig =
 	| ResolvingNodeConfiguration
 	| ResolvingTerminalConfiguration;
 
-const keysToRelativize: ReadonlyArray<string> = ["cwd", "program"];
+const keysToRelativize: readonly string[] = ["cwd", "program"];
 
 @injectable()
 export class NodeDynamicDebugConfigurationProvider extends BaseConfigurationProvider<
@@ -126,8 +126,10 @@ export class NodeDynamicDebugConfigurationProvider extends BaseConfigurationProv
 	protected getFromActiveFile(): DynamicConfig[] {
 		const editor = vscode.window.activeTextEditor;
 		if (
-			!editor ||
-			!breakpointLanguages.includes(editor.document.languageId) ||
+			!(
+				editor &&
+				breakpointLanguages.includes(editor.document.languageId)
+			) ||
 			editor.document.uri.scheme !== "file"
 		) {
 			return [];

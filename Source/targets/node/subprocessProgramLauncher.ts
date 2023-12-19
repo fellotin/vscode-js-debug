@@ -41,7 +41,7 @@ export class SubprocessProgramLauncher implements IProgramLauncher {
 		// the terminal, for cosmetic purposes.
 		context.dap.output({
 			category: "console",
-			output: [executable, ...args].join(" ") + "\n",
+			output: `${[executable, ...args].join(" ")}\n`,
 		});
 
 		const child = spawn(executable, args, {
@@ -133,7 +133,7 @@ export class SubprocessProgramLauncher implements IProgramLauncher {
 // From: https://github.com/microsoft/vscode-node-debug/blob/47747454bc6e8c9e48d8091eddbb7ffb54a19bbe/src/node/nodeDebug.ts#L1120
 const formatArguments = (
 	executable: string,
-	args: ReadonlyArray<string>,
+	args: readonly string[],
 	cwd: string,
 ) => {
 	if (process.platform === "win32") {

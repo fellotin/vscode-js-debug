@@ -55,7 +55,7 @@ export interface IStartProfileArguments {
 	 *  - `breakpoint` takes a `[Array<number>]` of DAP breakpoint IDs. These can
 	 *    be found by calling the custom `getBreakpoints` method on a debug session.
 	 */
-	termination?: string | { type: string; args?: ReadonlyArray<unknown> };
+	termination?: string | { type: string; args?: readonly unknown[] };
 
 	/**
 	 * Command to run when the profile has completed. If not provided, the
@@ -98,7 +98,7 @@ export class UiProfileManager implements IDisposable {
 		@inject(SessionSubStates)
 		private readonly sessionStates: SessionSubStates,
 		@multiInject(ITerminationConditionFactory)
-		private readonly terminationConditions: ReadonlyArray<ITerminationConditionFactory>
+		private readonly terminationConditions: readonly ITerminationConditionFactory[]
 	) {
 		this.disposables.push(
 			vscode.debug.onDidReceiveDebugSessionCustomEvent((event) => {
@@ -339,7 +339,7 @@ export class UiProfileManager implements IDisposable {
 	/**
 	 * Quickpick to select any of the given candidate sessions.
 	 */
-	private async pickSession(candidates: ReadonlyArray<vscode.DebugSession>) {
+	private async pickSession(candidates: readonly vscode.DebugSession[]) {
 		if (candidates.length === 0) {
 			return;
 		}
@@ -411,7 +411,7 @@ export class UiProfileManager implements IDisposable {
 		T extends { label: string; description?: string; sortOrder?: number },
 	>(
 		title: string,
-		items: ReadonlyArray<T>,
+		items: readonly T[],
 		lastLabel?: string,
 	): Promise<T | undefined> {
 		if (items.length <= 1) {

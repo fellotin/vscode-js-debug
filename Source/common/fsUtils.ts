@@ -220,7 +220,7 @@ export class LocalAndRemoteFsUtils implements IFsUtils {
 	): IFsUtils {
 		const localFsUtils = new LocalFsUtils(fsPromises);
 		if (remoteFilePrefix !== undefined) {
-			return new this(
+			return new LocalAndRemoteFsUtils(
 				remoteFilePrefix.toLowerCase(),
 				localFsUtils,
 				new RemoteFsThroughDapUtils(dap),

@@ -99,8 +99,10 @@ export const createMetadataForFile = async (
 	}
 
 	if (
-		!sourceMapUrl.startsWith("data:") &&
-		!sourceMapUrl.startsWith("file://")
+		!(
+			sourceMapUrl.startsWith("data:") ||
+			sourceMapUrl.startsWith("file://")
+		)
 	) {
 		return;
 	}

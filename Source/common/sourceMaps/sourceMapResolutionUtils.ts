@@ -72,7 +72,7 @@ export async function getComputedSourceRoot(
 			absSourceRoot = properJoin(mappedDirname, sourceRoot);
 		}
 
-		logger.verbose(LogTag.SourceMapParsing, `resolved sourceRoot`, {
+		logger.verbose(LogTag.SourceMapParsing, "resolved sourceRoot", {
 			sourceRoot,
 			absSourceRoot,
 		});
@@ -80,7 +80,7 @@ export async function getComputedSourceRoot(
 		absSourceRoot = path.dirname(generatedPath);
 		logger.verbose(
 			LogTag.SourceMapParsing,
-			`no sourceRoot specified, using script dirname`,
+			"no sourceRoot specified, using script dirname",
 			{
 				absSourceRoot,
 			},
@@ -94,7 +94,7 @@ export async function getComputedSourceRoot(
 		absSourceRoot = scriptPathDirname;
 		logger.verbose(
 			LogTag.SourceMapParsing,
-			`no sourceRoot specified, using webRoot + script path dirname`,
+			"no sourceRoot specified, using webRoot + script path dirname",
 			{ absSourceRoot },
 		);
 	}
@@ -127,7 +127,7 @@ export const defaultPathMappingResolver: PathMappingResolver = async (
 	pathMapping,
 	logger,
 ) => {
-	if (!scriptUrlPath || !scriptUrlPath.startsWith("/")) {
+	if (!scriptUrlPath?.startsWith("/")) {
 		return "";
 	}
 
@@ -146,7 +146,7 @@ export const defaultPathMappingResolver: PathMappingResolver = async (
 				LogTag.SourceMapParsing,
 				`Keys should be absolute: ${pattern}`,
 			);
-			pattern = "/" + pattern;
+			pattern = `/${pattern}`;
 		}
 
 		if (pathMappingPatternMatchesPath(pattern, scriptUrlPath)) {

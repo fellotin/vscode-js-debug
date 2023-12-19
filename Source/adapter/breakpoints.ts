@@ -203,21 +203,23 @@ export class BreakpointManager {
 				for (const source of queue[i]) {
 					const path = source.absolutePath;
 					const byPath = path ? this._byPath.get(path) : undefined;
-					for (const breakpoint of byPath || [])
+					for (const breakpoint of byPath || []) {
 						todo.push(
 							breakpoint.updateForNewLocations(
 								this._thread,
 								script
 							)
 						);
+					}
 					const byRef = this._byRef.get(source.sourceReference);
-					for (const breakpoint of byRef || [])
+					for (const breakpoint of byRef || []) {
 						todo.push(
 							breakpoint.updateForNewLocations(
 								this._thread,
 								script
 							)
 						);
+					}
 
 					if (source.sourceMap) {
 						queue.push(source.sourceMap.sourceByUrl.values());
@@ -488,7 +490,9 @@ export class BreakpointManager {
 					const source = this._sourceContainer.source(
 						breakpoint.source,
 					);
-					if (isSourceWithMap(source)) sources.push(source);
+					if (isSourceWithMap(source)) {
+						sources.push(source);
+					}
 				}
 			}
 			return sources;
@@ -533,7 +537,7 @@ export class BreakpointManager {
 
 	private setRuntimeSourcemapPausePatterns(
 		thread: Thread,
-		patterns: ReadonlyArray<string>,
+		patterns: readonly string[],
 	) {
 		return Promise.all(
 			patterns.map((pattern) =>
@@ -545,7 +549,7 @@ export class BreakpointManager {
 		);
 	}
 
-	private addLaunchBlocker(...promises: ReadonlyArray<Promise<unknown>>) {
+	private addLaunchBlocker(...promises: readonly Promise<unknown>[]) {
 		for (const promise of promises) {
 			this._launchBlocker.add(promise);
 			promise.finally(() => this._launchBlocker.delete(promise));
@@ -816,7 +820,7 @@ export class BreakpointManager {
 	 * Returns whether any of the given breakpoints are an entrypoint breakpoint.
 	 */
 	public isEntrypointBreak(
-		hitBreakpointIds: ReadonlyArray<Cdp.Debugger.BreakpointId>,
+		hitBreakpointIds: readonly Cdp.Debugger.BreakpointId[],
 		scriptId: string,
 	) {
 		// Fix: if we stopped in a script where an active entrypoint breakpoint
@@ -848,7 +852,7 @@ export class BreakpointManager {
 	 */
 	public async shouldPauseAt(
 		pausedEvent: Cdp.Debugger.PausedEvent,
-		hitBreakpointIds: ReadonlyArray<Cdp.Debugger.BreakpointId>,
+		hitBreakpointIds: readonly Cdp.Debugger.BreakpointId[],
 		delegateEntryBreak: IBreakpointPathAndId | undefined,
 		continueByDefault = false,
 	) {
@@ -904,7 +908,7 @@ export class BreakpointManager {
 	 * Registers that the given breakpoints were hit for statistics.
 	 */
 	public registerBreakpointsHit(
-		hitBreakpointIds: ReadonlyArray<Cdp.Debugger.BreakpointId>,
+		hitBreakpointIds: readonly Cdp.Debugger.BreakpointId[],
 	) {
 		for (const breakpointId of hitBreakpointIds) {
 			const breakpoint = this._resolvedBreakpoints.get(breakpointId);

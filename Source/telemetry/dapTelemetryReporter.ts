@@ -84,7 +84,7 @@ export class DapTelemetryReporter implements ITelemetryReporter {
 	 * @inheritdoc
 	 */
 	public attachDap(dap: Dap.Api) {
-		if (this.target instanceof Array) {
+		if (Array.isArray(this.target)) {
 			this.target.forEach((event) => dap.output(event));
 		}
 
@@ -128,7 +128,7 @@ export class DapTelemetryReporter implements ITelemetryReporter {
 	 */
 	public pushOutput(event: Dap.OutputEventParams) {
 		event.data = mapOutput(event.data) as object;
-		if (this.target instanceof Array) {
+		if (Array.isArray(this.target)) {
 			this.target.push(event);
 		} else {
 			this.target.output(event);
@@ -150,7 +150,7 @@ const mapOutput = (obj: unknown): unknown => {
 		return extractErrorDetails(obj);
 	}
 
-	if (obj instanceof Array) {
+	if (Array.isArray(obj)) {
 		return obj.map(mapOutput);
 	}
 

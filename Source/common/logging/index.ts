@@ -62,7 +62,7 @@ const logTabObj: { [K in LogTag]: null } = {
 /**
  * List of all log tags.
  */
-export const allLogTags = Object.keys(logTabObj) as ReadonlyArray<LogTag>;
+export const allLogTags = Object.keys(logTabObj) as readonly LogTag[];
 
 export interface ILogItem<T = unknown> {
 	timestamp: number;
@@ -126,7 +126,7 @@ export interface ILogSink extends IDisposable {
  */
 export interface ILoggerSetupOptions {
 	showWelcome?: boolean;
-	sinks: ReadonlyArray<ILogSink>;
+	sinks: readonly ILogSink[];
 }
 
 /**

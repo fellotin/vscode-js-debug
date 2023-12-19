@@ -237,7 +237,7 @@ export class Completions {
 			.filter((c) => c.sortText !== "~~[")
 			.map((item) => ({
 				...item,
-				text: JSON.stringify(item.text ?? item.label) + "]",
+				text: `${JSON.stringify(item.text ?? item.label)}]`,
 				start: getStart(node.property),
 				length: getEnd(node.property) - getStart(node.property),
 			}));
@@ -361,7 +361,7 @@ export class Completions {
 			throwOnSideEffect,
 		};
 
-		const callFrameId = stackFrame && stackFrame.callFrameId();
+		const callFrameId = stackFrame?.callFrameId();
 		const objRefResult = await this.evaluator.evaluate(
 			callFrameId
 				? { ...params, callFrameId }

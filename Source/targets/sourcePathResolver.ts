@@ -32,7 +32,7 @@ import { SourceMapOverrides } from "./sourceMapOverrides";
 
 export interface ISourcePathResolverOptions {
 	workspaceFolder: string;
-	resolveSourceMapLocations: ReadonlyArray<string> | null;
+	resolveSourceMapLocations: readonly string[] | null;
 	sourceMapOverrides: { [key: string]: string };
 	localRoot: string | null;
 	remoteRoot: string | null;
@@ -175,9 +175,11 @@ export abstract class SourcePathResolverBase<
 	 */
 	public rebaseRemoteToLocal(remotePath: string) {
 		if (
-			!this.options.remoteRoot ||
-			!this.options.localRoot ||
-			!this.canMapPath(remotePath)
+			!(
+				this.options.remoteRoot &&
+				this.options.localRoot &&
+				this.canMapPath(remotePath)
+			)
 		) {
 			return path.resolve(remotePath);
 		}
@@ -206,9 +208,11 @@ export abstract class SourcePathResolverBase<
 	 */
 	public rebaseLocalToRemote(localPath: string) {
 		if (
-			!this.options.remoteRoot ||
-			!this.options.localRoot ||
-			!this.canMapPath(localPath)
+			!(
+				this.options.remoteRoot &&
+				this.options.localRoot &&
+				this.canMapPath(localPath)
+			)
 		) {
 			return localPath;
 		}

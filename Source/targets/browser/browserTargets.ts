@@ -156,16 +156,20 @@ export class BrowserTarget implements ITarget {
 	}
 
 	parent(): ITarget | undefined {
-		if (this.parentTarget && !jsTypes.has(this.parentTarget.type()))
+		if (this.parentTarget && !jsTypes.has(this.parentTarget.type())) {
 			return this.parentTarget.parentTarget;
+		}
 		return this.parentTarget;
 	}
 
 	children(): ITarget[] {
 		const result: ITarget[] = [];
 		for (const target of this._children.values()) {
-			if (jsTypes.has(target.type())) result.push(target);
-			else result.push(...target.children());
+			if (jsTypes.has(target.type())) {
+				result.push(target);
+			} else {
+				result.push(...target.children());
+			}
 		}
 		return result;
 	}
@@ -182,7 +186,9 @@ export class BrowserTarget implements ITarget {
 		if (this.type() === BrowserTargetType.ServiceWorker) {
 			// Stop both dedicated and parent service worker scopes for present and future browsers.
 			this._manager.serviceWorkerModel.stopWorker(this.id());
-			if (!this.parentTarget) return;
+			if (!this.parentTarget) {
+				return;
+			}
 			this._manager.serviceWorkerModel.stopWorker(this.parentTarget.id());
 		} else {
 			this._cdp.Target.closeTarget({
@@ -227,14 +233,22 @@ export class BrowserTarget implements ITarget {
 	): string {
 		const auxData = description.auxData;
 		const contextName = description.name;
-		if (!auxData) return contextName;
+		if (!auxData) {
+			return contextName;
+		}
 		const frameId = auxData["frameId"];
 		const frame = frameId
 			? this._manager.frameModel.frameForId(frameId)
 			: undefined;
-		if (frame && auxData["isDefault"] && !frame.parentFrame()) return "top";
-		if (frame && auxData["isDefault"]) return frame.displayName();
-		if (frame) return `${contextName}`;
+		if (frame && auxData["isDefault"] && !frame.parentFrame()) {
+			return "top";
+		}
+		if (frame && auxData["isDefault"]) {
+			return frame.displayName();
+		}
+		if (frame) {
+			return `${contextName}`;
+		}
 		return contextName;
 	}
 
@@ -276,7 +290,9 @@ export class BrowserTarget implements ITarget {
 		}
 		if (this.type() === BrowserTargetType.ServiceWorker) {
 			const version = this._manager.serviceWorkerModel.version(this.id());
-			if (version) return version.label() + " [Service Worker]";
+			if (version) {
+				return `${version.label()} [Service Worker]`;
+			}
 		}
 
 		let threadName = this._targetInfo.title;

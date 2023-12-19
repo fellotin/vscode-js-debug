@@ -81,7 +81,7 @@ export class NodeLauncher extends NodeLauncherBase<INodeLaunchConfiguration> {
 		@inject(IBreakpointsPredictor)
 		private readonly bpPredictor: IBreakpointsPredictor,
 		@multiInject(IProgramLauncher)
-		private readonly launchers: ReadonlyArray<IProgramLauncher>,
+		private readonly launchers: readonly IProgramLauncher[],
 		@inject(RestartPolicyFactory)
 		private readonly restarters: RestartPolicyFactory,
 		@inject(IFsUtils) private readonly fsUtils: LocalFsUtils,

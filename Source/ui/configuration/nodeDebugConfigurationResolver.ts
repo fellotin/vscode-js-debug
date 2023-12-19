@@ -119,7 +119,7 @@ export class NodeConfigurationResolver extends BaseConfigurationResolver<AnyNode
 		config: ResolvingNodeConfiguration,
 		cancellationToken: CancellationToken,
 	): Promise<AnyNodeConfiguration | undefined> {
-		if (!config.name && !config.type && !config.request) {
+		if (!(config.name || config.type || config.request)) {
 			config = await createLaunchConfigFromContext(folder, true, config);
 			if (config.request === "launch" && !config.program) {
 				vscode.window.showErrorMessage(
@@ -392,7 +392,7 @@ export async function createLaunchConfigFromContext(
 		skipFiles: ["<node_internals>/**"],
 	};
 
-	if (existingConfig && existingConfig.noDebug) {
+	if (existingConfig?.noDebug) {
 		config.noDebug = true;
 	}
 
@@ -437,7 +437,7 @@ export async function createLaunchConfigFromContext(
 
 			if (!path.isAbsolute(program)) {
 				// we don't use path.join here since it destroys the workspaceFolder with ../ (vscode#125796)
-				program = "${workspaceFolder}" + path.sep + program;
+				program = `\${workspaceFolder}${path.sep}${program}`;
 			}
 		}
 	}
@@ -448,7 +448,7 @@ export async function createLaunchConfigFromContext(
 			commonEntrypoints.map(
 				async (file) =>
 					(await existsInjected(fs, path.join(basePath, file))) &&
-					"${workspaceFolder}" + path.sep + file,
+					`\${workspaceFolder}${path.sep}${file}`,
 			),
 		);
 	}
@@ -496,7 +496,7 @@ export async function createLaunchConfigFromContext(
 			}
 			config.preLaunchTask = "tsc: build - tsconfig.json";
 		}
-		config["outFiles"] = ["${workspaceFolder}/" + dir + "**/*.js"];
+		config["outFiles"] = [`\${workspaceFolder}/${dir}**/*.js`];
 	}
 
 	return config;
@@ -578,7 +578,7 @@ async function guessProgramFromPackage(
 				resolve &&
 				targetPath &&
 				!(await existsInjected(fs, targetPath)) &&
-				!(await existsInjected(fs, targetPath + ".js"))
+				!(await existsInjected(fs, `${targetPath}.js`))
 			) {
 				return undefined;
 			}

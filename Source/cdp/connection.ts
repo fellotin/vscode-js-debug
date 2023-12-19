@@ -72,12 +72,14 @@ export default class Connection {
 
 	public _send(
 		method: string,
-		params: object | undefined = {},
+		params: object | undefined,
 		sessionId: string,
 	): number {
 		const id = ++this._lastId;
 		const message: CdpProtocol.ICommand = { id, method, params };
-		if (sessionId) message.sessionId = sessionId;
+		if (sessionId) {
+			message.sessionId = sessionId;
+		}
 		const messageString = JSON.stringify(message);
 		this.logger.verbose(LogTag.CdpSend, undefined, {
 			connectionId: this._connectionId,
@@ -92,7 +94,7 @@ export default class Connection {
 		let objectToLog = object;
 
 		// Don't print source code of getScriptSource responses
-		if (object.result && object.result.scriptSource) {
+		if (object.result?.scriptSource) {
 			objectToLog = {
 				...object,
 				result: { ...object.result, scriptSource: "<script source>" },
@@ -155,13 +157,17 @@ export default class Connection {
 	}
 
 	private _onTransportClose() {
-		if (this._closed) return;
+		if (this._closed) {
+			return;
+		}
 		this._closed = true;
 		this._transport.dispose();
 		this.logger.info(LogTag.CdpReceive, "Connection closed", {
 			connectionId: this._connectionId,
 		});
-		for (const session of this._sessions.values()) session._onClose();
+		for (const session of this._sessions.values()) {
+			session._onClose();
+		}
 		this._sessions.clear();
 		this._onDisconnectedEmitter.fire();
 	}
@@ -182,7 +188,9 @@ export default class Connection {
 
 	public disposeSession(sessionId: Cdp.Target.SessionID) {
 		const session = this._sessions.get(sessionId);
-		if (!session) return;
+		if (!session) {
+			return;
+		}
 		session._onClose();
 		this._disposedSessions.set(session.sessionId(), new Date());
 		this._sessions.delete(session.sessionId());
@@ -247,16 +255,24 @@ export class CDPSession {
 			{},
 			{
 				get: (_target, agentName: string) => {
-					if (agentName === "pause") return () => this.pause();
-					if (agentName === "resume") return () => this.resume();
-					if (agentName === "session") return this;
+					if (agentName === "pause") {
+						return () => this.pause();
+					}
+					if (agentName === "resume") {
+						return () => this.resume();
+					}
+					if (agentName === "session") {
+						return this;
+					}
 
 					return new Proxy(
 						{},
 						{
 							get: (_target, methodName: string) => {
-								if (methodName === "then") return;
-								if (methodName === "on")
+								if (methodName === "then") {
+									return;
+								}
+								if (methodName === "on") {
 									return (
 										eventName: string,
 										listener: (params: object) => void,
@@ -265,6 +281,7 @@ export class CDPSession {
 											`${agentName}.${eventName}`,
 											listener,
 										);
+								}
 								return (params: object | undefined) =>
 									this.send(
 										`${agentName}.${methodName}`,
@@ -347,7 +364,7 @@ export class CDPSession {
 		}
 
 		// otherwise, if we don't need reordering and aren't paused, process it now
-		if (!needsReordering && !this.paused) {
+		if (!(needsReordering || this.paused)) {
 			this._processResponse(object);
 			return;
 		}
@@ -413,7 +430,7 @@ export class CDPSession {
 	public async detach() {
 		if (!this._connection) {
 			throw new Error(
-				`Session already detached. Most likely the target has been closed.`,
+				"Session already detached. Most likely the target has been closed.",
 			);
 		}
 
@@ -440,7 +457,9 @@ export class CDPSession {
 // implementation taken from playwright: https://github.com/microsoft/playwright/blob/59d0f8728d4809b39785d68d7a146f06f0dbe2e6/src/helper.ts#L233
 // See https://joel.tools/microtasks/
 function makeWaitForNextTask() {
-	if (parseInt(process.versions.node, 10) >= 11) return setImmediate;
+	if (parseInt(process.versions.node, 10) >= 11) {
+		return setImmediate;
+	}
 
 	// Unlike Node 11, Node 10 and less have a bug with Task and MicroTask execution order:
 	// - https://github.com/nodejs/node/issues/22257

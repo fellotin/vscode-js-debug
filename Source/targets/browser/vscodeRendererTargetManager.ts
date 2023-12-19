@@ -36,9 +36,11 @@ export class VSCodeRendererTargetManager extends BrowserTargetManager {
 	): Promise<BrowserTargetManager | undefined> {
 		const rootSession = connection.rootSession();
 		const result = await rootSession.Target.attachToBrowserTarget({});
-		if (!result) return;
+		if (!result) {
+			return;
+		}
 		const browserSession = connection.createSession(result.sessionId);
-		return new this(
+		return new VSCodeRendererTargetManager(
 			connection,
 			undefined,
 			browserSession,
@@ -160,10 +162,11 @@ const computeWebviewName = (target: BrowserTarget) => {
 			return `${url.searchParams.get("extensionId")} editor: ${url.host}`;
 		case WebviewContentPurpose.NotebookRenderer:
 			return `Notebook Renderer: ${url.host}`;
-		default:
+		default: {
 			const extensionId = url.searchParams.get("extensionId");
-			return `Webview: ${extensionId ? extensionId + " " : ""} ${
+			return `Webview: ${extensionId ? `${extensionId} ` : ""} ${
 				url.host
 			}`;
+		}
 	}
 };

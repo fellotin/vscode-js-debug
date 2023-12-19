@@ -27,7 +27,7 @@ export class StackTraceParser {
 		for (const line of this.stack.split("\n")) {
 			const match = re1.exec(line) || re2.exec(line);
 			if (!match) {
-				yield line + "\n";
+				yield `${line}\n`;
 				continue;
 			}
 

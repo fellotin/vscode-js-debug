@@ -268,10 +268,11 @@ export class Binder implements IDisposable {
 				? CancellationTokenSource.withTimeout(params.timeout)
 				: new CancellationTokenSource();
 
-		if (params.rootPath)
+		if (params.rootPath) {
 			params.rootPath = urlUtils.platformPathToPreferredCase(
 				params.rootPath,
 			);
+		}
 		this._launchParams = params;
 
 		const boots = await Promise.all(
@@ -304,10 +305,10 @@ export class Binder implements IDisposable {
 		// config, to avoid unnecessarily collecting information about the workspace.
 		const sanitizer = (value: unknown, key?: string): unknown => {
 			if (typeof value === "string") {
-				return key && defaults[key] === value ? value : `<string>`;
+				return key && defaults[key] === value ? value : "<string>";
 			}
 
-			if (value instanceof Array) {
+			if (Array.isArray(value)) {
 				return value.map((v) => sanitizer(v));
 			}
 

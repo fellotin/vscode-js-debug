@@ -71,9 +71,9 @@ const resolveCodeLaunchArgs = (
 			const pair = arg.split("=", 2);
 			if (
 				pair.length === 2 &&
-				(existsSync(pair[1]) || existsSync(pair[1] + ".js"))
+				(existsSync(pair[1]) || existsSync(`${pair[1]}.js`))
 			) {
-				return { prefix: pair[0] + "=", path: pair[1] };
+				return { prefix: `${pair[0]}=`, path: pair[1] };
 			}
 			return { prefix: arg };
 		} else {

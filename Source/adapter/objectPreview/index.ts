@@ -73,7 +73,9 @@ export function previewRemoteObject(
 		valueFormat,
 	);
 
-	if (object.preview?.subtype === "regexp") return result;
+	if (object.preview?.subtype === "regexp") {
+		return result;
+	}
 
 	return context.postProcess?.(result) ?? result;
 }
@@ -104,8 +106,12 @@ export function propertyWeight(
 		| Cdp.Runtime.PropertyDescriptor
 		| Cdp.Runtime.PrivatePropertyDescriptor,
 ): number {
-	if (prop.name === "__proto__") return 0;
-	if (prop.name.startsWith("__")) return 1;
+	if (prop.name === "__proto__") {
+		return 0;
+	}
+	if (prop.name.startsWith("__")) {
+		return 1;
+	}
 	return 100;
 }
 
@@ -157,11 +163,14 @@ function renderArrayPreview(
 	const builder = new BudgetStringBuilder(characterBudget);
 	let description = preview.description;
 	const match = description.match(/[^(]*\(([\d]+)\)/);
-	if (!match) return description;
+	if (!match) {
+		return description;
+	}
 	const arrayLength = parseInt(match[1], 10);
 
-	if (description.startsWith("Array("))
+	if (description.startsWith("Array(")) {
 		description = description.substring("Array".length);
+	}
 	builder.append(stringUtils.trimEnd(description, builder.budget()));
 	builder.append(" ");
 	const propsBuilder = new BudgetStringBuilder(builder.budget() - 2, ", "); // for []
@@ -169,25 +178,39 @@ function renderArrayPreview(
 	// Indexed
 	let lastIndex = -1;
 	for (const prop of preview.properties) {
-		if (!propsBuilder.checkBudget()) break;
-		if (isNaN(prop.name as unknown as number)) continue;
+		if (!propsBuilder.checkBudget()) {
+			break;
+		}
+		if (Number.isNaN(prop.name as unknown as number)) {
+			continue;
+		}
 		const index = parseInt(prop.name, 10);
-		if (index > lastIndex + 1) propsBuilder.appendEllipsis();
+		if (index > lastIndex + 1) {
+			propsBuilder.appendEllipsis();
+		}
 		lastIndex = index;
 		propsBuilder.append(renderPropertyPreview(prop, propsBuilder.budget()));
 	}
-	if (arrayLength > lastIndex + 1) propsBuilder.appendEllipsis();
+	if (arrayLength > lastIndex + 1) {
+		propsBuilder.appendEllipsis();
+	}
 
 	// Named
 	for (const prop of preview.properties) {
-		if (!propsBuilder.checkBudget()) break;
-		if (!isNaN(prop.name as unknown as number)) continue;
+		if (!propsBuilder.checkBudget()) {
+			break;
+		}
+		if (!Number.isNaN(prop.name as unknown as number)) {
+			continue;
+		}
 		propsBuilder.append(
 			renderPropertyPreview(prop, propsBuilder.budget(), prop.name),
 		);
 	}
-	if (preview.overflow) propsBuilder.appendEllipsis();
-	builder.append("[" + propsBuilder.build() + "]");
+	if (preview.overflow) {
+		propsBuilder.appendEllipsis();
+	}
+	builder.append(`[${propsBuilder.build()}]`);
 	return builder.build();
 }
 
@@ -197,10 +220,11 @@ function renderObjectPreview(
 	format: Dap.ValueFormat | undefined,
 ): string {
 	const builder = new BudgetStringBuilder(characterBudget, " ");
-	if (preview.description !== "Object")
+	if (preview.description !== "Object") {
 		builder.append(
 			stringUtils.trimEnd(preview.description, builder.budget()),
 		);
+	}
 
 	const map = new Map<string, ObjectPreview.PropertyPreview>();
 	const properties = preview.properties || [];
@@ -221,9 +245,9 @@ function renderObjectPreview(
 	const promiseStatus = map.get("[[PromiseStatus]]");
 	const promiseValue = map.get("[[PromiseValue]]");
 	if (promiseStatus && promiseValue) {
-		if (promiseStatus.value === "pending")
+		if (promiseStatus.value === "pending") {
 			builder.append(`{<${promiseStatus.value}>}`);
-		else
+		} else {
 			builder.append(
 				`{${renderPropertyPreview(
 					promiseValue,
@@ -231,6 +255,7 @@ function renderObjectPreview(
 					`<${promiseStatus.value}>`,
 				)}}`,
 			);
+		}
 		return builder.build();
 	}
 
@@ -243,7 +268,9 @@ function renderObjectPreview(
 
 	const propsBuilder = new BudgetStringBuilder(builder.budget() - 2, ", "); // for '{}'
 	for (const prop of properties) {
-		if (!propsBuilder.checkBudget()) break;
+		if (!propsBuilder.checkBudget()) {
+			break;
+		}
 		propsBuilder.append(
 			renderPropertyPreview(prop, propsBuilder.budget(), prop.name),
 		);
@@ -288,7 +315,7 @@ function renderObjectPreview(
 
 	const text = propsBuilder.build();
 	if (text) {
-		builder.append("{" + text + "}");
+		builder.append(`{${text}}`);
 	} else if (builder.isEmpty()) {
 		builder.append("{}");
 	}
@@ -302,7 +329,7 @@ function valueOrEllipsis(value: string, characterBudget: number): string {
 
 function truncateValue(value: string, characterBudget: number): string {
 	return value.length >= characterBudget
-		? value.slice(0, characterBudget - 1) + "…"
+		? `${value.slice(0, characterBudget - 1)}…`
 		: value;
 }
 
@@ -343,10 +370,12 @@ function appendKeyValue(
 	value: string,
 	characterBudget: number,
 ) {
-	if (key === undefined)
+	if (key === undefined) {
 		return stringUtils.trimMiddle(value, characterBudget);
-	if (key.length + separator.length > characterBudget)
+	}
+	if (key.length + separator.length > characterBudget) {
 		return stringUtils.trimEnd(key, characterBudget);
+	}
 	return `${key}${separator}${stringUtils.trimMiddle(
 		value,
 		characterBudget - key.length - separator.length,
@@ -359,14 +388,18 @@ function renderPropertyPreview(
 	name?: string,
 ): string {
 	characterBudget = Math.min(characterBudget, maxPropertyPreviewLength);
-	if (prop.type === "function")
+	if (prop.type === "function") {
 		return appendKeyValue(name, ": ", "ƒ", characterBudget); // Functions don't carry preview.
-	if (prop.type === "object" && prop.value === "Object")
+	}
+	if (prop.type === "object" && prop.value === "Object") {
 		return appendKeyValue(name, ": ", "{\u2026}", characterBudget);
-	if (typeof prop.value === "undefined")
+	}
+	if (typeof prop.value === "undefined") {
 		return appendKeyValue(name, ": ", `<${prop.type}>`, characterBudget);
-	if (prop.type === "string")
+	}
+	if (prop.type === "string") {
 		return appendKeyValue(name, ": ", `'${prop.value}'`, characterBudget);
+	}
 	return appendKeyValue(name, ": ", prop.value ?? "unknown", characterBudget);
 }
 
@@ -434,10 +467,7 @@ function formatFunctionDescription(
 	const isClass = text.startsWith("class ") || text.startsWith("class{");
 	const firstArrowIndex = text.indexOf("=>");
 	const isArrow =
-		!asyncMatch &&
-		!isGenerator &&
-		!isBasic &&
-		!isClass &&
+		!(asyncMatch || isGenerator || isBasic || isClass) &&
 		firstArrowIndex > 0;
 
 	let textAfterPrefix: string;
@@ -445,7 +475,9 @@ function formatFunctionDescription(
 		textAfterPrefix = text.substring("class".length);
 		const classNameMatch = /^[^{\s]+/.exec(textAfterPrefix.trim());
 		let className = "";
-		if (classNameMatch) className = classNameMatch[0].trim() || "";
+		if (classNameMatch) {
+			className = classNameMatch[0].trim() || "";
+		}
 		addToken("class", textAfterPrefix, className);
 	} else if (asyncMatch) {
 		textAfterPrefix = text.substring(asyncMatch[1].length);
@@ -461,8 +493,9 @@ function formatFunctionDescription(
 		addToken("ƒ", textAfterPrefix, nameAndArguments(textAfterPrefix));
 	} else if (isArrow) {
 		let abbreviation = text;
-		if (text.length > maxArrowFunctionCharacterLength)
-			abbreviation = text.substring(0, firstArrowIndex + 2) + " {\u2026}";
+		if (text.length > maxArrowFunctionCharacterLength) {
+			abbreviation = `${text.substring(0, firstArrowIndex + 2)} {\u2026}`;
+		}
 		addToken("", text, abbreviation);
 	} else {
 		addToken("ƒ", text, nameAndArguments(text));
@@ -472,8 +505,7 @@ function formatFunctionDescription(
 	function nameAndArguments(contents: string): string {
 		const startOfArgumentsIndex = contents.indexOf("(");
 		const endOfArgumentsMatch = contents.match(/\)\s*{/);
-		const endIndex =
-			(endOfArgumentsMatch && endOfArgumentsMatch.index) || 0;
+		const endIndex = endOfArgumentsMatch?.index || 0;
 		if (
 			startOfArgumentsIndex !== -1 &&
 			endOfArgumentsMatch &&
@@ -491,13 +523,21 @@ function formatFunctionDescription(
 	}
 
 	function addToken(prefix: string, body: string, abbreviation: string) {
-		if (!builder.checkBudget()) return;
-		if (prefix.length) builder.append(prefix + " ");
+		if (!builder.checkBudget()) {
+			return;
+		}
+		if (prefix.length) {
+			builder.append(`${prefix} `);
+		}
 		body = body.trim();
-		if (body.endsWith(" { [native code] }"))
+		if (body.endsWith(" { [native code] }")) {
 			body = body.substring(0, body.length - " { [native code] }".length);
-		if (builder.budget() >= body.length) builder.append(body);
-		else builder.append(abbreviation.replace(/\n/g, " "));
+		}
+		if (builder.budget() >= body.length) {
+			builder.append(body);
+		} else {
+			builder.append(abbreviation.replace(/\n/g, " "));
+		}
 	}
 }
 
@@ -523,7 +563,9 @@ export function previewException(
 	const firstCallFrame = /^\s+at\s/m.exec(description);
 	if (!firstCallFrame) {
 		const lastLineBreak = description.lastIndexOf("\n");
-		if (lastLineBreak === -1) return { title: description };
+		if (lastLineBreak === -1) {
+			return { title: description };
+		}
 		return { title: description.substring(0, lastLineBreak) };
 	}
 
@@ -596,7 +638,9 @@ export function formatAsTable(param: Cdp.Runtime.ObjectPreview): string {
 
 		rows.push(value);
 		row.valuePreview?.properties.map((prop) => {
-			if (!prop.value) return;
+			if (!prop.value) {
+				return;
+			}
 			colNames.add(prop.name);
 			value.set(prop.name, prop.value);
 			colLengths.set(
@@ -608,11 +652,12 @@ export function formatAsTable(param: Cdp.Runtime.ObjectPreview): string {
 
 	// Measure headers.
 	for (const name of colNames.values()) {
-		if (name)
+		if (name) {
 			colLengths.set(
 				name,
 				Math.max(colLengths.get(name) || 0, name.length),
 			);
+		}
 	}
 
 	// Shrink columns if necessary.
@@ -636,9 +681,10 @@ export function formatAsTable(param: Cdp.Runtime.ObjectPreview): string {
 	// Template string for line separators.
 	const colTemplates: string[] = [];
 	// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-	for (const name of colNames.values())
+	for (const name of colNames.values()) {
 		colTemplates.push("-".repeat(colLengths.get(name)!));
-	const rowTemplate = "[-" + colTemplates.join("-|-") + "-]";
+	}
+	const rowTemplate = `[-${colTemplates.join("-|-")}-]`;
 
 	const table: string[] = [];
 	table.push(
@@ -650,9 +696,10 @@ export function formatAsTable(param: Cdp.Runtime.ObjectPreview): string {
 	);
 	const header: string[] = [];
 	// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-	for (const name of colNames.values())
+	for (const name of colNames.values()) {
 		header.push(pad(name || "", colLengths.get(name)!));
-	table.push("┊ " + header.join(" ┊ ") + " ┊");
+	}
+	table.push(`┊ ${header.join(" ┊ ")} ┊`);
 	table.push(
 		rowTemplate
 			.replace("[", "├")
@@ -667,7 +714,7 @@ export function formatAsTable(param: Cdp.Runtime.ObjectPreview): string {
 			// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 			row.push(pad(value.get(colName) || "", colLengths.get(colName)!));
 		}
-		table.push("┊ " + row.join(" ┊ ") + " ┊");
+		table.push(`┊ ${row.join(" ┊ ")} ┊`);
 	}
 	table.push(
 		rowTemplate
@@ -734,7 +781,11 @@ export const messageFormatters: messageFormat.Formatters<ObjectPreview.AnyObject
 	]);
 
 function pad(text: string, length: number) {
-	if (text.length === length) return text;
-	if (text.length < length) return text + " ".repeat(length - text.length);
+	if (text.length === length) {
+		return text;
+	}
+	if (text.length < length) {
+		return text + " ".repeat(length - text.length);
+	}
 	return stringUtils.trimEnd(text, length);
 }

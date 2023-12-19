@@ -32,7 +32,7 @@ const noop = () => undefined;
 interface ILaunchOptions {
 	onStdout?: (data: string) => void;
 	onStderr?: (data: string) => void;
-	args?: ReadonlyArray<string>;
+	args?: readonly string[];
 	dumpio?: boolean;
 	hasUserNavigation?: boolean;
 	cwd?: string;
@@ -94,8 +94,11 @@ export async function launch(
 
 	let stdio: ("pipe" | "ignore")[] = ["pipe", "pipe", "pipe"];
 	if (actualConnection === "pipe") {
-		if (dumpio) stdio = ["ignore", "pipe", "pipe", "pipe", "pipe"];
-		else stdio = ["ignore", "ignore", "ignore", "pipe", "pipe"];
+		if (dumpio) {
+			stdio = ["ignore", "pipe", "pipe", "pipe", "pipe"];
+		} else {
+			stdio = ["ignore", "ignore", "ignore", "pipe", "pipe"];
+		}
 	}
 
 	let browserProcess: IBrowserProcess;
@@ -216,7 +219,7 @@ export function defaultArgs(
 	const { userDataDir = null, ignoreDefaultArgs = false } = options;
 	let browserArguments =
 		ignoreDefaultArgs === true ? new BrowserArgs() : BrowserArgs.default;
-	if (ignoreDefaultArgs instanceof Array) {
+	if (Array.isArray(ignoreDefaultArgs)) {
 		browserArguments = browserArguments.filter(
 			(key) => !ignoreDefaultArgs.includes(key),
 		);

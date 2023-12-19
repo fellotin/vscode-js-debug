@@ -64,9 +64,10 @@ export namespace CacheTree {
 
 		for (const [name, child] of Object.entries(node.children)) {
 			switch (child[touched]) {
-				case 1:
+				case 1: {
 					prune(child);
 					break;
+				}
 				case 2:
 					break;
 				default:
