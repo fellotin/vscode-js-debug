@@ -84,3 +84,29 @@ jobs:
 
             - run: pnpm run test
               working-directory: .
+
+            - uses: actions/setup-node@v4.0.1
+              with:
+                  node-version: ${{ matrix.node-version }}
+                  cache: "pnpm"
+                  cache-dependency-path: ./testWorkspace/nestedSourceMaps/pnpm-lock.yaml
+
+            - run: pnpm install
+              working-directory: ./testWorkspace/nestedSourceMaps
+
+            - run: pnpm run build
+              working-directory: .
+
+            - uses: actions/upload-artifact@v4.0.0
+              with:
+                  name: .-testWorkspace-nestedSourceMaps-Node-${{ matrix.node-version }}-Target
+                  path: ./testWorkspace/nestedSourceMaps/Target
+
+            - uses: actions/setup-node@v4.0.1
+              with:
+                  node-version: ${{ matrix.node-version }}
+                  cache: "pnpm"
+                  cache-dependency-path: ./testWorkspace/web/minified/pnpm-lock.yaml
+
+            - run: pnpm install
+              working-directory: ./testWorkspace/web/minified
