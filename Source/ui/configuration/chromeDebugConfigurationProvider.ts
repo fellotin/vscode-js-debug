@@ -2,64 +2,63 @@
  * Copyright (C) Microsoft Corporation. All rights reserved.
  *--------------------------------------------------------*/
 
-import { injectable } from "inversify";
-import * as vscode from "vscode";
-import { DebugType } from "../../common/contributionUtils";
+import * as vscode from 'vscode';
 import {
-	AnyChromeConfiguration,
-	IChromeLaunchConfiguration,
-	ResolvingChromeConfiguration,
-	chromeAttachConfigDefaults,
-	chromeLaunchConfigDefaults,
-} from "../../configuration";
+  ResolvingChromeConfiguration,
+  AnyChromeConfiguration,
+  chromeAttachConfigDefaults,
+  chromeLaunchConfigDefaults,
+  IChromeLaunchConfiguration,
+} from '../../configuration';
+import { DebugType } from '../../common/contributionUtils';
 import {
-	ChromiumDebugConfigurationProvider,
-	ChromiumDebugConfigurationResolver,
-} from "./chromiumDebugConfigurationProvider";
+  ChromiumDebugConfigurationResolver,
+  ChromiumDebugConfigurationProvider,
+} from './chromiumDebugConfigurationProvider';
+import { injectable } from 'inversify';
 
 /**
  * Configuration provider for Chrome debugging.
  */
 @injectable()
 export class ChromeDebugConfigurationResolver
-	extends ChromiumDebugConfigurationResolver<AnyChromeConfiguration>
-	implements vscode.DebugConfigurationProvider
+  extends ChromiumDebugConfigurationResolver<AnyChromeConfiguration>
+  implements vscode.DebugConfigurationProvider
 {
-	/**
-	 * @override
-	 */
-	protected async resolveDebugConfigurationAsync(
-		folder: vscode.WorkspaceFolder | undefined,
-		config: ResolvingChromeConfiguration,
-	): Promise<AnyChromeConfiguration | null | undefined> {
-		if (!(config.name || config.type || config.request)) {
-			const fromContext =
-				new ChromeDebugConfigurationProvider().createLaunchConfigFromContext();
-			if (!fromContext) {
-				// Return null so it will create a launch.json and fall back on
-				// provideDebugConfigurations - better to point the user towards
-				// the config than try to work automagically for complex scenarios.
-				return null;
-			}
+  /**
+   * @override
+   */
+  protected async resolveDebugConfigurationAsync(
+    folder: vscode.WorkspaceFolder | undefined,
+    config: ResolvingChromeConfiguration,
+  ): Promise<AnyChromeConfiguration | null | undefined> {
+    if (!config.name && !config.type && !config.request) {
+      const fromContext = new ChromeDebugConfigurationProvider().createLaunchConfigFromContext();
+      if (!fromContext) {
+        // Return null so it will create a launch.json and fall back on
+        // provideDebugConfigurations - better to point the user towards
+        // the config than try to work automagically for complex scenarios.
+        return null;
+      }
 
-			config = fromContext;
-		}
+      config = fromContext;
+    }
 
-		await this.resolveBrowserCommon(folder, config);
+    await this.resolveBrowserCommon(folder, config);
 
-		return config.request === "attach"
-			? { ...chromeAttachConfigDefaults, ...config }
-			: { ...chromeLaunchConfigDefaults, ...config };
-	}
+    return config.request === 'attach'
+      ? { ...chromeAttachConfigDefaults, ...config }
+      : { ...chromeLaunchConfigDefaults, ...config };
+  }
 
-	protected getType() {
-		return DebugType.Chrome as const;
-	}
+  protected getType() {
+    return DebugType.Chrome as const;
+  }
 }
 
 @injectable()
 export class ChromeDebugConfigurationProvider extends ChromiumDebugConfigurationProvider<IChromeLaunchConfiguration> {
-	protected getType() {
-		return DebugType.Chrome as const;
-	}
+  protected getType() {
+    return DebugType.Chrome as const;
+  }
 }

@@ -12,3 +12,27 @@ updates:
       schedule:
           interval: "daily"
       versioning-strategy: increase
+
+    - package-ecosystem: "npm"
+      directory: "/testWorkspace/nestedSourceMaps"
+      schedule:
+          interval: "daily"
+      versioning-strategy: increase
+
+    - package-ecosystem: "npm"
+      directory: "/testWorkspace/nodePathProvider/node-module"
+      schedule:
+          interval: "daily"
+      versioning-strategy: increase
+
+    - package-ecosystem: "npm"
+      directory: "/testWorkspace/simpleNode"
+      schedule:
+          interval: "daily"
+      versioning-strategy: increase
+
+    - package-ecosystem: "npm"
+      directory: "/testWorkspace/web/minified"
+      schedule:
+          interval: "daily"
+      versioning-strategy: increase
